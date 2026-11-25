@@ -69,6 +69,31 @@ public class AmbientScreensaverTest {
     }
 
     @Test
+    public void oledDriftStaysAnchoredAroundPlacedSlot() {
+        int parentW = 1920, parentH = 1080;
+        int clockW = 620, clockH = 320;
+        int safeMargin = 48;
+        float baseX = 1188f; // Top-Right quadrant anchor
+        float baseY = 96f;
+
+        // With OLED drift OFF, clock stays strictly at its placed anchor (never snaps to 0,0)
+        float[] disabled = ClockScene.computeOledDriftedPosition(
+                baseX, baseY, parentW, parentH, clockW, clockH, safeMargin, false, 120_000L, 2.0f);
+        assertEquals(baseX, disabled[0], 0.01f);
+        assertEquals(baseY, disabled[1], 0.01f);
+
+        // With OLED drift ON, clock orbits smoothly within +-18dp X / +-12dp Y of anchor and stays inside safe bounds
+        for (long t = 0; t <= 600_000L; t += 30_000L) {
+            float[] drifted = ClockScene.computeOledDriftedPosition(
+                    baseX, baseY, parentW, parentH, clockW, clockH, safeMargin, true, t, 2.0f);
+            assertTrue("Drift X too far from anchor", Math.abs(drifted[0] - baseX) <= 36.1f);
+            assertTrue("Drift Y too far from anchor", Math.abs(drifted[1] - baseY) <= 24.1f);
+            assertTrue(drifted[0] >= safeMargin && drifted[0] + clockW <= parentW - safeMargin);
+            assertTrue(drifted[1] >= safeMargin && drifted[1] + clockH <= parentH - safeMargin);
+        }
+    }
+
+    @Test
     public void distinguishesMediaControlKeysFromWakeKeys() {
         assertTrue(ClockActivity.isMediaControlKey(KeyEvent.KEYCODE_DPAD_LEFT));
         assertTrue(ClockActivity.isMediaControlKey(KeyEvent.KEYCODE_DPAD_RIGHT));

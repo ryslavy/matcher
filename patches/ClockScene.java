@@ -59,7 +59,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Ambient screensaver scene shared by {@link ClockActivity} and {@link ClockDream}:
  * - Dimmed home mood wallpaper + blurred atmospheric album-art wash + dynamic album-colored radial glow.
- * - Floating thin clock, uppercase date, live local weather (Open-Meteo), next sunrise/sunset,
+ * - Floating thin clock, uppercase date, live Prague weather (Open-Meteo), next sunrise/sunset,
  *   and conditional Bluetooth audio / VPN badges.
  * - Frosted-glass "Now Playing" showcase card with artwork, live progress bar, and direct remote control
  *   (Left/Right track skip, Up/Down play/pause without waking the screensaver).
@@ -151,10 +151,13 @@ final class ClockScene {
     private int currentJitterY;
     private float currentRandX = 0.5f;
     private float currentRandY = 0.5f;
+    private float placedContentX;
     private float placedContentY;
     private float placedMediaX;
     private float placedMediaY;
     private boolean placedOnce;
+    private boolean contentAnimating;
+    private boolean mediaNudging;
     private boolean wallpaperShown;
     private boolean glowOff;
     private File wallpaperFile;
@@ -215,20 +218,47 @@ final class ClockScene {
         @Override
         public void run() {
             if (!started) return;
-            if (FeaturePrefs.isOledDriftEnabled(appCtx)) {
-                double phase = 2.0 * Math.PI * (SystemClock.uptimeMillis() - driftStartMs) / OLED_DRIFT_PERIOD_MS;
-                float dx = (float) (18f * density * Math.sin(phase));
-                float dy = (float) (12f * density * Math.sin(2.0 * phase + 0.7));
-                content.setTranslationX(dx);
-                content.setTranslationY(dy);
-                if (liquidClockView != null) liquidClockView.invalidate();
-            } else {
-                content.setTranslationX(0f);
-                content.setTranslationY(0f);
+            if (placedOnce && !contentAnimating) {
+                float[] pos = currentDriftedContentPos();
+                if (Math.abs(content.getX() - pos[0]) > 0.25f || Math.abs(content.getY() - pos[1]) > 0.25f) {
+                    content.setX(pos[0]);
+                    content.setY(pos[1]);
+                    if (liquidClockView != null) liquidClockView.invalidate();
+                }
             }
             handler.postDelayed(this, OLED_DRIFT_TICK_MS);
         }
     };
+
+    private float[] currentDriftedContentPos() {
+        boolean drift = appCtx != null && FeaturePrefs.isOledDriftEnabled(appCtx);
+        long elapsed = SystemClock.uptimeMillis() - driftStartMs;
+        return computeOledDriftedPosition(placedContentX, placedContentY,
+                rootView.getWidth(), rootView.getHeight(),
+                content.getWidth(), content.getHeight(),
+                dp(24), drift, elapsed, density);
+    }
+
+    /**
+     * Applies smooth Lissajous OLED burn-in drift relative to the placed anchor {@code (baseX, baseY)}
+     * rather than clobbering raw {@code translationX/Y} (which would snap the clock to {@code (0, 0)}).
+     */
+    static float[] computeOledDriftedPosition(float baseX, float baseY, int parentW, int parentH,
+                                              int viewW, int viewH, int safeMargin,
+                                              boolean driftEnabled, long elapsedMs, float density) {
+        float dx = 0f;
+        float dy = 0f;
+        if (driftEnabled) {
+            double phase = 2.0 * Math.PI * elapsedMs / OLED_DRIFT_PERIOD_MS;
+            dx = (float) (18f * density * Math.sin(phase));
+            dy = (float) (12f * density * Math.sin(2.0 * phase + 0.7));
+        }
+        float minX = safeMargin;
+        float maxX = Math.max(minX, parentW - viewW - safeMargin);
+        float minY = safeMargin;
+        float maxY = Math.max(minY, parentH - viewH - safeMargin);
+        return new float[]{clamp(baseX + dx, minX, maxX), clamp(baseY + dy, minY, maxY)};
+    }
 
     private final Runnable tick = new Runnable() {
         @Override
@@ -601,10 +631,17 @@ final class ClockScene {
         rootView.post(() -> {
             if (!started) return;
             placeScene(true);
+            float[] target = currentDriftedContentPos();
+            contentAnimating = true;
             content.animate().cancel();
-            content.setY(placedContentY + dp(18));
-            content.animate().alpha(1f).y(placedContentY)
-                    .setDuration(920L).setInterpolator(Motion.easeOutExpo()).start();
+            content.setX(target[0]);
+            content.setY(target[1] + dp(18));
+            content.animate().alpha(1f).y(target[1])
+                    .setDuration(920L).setInterpolator(Motion.easeOutExpo())
+                    .withEndAction(() -> {
+                        contentAnimating = false;
+                        if (liquidClockView != null) liquidClockView.invalidate();
+                    }).start();
             if (hasMedia && mediaCard.getVisibility() == View.VISIBLE) {
                 mediaCard.animate().cancel();
                 mediaCard.setY(placedMediaY + dp(18));
@@ -646,6 +683,8 @@ final class ClockScene {
     /** Stops live playback/tickers without blanking visuals so the window exit fade stays silky. */
     void pauseForExit() {
         started = false;
+        contentAnimating = false;
+        mediaNudging = false;
         handler.removeCallbacksAndMessages(null);
         if (glowAnimator != null) {
             glowAnimator.cancel();
@@ -965,16 +1004,19 @@ final class ClockScene {
     private void flashControlFeedback(int iconRes, String msg, int dirX) {
         mediaCard.animate().cancel();
         if (dirX != 0) {
+            mediaNudging = true;
             final float homeX = placedMediaX;
             mediaCard.animate().x(homeX + dirX * dp(12)).scaleX(1.018f).scaleY(1.018f)
                     .setDuration(105L).setInterpolator(Motion.easeOutExpo())
                     .setUpdateListener(a -> ExpressiveGlass.invalidateLiquidPanels(mediaCard))
-                    .withEndAction(() -> mediaCard.animate().x(homeX).scaleX(1f).scaleY(1f)
+                    .withEndAction(() -> mediaCard.animate().x(placedMediaX).scaleX(1f).scaleY(1f)
                             .setDuration(210L).setInterpolator(Motion.springPop())
                             .setUpdateListener(a -> ExpressiveGlass.invalidateLiquidPanels(mediaCard))
+                            .withEndAction(() -> mediaNudging = false)
                             .start())
                     .start();
         } else {
+            mediaNudging = false;
             mediaCard.animate().scaleX(1.032f).scaleY(1.032f)
                     .setDuration(100L).setInterpolator(Motion.easeOutExpo())
                     .setUpdateListener(a -> ExpressiveGlass.invalidateLiquidPanels(mediaCard))
@@ -1003,7 +1045,7 @@ final class ClockScene {
 
     private void refreshAmbientMeta() {
         if (appCtx == null) return;
-        // 1. Offline sunrise / sunset from configured coordinates (local).
+        // 1. Offline sunrise / sunset from configured coordinates (Prague).
         if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
             LocalDateTime now = LocalDateTime.now();
             int[] sun = WallpaperMood.sun(now.toLocalDate(), latitude, longitude, ZoneId.systemDefault());
@@ -1060,11 +1102,14 @@ final class ClockScene {
             handler.removeCallbacks(progressTicker);
             lastArtKey = "";
             if (hadMedia) {
+                mediaNudging = false;
                 mediaCard.animate().cancel();
                 mediaCard.animate().alpha(0f).setDuration(450)
                         .withEndAction(() -> {
-                            mediaCard.setVisibility(View.GONE);
-                            if (started) moveScene();
+                            if (!hasMedia) {
+                                mediaCard.setVisibility(View.GONE);
+                                if (started) moveScene();
+                            }
                         }).start();
                 final int gen = ++washGeneration;
                 artWashView.animate().cancel();
@@ -1084,6 +1129,8 @@ final class ClockScene {
 
         bindMedia(activeMedia);
         if (!hadMedia) {
+            mediaNudging = false;
+            mediaCard.animate().cancel();
             mediaCard.setVisibility(View.VISIBLE);
             mediaCard.setAlpha(0f);
             mediaCard.post(() -> {
@@ -1351,17 +1398,30 @@ final class ClockScene {
     }
 
     private void moveScene() {
+        contentAnimating = true;
+        content.animate().cancel();
         float outContentY = content.getY() - dp(10);
         content.animate().alpha(0f).y(outContentY).setDuration(750L)
                 .setInterpolator(Motion.easeInExit()).withLayer().withEndAction(() -> {
-            if (!started) return;
+            if (!started) {
+                contentAnimating = false;
+                return;
+            }
             placeScene(true);
-            float targetContentY = content.getY();
-            content.setY(targetContentY + dp(14));
-            content.animate().alpha(1f).y(targetContentY).setDuration(1050L)
-                    .setInterpolator(Motion.easeOutExpo()).withLayer().start();
+            float[] targetContent = currentDriftedContentPos();
+            content.setX(targetContent[0]);
+            content.setY(targetContent[1] + dp(14));
+            content.animate().alpha(1f).y(targetContent[1]).setDuration(1050L)
+                    .setInterpolator(Motion.easeOutExpo()).withLayer()
+                    .withEndAction(() -> {
+                        contentAnimating = false;
+                        if (liquidClockView != null) liquidClockView.invalidate();
+                    }).start();
             if (hasMedia && mediaCard.getVisibility() == View.VISIBLE) {
-                float targetMediaY = mediaCard.getY();
+                mediaNudging = false;
+                mediaCard.animate().cancel();
+                float targetMediaY = placedMediaY;
+                mediaCard.setX(placedMediaX);
                 mediaCard.setY(targetMediaY + dp(14));
                 mediaCard.animate().alpha(1f).y(targetMediaY).setDuration(1050L)
                         .setInterpolator(Motion.easeOutExpo())
@@ -1370,6 +1430,8 @@ final class ClockScene {
             }
         }).start();
         if (hasMedia && mediaCard.getVisibility() == View.VISIBLE) {
+            mediaNudging = false;
+            mediaCard.animate().cancel();
             mediaCard.animate().alpha(0f).y(mediaCard.getY() - dp(10)).setDuration(750L)
                     .setInterpolator(Motion.easeInExit())
                     .setUpdateListener(a -> ExpressiveGlass.invalidateLiquidPanels(mediaCard))
@@ -1406,14 +1468,20 @@ final class ClockScene {
         float[] pos = computePlacement(layoutSlot, parentW, parentH, clockW, clockH,
                 mediaW, mediaH, showMedia, marginX, marginY, currentJitterX, currentJitterY,
                 currentRandX, currentRandY);
-        content.setX(pos[0]);
-        content.setY(pos[1]);
+        placedContentX = pos[0];
         placedContentY = pos[1];
+        float[] drifted = currentDriftedContentPos();
+        if (advanceSlot || !contentAnimating) {
+            content.setX(drifted[0]);
+            content.setY(drifted[1]);
+        }
         if (showMedia) {
-            mediaCard.setX(pos[2]);
-            mediaCard.setY(pos[3]);
             placedMediaX = pos[2];
             placedMediaY = pos[3];
+            if (advanceSlot || !mediaNudging) {
+                mediaCard.setX(pos[2]);
+            }
+            mediaCard.setY(pos[3]);
             ExpressiveGlass.invalidateLiquidPanels(mediaCard);
             updateGlowCenter((pos[2] + mediaW / 2f) / parentW, (pos[3] + mediaH / 2f) / parentH);
         } else {

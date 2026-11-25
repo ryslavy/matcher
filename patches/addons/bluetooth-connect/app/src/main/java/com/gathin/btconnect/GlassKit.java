@@ -332,17 +332,27 @@ final class GlassKit {
                                       float radius, float bezel, Paint paint) {
         float w = right - left;
         float h = bottom - top;
-        float holeInset = Math.max(bezel + 2f, (bezel + 2f) * 0.70711f + radius * 0.29289f);
+        float holeInset = (float) Math.ceil(Math.max(bezel + 2f, (bezel + 2f) * 0.70711f + radius * 0.29289f));
         if (w <= 2f * holeInset + 4f || h <= 2f * holeInset + 4f) {
             canvas.drawRect(left, top, right, bottom, paint);
             return;
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int save = canvas.save();
+            canvas.clipOutRect(left + holeInset, top + holeInset, right - holeInset, bottom - holeInset);
+            canvas.drawRect(left, top, right, bottom, paint);
+            canvas.restoreToCount(save);
+            return;
+        }
+        boolean wasAa = paint.isAntiAlias();
+        paint.setAntiAlias(false);
         float innerTop = top + holeInset;
         float innerBot = bottom - holeInset;
         canvas.drawRect(left, top, right, innerTop, paint);
         canvas.drawRect(left, innerBot, right, bottom, paint);
         canvas.drawRect(left, innerTop, left + holeInset, innerBot, paint);
         canvas.drawRect(right - holeInset, innerTop, right, innerBot, paint);
+        paint.setAntiAlias(wasAa);
     }
 
     static void forwardBackdropExtras(Activity from, Intent to) {

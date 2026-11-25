@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Rozvrh TV"</string>
+    <string name="sched_1">"Časy platí pro zvolený kalendářní den. Výjimky blokují pouze automatické probuzení. Zpět zahodí neuložené změny."</string>
+    <string name="sched_2">"Rozvrh: ZAPNUTO"</string>
+    <string name="sched_3">"Rozvrh: VYPNUTO"</string>
+    <string name="sched_4">"+ Přidat čas probuzení / uspání"</string>
+    <string name="sched_5">"Bez probuzení: "</string>
+    <string name="sched_6">"Období bez probuzení"</string>
+    <string name="sched_7">"Upravit data"</string>
+    <string name="sched_8">"Smazat"</string>
+    <string name="sched_9">"+ Přidat období výjimky"</string>
+    <string name="sched_10">"Uložit"</string>
+    <string name="sched_11">"Probuzení  "</string>
+    <string name="sched_12">"Uspání  "</string>
+    <string name="sched_13">"Přidat událost"</string>
+    <string name="sched_14">"Probuzení"</string>
+    <string name="sched_15">"Uspání"</string>
+    <string name="sched_16">"Dny v týdnu"</string>
+    <string name="sched_17">"Zrušit"</string>
+    <string name="sched_18">"Čas"</string>
+    <string name="sched_19">"Vyberte alespoň jeden den"</string>
+    <string name="sched_20">"Konec musí být stejný nebo pozdější než začátek"</string>
+    <string name="sched_21">"Poslední den (včetně)"</string>
+    <string name="sched_22">"První den (včetně)"</string>
+    <string name="sched_23">"Pondělí"</string>
+    <string name="sched_24">"Úterý"</string>
+    <string name="sched_25">"Středa"</string>
+    <string name="sched_26">"Čtvrtek"</string>
+    <string name="sched_27">"Pátek"</string>
+    <string name="sched_28">"Sobota"</string>
+    <string name="sched_29">"Neděle"</string>
+</resources>

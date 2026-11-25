@@ -1,0 +1,32 @@
+# Telemetry and feedback
+com.miui.tv.analytics
+com.xiaomi.statistic
+com.xiaomi.tvqs.overseas.y24
+com.google.android.feedback
+com.android.tv.feedbackconsent
+
+# PatchWall, Xiaomi content rows, promos, auto-installs
+com.mitv.tvhome.atv
+com.mitv.tvhome.michannel
+com.mitv.tvhome.mitvplus
+com.mitv.tvhome.oemtab
+com.xm.webcontent
+android.autoinstalls.config.soc.amlogic
+
+# Unused system & Xiaomi bloat (keeping Gallery, Video Player, Media Explorer, Ambient DreamX, Cast, Miracast, Assistant)
+com.google.android.play.games
+com.google.android.marvin.talkback
+com.xiaomi.mimusic2
+com.android.printspooler
+
+# Ad personalisation (Privacy Sandbox)
+com.android.adservices.api
+com.android.ondevicepersonalization.services
+com.android.federatedcompute.services
+
+# Already disabled stock YouTube apps (user uses TizenTube Cobalt)
+com.google.android.youtube.tv
+com.google.android.youtube.tvmusic
+
+# Setup wizard (must be disabled BEFORE stock launcherx so RecoveryActivity doesn't hijack Home)
+com.google.android.tungsten.setupwraith

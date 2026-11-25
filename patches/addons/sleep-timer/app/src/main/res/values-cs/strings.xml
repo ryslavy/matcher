@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Časovač spánku</string>
+    <string name="hint">Vyberte, kdy se TV přepne do pohotovostního režimu. Minutu předem se zobrazí upozornění.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Zrušit časovač</string>
+    <string name="state_off">Časovač není nastaven.</string>
+    <string name="state_on">Uspání v %1$s.</string>
+    <string name="no_service">Služba Přístupnosti pro Časovač spánku je vypnutá (spusťte instalační skript).</string>
+    <string name="warning_title">TV se za chvíli vypne</string>
+    <string name="warning_seconds">za %1$d s</string>
+    <string name="more">Přidat 15 minut</string>
+    <string name="now">Vypnout hned</string>
+    <string name="service_label">Časovač spánku</string>
+    <string name="quick_hint">◀ ▶ vybrat čas · OK zavřít</string>
+    <string name="service_description">Pouze přepne TV do pohotovostního režimu po vypršení Časovače spánku. Nečte obsah obrazovky.</string>
+    <string name="schedule_row">Rozvrh</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- wifi_status_color: keeps vivid green status color even while focused inside the frosted liquid-glass ring. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:color="#FF4CE071" />
+    <item android:color="#FF34C759" />
+</selector>

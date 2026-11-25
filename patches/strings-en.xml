@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Home</string>
+    <string name="inputs">Inputs</string>
+    <string name="wifi">Wi-Fi</string>
+    <string name="settings">Settings</string>
+    <string name="choose_input">Inputs</string>
+    <string name="connected">Connected</string>
+    <string name="standby">Standby</string>
+    <string name="not_connected">No device</string>
+    <string name="live_tv">Live TV</string>
+    <string name="no_inputs">No inputs found</string>
+    <string name="more_inputs">More inputs</string>
+    <string name="good_morning">Good morning</string>
+    <string name="good_afternoon">Good afternoon</string>
+    <string name="good_evening">Good evening</string>
+    <string name="good_forenoon">Good late morning</string>
+    <string name="good_night">Good night</string>
+    <string name="festival_dussehra_greeting">Happy Dussehra</string>
+    <string name="festival_diwali_greeting">Happy Diwali</string>
+    <string name="festival_halloween_greeting">Happy Halloween</string>
+    <string name="ethernet">Ethernet</string>
+    <string name="offline">Offline</string>
+    <string name="not_available">Not available on this TV</string>
+    <string name="cant_open">Can\'t open %1$s</string>
+    <string name="date_format">EEEE  d MMMM</string>
+    <!-- Date next to the clock on Home; a locale can split it over two lines with \n. -->
+    <string name="date_format_home" translatable="false">@string/date_format</string>
+    <string name="shamsi_month_farvardin">Farvardin</string>
+    <string name="shamsi_month_ordibehesht">Ordibehesht</string>
+    <string name="shamsi_month_khordad">Khordad</string>
+    <string name="shamsi_month_tir">Tir</string>
+    <string name="shamsi_month_mordad">Mordad</string>
+    <string name="shamsi_month_shahrivar">Shahrivar</string>
+    <string name="shamsi_month_mehr">Mehr</string>
+    <string name="shamsi_month_aban">Aban</string>
+    <string name="shamsi_month_azar">Azar</string>
+    <string name="shamsi_month_dey">Dey</string>
+    <string name="shamsi_month_bahman">Bahman</string>
+    <string name="shamsi_month_esfand">Esfand</string>
+    <string name="stats_cpu">CPU %1$d%%</string>
+    <string name="stats_memory">Memory %1$d / %2$d MB</string>
+    <string name="stats_storage">Storage %1$s free</string>
+    <string name="storage_gb_whole">%1$.0f GB</string>
+    <string name="storage_gb_decimal">%1$.1f GB</string>
+    <string name="dream_name">Clock</string>
+    <string name="vpn">VPN</string>
+    <string name="vpn_off">VPN off</string>
+    <string name="home_settings">Choose default home</string>
+    <string name="home_settings_help">Select your original home to stop using CleanYourTV as Home, or CleanYourTV to switch back. The original launcher must be enabled and your TV must provide a home picker; use the restore script first if it was disabled.</string>
+    <string name="launcher_settings">Launcher settings</string>
+    <string name="native_settings">Native settings</string>
+    <string name="columns_label">Apps per row</string>
+    <string name="rows_below_dock_label">Rows below dock</string>
+    <string name="dock_opacity_label">Dock band opacity</string>
+    <string name="wallpaper_label">Wallpaper</string>
+    <string name="wallpaper_state">Wallpaper: %1$s</string>
+    <string name="wallpaper_none">None</string>
+    <string name="wallpaper_applied">Wallpaper changed</string>
+    <string name="wallpaper_theme_default">Theme default</string>
+    <string name="animations_state">Animations: %1$s</string>
+    <string name="advanced_effects">Advanced effects</string>
+    <string name="advanced_effects_state">Advanced effects: %1$s</string>
+    <string name="open_on_start_label">Open on start</string>
+    <string name="open_on_start_state">Open on start: %1$s</string>
+    <string name="advanced_effects_warning">Adds a lifted tile, icon zoom and smooth colour transitions. May increase memory use; the actual difference depends on your TV.</string>
+    <string name="follow_theme">Follow theme (reset on-TV choices)</string>
+    <string name="follow_theme_hint">Uses the current theme or built-in layout and motion settings. Pushing or resetting a theme also clears your on-TV choices.</string>
+    <string name="tv_settings">TV system settings</string>
+    <string name="quick_picture">Display</string>
+    <string name="quick_network">Network</string>
+    <string name="quick_apps">Apps</string>
+    <string name="quick_apps_hint">Re-enable</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="enable">Enable</string>
+    <string name="input_key_service_description">Opens the input switcher when the remote\'s Input button is pressed.</string>
+    <string name="home_key_name">Home button</string>
+    <string name="home_key_description">Makes the remote\'s Home button open this launcher.</string>
+    <string name="card_prompt_title">New card from %1$s</string>
+    <string name="card_prompt_body">%1$s can show a card on your home screen. Keeping it hidden leaves the app\'s normal tile as it is.</string>
+    <string name="card_prompt_names">The card is named \'%1$s\'. The app is \'%2$s\'.</string>
+    <string name="card_prompt_resigned">%1$s was updated with a different signing key, so your earlier answer no longer applies. Decide again for its card.</string>
+    <string name="card_prompt_relabelled">%1$s changed the name of its card since you decided. Decide again for it.</string>
+    <string name="card_prompt_hint">You can change this later: hold OK on Settings, then choose Module cards.</string>
+    <string name="card_prompt_identity">%1$s, key %2$s</string>
+    <string name="card_keep_hidden">Keep hidden</string>
+    <string name="card_show">Show card</string>
+    <string name="card_not_saved">Couldn\'t save the choice</string>
+    <string name="module_cards">Module cards</string>
+    <string name="no_module_cards">No module cards installed</string>
+    <string name="card_app_name">App: %1$s</string>
+    <string name="card_state_shown">Shown</string>
+    <string name="card_state_over_limit">Shown, over the limit of 8</string>
+    <string name="card_state_hidden">Hidden</string>
+    <string name="card_state_new">New</string>
+    <string name="card_state_new_key">New key</string>
+    <string name="card_state_new_label">New name</string>
+    <string name="dock_edit">Edit dock</string>
+    <!-- Settings menu: opens the system power menu (Restart on most TVs). -->
+    <string name="power_menu">Restart…</string>
+    <string name="dock_edit_hint">Choose the dock place to change and press OK. Back to finish.</string>
+    <string name="dock_edit_pick_app">Now choose the app to put there and press OK. Back to choose another place.</string>
+    <string name="tile_add_to_dock">Add to dock</string>
+    <string name="tile_replace_in_dock">Replace with another app</string>
+    <string name="dock_edit_pick_place">Choose the dock place for this app and press OK. Back to cancel.</string>
+    <string name="reorder">Reorder apps</string>
+    <string name="tile_move">Move</string>
+    <string name="reorder_hint">OK picks up an app, arrows move it, Back places it. Back again to finish.</string>
+    <string name="reorder_not_saved">Couldn\'t save the new order</string>
+    <string name="app_library">App library</string>
+    <string name="library_empty">No launchable apps found</string>
+    <string name="library_on_home">On Home</string>
+    <string name="library_add_home">Add to Home</string>
+    <string name="library_remove_shortcut">Remove from Home</string>
+    <string name="library_open">Open</string>
+    <string name="library_app_info">App info</string>
+    <string name="library_save_failed">Could not save the shortcut</string>
+    <string name="library_recent">New · Add to Home</string>
+    <string name="library_hint_add">Press to add to Home · Hold for options</string>
+    <string name="library_hint_open">Press to open · Hold for options</string>
+    <plurals name="library_app_count">
+        <item quantity="one">%1$d app</item>
+        <item quantity="other">%1$d apps</item>
+    </plurals>
+    <!-- The greeting, then greeting_name: "Good morning, Mr. Trịnh". -->
+    <string name="greeting_with_name">%1$s, %2$s</string>
+
+    <!-- Race-weekend panel (RaceWeekend). -->
+    <string name="race_kicker">Round %1$d · %2$s · %3$s</string>
+    <string name="race_kicker_no_place">Round %1$d · %2$s</string>
+    <string name="race_next">%1$s in %2$s</string>
+    <string name="race_lights_out">Lights out in %1$s</string>
+    <string name="race_live">%1$s · live</string>
+    <string name="race_finished">Chequered flag</string>
+    <string name="race_practice_1">Practice 1</string>
+    <string name="race_practice_2">Practice 2</string>
+    <string name="race_practice_3">Practice 3</string>
+    <string name="race_sprint_qualifying">Sprint qualifying</string>
+    <string name="race_sprint">Sprint</string>
+    <string name="race_qualifying">Qualifying</string>
+    <string name="race_race">Race</string>
+    <string name="race_practice_1_short">FP1</string>
+    <string name="race_practice_2_short">FP2</string>
+    <string name="race_practice_3_short">FP3</string>
+    <string name="race_sprint_qualifying_short">SQ</string>
+    <string name="race_sprint_short">SPRINT</string>
+    <string name="race_qualifying_short">QUALI</string>
+    <string name="race_race_short">RACE</string>
+    <string name="race_countdown_minutes">%1$d min</string>
+    <string name="race_countdown_hours">%1$dh %2$dm</string>
+    <string name="race_countdown_days">%1$dd %2$dh</string>
+    <!-- Cinematic top shelf (cinematic_home): the line under the focused dock app's name; %1$s is when it was
+         last opened, e.g. "5 minutes ago" or "yesterday, 9:40 pm". -->
+    <string name="last_opened">Last opened %1$s</string>
+    <!-- game_day: a game on now, in the race panel. -->
+    <string name="game_live">Live now</string>
+    <string name="clock_format_system">System</string>
+    <string name="clock_format_12">12-hour</string>
+    <string name="clock_format_24">24-hour</string>
+
+    <!-- App folders -->
+    <string name="folder_add_to">Add to folder…</string>
+    <string name="folder_new">+ New folder</string>
+    <string name="folder_new_title">New folder</string>
+    <string name="folder_rename">Rename folder…</string>
+    <string name="folder_rename_title">Rename folder</string>
+    <string name="folder_open">Open folder</string>
+    <string name="folder_add_apps">Add apps…</string>
+    <string name="folder_add_apps_title">Add apps to %1$s</string>
+    <string name="folder_add_apps_empty">All Home apps are already in folders</string>
+    <string name="folder_dissolve">Ungroup folder</string>
+    <string name="folder_remove_app">Remove from folder</string>
+    <string name="folder_move_to">Move to folder…</string>
+    <string name="folder_hint">OK opens · Hold OK for options · Up for folder actions</string>
+    <string name="folder_default_name">Folder %1$d</string>
+    <string name="folder_name_hint">Folder name</string>
+    <string name="folder_create">Create</string>
+    <string name="folder_save">Save</string>
+    <string name="folder_cancel">Cancel</string>
+    <string name="folder_btn_add">+ Add</string>
+    <string name="folder_btn_reorder">Reorder</string>
+    <string name="folder_btn_done">Done</string>
+    <string name="folder_btn_rename">Rename</string>
+    <string name="folder_preset_streaming">Streaming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Sports</string>
+    <string name="folder_preset_music">Music</string>
+    <string name="folder_preset_games">Games</string>
+    <string name="folder_preset_tools">Tools</string>
+
+    <!-- Now Playing media mini-player -->
+    <string name="media_now_playing">Now Playing</string>
+    <string name="media_playing">Playing</string>
+    <string name="media_paused">Paused</string>
+    <string name="media_live">Live</string>
+    <string name="media_prev">Previous</string>
+    <string name="media_play_pause">Play or pause</string>
+    <string name="media_next">Next</string>
+    <string name="media_open_app">Open app</string>
+    <string name="media_switch_hint">Up to switch app · OK resumes playback</string>
+
+    <!-- Recents App Switcher -->
+    <string name="recents_title">Recent apps</string>
+    <string name="recents_hint">OK switches · Press Up twice to close · Hold OK for options</string>
+    <string name="recents_empty">No recent apps open</string>
+    <string name="recents_switch">Switch to app</string>
+    <string name="recents_close_app">Close app</string>
+    <string name="recents_close_all">Close all</string>
+    <string name="recents_swipe_close">Press Up again to close</string>
+    <string name="recents_playing_badge">Playing</string>
+    <string name="recents_free_ram">Free RAM: %1$d MB</string>
+    <string name="recents_just_now">Just now</string>
+    <string name="recents_minutes_ago">%1$d min ago</string>
+    <string name="recents_hours_ago">%1$d h ago</string>
+    <string name="recents_media_track" translatable="false">&#x266A;  %1$s</string>
+    <string name="dot_sep" translatable="false">·</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Closed %1$d app</item>
+        <item quantity="other">Closed %1$d apps</item>
+    </plurals>
+
+    <!-- Ambient Screensaver -->
+    <string name="ambient_controls_hint">◄ ► track · ▼ play/pause · ▲ open</string>
+    <string name="ambient_action_prev">Previous track</string>
+    <string name="ambient_action_next">Next track</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Clear</string>
+    <string name="weather_partly">Partly cloudy</string>
+    <string name="weather_cloudy">Overcast</string>
+    <string name="weather_fog">Fog</string>
+    <string name="weather_drizzle">Drizzle</string>
+    <string name="weather_rain">Rain</string>
+    <string name="weather_snow">Snow</string>
+    <string name="weather_showers">Showers</string>
+    <string name="weather_storm">Thunderstorm</string>
+
+    <!-- Apple tvOS Control Center, Night Audio, Bedtime & Aerial Videos -->
+    <string name="cc_title">Control Center</string>
+    <string name="cc_bedtime">Goodnight</string>
+    <string name="cc_bedtime_sub">30m timer · Dim · Night sound</string>
+    <string name="cc_bedtime_on">Active</string>
+    <string name="cc_night_audio">Night sound</string>
+    <string name="cc_night_audio_on">Loud peaks reduced</string>
+    <string name="cc_night_audio_off">Off</string>
+    <string name="cc_night_audio_unavailable">Audio processor unavailable</string>
+    <string name="cc_audio">Audio</string>
+    <string name="cc_audio_tv">TV speakers</string>
+    <string name="cc_sleep_timer">Sleep timer</string>
+    <string name="cc_sleep_timer_sub">Set timer</string>
+    <string name="cc_brightness">Brightness</string>
+    <string name="cc_brightness_sub">Dimmer bar</string>
+    <string name="cc_aerial">Aerial videos</string>
+    <string name="cc_aerial_on">1080p video</string>
+    <string name="cc_aerial_off">Wallpapers</string>
+    <string name="cc_screensaver">Screensaver</string>
+    <string name="cc_settings">Settings</string>
+    <string name="cc_sleep_tv">Sleep TV</string>
+    <string name="cc_reorder_tiles">Reorder tiles</string>
+    <string name="cc_footer_hint">Hold OK on Sleep TV to restart · Back closes</string>
+    <string name="cc_on">On</string>
+    <string name="cc_off">Off</string>
+    <string name="close">Close</string>
+
+    <!-- QR Phone Setup, Discover, Home Assistant, Immich, Watchdog & Self-Updater -->
+    <string name="qr_setup_title">Configure from Phone</string>
+    <string name="qr_setup_subtitle">Scan on your phone (same Wi-Fi) to enter TMDB, Trakt, Plex, Home Assistant, or Immich settings</string>
+    <string name="qr_setup_short">QR Setup</string>
+    <string name="qr_setup_no_wifi">Connect TV to Wi-Fi or Ethernet first</string>
+    <string name="qr_setup_waiting">Waiting for phone… (valid 5 min)</string>
+    <string name="qr_setup_expired">QR session expired — reopen to generate a new code</string>
+
+    <string name="discover_title">Discover &amp; Watch Next</string>
+    <string name="discover_refresh">Refresh</string>
+    <string name="discover_continue_watching">Continue Watching</string>
+    <string name="discover_trending">Trending Picks (Ad-Free)</string>
+    <string name="discover_tab_all">All</string>
+    <string name="discover_tab_movies">Movies</string>
+    <string name="discover_tab_shows">Shows</string>
+    <string name="discover_grant_watchnext_msg">Allow TV Listings permission to show Continue Watching across apps</string>
+    <string name="discover_grant_adb_btn">Allow via ADB</string>
+    <string name="discover_grant_success">Continue Watching enabled</string>
+    <string name="discover_hidden_toast">Hidden from Continue Watching</string>
+    <string name="discover_empty_no_key">Use QR Setup to add a free TMDB API key (or Plex server) for ad-free picks from your installed apps.</string>
+    <string name="discover_empty_no_matches">No matching titles found for your installed streaming apps right now.</string>
+
+    <string name="adb_connecting">Connecting to local ADB…</string>
+    <string name="adb_accept_prompt">Accept “Always allow USB debugging” on TV</string>
+
+    <string name="ha_section_title">Smart Home</string>
+    <string name="ha_action_failed">Home Assistant action failed</string>
+    <string name="ha_state_unavailable">Unavailable</string>
+    <string name="ha_state_open">Open</string>
+    <string name="ha_state_closed">Closed</string>
+
+    <string name="updater_installed">Update installed</string>
+    <string name="updater_failed">Update failed</string>
+
+    <string name="fs_sec_glass">Liquid Glass &amp; Experience</string>
+    <string name="fs_liquid_clock">Liquid Glass clock (iOS 26)</string>
+    <string name="fs_home_liquid">Optical Liquid Glass on Home</string>
+    <string name="fs_ui_sounds">Soft UI click sounds</string>
+    <string name="fs_oled_drift">OLED screensaver pixel drift</string>
+
+    <string name="fs_sec_content">Content &amp; Discovery</string>
+    <string name="fs_open_discover">Open Discover (Continue Watching &amp; Picks)</string>
+    <string name="fs_watch_next">Continue Watching</string>
+    <string name="fs_open_nuvio">Open picks directly in Nuvio</string>
+    <string name="fs_watch_saver">Launch picks from screensaver (OK)</string>
+    <string name="fs_hide_animation">Hide animation &amp; anime picks</string>
+    <string name="fs_region">Streaming region</string>
+    <string name="fs_trakt">Trakt.tv account</string>
+    <string name="fs_trakt_code_msg">Go to %1$s and enter code: %2$s</string>
+    <string name="fs_trakt_signed_in">Signed in to Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Signed out of Trakt</string>
+
+    <string name="fs_sec_smart">Smart Home, Photos &amp; Phone Setup</string>
+    <string name="fs_qr_setup">Configure keys &amp; servers via Phone QR</string>
+    <string name="fs_ha_toggle">Home Assistant in Control Center</string>
+    <string name="fs_immich_toggle">Immich photos on screensaver</string>
+    <string name="fs_immich_sync">Sync Immich photos now</string>
+    <string name="fs_immich_album">Immich album</string>
+    <string name="fs_immich_all_albums">All photos</string>
+
+    <string name="fs_sec_system">Safety &amp; Updates</string>
+    <string name="fs_watchdog">Crash-loop recovery watchdog</string>
+    <string name="fs_check_updates">Check GitHub Releases update</string>
+    <string name="fs_update_uptodate">Launcher is up to date (%1$s)</string>
+    <string name="fs_update_found">New version %1$s available — downloading…</string>
+    <string name="fs_restore_stock">Restore stock Google TV launcher (ADB)</string>
+    <string name="fs_restore_confirm_title">Restore Stock Launcher?</string>
+    <string name="fs_restore_confirm_msg">Safely re-enables Google TV Launcher first, sets it as Home, then re-enables SetupWraith and syncs disk.</string>
+    <string name="fs_restore_ok">Restore now</string>
+    <string name="fs_cancel">Cancel</string>
+</resources>

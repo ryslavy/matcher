@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Hodiny"</string>
+    <string name="remote_minutes">"Minuty"</string>
+    <string name="remote_day">"Den"</string>
+    <string name="remote_month">"Měsíc"</string>
+    <string name="remote_year">"Rok"</string>
+    <string name="remote_hint">"Vlevo / Vpravo: pole · Nahoru / Dolů: hodnota · OK: další · Zpět: zrušit"</string>
+    <string name="remote_page_hint">"Vyberte řádek šipkami a stiskněte OK. Změny se projeví po uložení."</string>
+    <string name="remote_events">"TÝDENNÍ UDÁLOSTI"</string>
+    <string name="remote_exclusions">"OBDOBÍ BEZ AUTOMATICKÉHO PROBUZENÍ"</string>
+    <string name="remote_wake_time">"Čas probuzení"</string>
+    <string name="remote_sleep_time">"Čas uspání"</string>
+</resources>

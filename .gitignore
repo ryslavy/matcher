@@ -1,0 +1,15 @@
+# Downloaded portable toolchains & upstream clone (auto-bootstrapped by apply-setup.ps1)
+toolchain/
+platform-tools/
+cleanyourtv/
+.active-theme/
+
+# Local device backups (never commit device-specific dumps, serial numbers, or Wi-Fi metadata)
+backup/
+
+# Temporary capture / build artifacts
+*.apk
+*.mp4
+*.log
+.DS_Store
+Thumbs.db

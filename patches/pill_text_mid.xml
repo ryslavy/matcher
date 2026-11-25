@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Secondary lines of a list row (package, signing key, an input's "Connected"): soft white on dark glass. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:color="#CCFFFFFF" />
+    <item android:color="#78FFFFFF" />
+</selector>

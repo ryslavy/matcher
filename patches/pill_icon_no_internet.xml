@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- wifi_status_warnings: keeps vivid amber status color even while focused inside the frosted liquid-glass ring. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:color="#FFFFB340" />
+    <item android:color="#FFFF9F0A" />
+</selector>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kapacita a paměť</string>
+    <string name="loading">Načítám ukazatele…</string>
+    <string name="unavailable">Údaje nejsou dostupné</string>
+    <string name="back">Zpět</string>
+    <string name="memory">Volná RAM: %1$s</string>
+    <string name="memory_used">Využitá RAM: %1$s</string>
+    <string name="storage">Volné úložiště: %1$s</string>
+    <string name="note">Volná RAM zahrnuje uvolnitelnou mezipaměť; využitá RAM je rozdíl celkové a volné paměti. Úložiště odpovídá datovému oddílu.</string>
+</resources>

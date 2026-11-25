@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Permits LAN HTTP for local Home Assistant & Immich servers (IP ranges cannot be expressed in domain-config).
+         Java callers strictly enforce HTTPS for all public hosts via FeaturePrefs.isAllowedServerUrl(). -->
+    <base-config cleartextTrafficPermitted="true" />
+</network-security-config>

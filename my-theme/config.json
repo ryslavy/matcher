@@ -1,0 +1,281 @@
+{
+  "columns": 6,
+  "rows_below_dock": 0,
+  "dock_apps": [
+    "io.gh.reisxd.tizentube.cobalt",
+    "com.netflix.ninja",
+    "com.wbd.stream",
+    "com.disney.disneyplus",
+    "net.cme.voyo.cz.tvapp",
+    "cz.tmobile.tvgo"
+  ],
+  "hidden_apps": [],
+  "cinematic_home": true,
+  "cinematic_art": 16,
+  "cinematic_scrim": 22,
+  "dock_glass": true,
+  "dock_opacity": 30,
+  "dock_even_padding": true,
+  "ambient_glow": true,
+  "app_glow": true,
+  "glass_style": "glass",
+  "fade_rows": true,
+  "advanced_effects": true,
+  "icon_only_buttons": true,
+  "wifi_status_color": true,
+  "wifi_status_warnings": true,
+  "header_white": true,
+  "show_stats": false,
+  "home_idle_clock_minutes": 0,
+  "back_opens_clock": true,
+  "settings_key_panel": true,
+  "clock_wallpaper": true,
+  "clock_wallpaper_dim": 38,
+  "background_color": "#0A0814",
+  "sky_intensity": 0,
+  "wallpaper": true,
+  "wallpaper_true_color": true,
+  "wallpaper_rotation_minutes": 30,
+  "wallpaper_order": "shuffle",
+  "wallpaper_dim": 6,
+  "wallpaper_captions": false,
+  "wallpaper_moods": {
+    "morning": [
+      "01-first-light.jpg",
+      "02-valley-mist.jpg",
+      "01-alps-switzerland.jpg",
+      "04-emerald-lake.jpg",
+      "spring-01-morning.jpg",
+      "spring-02-bluebells.jpg",
+      "spring-03-sunbeams.jpg",
+      "holiday-easter-dawn.jpg",
+      "summer-01-morning.jpg",
+      "autumn-01-morning.jpg",
+      "autumn-03-mist-lake.jpg",
+      "winter-01-morning.jpg",
+      "winter-03-frost-sunrise.jpg",
+      "holiday-christmas-morning.jpg"
+    ],
+    "evening": [
+      "03-golden-hour.jpg",
+      "04-dusk.jpg",
+      "05-smoke-haze.jpg",
+      "02-atacama-chile.jpg",
+      "07-mount-baker.jpg",
+      "summer-02-evening.jpg",
+      "autumn-02-mirror-lake.jpg",
+      "winter-02-evening.jpg",
+      "holiday-christmas-evening.jpg",
+      "holiday-christmas-fireplace.jpg",
+      "holiday-halloween-spire.jpg"
+    ],
+    "night": [
+      "06-moonrise.jpg",
+      "07-starfield.jpg",
+      "08-aurora-ridge.jpg",
+      "01-midnight-cinema.jpg",
+      "03-night-orbit.jpg",
+      "winter-04-aurora-north.jpg",
+      "holiday-christmas-night.jpg",
+      "holiday-newyear-night.jpg",
+      "holiday-newyear-melbourne.jpg",
+      "holiday-newyear-marina.jpg",
+      "holiday-halloween-moon-pines.jpg",
+      "holiday-halloween-harvest-moon.jpg",
+      "holiday-halloween-lake.jpg",
+      "holiday-valentines-night.jpg"
+    ],
+    "spring_morning": [
+      "spring-01-morning.jpg",
+      "spring-02-bluebells.jpg",
+      "spring-03-sunbeams.jpg",
+      "04-emerald-lake.jpg"
+    ],
+    "spring_evening": [
+      "holiday-easter-dawn.jpg",
+      "03-golden-hour.jpg",
+      "04-dusk.jpg",
+      "spring-02-bluebells.jpg"
+    ],
+    "spring_night": [
+      "06-moonrise.jpg",
+      "07-starfield.jpg",
+      "01-midnight-cinema.jpg"
+    ],
+    "summer_morning": [
+      "summer-01-morning.jpg",
+      "04-emerald-lake.jpg",
+      "01-alps-switzerland.jpg",
+      "01-first-light.jpg"
+    ],
+    "summer_evening": [
+      "summer-02-evening.jpg",
+      "05-smoke-haze.jpg",
+      "02-atacama-chile.jpg",
+      "03-golden-hour.jpg"
+    ],
+    "summer_night": [
+      "07-starfield.jpg",
+      "03-night-orbit.jpg",
+      "01-midnight-cinema.jpg"
+    ],
+    "autumn_morning": [
+      "autumn-01-morning.jpg",
+      "autumn-03-mist-lake.jpg",
+      "02-valley-mist.jpg",
+      "01-first-light.jpg"
+    ],
+    "autumn_evening": [
+      "autumn-02-mirror-lake.jpg",
+      "07-mount-baker.jpg",
+      "03-golden-hour.jpg",
+      "04-dusk.jpg"
+    ],
+    "autumn_night": [
+      "holiday-halloween-lake.jpg",
+      "06-moonrise.jpg",
+      "07-starfield.jpg",
+      "01-midnight-cinema.jpg"
+    ],
+    "winter_morning": [
+      "winter-01-morning.jpg",
+      "winter-03-frost-sunrise.jpg",
+      "01-alps-switzerland.jpg"
+    ],
+    "winter_evening": [
+      "winter-02-evening.jpg",
+      "07-mount-baker.jpg",
+      "04-dusk.jpg"
+    ],
+    "winter_night": [
+      "winter-04-aurora-north.jpg",
+      "08-aurora-ridge.jpg",
+      "winter-02-evening.jpg",
+      "06-moonrise.jpg"
+    ],
+    "christmas_morning": [
+      "holiday-christmas-morning.jpg",
+      "winter-01-morning.jpg",
+      "winter-03-frost-sunrise.jpg"
+    ],
+    "christmas_evening": [
+      "holiday-christmas-evening.jpg",
+      "holiday-christmas-fireplace.jpg",
+      "holiday-christmas-morning.jpg"
+    ],
+    "christmas_night": [
+      "holiday-christmas-night.jpg",
+      "holiday-christmas-fireplace.jpg",
+      "holiday-christmas-evening.jpg"
+    ],
+    "new_year_morning": [
+      "winter-01-morning.jpg",
+      "winter-03-frost-sunrise.jpg",
+      "01-alps-switzerland.jpg"
+    ],
+    "new_year_evening": [
+      "holiday-newyear-night.jpg",
+      "holiday-newyear-melbourne.jpg",
+      "holiday-newyear-marina.jpg"
+    ],
+    "new_year_night": [
+      "holiday-newyear-night.jpg",
+      "holiday-newyear-melbourne.jpg",
+      "holiday-newyear-marina.jpg"
+    ],
+    "easter_morning": [
+      "holiday-easter-dawn.jpg",
+      "spring-02-bluebells.jpg",
+      "spring-03-sunbeams.jpg",
+      "spring-01-morning.jpg"
+    ],
+    "easter_evening": [
+      "holiday-easter-dawn.jpg",
+      "spring-02-bluebells.jpg",
+      "03-golden-hour.jpg",
+      "04-dusk.jpg"
+    ],
+    "easter_night": [
+      "06-moonrise.jpg",
+      "07-starfield.jpg",
+      "01-midnight-cinema.jpg"
+    ],
+    "halloween_morning": [
+      "autumn-03-mist-lake.jpg",
+      "holiday-halloween-spire.jpg",
+      "02-valley-mist.jpg"
+    ],
+    "halloween_evening": [
+      "holiday-halloween-spire.jpg",
+      "holiday-halloween-lake.jpg",
+      "holiday-halloween-harvest-moon.jpg"
+    ],
+    "halloween_night": [
+      "holiday-halloween-harvest-moon.jpg",
+      "holiday-halloween-moon-pines.jpg",
+      "holiday-halloween-lake.jpg",
+      "holiday-halloween-spire.jpg"
+    ],
+    "valentines_morning": [
+      "holiday-easter-dawn.jpg",
+      "winter-01-morning.jpg",
+      "01-first-light.jpg"
+    ],
+    "valentines_evening": [
+      "holiday-valentines-night.jpg",
+      "04-dusk.jpg",
+      "holiday-easter-dawn.jpg"
+    ],
+    "valentines_night": [
+      "holiday-valentines-night.jpg",
+      "04-dusk.jpg",
+      "01-midnight-cinema.jpg"
+    ]
+  },
+  "gamepad_passthrough": true,
+  "app_library": true,
+  "library_button": true,
+  "show_library_pill": false,
+  "library_ok_opens": true,
+  "app_labels": [
+    "io.gh.reisxd.tizentube.cobalt=YouTube",
+    "net.cme.voyo.cz.tvapp=Oneplay",
+    "cz.tmobile.tvgo=Magenta TV",
+    "com.wbd.stream=Max",
+    "cz.ceskatelevize.ivysilani.tvapp=iVysílání",
+    "cz.prima.tvapp=Prima+",
+    "cz.rozhlas.mujrozhlas=můjRozhlas",
+    "com.amazon.amazonvideo.livingroom=Prime Video",
+    "com.limelight=Moonlight",
+    "com.formulaone.production=F1 TV",
+    "com.tcl.browser=Prohlížeč"
+  ],
+  "app_keys": [
+    "KEYCODE_BUTTON_6:com.nuvio.tv",
+    "scan:240:com.nuvio.tv",
+    "scan:416:com.nuvio.tv",
+    "hold:KEYCODE_BUTTON_6:com.netflix.ninja",
+    "hold:scan:240:com.netflix.ninja",
+    "hold:scan:416:com.netflix.ninja",
+    "KEYCODE_BUTTON_3:io.gh.reisxd.tizentube.cobalt",
+    "scan:425:io.gh.reisxd.tizentube.cobalt",
+    "scan:393:io.gh.reisxd.tizentube.cobalt",
+    "hold:KEYCODE_BUTTON_3:com.spotify.tv.android",
+    "hold:scan:425:com.spotify.tv.android",
+    "hold:scan:393:com.spotify.tv.android",
+    "KEYCODE_BUTTON_7:net.cme.voyo.cz.tvapp",
+    "scan:207:net.cme.voyo.cz.tvapp",
+    "hold:KEYCODE_BUTTON_7:io.github.maxhayim.brightness/.QuickActivity",
+    "hold:scan:207:io.github.maxhayim.brightness/.QuickActivity",
+    "KEYCODE_BUTTON_5:cz.tmobile.tvgo",
+    "scan:150:cz.tmobile.tvgo",
+    "scan:400:cz.tmobile.tvgo",
+    "hold:KEYCODE_BUTTON_5:io.github.luyzfernando08.sleeptimer/.QuickActivity",
+    "hold:scan:150:io.github.luyzfernando08.sleeptimer/.QuickActivity",
+    "hold:scan:400:io.github.luyzfernando08.sleeptimer/.QuickActivity",
+    "KEYCODE_ALL_APPS:library",
+    "scan:216:library",
+    "hold:KEYCODE_ALL_APPS:screensaver",
+    "hold:scan:216:screensaver"
+  ]
+}

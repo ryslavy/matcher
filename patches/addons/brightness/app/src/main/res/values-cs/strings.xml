@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jas</string>
+    <string name="quick_brightness">Jas %1$d%%</string>
+    <string name="quick_night_brightness">Noční jas %1$d%%</string>
+    <string name="quick_hint">◀ ▶ upravit · OK zavřít</string>
+    <string name="channel_name">Ztlumení obrazovky</string>
+    <string name="notification_text">Obrazovka je ztlumená. Otevřete Jas pro změnu nebo vypnutí.</string>
+</resources>

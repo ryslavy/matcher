@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Počasí</string>
+
+    <string name="feels_like">Pocitově %1$d°</string>
+    <string name="humidity">Vlhkost %1$d%%</string>
+    <string name="wind">Vítr %1$d km/h</string>
+    <string name="wind_mph">Vítr %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Kvalita ovzduší %1$d · %2$s</string>
+    <string name="updated">Aktualizováno %1$s · Open-Meteo</string>
+    <string name="change_city">Změnit město</string>
+    <string name="weather_settings">Nastavení počasí</string>
+    <string name="settings_done">Hotovo</string>
+    <string name="setting_units">Jednotky teploty</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Zobrazit obě jednotky</string>
+    <string name="setting_days">Délka předpovědi</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d den</item>
+        <item quantity="few">%1$d dny</item>
+        <item quantity="many">%1$d dne</item>
+        <item quantity="other">%1$d dní</item>
+    </plurals>
+    <string name="setting_humidity">Zobrazit vlhkost</string>
+    <string name="setting_wind">Zobrazit vítr</string>
+    <string name="setting_reset">Obnovit nastavení počasí</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Zapnuto</string>
+    <string name="option_off">Vypnuto</string>
+    <string name="loading">Načítám počasí…</string>
+    <string name="offline">Nelze se spojit s Open-Meteo. Zkontrolujte internetové připojení TV; další pokus za 5 minut.</string>
+
+    <string name="pick_title">Které město?</string>
+    <string name="pick_hint">Název města, např. Praha</string>
+    <string name="pick_search">Hledat</string>
+    <string name="pick_none">Místo \"%1$s\" nebylo nalezeno</string>
+    <string name="pick_first">Vyberte město pro zobrazení počasí.</string>
+
+    <string name="aqi_good">Dobrá</string>
+    <string name="aqi_moderate">Střední</string>
+    <string name="aqi_sensitive">Zhoršená pro citlivé osoby</string>
+    <string name="aqi_unhealthy">Špatná</string>
+    <string name="aqi_very_unhealthy">Velmi špatná</string>
+    <string name="aqi_hazardous">Nebezpečná</string>
+
+    <string name="sky_clear">Jasno</string>
+    <string name="sky_sunny">Slunečno</string>
+    <string name="sky_mostly_clear">Skoro jasno</string>
+    <string name="sky_mostly_sunny">Převážně slunečno</string>
+    <string name="sky_partly_cloudy">Polojasno</string>
+    <string name="sky_cloudy">Zataženo</string>
+    <string name="sky_fog">Mlha</string>
+    <string name="sky_drizzle">Mrholení</string>
+    <string name="sky_freezing_drizzle">Mrznoucí mrholení</string>
+    <string name="sky_light_rain">Slabý déšť</string>
+    <string name="sky_rain">Déšť</string>
+    <string name="sky_heavy_rain">Silný déšť</string>
+    <string name="sky_freezing_rain">Mrznoucí déšť</string>
+    <string name="sky_light_snow">Slabé sněžení</string>
+    <string name="sky_snow">Sněžení</string>
+    <string name="sky_heavy_snow">Silné sněžení</string>
+    <string name="sky_snow_grains">Sněhové krupky</string>
+    <string name="sky_showers">Přeháňky</string>
+    <string name="sky_snow_showers">Sněhové přeháňky</string>
+    <string name="sky_thunderstorm">Bouřka</string>
+</resources>

@@ -64,18 +64,46 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ---
 
-## 4. Rychlé příkazy z PC (PowerShell)
+## 4. Než začneš: najdi svůj model TV a zálohuj stav
 
-> **Důležité před prvním nasazením na Android 14:** Na TV v **Nastavení → Síť a internet** nejdříve svou Wi-Fi **Zapomeň** a znovu se k ní připoj, aby síť nevlastnil `setupwraith`.
+Matcher je otestovaný primárně na **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, Android 14). **Každý výrobce TV má vlastní specifika** (u integrovaných TV jako Sony, TCL, Philips nebo Hisense bývají na systémové balíčky navázané HDMI vstupy, obrazové režimy nebo tuner; některé Xiaomi/Oppo firmware navíc hlídají povolené `applicationId` pro HOME).
+
+1. **Zjisti přesný model své TV / boxu a verzi Androidu:**
+   ```powershell
+   adb shell getprop ro.product.manufacturer
+   adb shell getprop ro.product.model
+   adb shell getprop ro.build.version.sdk
+   ```
+2. **Zkontroluj profil svého modelu v upstream databázi CleanYourTV:**
+   * Profily zařízení: [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) *(po naklonování také lokálně v `./cleanyourtv/docs/devices/`)*
+   * Pravidla bezpečnosti: [`docs/DOS-AND-DONTS.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/DOS-AND-DONTS.md)
+3. **Nikdy nespouštěj `my-debloat.txt` na jiném než `MiTV-AFMU0` zařízení** — pro všechny ostatní TV/boxy použij parametr `-SkipDebloat` a před zásahem si ulož seznam zapnutých balíčků (`adb shell pm list packages -e > backup\enabled.txt`).
+4. **Kompatibilita podle verze Androidu a GPU:**
+   * **Android 13/14+ (`SDK 33+`):** plný 3D AGSL Liquid Glass.
+   * **Android 8–12 (`SDK 26–32`):** automatický čistý fallback bez AGSL shaderu, vše ostatní funguje stejně.
+   * **Slabší GPU / 1–1,5 GB RAM TV (např. MediaTek MT5895):** v `my-theme/config.json` zapni `"reduced_motion": true` a `"glow_snap": true` a v Nastavení vypni *Liquid Glass* optiku.
+
+---
+
+## 5. Vypínání vizuálních prvků a rychlé příkazy z PC
+
+Většinu efektů lze snadno vypnout nebo upravit i bez znalosti kódu (nebo o to požádat svého AI agenta — repozitář obsahuje `AGENTS.md` a `SKILL.md`):
+* **Přímo v TV (*Ovládací centrum → Nastavení*):** 3D Liquid Glass hodiny, Liquid Glass optika na ploše, zvuky kliknutí, OLED ochrana spořiče, Aerial videa, region Objevovat.
+* **V [`my-theme/config.json`](../my-theme/config.json) (bez kompilace):** `dock_glass`, `dock_opacity`, `cinematic_home`, `ambient_glow`, `app_glow`, `reduced_motion`, `glow_snap`, `columns`, `dock_apps`, `app_labels`, `app_keys`, vlastní tapety v `my-theme/wallpapers/`.
+* **Vlastní město pro počasí/slunce:** uprav `latitude`, `longitude`, `weather_city` v [`patches/launcher-config.xml`](../patches/launcher-config.xml) (výchozí `Prague`) před buildem.
+
+> **Důležité před prvním nasazením s debloatem na Android 14:** Na TV v **Nastavení → Síť a internet** nejdříve svou Wi-Fi **Zapomeň** a znovu se k ní připoj, aby síť nevlastnil `setupwraith`.
+>
+> **Bezdrátové ladění (Android 14) a macOS/Linux:** Pro Bezdrátové ladění nejprve spáruj TV přes `adb pair <IP>:<PAIR_PORT>` a pak předej aktivní port jako `-TvHost <IP>:<PORT>`. Na macOS/Linuxu fungují stejné kroky z `apply-setup.ps1` nativně přes JDK 17, `./gradlew` a `adb`.
 
 ```powershell
-# Kompletní nasazení (Xiaomi TV Box S 3rd Gen):
-powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP>
-
-# Nasazení na jiný Android TV box (bez debloatu):
+# Bezpečné nasazení na jakýkoliv Android TV / Google TV box (bez Xiaomi debloatu):
 powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP> -SkipDebloat
 
-# Nahrání úprav v my-theme\config.json:
+# Kompletní nasazení včetně debloatu (jen Xiaomi TV Box S 3rd Gen / MiTV-AFMU0):
+powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP>
+
+# Nahrání úprav v my-theme\config.json (vlastní appky, ovladač, vizuální přepínače):
 .\switch-theme.ps1 my-theme -TvHost <TV_IP>
 
 # Vyzkoušení jiného z 30+ témat (zachová dock, názvy i tlačítka):

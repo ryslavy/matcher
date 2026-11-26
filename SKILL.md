@@ -11,25 +11,43 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
 
 ---
 
-## Playbook 1 — Safe Initial Deployment to a TV Box
+## Playbook 1 — Safe Initial Deployment to Any TV / Box
 
-1. **Confirm the TV's ADB target (`<TV_IP>` or `<TV_IP>:<PORT>`).**
-   Verify connectivity:
+1. **Confirm the TV's ADB target (`<TV_IP>` or `<TV_IP>:<PORT>` for Android 14 Wireless Debugging).**
+   Verify connectivity (if using Wireless Debugging for the first time, run `adb pair <TV_IP>:<PAIR_PORT>` first):
    ```powershell
    .\platform-tools\adb.exe connect <TV_IP>
    .\platform-tools\adb.exe -s <TV_IP> get-state
    ```
-2. **CRITICAL Wi-Fi ownership check (Android 14 / Google TV) before any debloat:**
+2. **MANDATORY — Identify the exact TV / box model & consult upstream CleanYourTV device docs:**
+   ```powershell
+   .\platform-tools\adb.exe -s <TV_IP> shell "getprop ro.product.manufacturer; getprop ro.product.model; getprop ro.product.device; getprop ro.build.version.release; getprop ro.build.version.sdk"
+   ```
+   - Search `./cleanyourtv/docs/devices/` (or `https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices`) plus `docs/DOS-AND-DONTS.md` for this exact model.
+   - Check whether the model requires a custom `-PlauncherApplicationId=<pkg>` (HOME allowlist), has protected vendor packages (HDMI/tuner/picture settings), or needs `"reduced_motion": true` / `"glow_snap": true` (weak GPU / `SDK < 33` fallback).
+   - **Never run `my-debloat.txt` on any device other than `MiTV-AFMU0`.** Always pass `-SkipDebloat` for other devices unless using a device-verified list.
+3. **Save a local pre-flight backup into gitignored `./backup/` before changing packages or settings:**
+   ```powershell
+   New-Item -ItemType Directory -Force .\backup | Out-Null
+   .\platform-tools\adb.exe -s <TV_IP> shell "pm list packages -e" | Out-File -Encoding utf8 .\backup\enabled-packages.txt
+   .\platform-tools\adb.exe -s <TV_IP> shell "pm list packages -d" | Out-File -Encoding utf8 .\backup\disabled-packages.txt
+   .\platform-tools\adb.exe -s <TV_IP> shell "settings get secure enabled_accessibility_services" | Out-File -Encoding utf8 .\backup\a11y.txt
+   .\platform-tools\adb.exe -s <TV_IP> shell "cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME" | Out-File -Encoding utf8 .\backup\home.txt
+   ```
+   *(Never use `pm uninstall` on system packages — always use reversible `pm disable-user --user 0`.)*
+4. **CRITICAL Wi-Fi ownership check (Android 14 / Google TV) before any debloat:**
    ```powershell
    .\platform-tools\adb.exe -s <TV_IP> shell "dumpsys wifi | grep -E 'cname=|creatorName'"
    ```
    - If output mentions `setupwraith`, **STOP** and ask the user to **Forget** and **Reconnect** Wi-Fi in TV Settings → Network & Internet first.
-   - If deploying to a non-Xiaomi Android TV box (or user prefers no debloat), pass `-SkipDebloat`.
-3. **Run the automated installer:**
+5. **Run the automated installer** (on macOS/Linux, run the equivalent `./gradlew` + `adb` + `cleanyourtv/tools/` commands in bash/zsh):
    ```powershell
+   # Any non-Xiaomi TV / box (safe default):
+   powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP> -SkipDebloat
+   # Xiaomi TV Box S 3rd Gen (MiTV-AFMU0) with full debloat:
    powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP>
    ```
-4. **Verify Accessibility services & disk flush:**
+6. **Verify Accessibility services & disk flush:**
    ```powershell
    .\platform-tools\adb.exe -s <TV_IP> shell "dumpsys accessibility | grep -E 'Bound services|Service\[label=|Crashed'"
    .\platform-tools\adb.exe -s <TV_IP> shell "sync"
@@ -38,22 +56,35 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
 
 ---
 
-## Playbook 2 — Customizing Theme, Dock, Wallpapers & Remote Keymap
+## Playbook 2 — Adapting Apps, Remote Keys, Location & Visual Elements
 
-1. Edit [`my-theme/config.json`](my-theme/config.json):
-   - `dock_apps`: ordered array of package names pinned to the main glass dock.
-   - `app_labels`: `"package.name=Custom Label"` overrides.
-   - `app_keys`: tap and `hold:` actions by Android keycode (`KEYCODE_BUTTON_6:...`) and/or Linux scancode (`scan:240:...`). See [`presets/xiaomi-tv-box-s-3rd-gen/remote-keymap.md`](presets/xiaomi-tv-box-s-3rd-gen/remote-keymap.md).
-   - `wallpaper_moods`: map of time-of-day / seasonal / holiday moods (`morning`, `evening`, `night`, `winter_night`, `christmas_evening`, etc.) to filenames in `my-theme/wallpapers/`.
-2. Push instantly without recompiling:
+### 2A — Personalize Installed Apps, Own Remote & Weather City
+1. **List the user's installed TV apps:**
    ```powershell
-   .\switch-theme.ps1 my-theme -TvHost <TV_IP>
+   .\platform-tools\adb.exe -s <TV_IP> shell "pm list packages -3"
    ```
-3. To try any upstream visual theme while keeping the user's dock & keymap:
+   Replace `dock_apps` and `app_labels` in [`my-theme/config.json`](my-theme/config.json) with the user's own streaming apps.
+2. **Capture the user's remote control scancodes & keycodes** (see also `cleanyourtv/docs/REMOTE.md`):
    ```powershell
-   .\switch-theme.ps1 -List
-   .\switch-theme.ps1 <theme_name> -TvHost <TV_IP>
+   .\platform-tools\adb.exe -s <TV_IP> shell "getevent -lt"
    ```
+   Have the user press each shortcut button once, note its Linux scancode (`scan:<hex-to-dec>`) and Android keycode (`KEYCODE_...`), and update `app_keys` (tap + `hold:`) in [`my-theme/config.json`](my-theme/config.json).
+3. **Update local weather & sunrise/sunset location:**
+   Edit `latitude`, `longitude`, and `weather_city` in [`patches/launcher-config.xml`](patches/launcher-config.xml) (lines 503–505), sync to `cleanyourtv/launcher/app/src/main/res/values/config.xml`, and rebuild the launcher APK.
+
+### 2B — Turn Off or Tone Down Visual Elements (No Code vs. Shader Tuning)
+- **Instant in-app toggles (TV Control Center → Settings):** Liquid Glass clock, Home Liquid Glass optics, UI click sounds, OLED screensaver drift, Aerial videos, Watch from Screensaver.
+- **Instant theme toggles (edit [`my-theme/config.json`](my-theme/config.json) → `.\switch-theme.ps1 my-theme -TvHost <TV_IP>`):**
+  - Disable/soften Dock glass: `"dock_glass": false` or lower `"dock_opacity"` (`0`–`100`).
+  - Disable colorful top shelf / glow: `"cinematic_home": false`, `"ambient_glow": false`, `"app_glow": false`.
+  - Calm animations for older/weak GPUs: `"reduced_motion": true`, `"glow_snap": true`, `"advanced_effects": false`.
+  - Change grid density or swap wallpapers: `"columns"`, `"rows_below_dock"`, `"wallpaper_moods"` + JPGs in `my-theme/wallpapers/`.
+  - Try 30+ upstream themes while keeping dock & remote keys:
+    ```powershell
+    .\switch-theme.ps1 -List
+    .\switch-theme.ps1 <theme_name> -TvHost <TV_IP>
+    ```
+- **Code-level Glass toning (rebuild required):** Adjust refraction strength, rim brightness, or smoked tint in `LIQUID_GLASS_PANEL_AGSL` inside `ExpressiveGlass.java` and all 8 synchronized `GlassKit.java` copies while strictly keeping `0 <= premul.rgb <= outA`.
 
 ---
 

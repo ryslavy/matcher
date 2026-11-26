@@ -63,11 +63,35 @@ All 8 add-ons share [`GlassKit.java`](patches/addons/brightness/app/src/main/jav
 
 ---
 
-## Quick Start (Windows PowerShell + ADB)
+## Quick Start (ADB Deployment)
 
 ### Prerequisites
-- Windows 10/11 with **Git** and **Python 3** installed (`apply-setup.ps1` automatically downloads portable **Microsoft OpenJDK 17**, **Android SDK 34**, **ADB Platform-Tools**, and clones upstream `Gathin23/cleanyourtv`).
-- Android TV / Google TV device on the same LAN with **Developer Options → USB / Wireless Debugging** enabled.
+- **Windows 10/11** with **Git** and **Python 3** installed (`apply-setup.ps1` automatically downloads portable **Microsoft OpenJDK 17**, **Android SDK 34**, **ADB Platform-Tools**, and clones upstream `Gathin23/cleanyourtv`).
+- **macOS / Linux:** The launcher and add-ons build identically with standard **JDK 17**, **Android SDK 34**, `./gradlew`, and `adb` (upstream `cleanyourtv/tools/` also includes shell scripts). You (or your AI agent) can follow the exact same patch/build/deploy steps from [`apply-setup.ps1`](apply-setup.ps1) in bash/zsh.
+- An Android TV / Google TV device on the same LAN with **Developer Options → USB / Wireless Debugging** enabled.
+
+### Step 0 — Identify Your TV / Box Model First (Important!)
+Matcher is tested primarily on **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, Android 14). **Every TV brand and firmware has its own quirks** (some integrated TVs like Sony, TCL, Philips, and Hisense tie HDMI inputs, picture settings, or tuners to vendor packages, and certain Xiaomi/Oppo firmwares enforce a HOME package allowlist requiring `-PlauncherApplicationId=...`).
+
+Before running any debloat or replacing your stock launcher:
+1. Check your exact device model and Android version over ADB:
+   ```powershell
+   adb shell getprop ro.product.manufacturer
+   adb shell getprop ro.product.model
+   adb shell getprop ro.build.version.sdk
+   ```
+2. **Look up your TV / box model in upstream CleanYourTV's device database:**
+   - Device profiles: [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) *(also cloned locally to `./cleanyourtv/docs/devices/`)*
+   - Safety rules & firmware pitfalls: [`docs/DOS-AND-DONTS.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/DOS-AND-DONTS.md) and [`docs/switches.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/switches.md)
+3. **Never apply `my-debloat.txt` to a different TV/box model** — always use `-SkipDebloat` on non-`MiTV-AFMU0` devices (or build a model-specific list from CleanYourTV's device doc after backing up `pm list packages -e`).
+
+### Compatibility by Android Version & GPU
+
+| Device Tier | Experience | Recommended Tweaks |
+|---|---|---|
+| **Android 13 / 14+ (`SDK 33+`), 2 GB+ RAM** | Full real-time 3D AGSL Liquid Glass refraction, blur veils & beveled clock | Works out of the box |
+| **Android 8 – 12 (`SDK 26–32`)** | Automatic clean frosted/translucent fallback (no AGSL `RuntimeShader`) | Everything else works identically |
+| **Older / weak GPUs (e.g. MediaTek MT5895, 1–1.5 GB RAM)** | Smooth with reduced-motion profile | Set `"reduced_motion": true` and `"glow_snap": true` in `my-theme/config.json`, and turn off *Home Liquid Glass optics* / *Liquid Glass clock* in Settings |
 
 ### Critical Pre-Flight Check (Android 14 / Google TV!)
 > **WARNING — Do NOT skip this if running debloat!**
@@ -77,44 +101,40 @@ All 8 add-ons share [`GlassKit.java`](patches/addons/brightness/app/src/main/jav
 
 ### Deploy Everything in One Command
 
-**Option A — Xiaomi TV Box S 3rd Gen (full debloat + launcher + 8 add-ons + theme):**
-```powershell
-powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP>
-```
-
-**Option B — Any other Android TV / Google TV box (skip Xiaomi debloat list):**
+**Option A — Any Android TV / Google TV box (recommended safe default — skips Xiaomi debloat list):**
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP> -SkipDebloat
 ```
 
-*(If using Android 14 Wireless Debugging on a dynamic port, pass `-TvHost <TV_IP>:<PORT>`.)*
+**Option B — Xiaomi TV Box S 3rd Gen (`MiTV-AFMU0`) full debloat + launcher + 8 add-ons + theme:**
+```powershell
+powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP>
+```
+
+> **Android 14 Wireless Debugging tip:** Pair once with `adb pair <TV_IP>:<PAIR_PORT>`, then pass the active connection port as `-TvHost <TV_IP>:<CONNECT_PORT>` (note that Android 14 rotates the wireless port after reboot).
 
 After deployment finishes, **wait 15 seconds before rebooting** so Android flushes package states to disk.
 
 ---
 
-## Everyday Customization
+## Everyday Customization (No Code or With Your Own AI)
 
-### 1. Edit Dock, Wallpapers, App Names & Remote Buttons
-Edit [`my-theme/config.json`](my-theme/config.json) (and optionally drop your own 16:9 JPGs into `my-theme/wallpapers/`), then push changes instantly without rebuilding APKs:
-```powershell
-.\switch-theme.ps1 my-theme -TvHost <TV_IP>
-```
+Matcher is intentionally opinionated, and **most visual elements can be toggled off or customized** without touching Java — or handed directly to your AI coding agent (`AGENTS.md` + `SKILL.md` are ready out of the box):
 
-### 2. Try 30+ Upstream Visual Themes (Keeping Your Dock & Remote Keys)
-```powershell
-.\switch-theme.ps1 -List
-.\switch-theme.ps1 aurora -TvHost <TV_IP>
-.\switch-theme.ps1 my-theme -TvHost <TV_IP>
-```
+| What you want to change | Where to change it | Rebuild needed? |
+|---|---|---|
+| Toggle **Liquid Glass clock**, **Home Liquid Glass optics**, **UI click sounds**, **OLED drift**, **Discover region** | On TV: **Control Center → Settings** | No |
+| Toggle **Dock glass/opacity**, **Cinematic top shelf**, **Ambient/App glow**, **Grid columns**, **Reduced motion**, **Glow snap**, **Wallpapers**, **Dock apps**, **Remote buttons** | Edit [`my-theme/config.json`](my-theme/config.json) → run `.\switch-theme.ps1 my-theme -TvHost <TV_IP>` | No |
+| Switch to any of **30+ upstream themes** (keeping your dock & remote keys) | `.\switch-theme.ps1 -List` → `.\switch-theme.ps1 <name> -TvHost <TV_IP>` | No |
+| Configure **TMDB, Trakt, Plex, Home Assistant, Immich** | On TV: **Control Center → Settings → Phone QR setup** | No |
+| Change **local weather city & sunrise/sunset coordinates** (defaults to `Prague`) | Edit `latitude`, `longitude`, `weather_city` in [`patches/launcher-config.xml`](patches/launcher-config.xml) (lines 503–505) | Yes (launcher APK) |
+| Tone down/remove shader refraction, add a language, map a new remote, or create a device preset | Ask your AI agent (Claude Code, Codex, Gemini, Antigravity, Cursor) — it reads [`AGENTS.md`](AGENTS.md) & [`SKILL.md`](SKILL.md) automatically | Depends on change |
 
-### 3. Set Your Local Weather City & Sun Coordinates
-Before building, update `latitude`, `longitude`, and `weather_city` in [`patches/launcher-config.xml`](patches/launcher-config.xml) (lines 503–505, defaults to `Prague`), then rebuild the launcher.
+### 1. Replace Default Apps, Remote Keys & City With Yours
+`my-theme/config.json` ships with a sample app dock and Xiaomi remote scancodes. After connecting ADB, either edit [`my-theme/config.json`](my-theme/config.json) manually or tell your AI agent:
+> *"Read `AGENTS.md` and `SKILL.md`, detect my TV model against `cleanyourtv/docs/devices/`, inspect my installed apps and remote keys, set my weather city to `<Your City>`, and deploy safely."*
 
-### 4. Configure TMDB / Trakt / Plex / Home Assistant / Immich
-On the TV, open **Control Center → Settings → Configure keys & servers via Phone QR**, scan the QR code with your phone, and hit Save.
-
-### 5. Safe Full Rollback to Stock Google TV
+### 2. Safe Full Rollback to Stock Google TV
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\restore-all.ps1 -TvHost <TV_IP>
 ```

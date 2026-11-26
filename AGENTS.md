@@ -13,29 +13,50 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
   - Upstream `Gathin23/cleanyourtv` is cloned into `./cleanyourtv/` (gitignored) by `apply-setup.ps1`.
   - All custom code, resources, translations, and unit tests are tracked in `./patches/` (launcher files at `patches/*`, add-on overrides under `patches/addons/<addon>/...`, plus unified diff `patches/appletv-frosted-glass.patch`).
   - Whenever you edit files inside `./cleanyourtv/`, **always mirror every modified file back into `./patches/`** and regenerate `patches/appletv-frosted-glass.patch` before committing.
-- **Portable Toolchain:**
-  - `JAVA_HOME = ./toolchain/jdk/jdk-17*` (Microsoft OpenJDK 17)
-  - `ANDROID_HOME = ./toolchain/android-sdk` (Android SDK 34)
-  - `adb = ./platform-tools/adb.exe` (or `./toolchain/android-sdk/platform-tools/adb.exe`)
+- **Portable Toolchain (Windows) & macOS/Linux Parity:**
+  - Windows (`apply-setup.ps1`): `JAVA_HOME = ./toolchain/jdk/jdk-17*` (Microsoft OpenJDK 17), `ANDROID_HOME = ./toolchain/android-sdk` (Android SDK 34), `adb = ./platform-tools/adb.exe` (or `./toolchain/android-sdk/platform-tools/adb.exe`).
+  - macOS / Linux: Use system JDK 17, Android SDK 34, `./gradlew`, `adb`, and upstream `./cleanyourtv/tools/*.sh` equivalents following the same patch/build/install sequence from `apply-setup.ps1`.
 
 ---
 
-## 2. Critical Android 14 / Google TV Safety Invariants (READ BEFORE TOUCHING A TV!)
+## 2. Mandatory Device Discovery, Safety & Android 14 Invariants (READ BEFORE TOUCHING A TV!)
 
-1. **Wi-Fi Ownership Trap (`setupwraith`):**
+1. **Always Identify the User's Exact TV / Box Model First:**
+   - Before running **any** debloat, keymap, or launcher switch, query the connected device over ADB:
+     ```bash
+     adb shell getprop ro.product.manufacturer
+     adb shell getprop ro.product.model
+     adb shell getprop ro.product.device
+     adb shell getprop ro.build.version.release
+     adb shell getprop ro.build.version.sdk
+     ```
+   - **Look up the exact model in upstream CleanYourTV's device docs:**
+     - Local clone: `./cleanyourtv/docs/devices/` + `./cleanyourtv/docs/DOS-AND-DONTS.md` + `./cleanyourtv/docs/switches.md` + `./cleanyourtv/docs/REMOTE.md`
+     - Online: `https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices`
+   - Check specifically for:
+     - **HOME package allowlists** (certain Xiaomi / Oppo ColorOS TV firmwares require building with `-PlauncherApplicationId=<allowed.pkg>`).
+     - **Vendor packages that must NEVER be disabled** (HDMI inputs, picture/HDR engine, TV tuner, Bluetooth, Wi-Fi, Cast, Play Services — especially critical on integrated Sony, TCL, Philips, Hisense, and Panasonic TVs).
+     - **GPU/RAM limits** (`SDK < 33` falls back cleanly without AGSL `RuntimeShader`; weak GPUs like MediaTek MT5895 or 1–1.5 GB RAM TVs should enable `"reduced_motion": true` and `"glow_snap": true`).
+   - **NEVER run `my-debloat.txt` on any device other than `MiTV-AFMU0`.** For all other devices, default to `-SkipDebloat` or assemble a model-verified list from CleanYourTV's device guide.
+
+2. **Backup Before Touching Anything & Reversible-Only Changes:**
+   - Before disabling any package or modifying settings on a new TV, save a local recovery snapshot inside gitignored `./backup/` (`pm list packages -e`, `pm list packages -d`, `cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME`, and `settings get secure enabled_accessibility_services`).
+   - **NEVER run `pm uninstall` on system packages** — always use reversible `pm disable-user --user 0 <pkg>` so `pm enable <pkg>` can restore every change cleanly.
+
+3. **Wi-Fi Ownership Trap (`setupwraith` on Android 14 / Google TV):**
    - After factory setup, `com.google.android.tungsten.setupwraith` owns the saved Wi-Fi network.
    - **NEVER disable `setupwraith`** until `adb shell dumpsys wifi | grep -E "cname=|creatorName"` reports `android.uid.system:1000` (not `setupwraith`). Otherwise Android 14 deletes the Wi-Fi credentials immediately and drops ADB.
    - Fix: Instruct the user to **Forget** and **Reconnect** the Wi-Fi network on the TV first.
 
-2. **Launcher Disable & Restore Order:**
+4. **Launcher Disable & Restore Order:**
    - HOME priority order: `com.google.android.apps.tv.launcherx` (2) > `setupwraith.RecoveryActivity` (1) > `com.gathin.tvhome` (0).
    - **Disable:** Always disable `setupwraith` **BEFORE** `com.google.android.apps.tv.launcherx` (otherwise `RecoveryActivity` takes over Home and causes a black screen / crash loop).
    - **Restore:** Always re-enable `com.google.android.apps.tv.launcherx` **BEFORE** `setupwraith`. (`LocalAdbClient.restoreStockLauncher` and `restore-all.ps1` enforce this.)
 
-3. **Package-State Disk Flush (`WRITE_SETTINGS_DELAY`):**
+5. **Package-State Disk Flush (`WRITE_SETTINGS_DELAY`):**
    - After any `pm disable-user`, `pm enable`, or `settings put secure` change, run `adb shell sync` and advise waiting **15 seconds** before rebooting the TV box.
 
-4. **Accessibility Services (`enabled_accessibility_services`):**
+6. **Accessibility Services (`enabled_accessibility_services`):**
    - Must keep **both** services bound:
      ```text
      com.gathin.tvhome/.HomeKeyService:io.github.luyzfernando08.sleeptimer/.SleepService
@@ -43,6 +64,13 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
    - Verify with `adb shell dumpsys accessibility | grep -E "Bound services|Service\[label=|Crashed"` — `Crashed services:{}` must be empty.
    - Launcher permissions required: `WRITE_SECURE_SETTINGS`, `ACCESS_FINE_LOCATION` (SSID on Android 14), `GET_USAGE_STATS`, `READ_TV_LISTINGS` (Watch Next), and notification listener `com.gathin.tvhome/.GuardRevival`.
    - Do not run third-party key mappers (e.g. Button Mapper) alongside `HomeKeyService` — they conflict with `FLAG_REQUEST_FILTER_KEY_EVENTS` and `gamepad_passthrough`.
+   - For Android 14 Wireless Debugging, pair once (`adb pair <IP>:<PAIR_PORT>`) and pass `-TvHost <IP>:<CONNECT_PORT>`.
+
+7. **Personalizing Visuals, Apps, Remote & Location for Any User:**
+   - **No-rebuild toggles (in TV Settings / `FeaturePrefs`):** Liquid Glass clock, Home Liquid Glass optics, UI click sounds, OLED screensaver drift, Aerial videos, Watch from Screensaver, Discover region (`CZ/SK/DE/GB/US`).
+   - **No-rebuild theme config (`my-theme/config.json` + `switch-theme.ps1`):** `dock_glass`, `dock_opacity`, `cinematic_home`, `ambient_glow`, `app_glow`, `glass_style`, `fade_rows`, `advanced_effects`, `reduced_motion`, `glow_snap`, `columns`, `dock_apps`, `app_labels`, `app_keys`, `wallpaper_moods`.
+   - **Build-time config (`patches/launcher-config.xml`):** `latitude`, `longitude`, `weather_city` (lines 503–505, default `Prague`).
+   - **Shader tuning (rebuild required):** Rim refraction/tint/opacity live in `LIQUID_GLASS_PANEL_AGSL` inside `ExpressiveGlass.java` (launcher) and all 8 `GlassKit.java` copies (must stay synchronized and preserve `0 <= premul.rgb <= outA`).
 
 ---
 

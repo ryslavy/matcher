@@ -69,8 +69,9 @@ We warmly welcome translations! Here is how localization works in Matcher:
 ## 4. Contributing Themes, Wallpapers & Device Presets
 
 - **Custom Themes:** Create a folder with a `config.json` and 16:9 `wallpapers/*.jpg` images (1920×1080 JPEG ~85% quality keeps TV RAM usage low). Test with `.\switch-theme.ps1` or `cleanyourtv\tools\theme.ps1`.
-- **Device Presets:** To add support for another Android TV / Google TV box (e.g. Chromecast with Google TV, Onn 4K Pro, Shield TV, Fire TV / TCL / Sony TVs):
-  - Create `presets/<device-slug>/debloat.txt` (only safe `pm disable-user --user 0` packages — never disable system Wi-Fi, Play Services, or Cast).
+- **Device Presets:** To add support for another Android TV / Google TV box or integrated TV (e.g. Chromecast with Google TV, Onn 4K Pro, Shield TV, Sony, TCL, Philips, Hisense):
+  - First cross-check upstream [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) and `docs/DOS-AND-DONTS.md` for known vendor pitfalls, protected HDMI/tuner packages, GPU flags (`reduced_motion` / `glow_snap`), or HOME allowlists (`-PlauncherApplicationId=...`).
+  - Create `presets/<device-slug>/debloat.txt` (only reversible `pm disable-user --user 0` packages — never `pm uninstall`, and never disable system Wi-Fi, Bluetooth, HDMI/CEC, TV tuner, Play Services, or Cast).
   - Optionally add `presets/<device-slug>/remote-keymap.md` with Linux scancodes (`adb shell getevent -lt`) and Android keycodes.
 
 ---

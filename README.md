@@ -42,8 +42,8 @@ Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **X
 - **Soft UI Click Sounds, Auto-Fading Captions & Air-Mouse / Pointer Support** across every screen, popup, and dialog (plus sRGB wallpaper decoding for zero per-frame GPU color conversion on Mali/Android TV).
 - **Crash-Loop Recovery Watchdog** (`CrashWatchdog`) & **1-Click Stock Launcher Restore** via loopback ADB (`LocalAdbClient`) respecting Android 14 safe restore ordering.
 
-### 5. 8 Modular Glass Add-ons (Localized in English & Czech)
-All 8 add-ons share [`GlassKit.java`](patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (`Theme.GlassOverlay` + 3D Liquid Glass + spring focus ring):
+### 5. Modular Glass Add-ons (8 Included by Default, 40+ Available Upstream)
+All 8 default add-ons are localized in English & Czech and share [`GlassKit.java`](patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (`Theme.GlassOverlay` + Liquid Glass 2.0 AGSL + 2-`RenderNode` Material 3 Expressive nested blur + living Fresnel focus ring):
 1. **Brightness** — Dim screen below TV hardware minimum + warm night filter + floating quick bar.
 2. **Sleep Timer** — 15–120 min timer, weekly wake/sleep schedule, exclusion dates, HDMI-CEC standby + quick bar.
 3. **Headphones** — Battery level + auto-pause & mute TV speakers when Bluetooth headphones disconnect.
@@ -52,6 +52,8 @@ All 8 add-ons share [`GlassKit.java`](patches/addons/brightness/app/src/main/jav
 6. **Weather** — 3-day Open-Meteo forecast & air quality index.
 7. **World Clock** — Up to 6 world clocks + optional screensaver.
 8. **Capacity Stats** — Live RAM and storage breakdown.
+
+> **Fully Modular — Add or Remove Anything You Want:** You do **not** have to install all 8 add-ons. Pass `-SkipAddons` to `apply-setup.ps1`, hide/uninstall any add-on you don't need, or pick **any of the 40+ community add-ons** from [`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) (such as **Ad Blocking** for Pi-hole/AdGuard Home, **TV Hub** IPTV/HDHomeRun, **Frigate Glance**, **Game Day**, **Remote Access**, **Scoreboard**, **Files card**, **Floating Clock**, **Winter Cabin**, **Koi Pond**, **Neon Dream**, **News screensaver**, etc.). Any newly added add-on can be styled to match Matcher's Liquid Glass 2.0 aesthetic automatically using `GlassKit.java` — see [`SKILL.md`](SKILL.md#playbook-4--adding-visually-matching-glasskit-or-removing-modular-add-ons).
 
 ---
 
@@ -71,7 +73,7 @@ Matcher is packaged as an **overlay patch kit** built on top of upstream [**`Gat
 | What you are looking for | Where it lives |
 |---|---|
 | **Base launcher project & Gradle build (`build.gradle`, `gradlew`, `build-and-install.*`)** | [`Gathin23/cleanyourtv/tree/main/launcher`](https://github.com/Gathin23/cleanyourtv/tree/main/launcher) |
-| **All modular add-on source repos (8 matched by Matcher + 30+ more)** | [`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) |
+| **All modular add-on source repos (8 matched by default + 32+ more upstream)** | [`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) |
 | **33+ ready-made themes** | [`Gathin23/cleanyourtv/tree/main/themes`](https://github.com/Gathin23/cleanyourtv/tree/main/themes) |
 | **504+ TV / Box device profiles & debloat lists** | [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) & [`examples/`](https://github.com/Gathin23/cleanyourtv/tree/main/examples) |
 | **Remote scancode / keycode guide** | [`Gathin23/cleanyourtv/blob/main/docs/REMOTE.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/REMOTE.md) |
@@ -153,12 +155,13 @@ Matcher is intentionally opinionated, and **most visual elements can be toggled 
 | Toggle **Dock glass/opacity**, **Cinematic top shelf**, **Ambient/App glow**, **Grid columns**, **Reduced motion**, **Glow snap**, **Wallpapers**, **Dock apps**, **Remote buttons** | Edit [`my-theme/config.json`](my-theme/config.json) → run `.\switch-theme.ps1 my-theme -TvHost <TV_IP>` | No |
 | Switch to any of **30+ upstream themes** (keeping your dock & remote keys) | `.\switch-theme.ps1 -List` → `.\switch-theme.ps1 <name> -TvHost <TV_IP>` | No |
 | Configure **TMDB, Trakt, Plex, Home Assistant, Immich** | On TV: **Control Center → Settings → Phone QR setup** | No |
+| Add or remove **modular add-ons** (from 40+ upstream add-ons) and visually match new ones with **Liquid Glass 2.0** | Hide in TV *Settings → Module cards*, uninstall via ADB, pass `-SkipAddons`, or drop `GlassKit.java` into any upstream add-on (see [`SKILL.md`](SKILL.md#playbook-4--adding-visually-matching-glasskit-or-removing-modular-add-ons)) | Only for new/patched add-on APKs |
 | Change **local weather city & sunrise/sunset coordinates** (defaults to `Prague`) | Edit `latitude`, `longitude`, `weather_city` in [`patches/launcher-config.xml`](patches/launcher-config.xml) (lines 503–505) | Yes (launcher APK) |
 | Tone down/remove shader refraction, add a language, map a new remote, or create a device preset | Ask your AI agent (Claude Code, Codex, Gemini, Antigravity, Cursor) — it reads [`AGENTS.md`](AGENTS.md) & [`SKILL.md`](SKILL.md) automatically | Depends on change |
 
-### 1. Replace Default Apps, Remote Keys & City With Yours
+### 1. Replace Default Apps, Add-ons, Remote Keys & City With Yours
 `my-theme/config.json` ships with a sample app dock and Xiaomi remote scancodes. After connecting ADB, either edit [`my-theme/config.json`](my-theme/config.json) manually or tell your AI agent:
-> *"Read `AGENTS.md` and `SKILL.md`, detect my TV model against `cleanyourtv/docs/devices/`, inspect my installed apps and remote keys, set my weather city to `<Your City>`, and deploy safely."*
+> *"Read `AGENTS.md` and `SKILL.md`, detect my TV model against `cleanyourtv/docs/devices/`, inspect my installed apps and remote keys, set my weather city to `<Your City>`, remove World Clock, add `ad-blocking` and `game-day` from `cleanyourtv/addons/` matched to Liquid Glass with `GlassKit.java`, and deploy safely."*
 
 ### 2. Safe Full Rollback to Stock Google TV
 ```powershell

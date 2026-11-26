@@ -1,6 +1,6 @@
 ---
 name: matcher-tv-customization
-description: Build, customize, translate, deploy, debug, and safely roll back the Matcher Liquid Glass Android TV / Google TV launcher and its 8 modular add-ons. Use whenever working in this repository to modify themes, remote keymaps, Liquid Glass shaders, launcher features, add-on locales, or TV box deployments via ADB.
+description: Build, customize, add/remove/visually match modular add-ons, translate, deploy, debug, and safely roll back the Matcher Liquid Glass Android TV / Google TV launcher. Use whenever working in this repository to modify themes, remote keymaps, Liquid Glass shaders, launcher features, add-on selection or GlassKit styling, locales, or TV box deployments via ADB.
 ---
 
 # Matcher TV Customization Skill
@@ -121,7 +121,37 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
 
 ---
 
-## Playbook 4 — Adding a New Translation Locale (`<lang>`)
+## Playbook 4 — Adding, Visually Matching (`GlassKit`), or Removing Modular Add-ons
+
+The 8 bundled add-ons are completely optional — users can drop any of them or add any of the **40+ upstream add-ons** in `./cleanyourtv/addons/` (full catalog & permissions table: `./cleanyourtv/addons/README.md`).
+
+### 4A — Removing or Skipping Default Add-ons
+- **Before deploying:** Pass `-SkipAddons` to `apply-setup.ps1`, or trim `$allAddons` / `$stdAddons` (and optionally the `sleep-timer` install block) in [`apply-setup.ps1`](apply-setup.ps1) to keep only what the user wants.
+- **On an already configured TV:**
+  - To merely hide a tile: on TV go to **Control Center → Settings → Module cards** and turn the card off.
+  - To uninstall cleanly: `.\platform-tools\adb.exe -s <TV_IP> uninstall <package_name>`.
+  - **CRITICAL if removing `sleep-timer` (`io.github.luyzfernando08.sleeptimer`):** Update `enabled_accessibility_services` to keep only `com.gathin.tvhome/.HomeKeyService` (drop `:io.github.luyzfernando08.sleeptimer/.SleepService`) and re-verify `dumpsys accessibility` shows `Crashed services:{}`.
+
+### 4B — Adding Any Upstream Add-on & Matching It to Matcher's Liquid Glass 2.0 UI
+1. **Check compatibility & permissions first:** Read `./cleanyourtv/addons/<name>/README.md` and `AndroidManifest.xml`.
+   - Verify Android SDK & hardware fit (e.g., `bluetooth-toggle` does not work on Android 13+; `sources` is only meaningful on integrated TVs with multiple HDMI inputs).
+   - Note any required `pm grant`, `appops`, or accessibility setup listed in the add-on's `README.md`.
+2. **Copy `GlassKit.java` & translucent overlay theme:**
+   - Copy [`patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java`](patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) into `./cleanyourtv/addons/<name>/app/src/main/java/<pkg_path>/GlassKit.java`.
+   - Change **ONLY line 1** (`package <addon.pkg>;`) and save as **UTF-8 without BOM** so `GlassKit.java` stays 100% synchronized across all patched add-ons.
+   - Copy [`patches/addons/brightness/app/src/main/res/values/styles.xml`](patches/addons/brightness/app/src/main/res/values/styles.xml) (`Theme.GlassOverlay`) into `res/values/styles.xml` and assign `android:theme="@style/Theme.GlassOverlay"` to the add-on's Activity in `AndroidManifest.xml` (plus `android:launchMode="singleTask"` if appropriate).
+3. **Wrap the add-on's UI in `GlassKit` (without breaking full-screen scenes):**
+   - For modal/card/settings Activities: replace opaque root backgrounds (`0xFF0D1117`, etc.) with `GlassKit.installModal(this, widthDp, heightDp, compact, tintRgb)` + `modal.reveal()`, wire `modal.onResume()` / `modal.onPause()` / `modal.onNewIntent(intent)`, and style headers/rows/buttons/dialogs using `GlassKit.makeTitle`, `makeSubtitle`, `makeDivider`, `makeSectionHeading`, `makeChoiceBg`, `makeCardBg`, `makePillButton`, `attachRowFocus`, `attachPillFocus`, `showListDialog`, `showMultiChoiceDialog`, and `createFrostedDialog` (zero stock `AlertDialog`s). This automatically gives the add-on Matcher's **Liquid Glass 2.0 AGSL refraction**, **2-`RenderNode` Material 3 Expressive GPU nested blur**, and **living Fresnel focus ring**.
+   - For full-screen Canvas screensavers/scenes (e.g., `floating-clock`, `winter-cabin`, `koi-pond`, `neon-dream`, `digital-rain`, `tatami`): keep the full-screen `DreamService`/preview canvas untouched and only apply `GlassKit` to its settings/menu Activity (if it has one).
+   - *(Optional)* Add localized strings in `res/values-<lang>/strings.xml` matching upstream `res/values/strings.xml`.
+4. **Build, mirror to `patches/`, and deploy:**
+   - Write `local.properties` (`sdk.dir=<forward-slash-path>`), run `.\gradlew.bat testReleaseUnitTest assembleRelease --no-daemon`, and install the APK via `adb push` + `pm install -r` (+ any permissions from step 1).
+   - Mirror every created/edited file into `./patches/addons/<name>/...`, add `<name>` (and its permissions) to [`apply-setup.ps1`](apply-setup.ps1), and regenerate `patches/appletv-frosted-glass.patch`.
+   - Remind the user to approve **Show card** in the launcher's Module Cards prompt when opening Home.
+
+---
+
+## Playbook 5 — Adding a New Translation Locale (`<lang>`)
 
 1. **Launcher:**
    - Copy `patches/strings-en.xml` to `patches/strings-<lang>.xml` and translate all values (preserving `%1$s`, `%1$d`, `%%`, `\'`, `&amp;`).
@@ -134,7 +164,7 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
 
 ---
 
-## Playbook 5 — Debugging Glass Overlays, Edge Flicker, or Permissions
+## Playbook 6 — Debugging Glass Overlays, Edge Flicker, or Permissions
 
 - **Edges flash/dim after opening a popup/dialog:**
   1. Verify `LIQUID_GLASS_PANEL_AGSL` satisfies `premul <= outA` everywhere.
@@ -149,7 +179,7 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
 
 ---
 
-## Playbook 6 — Safe Rollback to Stock Google TV
+## Playbook 7 — Safe Rollback to Stock Google TV
 
 1. From PC:
    ```powershell

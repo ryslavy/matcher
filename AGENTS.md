@@ -70,7 +70,8 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
    - **No-rebuild toggles (in TV Settings / `FeaturePrefs`):** Liquid Glass clock, Home Liquid Glass optics, UI click sounds, OLED screensaver drift, Aerial videos, Watch from Screensaver, Discover region (`CZ/SK/DE/GB/US`).
    - **No-rebuild theme config (`my-theme/config.json` + `switch-theme.ps1`):** `dock_glass`, `dock_opacity`, `cinematic_home`, `ambient_glow`, `app_glow`, `glass_style`, `fade_rows`, `advanced_effects`, `reduced_motion`, `glow_snap`, `columns`, `dock_apps`, `app_labels`, `app_keys`, `wallpaper_moods`.
    - **Build-time config (`patches/launcher-config.xml`):** `latitude`, `longitude`, `weather_city` (lines 503–505, default `Prague`).
-   - **Shader tuning (rebuild required):** Rim refraction/tint/opacity live in `LIQUID_GLASS_PANEL_AGSL` inside `ExpressiveGlass.java` (launcher) and all 8 `GlassKit.java` copies (must stay synchronized and preserve `0 <= premul.rgb <= outA`).
+   - **Shader tuning (rebuild required):** Rim refraction/tint/opacity live in `LIQUID_GLASS_PANEL_AGSL` inside `ExpressiveGlass.java` (launcher) and all patched `GlassKit.java` copies (must stay synchronized and preserve `0 <= premul.rgb <= outA`).
+   - **Modular Add-on Selection & Visual Matching (`cleanyourtv/addons/`):** The 8 bundled add-ons are only a customizable default — users may skip them (`-SkipAddons`), uninstall any subset, or add any of the **40+ upstream CleanYourTV add-ons** (`cleanyourtv/addons/README.md`). Before installing an upstream add-on, check its `README.md` for required permissions and OS/hardware compatibility (e.g., `bluetooth-toggle` is Android ≤12 only; `sources` targets integrated multi-HDMI TVs). To visually match a newly added add-on to Matcher's Liquid Glass 2.0 UI, copy `GlassKit.java` (changing only line 1 `package ...;`, UTF-8 without BOM), apply `Theme.GlassOverlay` + `GlassKit.installModal(...)` to its Activity/settings UI (leave full-screen Canvas screensavers/DreamServices untouched), mirror all changes under `patches/addons/<name>/`, and add its build/install/permissions to `apply-setup.ps1`. If removing `sleep-timer`, also remove `io.github.luyzfernando08.sleeptimer/.SleepService` from `enabled_accessibility_services` so `HomeKeyService` remains cleanly bound.
 
 ---
 
@@ -109,7 +110,7 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
 6. **Seamless Backdrop Blur Handoffs, Input Parity & Shared `GlassKit.java`:**
    - Chained Home popups/modals (`Folder ↔ Add Apps / Rename`, `Tile Menu → Folder Picker → New Folder`, `Top Menu → Inputs / Settings`) must call `MainActivity.holdBackdropBlurForHandoff()` (and `OverlayActivity.finishForHandoff()` when leaving `OverlayActivity`).
    - Every standalone `PopupWindow` and `Dialog` must explicitly attach `PointerSupport.install(host)` and `UiClickSound.attachFocusSound(host)`.
-   - All 8 add-ons contain identical `GlassKit.java` implementations differing **only in line 1 (`package ...;`)**. Sync across all 8 (UTF-8 without BOM) and mirror into `patches/addons/`.
+   - All patched add-ons (the 8 defaults plus any added upstream add-ons) must contain identical `GlassKit.java` implementations differing **only in line 1 (`package ...;`)**. Sync across every patched add-on (UTF-8 without BOM) and mirror into `patches/addons/<name>/`.
 
 ---
 

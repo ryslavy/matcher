@@ -28,8 +28,8 @@ Because `./cleanyourtv/` is a gitignored clone of upstream `Gathin23/cleanyourtv
    Pop-Location
    ```
    All 375+ unit tests must pass cleanly without Android device dependencies.
-3. If you modified `GlassKit.java` in one add-on, sync it identically (preserving each package's `package ...;` line 1, UTF-8 without BOM) across all 8 add-ons:
-   - `bluetooth-connect`, `brightness`, `capacity-stats`, `headphones`, `quiet-hours`, `sleep-timer`, `weather`, `world-clock`.
+3. If you modified `GlassKit.java` in one add-on, sync it identically (preserving each package's `package ...;` line 1, UTF-8 without BOM) across every patched add-on under `patches/addons/`:
+   - Defaults: `bluetooth-connect`, `brightness`, `capacity-stats`, `headphones`, `quiet-hours`, `sleep-timer`, `weather`, `world-clock` (plus any additional upstream add-ons you matched).
 4. Copy every modified file from `./cleanyourtv/` back to `./patches/` (or `./patches/addons/...`), and regenerate the unified patch:
    ```powershell
    git -C .\cleanyourtv diff --binary --output="$PWD\patches\appletv-frosted-glass.patch"
@@ -66,8 +66,9 @@ We warmly welcome translations! Here is how localization works in Matcher:
 
 ---
 
-## 4. Contributing Themes, Wallpapers & Device Presets
+## 4. Contributing Themes, Add-on Glass Patches, Wallpapers & Device Presets
 
+- **Matching Additional Upstream Add-ons (`patches/addons/<name>/`):** CleanYourTV ships 40+ modular add-ons in `cleanyourtv/addons/`. To visually match another upstream add-on (e.g. `ad-blocking`, `tv-hub`, `game-day`, `remote-access`) to Matcher's Liquid Glass 2.0 aesthetic, follow Playbook 4 in [`SKILL.md`](SKILL.md#playbook-4--adding-visually-matching-glasskit-or-removing-modular-add-ons): drop in the shared `GlassKit.java` (only line 1 `package ...;` changed, UTF-8 without BOM), apply `Theme.GlassOverlay` + `GlassKit.installModal(...)` (leaving full-screen Canvas screensavers untouched), mirror your overrides into `patches/addons/<name>/`, and test on a real TV.
 - **Custom Themes:** Create a folder with a `config.json` and 16:9 `wallpapers/*.jpg` images (1920×1080 JPEG ~85% quality keeps TV RAM usage low). Test with `.\switch-theme.ps1` or `cleanyourtv\tools\theme.ps1`.
 - **Device Presets:** To add support for another Android TV / Google TV box or integrated TV (e.g. Chromecast with Google TV, Onn 4K Pro, Shield TV, Sony, TCL, Philips, Hisense):
   - First cross-check upstream [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) and `docs/DOS-AND-DONTS.md` for known vendor pitfalls, protected HDMI/tuner packages, GPU flags (`reduced_motion` / `glow_snap`), or HOME allowlists (`-PlauncherApplicationId=...`).

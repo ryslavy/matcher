@@ -53,7 +53,9 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ---
 
-## 3. 8 modulárních doplňků (všechny v češtině i angličtině)
+## 3. Modulární doplňky (8 výchozích + 40+ dalších v upstreamu)
+
+Výchozí sada 8 doplňků je kompletně v češtině i angličtině a sdílí [`GlassKit.java`](../patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (Liquid Glass 2.0 + Material 3 Expressive blur + živý focus ring):
 
 1. **Jas (`Brightness`)** — ztlumení pod minimum TV + teplý noční filtr + rychlá lišta.
 2. **Časovač spánku (`Sleep Timer`)** — uspání za 15–120 min, týdenní rozvrh a výjimky, HDMI-CEC + rychlá lišta.
@@ -64,6 +66,8 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 7. **Světový čas (`World Clock`)** — až 6 světových měst + volitelný spořič.
 8. **Kapacita a paměť (`Capacity Stats`)** — živý přehled RAM a úložiště.
 
+> **Libovolné přidávání a odebírání doplňků:** Doplňky jsou 100% volitelné. Můžeš instalaci add-onů přeskočit parametrem `-SkipAddons`, nepotřebné karty skrýt v *Nastavení → Karty modulů* či odinstalovat, nebo si vybrat **kterýkoliv ze 40+ doplňků v upstreamu** ([`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) — např. `ad-blocking` pro Pi-hole/AdGuard Home, `tv-hub` pro IPTV/M3U, `frigate-glance`, `game-day`, `remote-access`, `scoreboard`, `files-card`, `floating-clock`, `winter-cabin`, `koi-pond`, `neon-dream` aj.). Nově přidané doplňky lze pomocí `GlassKit.java` snadno vizuálně sladit s Liquid Glass 2.0 vzhledem Matcheru (přesný postup pro lidi i AI agenty je v [`SKILL.md`](../SKILL.md#playbook-4--adding-visually-matching-glasskit-or-removing-modular-add-ons)).
+
 ---
 
 ## 4. Kde najít zbytek zdrojového kódu a jak začít na vlastní TV / boxu
@@ -73,7 +77,7 @@ Matcher funguje jako **overlay sada patchů** nad upstream projektem [**`Gathin2
 | Co hledáš | Kde to najdeš |
 |---|---|
 | **Základní projekt launcheru + Gradle** | [`Gathin23/cleanyourtv/tree/main/launcher`](https://github.com/Gathin23/cleanyourtv/tree/main/launcher) |
-| **Zdrojové kódy všech add-onů** | [`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) |
+| **Zdrojové kódy všech 40+ add-onů** | [`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) |
 | **33+ hotových témat** | [`Gathin23/cleanyourtv/tree/main/themes`](https://github.com/Gathin23/cleanyourtv/tree/main/themes) |
 | **Databáze 504+ modelů TV / boxů** | [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) a [`examples/`](https://github.com/Gathin23/cleanyourtv/tree/main/examples) |
 | **Návod na mapování tlačítek ovladače** | [`Gathin23/cleanyourtv/blob/main/docs/REMOTE.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/REMOTE.md) |
@@ -109,6 +113,7 @@ Matcher je otestovaný primárně na **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, 
 Většinu efektů lze snadno vypnout nebo upravit i bez znalosti kódu (nebo o to požádat svého AI agenta — repozitář obsahuje `AGENTS.md` a `SKILL.md`):
 * **Přímo v TV (*Ovládací centrum → Nastavení*):** 3D Liquid Glass hodiny, Liquid Glass optika na ploše, zvuky kliknutí, OLED ochrana spořiče, Aerial videa, region Objevovat.
 * **V [`my-theme/config.json`](../my-theme/config.json) (bez kompilace):** `dock_glass`, `dock_opacity`, `cinematic_home`, `ambient_glow`, `app_glow`, `reduced_motion`, `glow_snap`, `columns`, `dock_apps`, `app_labels`, `app_keys`, vlastní tapety v `my-theme/wallpapers/`.
+* **Vlastní výběr doplňků:** nepotřebné doplňky můžeš kdykoliv odebrat nebo naopak přidat kterýkoliv ze 40+ doplňků z `cleanyourtv/addons/` a nechat AI agenta sladit jeho vzhled přes `GlassKit.java` (postup v [`SKILL.md`](../SKILL.md#playbook-4--adding-visually-matching-glasskit-or-removing-modular-add-ons)).
 * **Vlastní město pro počasí/slunce:** uprav `latitude`, `longitude`, `weather_city` v [`patches/launcher-config.xml`](../patches/launcher-config.xml) (výchozí `Prague`) před buildem.
 
 > **Důležité před prvním nasazením s debloatem na Android 14:** Na TV v **Nastavení → Síť a internet** nejdříve svou Wi-Fi **Zapomeň** a znovu se k ní připoj, aby síť nevlastnil `setupwraith`.

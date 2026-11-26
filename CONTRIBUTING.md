@@ -95,5 +95,5 @@ Before opening a Pull Request, check these project standards:
 - [ ] `./gradlew.bat testReleaseUnitTest assembleRelease --no-daemon` passes cleanly.
 - [ ] All modified files inside `cleanyourtv/` are synced to `patches/` (and `GlassKit.java` synced across all 8 add-ons if touched).
 - [ ] `patches/appletv-frosted-glass.patch` is regenerated.
-- [ ] No personal IP addresses, hometown coordinates, device dumps, or API keys are committed.
-- [ ] Changes affecting user-facing features or setup are reflected in `README.md` (and `AGENTS.md` if architecture/invariants changed).
+- [ ] No personal IP addresses, hometown coordinates, device dumps, or API keys are committed (including inside screenshots).
+- [ ] Changes affecting user-facing features or setup are reflected in `README.md` (and `AGENTS.md` if architecture/invariants changed); UI-changing releases update `docs/gallery/v<release>/` and the release tag in `docs/GALLERY.md`.

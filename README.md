@@ -5,9 +5,30 @@
 Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **Xiaomi TV Box S 3rd Gen**, `MiTV-AFMU0`, Android 14 / SDK 34), Matcher turns Google TV into a fast, clutter-free living-room interface with optical frosted glass refraction, system-wide overlays, smart-home controls, and zero sponsored home-screen ads.
 
 > **Documentation hub:**
+> - **Visual Gallery (`v1.1.1` — 43 live 1080p screenshots):** [`docs/GALLERY.md`](docs/GALLERY.md)
 > - **Users (Czech guide):** [`docs/README-cs.md`](docs/README-cs.md)
 > - **Contributors & Translators:** [`CONTRIBUTING.md`](CONTRIBUTING.md)
 > - **AI Coding Agents:** [`AGENTS.md`](AGENTS.md) and [`SKILL.md`](SKILL.md)
+
+---
+
+## Visual Showcase (`v1.1.1`)
+
+[![Gallery Release](https://img.shields.io/badge/Gallery-v1.1.1_(43_Screenshots)-38BDF8?style=flat-square)](docs/GALLERY.md)
+
+| Home Screen (Liquid Glass 2.0) | Control Center & Now Playing |
+|---|---|
+| ![Home Screen](docs/gallery/v1.1.1/01-home-screen.jpg) | ![Control Center](docs/gallery/v1.1.1/13-control-center.jpg) |
+
+| App Library + Material 3 Expressive Nested Blur | Open Folder + Nested Context Menu |
+|---|---|
+| ![App Library Nested Blur](docs/gallery/v1.1.1/16-app-library-nested-menu.jpg) | ![Folder Nested Blur](docs/gallery/v1.1.1/06-folder-item-nested-menu.jpg) |
+
+| 4K Aerial Ambient Screensaver | Modular Liquid Glass Add-ons (8 Included, 40+ Upstream) |
+|---|---|
+| ![Ambient Aerial Screensaver](docs/gallery/v1.1.1/20-ambient-aerial-screensaver.jpg) | ![Weather and Add-ons](docs/gallery/v1.1.1/38-addon-weather.jpg) |
+
+👉 **[Explore the full `v1.1.1` Photo Gallery (all 43 screens, submenus, quick bars & add-ons) → `docs/GALLERY.md`](docs/GALLERY.md)**
 
 ---
 
@@ -186,7 +207,10 @@ matcher/
 ├── my-debloat.txt                             # Reference safe debloat list (Xiaomi TV Box S 3rd Gen)
 ├── my-theme/                                  # Active theme config.json + seasonal/mood wallpapers
 ├── presets/xiaomi-tv-box-s-3rd-gen/           # Device preset (debloat list & remote keymap)
-├── docs/README-cs.md                          # Czech user & remote-control manual
+├── docs/
+│   ├── GALLERY.md                             # Version-pinned v1.1.1 visual gallery (43 screenshots)
+│   ├── gallery/v1.1.1/                        # 1920x1080 screenshots captured on release v1.1.1
+│   └── README-cs.md                           # Czech user & remote-control manual
 └── patches/                                   # All launcher & add-on source/resource overrides
     ├── *.java / *.xml                         # Launcher Java classes, layouts, drawables, EN+CS strings
     ├── *Test.java                             # 375 JVM unit tests

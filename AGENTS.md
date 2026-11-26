@@ -152,3 +152,4 @@ git -C .\cleanyourtv diff --binary --output="$PWD\patches\appletv-frosted-glass.
 
 - Always write PowerShell-generated files as **UTF-8 without BOM** (`New-Object System.Text.UTF8Encoding($false)`).
 - Never commit device dumps, serial numbers, personal LAN IPs, or personal API tokens.
+- **Release-pinned visual gallery:** Screenshots live in `docs/gallery/v<release>/` and are indexed in `docs/GALLERY.md` (plus 6 hero previews in `README.md` / `docs/README-cs.md`) explicitly tagged with the release version (`v1.1.1`). When shipping a future UI-changing release, re-capture into `docs/gallery/v<new-release>/`, anonymize any personal city/IP/SSID, and update the gallery release tag so screenshots never go silently stale.

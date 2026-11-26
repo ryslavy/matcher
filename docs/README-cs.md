@@ -2,6 +2,16 @@
 
 Tato příručka shrnuje ovládání, nové funkce, úpravy vzhledu i bezpečný návrat do původního stavu pro launcher **Matcher** (postavený na [CleanYourTV](https://github.com/Gathin23/cleanyourtv) s 3D optickým Liquid Glass a 8 lokalizovanými modulárními doplňky).
 
+> 📸 **[Kompletní fotogalerie release `v1.1.1` (43 snímků všech obrazovek, menu, podmenu a doplňků) → `GALLERY.md`](GALLERY.md)**
+
+| Domovská obrazovka (Liquid Glass 2.0) | Ovládací centrum & Právě hraje |
+|---|---|
+| ![Domovská obrazovka](gallery/v1.1.1/01-home-screen.jpg) | ![Ovládací centrum](gallery/v1.1.1/13-control-center.jpg) |
+
+| Knihovna aplikací + Material 3 Expressive blur | Složka + vnořené kontextové menu |
+|---|---|
+| ![Knihovna aplikací](gallery/v1.1.1/16-app-library-nested-menu.jpg) | ![Složka a vnořené menu](gallery/v1.1.1/06-folder-item-nested-menu.jpg) |
+
 ---
 
 ## 1. Ovládání dálkovým ovladačem (tříúrovňové mapování)

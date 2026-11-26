@@ -536,6 +536,13 @@ final class RemoteKeys {
             }
             return;
         }
+        if (pkg.startsWith("action:")) {
+            // An intent action, for vendor screens that close themselves unless opened by action, e.g.
+            // "action:android.settings.DISPLAY_SETTINGS" for TCL's picture panel (com.tcl.settings/.PictureActivity).
+            String action = pkg.substring("action:".length()).trim();
+            if (!action.isEmpty()) start(ctx, new Intent(action));
+            return;
+        }
         String guide = guidePackage(pkg);
         if (guide != null) {
             // The program guide, asked for the way Android TV's Live TV apps take it: the programs directory.

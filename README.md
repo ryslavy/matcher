@@ -38,8 +38,8 @@ Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **X
 - **Immich Photo Sync:** Periodically syncs a chosen album from your self-hosted Immich server for wallpapers/screensaver.
 
 ### 4. Ergonomics, Safety & Recovery
-- **Three-Level Remote Remapping (`HomeKeyService` / `InputKeyService`):** Separate Tap, Double-Tap (`double:`), and Long-Press (`hold:`, ~0.5 s) actions for every shortcut button (zero added tap delay on keys without `double:`), plus automatic **Gamepad Passthrough** for Moonlight / game streaming.
-- **Soft UI Click Sounds & Air-Mouse / Pointer Support** across every screen, popup, and dialog.
+- **Three-Level Remote Remapping (`HomeKeyService` / `InputKeyService`):** Separate Tap, Double-Tap (`double:`), and Long-Press (`hold:`, ~0.5 s) actions for every shortcut button (zero added tap delay on keys without `double:`), support for `action:<intent>` vendor shortcuts (e.g. `action:android.settings.DISPLAY_SETTINGS` for TCL picture settings), automatic **Gamepad Passthrough** for Moonlight / game streaming, and `stock_home_redirect` recheck for TVs where stock Google TV launcher cannot be disabled.
+- **Soft UI Click Sounds, Auto-Fading Captions & Air-Mouse / Pointer Support** across every screen, popup, and dialog (plus sRGB wallpaper decoding for zero per-frame GPU color conversion on Mali/Android TV).
 - **Crash-Loop Recovery Watchdog** (`CrashWatchdog`) & **1-Click Stock Launcher Restore** via loopback ADB (`LocalAdbClient`) respecting Android 14 safe restore ordering.
 
 ### 5. 8 Modular Glass Add-ons (Localized in English & Czech)
@@ -64,14 +64,39 @@ All 8 add-ons share [`GlassKit.java`](patches/addons/brightness/app/src/main/jav
 
 ---
 
+## How Matcher Works & Where the Rest of the Source Lives
+
+Matcher is packaged as an **overlay patch kit** built on top of upstream [**`Gathin23/cleanyourtv`**](https://github.com/Gathin23/cleanyourtv) (verified against CleanYourTV 3.6+, commit [`be60870`](https://github.com/Gathin23/cleanyourtv/commit/be6087056a1c7d4f08f3f1cc778d92374d86ef27)). That is why `patches/` contains only our new and modified files — Gradle build scripts, base launcher classes, add-on projects, themes, and 500+ TV profiles live upstream and are fetched automatically by [`apply-setup.ps1`](apply-setup.ps1).
+
+| What you are looking for | Where it lives |
+|---|---|
+| **Base launcher project & Gradle build (`build.gradle`, `gradlew`, `build-and-install.*`)** | [`Gathin23/cleanyourtv/tree/main/launcher`](https://github.com/Gathin23/cleanyourtv/tree/main/launcher) |
+| **All modular add-on source repos (8 matched by Matcher + 30+ more)** | [`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) |
+| **33+ ready-made themes** | [`Gathin23/cleanyourtv/tree/main/themes`](https://github.com/Gathin23/cleanyourtv/tree/main/themes) |
+| **504+ TV / Box device profiles & debloat lists** | [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) & [`examples/`](https://github.com/Gathin23/cleanyourtv/tree/main/examples) |
+| **Remote scancode / keycode guide** | [`Gathin23/cleanyourtv/blob/main/docs/REMOTE.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/REMOTE.md) |
+| **Safety rules, config switches & troubleshooting** | [`DOS-AND-DONTS.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/DOS-AND-DONTS.md), [`switches.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/switches.md), [`TROUBLESHOOTING.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/TROUBLESHOOTING.md) |
+| **Matcher's Liquid Glass 2.0, Control Center, Folders, Discover, Camera PiP & add-on overrides** | [`patches/`](patches/) in this repository (applied automatically by `apply-setup.ps1`) |
+
+> **Reproducible builds:** `apply-setup.ps1` pins the verified upstream commit (`be6087056a1c7d4f08f3f1cc778d92374d86ef27`) by default so future upstream refactors will not break your build. To test against the latest upstream `main`, pass `-UpstreamRef main`.
+
+---
+
 ## Quick Start (ADB Deployment)
 
 ### Prerequisites
-- **Windows 10/11** with **Git** and **Python 3** installed (`apply-setup.ps1` automatically downloads portable **Microsoft OpenJDK 17**, **Android SDK 34**, **ADB Platform-Tools**, and clones upstream `Gathin23/cleanyourtv`).
-- **macOS / Linux:** The launcher and add-ons build identically with standard **JDK 17**, **Android SDK 34**, `./gradlew`, and `adb` (upstream `cleanyourtv/tools/` also includes shell scripts). You (or your AI agent) can follow the exact same patch/build/deploy steps from [`apply-setup.ps1`](apply-setup.ps1) in bash/zsh.
-- An Android TV / Google TV device on the same LAN with **Developer Options → USB / Wireless Debugging** enabled.
+- **Windows 10/11** with **Git** and **Python 3** installed (`apply-setup.ps1` automatically downloads portable **Microsoft OpenJDK 17**, **Android SDK 34**, **ADB Platform-Tools**, and clones the verified upstream `Gathin23/cleanyourtv` commit).
+- **macOS / Linux:** Clone both repos (`matcher` + `Gathin23/cleanyourtv` at commit `be60870`), copy `patches/` into `cleanyourtv/` following steps 6–7 of [`apply-setup.ps1`](apply-setup.ps1), and build/deploy with standard **JDK 17**, **Android SDK 34**, `./gradlew`, `adb`, and upstream `cleanyourtv/tools/*.sh`.
+- **Enable ADB on your TV / Box (same LAN):**
+  1. On your TV, go to **Settings → System → About → Android TV OS build** and press **OK 7 times** until *Developer options* unlocks.
+  2. Go to **Settings → System → Developer options** and enable **USB debugging** (or **Wireless debugging** on Android 14).
+  3. Find your TV's IP address in **Settings → Network & Internet**.
 
-### Step 0 — Identify Your TV / Box Model First (Important!)
+### Step 0 — Clone Matcher & Identify Your TV / Box Model First (Important!)
+```powershell
+git clone https://github.com/ryslavy/matcher.git
+cd matcher
+```
 Matcher is tested primarily on **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, Android 14). **Every TV brand and firmware has its own quirks** (some integrated TVs like Sony, TCL, Philips, and Hisense tie HDMI inputs, picture settings, or tuners to vendor packages, and certain Xiaomi/Oppo firmwares enforce a HOME package allowlist requiring `-PlauncherApplicationId=...`).
 
 Before running any debloat or replacing your stock launcher:
@@ -161,7 +186,7 @@ matcher/
 ├── docs/README-cs.md                          # Czech user & remote-control manual
 └── patches/                                   # All launcher & add-on source/resource overrides
     ├── *.java / *.xml                         # Launcher Java classes, layouts, drawables, EN+CS strings
-    ├── *Test.java                             # 373 JVM unit tests
+    ├── *Test.java                             # 375 JVM unit tests
     ├── appletv-frosted-glass.patch            # Unified git diff against upstream cleanyourtv
     └── addons/                                # GlassKit, manifests, styles & EN+CS strings for 8 add-ons
 ```

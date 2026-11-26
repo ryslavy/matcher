@@ -6,6 +6,7 @@
 param(
     [Parameter(Mandatory = $true)][string]$TvHost,
     [string]$DebloatFile = (Join-Path $PSScriptRoot 'my-debloat.txt'),
+    [string]$UpstreamRef = 'be6087056a1c7d4f08f3f1cc778d92374d86ef27',
     [switch]$SkipDebloat,
     [switch]$SkipAddons,
     [switch]$SkipTheme
@@ -23,11 +24,14 @@ if (-not (Test-Path $adb)) {
     Remove-Item $zip -Force
 }
 
-# 2. Clone upstream Gathin23/cleanyourtv and initialize Python venv
+# 2. Clone verified upstream Gathin23/cleanyourtv base and initialize Python venv
 $cyt = Join-Path $root 'cleanyourtv'
 if (-not (Test-Path (Join-Path $cyt '.git'))) {
-    Write-Host 'Cloning Gathin23/cleanyourtv...'
-    git clone --depth 1 https://github.com/Gathin23/cleanyourtv.git $cyt
+    Write-Host "Cloning Gathin23/cleanyourtv ($UpstreamRef)..."
+    git init $cyt | Out-Null
+    git -C $cyt remote add origin https://github.com/Gathin23/cleanyourtv.git
+    git -C $cyt fetch --depth 1 origin $UpstreamRef
+    git -C $cyt checkout -B main FETCH_HEAD
 }
 $py = Join-Path $cyt 'tools\venv\Scripts\python.exe'
 if (-not (Test-Path $py)) {

@@ -10,7 +10,7 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
 
 - **Primary Tested Target:** Xiaomi TV Box S 3rd Gen (`MiTV-AFMU0`, Amlogic `twilight`, Mali-G31 MP2, 2 GB RAM, 1920×1080 @ 60 Hz, Google TV on **Android 14 / SDK 34**). Compatible with other Android TV / Google TV devices (Android 13+ required for AGSL `RuntimeShader` Liquid Glass; graceful fallback on Android 12 and below).
 - **Build Pattern (Overlay Patches):**
-  - Upstream `Gathin23/cleanyourtv` is cloned into `./cleanyourtv/` (gitignored) by `apply-setup.ps1`.
+  - Upstream `Gathin23/cleanyourtv` (pinned by default to verified CleanYourTV 3.6+ commit `be6087056a1c7d4f08f3f1cc778d92374d86ef27`, overridable via `-UpstreamRef`) is cloned into `./cleanyourtv/` (gitignored) by `apply-setup.ps1`.
   - All custom code, resources, translations, and unit tests are tracked in `./patches/` (launcher files at `patches/*`, add-on overrides under `patches/addons/<addon>/...`, plus unified diff `patches/appletv-frosted-glass.patch`).
   - Whenever you edit files inside `./cleanyourtv/`, **always mirror every modified file back into `./patches/`** and regenerate `patches/appletv-frosted-glass.patch` before committing.
 - **Portable Toolchain (Windows) & macOS/Linux Parity:**
@@ -131,7 +131,7 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
 ## 5. Build, Test & Verify Commands
 
 ```powershell
-# 1. Run all 373 JVM unit tests + build release launcher APK
+# 1. Run all 375 JVM unit tests + build release launcher APK
 $env:JAVA_HOME = (Get-ChildItem .\toolchain\jdk\jdk-17* -Directory | Select-Object -First 1).FullName
 $env:ANDROID_HOME = "$PWD\toolchain\android-sdk"
 Push-Location .\cleanyourtv\launcher

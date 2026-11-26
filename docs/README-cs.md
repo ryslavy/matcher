@@ -66,22 +66,39 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ---
 
-## 4. Než začneš: najdi svůj model TV a zálohuj stav
+## 4. Kde najít zbytek zdrojového kódu a jak začít na vlastní TV / boxu
 
+Matcher funguje jako **overlay sada patchů** nad upstream projektem [**`Gathin23/cleanyourtv`**](https://github.com/Gathin23/cleanyourtv) (ověřeno na CleanYourTV 3.6+, commit [`be60870`](https://github.com/Gathin23/cleanyourtv/commit/be6087056a1c7d4f08f3f1cc778d92374d86ef27)). Proto jsou ve složce `patches/` jen naše nové a upravené soubory — samotný Gradle projekt, základ launcheru, zdrojáky add-onů, 33+ témat a profily pro 504+ TV jsou v upstreamu a [`apply-setup.ps1`](../apply-setup.ps1) si ověřený commit stáhne automaticky.
+
+| Co hledáš | Kde to najdeš |
+|---|---|
+| **Základní projekt launcheru + Gradle** | [`Gathin23/cleanyourtv/tree/main/launcher`](https://github.com/Gathin23/cleanyourtv/tree/main/launcher) |
+| **Zdrojové kódy všech add-onů** | [`Gathin23/cleanyourtv/tree/main/addons`](https://github.com/Gathin23/cleanyourtv/tree/main/addons) |
+| **33+ hotových témat** | [`Gathin23/cleanyourtv/tree/main/themes`](https://github.com/Gathin23/cleanyourtv/tree/main/themes) |
+| **Databáze 504+ modelů TV / boxů** | [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) a [`examples/`](https://github.com/Gathin23/cleanyourtv/tree/main/examples) |
+| **Návod na mapování tlačítek ovladače** | [`Gathin23/cleanyourtv/blob/main/docs/REMOTE.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/REMOTE.md) |
+| **Bezpečnostní pravidla & přepínače** | [`DOS-AND-DONTS.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/DOS-AND-DONTS.md) a [`switches.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/switches.md) |
+
+### Postup pro novou TV / box
 Matcher je otestovaný primárně na **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, Android 14). **Každý výrobce TV má vlastní specifika** (u integrovaných TV jako Sony, TCL, Philips nebo Hisense bývají na systémové balíčky navázané HDMI vstupy, obrazové režimy nebo tuner; některé Xiaomi/Oppo firmware navíc hlídají povolené `applicationId` pro HOME).
 
-1. **Zjisti přesný model své TV / boxu a verzi Androidu:**
+1. **Zapni ADB ladění na TV a naklonuj Matcher na PC:**
+   - Na TV: **Nastavení → Systém → O zařízení → Číslo sestavení Android TV OS** (klikni **7× OK**) → **Možnosti pro vývojáře** → zapni **Ladění USB** (případně **Bezdrátové ladění** na Androidu 14).
+   - Na PC:
+     ```powershell
+     git clone https://github.com/ryslavy/matcher.git
+     cd matcher
+     ```
+2. **Zjisti přesný model své TV / boxu a verzi Androidu:**
    ```powershell
    adb shell getprop ro.product.manufacturer
    adb shell getprop ro.product.model
    adb shell getprop ro.build.version.sdk
    ```
-2. **Zkontroluj profil svého modelu v upstream databázi CleanYourTV:**
-   * Profily zařízení: [`Gathin23/cleanyourtv/tree/main/docs/devices`](https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices) *(po naklonování také lokálně v `./cleanyourtv/docs/devices/`)*
-   * Pravidla bezpečnosti: [`docs/DOS-AND-DONTS.md`](https://github.com/Gathin23/cleanyourtv/blob/main/docs/DOS-AND-DONTS.md)
-3. **Nikdy nespouštěj `my-debloat.txt` na jiném než `MiTV-AFMU0` zařízení** — pro všechny ostatní TV/boxy použij parametr `-SkipDebloat` a před zásahem si ulož seznam zapnutých balíčků (`adb shell pm list packages -e > backup\enabled.txt`).
-4. **Kompatibilita podle verze Androidu a GPU:**
-   * **Android 13/14+ (`SDK 33+`):** plný 3D AGSL Liquid Glass.
+3. **Zkontroluj profil svého modelu v upstream databázi CleanYourTV** (`docs/devices/` a `DOS-AND-DONTS.md`, po spuštění skriptu i lokálně v `./cleanyourtv/docs/devices/`).
+4. **Nikdy nespouštěj `my-debloat.txt` na jiném než `MiTV-AFMU0` zařízení** — pro všechny ostatní TV/boxy použij parametr `-SkipDebloat` a před zásahem si ulož seznam zapnutých balíčků (`adb shell pm list packages -e > backup\enabled.txt`).
+5. **Kompatibilita podle verze Androidu a GPU:**
+   * **Android 13/14+ (`SDK 33+`):** plný 3D AGSL Liquid Glass 2.0 + hardwarový Material 3 Expressive blur.
    * **Android 8–12 (`SDK 26–32`):** automatický čistý fallback bez AGSL shaderu, vše ostatní funguje stejně.
    * **Slabší GPU / 1–1,5 GB RAM TV (např. MediaTek MT5895):** v `my-theme/config.json` zapni `"reduced_motion": true` a `"glow_snap": true` a v Nastavení vypni *Liquid Glass* optiku.
 

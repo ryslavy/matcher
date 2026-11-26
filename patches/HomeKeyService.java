@@ -167,6 +167,7 @@ public class HomeKeyService extends AccessibilityService {
     @Override
     public void onDestroy() {
         if (running == this) running = null;
+        handler.removeCallbacks(recheckRedirect);
         handler.removeCallbacks(backHoldRecents);
         handler.removeCallbacks(homeHoldControlCenter);
         RemoteKeys.frontPackage = "";
@@ -463,7 +464,57 @@ public class HomeKeyService extends AccessibilityService {
         }
         // stock_home_redirect: the firmware turned the stock launcher back on and its home screen came up.
         CharSequence cls = event.getClassName();
-        if (!stockHome.isEmpty() && cls != null && stockHome.contains(cls.toString())) openHome();
+        if (!stockHome.isEmpty() && cls != null && stockHome.contains(cls.toString())) {
+            redirectFromStockHome();
+        } else if (!isOwnHome(event.getPackageName(), cls) && !isStockHomePanel(event.getPackageName(), cls)) {
+            // Any other window (an app, a panel, the quick panel): the person moved on, so no second look.
+            otherWindowSinceRedirect = true;
+        }
+    }
+
+    /** A view or dialog of the stock launcher, not one of its activities: its home screen is still what is in front. */
+    private boolean isStockHomePanel(CharSequence pkg, CharSequence cls) {
+        if (pkg == null || cls == null || !stockHomePackage.contentEquals(pkg)) return false;
+        try {
+            getPackageManager().getActivityInfo(new ComponentName(stockHomePackage, cls.toString()), 0);
+            return false;
+        } catch (PackageManager.NameNotFoundException notAnActivity) {
+            return true;
+        }
+    }
+
+    private boolean isOwnHome(CharSequence pkg, CharSequence cls) {
+        return pkg != null && cls != null && getPackageName().contentEquals(pkg)
+                && MainActivity.class.getName().contentEquals(cls);
+    }
+
+    /** stock_home_redirect: how long after a redirect the helper looks again, and how many times at most. */
+    static final long REDIRECT_RECHECK_MS = 1200L;
+    static final int REDIRECT_RECHECKS = 2;
+    private int rechecksLeft;
+    private boolean otherWindowSinceRedirect;
+    private final Runnable recheckRedirect = this::recheckRedirect;
+
+    /** stock_home_redirect: open this launcher, then look again shortly after when launcherx restarts over it. */
+    private void redirectFromStockHome() {
+        if (running != this) return;
+        otherWindowSinceRedirect = false;
+        rechecksLeft = REDIRECT_RECHECKS;
+        openHome();
+        handler.removeCallbacks(recheckRedirect);
+        handler.postDelayed(recheckRedirect, REDIRECT_RECHECK_MS);
+    }
+
+    private void recheckRedirect() {
+        if (!redirectAgain(MainActivity.inFront, otherWindowSinceRedirect, rechecksLeft)) return;
+        rechecksLeft--;
+        openHome();
+        handler.postDelayed(recheckRedirect, REDIRECT_RECHECK_MS);
+    }
+
+    /** Again only while Home is not in front and nothing but the stock home or Home itself came up meanwhile. */
+    static boolean redirectAgain(boolean homeInFront, boolean otherWindowSince, int rechecksLeft) {
+        return !homeInFront && !otherWindowSince && rechecksLeft > 0;
     }
 
     /** How long power_on_home stays armed after the screen turns on without a reboot. */
@@ -502,7 +553,9 @@ public class HomeKeyService extends AccessibilityService {
      *  so an input picked from the Inputs menu was sent back to Home until the window ran out. */
     static void keyOnHome() {
         HomeKeyService service = running;
-        if (service != null) service.powerOnUntil = 0;
+        if (service == null) return;
+        service.powerOnUntil = 0;
+        service.handler.removeCallbacks(service.recheckRedirect);
     }
 
     /** The settings menu offers Restart only while this helper is bound: it opens the system power menu. */
@@ -566,7 +619,7 @@ public class HomeKeyService extends AccessibilityService {
     private void redirectHomeKey(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_UP && !event.isCanceled()
                 && isShortPress(event.getDownTime(), event.getEventTime(), ViewConfiguration.getLongPressTimeout())) {
-            handler.postDelayed(this::openHome, HOME_KEY_DELAY_MS);
+            handler.postDelayed(this::redirectFromStockHome, HOME_KEY_DELAY_MS);
         }
     }
 

@@ -70,6 +70,8 @@ public class HomeKeyService extends AccessibilityService {
     /** app_keys, the same maps InputKeyService reads, for setups that run only this service. */
     private Map<Integer, String> appKeys = Collections.emptyMap();
     private Map<Integer, String> appScancodes = Collections.emptyMap();
+    private Map<Integer, String> doubleAppKeys = Collections.emptyMap();
+    private Map<Integer, String> doubleAppScancodes = Collections.emptyMap();
     private Map<Integer, String> holdAppKeys = Collections.emptyMap();
     private Map<Integer, String> holdAppScancodes = Collections.emptyMap();
 
@@ -265,6 +267,8 @@ public class HomeKeyService extends AccessibilityService {
         }
         if (!stockHome.isEmpty() || !powerOnLiveTv.isEmpty()) probeAtBoot();
         armStandbyExit();
+        doubleAppKeys = RemoteKeys.parseDoubleAppKeys(config.appKeys);
+        doubleAppScancodes = RemoteKeys.parseDoubleAppScancodes(config.appKeys);
         holdAppKeys = RemoteKeys.parseHoldAppKeys(config.appKeys);
         holdAppScancodes = RemoteKeys.parseHoldAppScancodes(config.appKeys);
         // gamepad_passthrough and volume_pauses_filter, off by default.
@@ -302,14 +306,17 @@ public class HomeKeyService extends AccessibilityService {
         if (consumeVolumeKeys && VolumeKeys.handle(this, event)) return true;
         // A scancode entry is more specific than any keycode, so it goes first.
         if (RemoteKeys.handle(this, event, inFront(appScancodes, frontAppScancodes, event.getScanCode()),
+                doubleAppScancodes.get(event.getScanCode()),
                 holdAppScancodes.get(event.getScanCode()))) return true;
         // A keycode app_keys entry with a tap target wins over the Settings keycodes (InputKeyService opens it too, and
         // RemoteKeys answers a press once), but not over a button named in settings_key_scancodes. A hold-only entry
         // leaves the tap to Settings and still runs its hold.
         boolean settingsKey = isSettingsKey(event);
         String tap = inFront(appKeys, frontAppKeys, event.getKeyCode());
+        String dbl = doubleAppKeys.get(event.getKeyCode());
         String hold = holdAppKeys.get(event.getKeyCode());
-        if ((!settingsKey || (tap != null && !isSettingsScancode(event))) && RemoteKeys.handle(this, event, tap, hold)) {
+        if ((!settingsKey || ((tap != null || dbl != null) && !isSettingsScancode(event)))
+                && RemoteKeys.handle(this, event, tap, dbl, hold)) {
             return true;
         }
         // The stock launcher handled the remote's Settings button; with it disabled the button does nothing.

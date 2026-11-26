@@ -1,5 +1,6 @@
 package com.gathin.tvhome;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -69,6 +70,10 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
     private float cachedRimR = 1f, cachedRimG = 1f, cachedRimB = 1f;
     private final Paint dockLiquidPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Matrix dockLocalMatrix = new Matrix();
+    @Nullable
+    private ValueAnimator rippleAnim;
+    private float rippleWobble;
+    private float ripplePhase;
 
     /** Extra band below the tiles for their names (always_show_names), in px. */
     private final float namesRoom;
@@ -162,8 +167,47 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
+    /** Triggers a brief liquid-lens ripple across the Dock glass when focus moves between dock tiles. */
+    void triggerRipple(boolean reducedMotion) {
+        if (reducedMotion || !lightGlass || !bandVisible || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return;
+        if (!ExpressiveGlass.isHomeLiquidOpticsEnabled()) return;
+        if (rippleAnim != null) {
+            rippleAnim.cancel();
+            rippleAnim = null;
+        }
+        ValueAnimator anim = ValueAnimator.ofFloat(1f, 0f);
+        anim.setDuration(320L);
+        anim.setInterpolator(Motion.easeOutExpo());
+        anim.addUpdateListener(va -> {
+            float v = (float) va.getAnimatedValue();
+            rippleWobble = v * v;
+            ripplePhase = (1f - v) * 12.5f;
+            if (backdropView != null && backdropView.getVisibility() == View.VISIBLE) {
+                backdropView.invalidate();
+            }
+        });
+        rippleAnim = anim;
+        anim.start();
+    }
+
+    /** Immediately freezes any active Dock ripple (e.g. on app launch or pause). */
+    void cancelRipple() {
+        if (rippleAnim != null) {
+            rippleAnim.cancel();
+            rippleAnim = null;
+        }
+        if (rippleWobble > 0f) {
+            rippleWobble = 0f;
+            ripplePhase = 0f;
+            if (backdropView != null && backdropView.getVisibility() == View.VISIBLE) {
+                backdropView.invalidate();
+            }
+        }
+    }
+
     /** Releases cached glass overlay bitmap on memory trim. */
     void clearCache() {
+        cancelRipple();
         if (overlayCache != null) {
             overlayCache.recycle();
             overlayCache = null;
@@ -438,6 +482,7 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
             oc.drawRoundRect(shadowRect, radius, radius, shadow);
 
             oc.drawRoundRect(local, radius, radius, band);
+            bmp.prepareToDraw();
 
             if (overlayCache != null) overlayCache.recycle();
             overlayCache = bmp;
@@ -584,6 +629,8 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         dockLiquidShader.setFloatUniform("uInteriorFill", 0.0f);
         dockLiquidShader.setFloatUniform("uLiquidMode", optical ? 1.0f : 0.0f);
         dockLiquidShader.setFloatUniform("uRimTint", cachedRimR, cachedRimG, cachedRimB);
+        dockLiquidShader.setFloatUniform("uWobble", rippleWobble);
+        dockLiquidShader.setFloatUniform("uPhase", ripplePhase);
 
         int save = c.save();
         c.translate(targetRect.left, targetRect.top);

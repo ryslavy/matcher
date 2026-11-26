@@ -15,6 +15,6 @@ public final class TvHomeApp extends Application {
         UiClickSound.init(this);
         ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
         ImmichSyncManager.scheduleIfEnabled(this);
-        SelfUpdater.scheduleWeeklyIfEnabled(this);
+        SelfUpdater.cancelScheduled(this);
     }
 }

@@ -36,10 +36,12 @@ import java.util.function.Predicate;
 public final class OverlayActivity extends Activity {
 
     static final String EXTRA_MODE = "com.gathin.tvhome.extra.OVERLAY_MODE";
+    static final String EXTRA_CAMERA_ENTITY = "com.gathin.tvhome.extra.CAMERA_ENTITY";
     static final String MODE_RECENTS = "recents";
     static final String MODE_LIBRARY = "library";
     static final String MODE_FOLDER = "folder";
     static final String MODE_DISCOVER = "discover";
+    static final String MODE_CAMERA = "camera";
 
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
     private static final long LAUNCH_IN_FLIGHT_MS = 800L;
@@ -47,6 +49,8 @@ public final class OverlayActivity extends Activity {
     private static WeakReference<OverlayActivity> activeRef;
     @Nullable
     private static String pendingMode;
+    @Nullable
+    private static String pendingCameraEntity;
     private static long launchPendingUntilMs;
     @Nullable
     private static AppAdapter.Entry pendingFolderEntry;
@@ -101,6 +105,8 @@ public final class OverlayActivity extends Activity {
     private FolderDialog folderDialog;
     @Nullable
     private DiscoverDialog discoverDialog;
+    @Nullable
+    private HaCameraOverlay cameraOverlay;
 
     private final IntentFilter packageFilter = new IntentFilter();
     private final BroadcastReceiver packageReceiver = new BroadcastReceiver() {
@@ -120,9 +126,23 @@ public final class OverlayActivity extends Activity {
     static void launch(Context ctx, String mode, boolean seamlessHandoff) {
         String target = MODE_LIBRARY.equals(mode) ? MODE_LIBRARY
                 : MODE_FOLDER.equals(mode) ? MODE_FOLDER
-                : MODE_DISCOVER.equals(mode) ? MODE_DISCOVER : MODE_RECENTS;
+                : MODE_DISCOVER.equals(mode) ? MODE_DISCOVER
+                : MODE_CAMERA.equals(mode) ? MODE_CAMERA : MODE_RECENTS;
         Context hostCtx = ctx instanceof Activity ? ctx : ctx.getApplicationContext();
         Runnable run = () -> launchOnMain(hostCtx, target, seamlessHandoff);
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            run.run();
+        } else {
+            MAIN.post(run);
+        }
+    }
+
+    static void launchCamera(Context ctx, @Nullable String entityId) {
+        Context hostCtx = ctx instanceof Activity ? ctx : ctx.getApplicationContext();
+        Runnable run = () -> {
+            pendingCameraEntity = entityId;
+            launchOnMain(hostCtx, MODE_CAMERA, false);
+        };
         if (Looper.myLooper() == Looper.getMainLooper()) {
             run.run();
         } else {
@@ -193,15 +213,19 @@ public final class OverlayActivity extends Activity {
         launchPendingUntilMs = now + LAUNCH_IN_FLIGHT_MS;
         final boolean handoff = seamlessHandoff || QuickSettingsActivity.isLive() || LauncherSettingsActivity.isLive();
         final boolean launchOverHome = MainActivity.isHomeVisible();
+        final boolean isCameraPip = MODE_CAMERA.equals(mode);
         Runnable startActivity = () -> {
-            if (launchOverHome) MainActivity.prepareOverlayBackdropBlur();
-            else MainActivity.setOverlayOpen(true);
+            if (!isCameraPip) {
+                if (launchOverHome) MainActivity.prepareOverlayBackdropBlur();
+                else MainActivity.setOverlayOpen(true);
+            }
             String target = pendingMode != null ? pendingMode : mode;
             Intent intent = new Intent(ctx, OverlayActivity.class)
                     .putExtra(EXTRA_MODE, target)
                     .putExtra(ExpressiveGlass.EXTRA_OVER_HOME, launchOverHome)
                     .putExtra(ExpressiveGlass.EXTRA_SEAMLESS_HANDOFF, handoff)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (pendingCameraEntity != null) intent.putExtra(EXTRA_CAMERA_ENTITY, pendingCameraEntity);
             try {
                 ctx.startActivity(intent);
                 if (ctx instanceof Activity) {
@@ -212,10 +236,15 @@ public final class OverlayActivity extends Activity {
                 pendingMode = null;
                 pendingFolderEntry = null;
                 pendingFolderCallbacks = null;
+                pendingCameraEntity = null;
                 if (active() == null) MainActivity.setOverlayOpen(false);
             }
         };
-        if (launchOverHome) {
+        if (isCameraPip) {
+            // Camera PiP floats live in the corner without blurring/dimming the movie playing underneath.
+            ExpressiveGlass.clearOverlayBackdrop();
+            startActivity.run();
+        } else if (launchOverHome) {
             ExpressiveGlass.clearOverlayBackdrop();
             MainActivity.captureLiveHomeBackdropThen(startActivity);
         } else {
@@ -244,15 +273,21 @@ public final class OverlayActivity extends Activity {
         seamlessHandoff = startIntent != null
                 && startIntent.getBooleanExtra(ExpressiveGlass.EXTRA_SEAMLESS_HANDOFF, false);
         backdropGenOnCreate = ExpressiveGlass.overlayBackdropGeneration();
-        if (overHome) MainActivity.prepareOverlayBackdropBlur();
-        else MainActivity.setOverlayOpen(true);
+        String initialMode = pendingMode != null ? pendingMode : readMode(getIntent());
+        boolean isCameraPip = MODE_CAMERA.equals(initialMode);
+        if (!isCameraPip) {
+            if (overHome) MainActivity.prepareOverlayBackdropBlur();
+            else MainActivity.setOverlayOpen(true);
+        } else {
+            MainActivity.setOverlayOpen(false);
+        }
         if (QuickSettingsActivity.isLive()) {
             QuickSettingsActivity.finishForHandoff();
         }
 
         density = getResources().getDisplayMetrics().density;
-        boolean hasLiveBackdrop = !overHome && ExpressiveGlass.hasOverlayBackdrop();
-        if (!overHome && !hasLiveBackdrop) {
+        boolean hasLiveBackdrop = !isCameraPip && !overHome && ExpressiveGlass.hasOverlayBackdrop();
+        if (!isCameraPip && !overHome && !hasLiveBackdrop) {
             ExpressiveGlass.applyWindowBlur(getWindow(), density, ExpressiveGlass.SHADE_BLUR_RADIUS_DP, 0.36f);
         } else {
             // AGSL blur veil (backdropBlurVeilHost on Home OR backdropView over apps) owns 100% of darkening
@@ -297,6 +332,7 @@ public final class OverlayActivity extends Activity {
         if (MODE_LIBRARY.equals(mode)) return MODE_LIBRARY;
         if (MODE_FOLDER.equals(mode)) return MODE_FOLDER;
         if (MODE_DISCOVER.equals(mode)) return MODE_DISCOVER;
+        if (MODE_CAMERA.equals(mode)) return MODE_CAMERA;
         return MODE_RECENTS;
     }
 
@@ -387,6 +423,15 @@ public final class OverlayActivity extends Activity {
             stopMediaTracker();
             discoverDialog = new DiscoverDialog(this, config.reducedMotion, this::finishCleanly);
             discoverDialog.showInOverlay(root, smoked);
+        } else if (MODE_CAMERA.equals(mode)) {
+            stopMediaTracker();
+            String entityId = pendingCameraEntity;
+            pendingCameraEntity = null;
+            if (entityId == null && getIntent() != null) {
+                entityId = getIntent().getStringExtra(EXTRA_CAMERA_ENTITY);
+            }
+            cameraOverlay = new HaCameraOverlay(this, entityId, config.reducedMotion, this::finishCleanly);
+            cameraOverlay.showInOverlay(root);
         } else {
             if (mediaTracker == null) {
                 mediaTracker = new MediaSessionTracker(this, controllers -> { });
@@ -422,25 +467,32 @@ public final class OverlayActivity extends Activity {
         folderDialog = null;
         DiscoverDialog d = discoverDialog;
         discoverDialog = null;
+        HaCameraOverlay c = cameraOverlay;
+        cameraOverlay = null;
         if (r != null) r.close();
         if (l != null) l.close();
         if (f != null) f.close();
         if (d != null) d.close();
+        if (c != null) c.close();
     }
 
     private void handleOverlayRequest(String nextMode) {
         if (isFinishing() || isDestroyed()) return;
         boolean midDismiss = (recentsDialog != null && recentsDialog.isDismissing())
                 || (libraryDialog != null && libraryDialog.isDismissing())
-                || (folderDialog != null && folderDialog.isDismissing());
-        if (nextMode.equals(currentMode) && !MODE_FOLDER.equals(nextMode) && !midDismiss) {
+                || (folderDialog != null && folderDialog.isDismissing())
+                || (cameraOverlay != null && cameraOverlay.isDismissing());
+        if (nextMode.equals(currentMode) && !MODE_FOLDER.equals(nextMode) && !MODE_CAMERA.equals(nextMode) && !midDismiss) {
             dismissCurrentAnimated(true);
             return;
         }
-        // Switch in-place (Recents <-> App Library <-> Folder) or cancel a mid-exit animation without
+        // Switch in-place (Recents <-> App Library <-> Folder <-> Camera PiP) or cancel a mid-exit animation without
         // restarting OverlayActivity, preventing onPause() teardown and keeping backdrop blur continuous.
         closing = false;
-        if (overHome) {
+        if (MODE_CAMERA.equals(nextMode)) {
+            fadeOutBackdrop();
+            MainActivity.setOverlayOpen(false);
+        } else if (overHome) {
             MainActivity.prepareOverlayBackdropBlur();
             MainActivity.startBackdropBlurFadeInIfOpen();
         } else {
@@ -516,6 +568,8 @@ public final class OverlayActivity extends Activity {
         } else if (discoverDialog != null) {
             fadeOutBackdrop();
             discoverDialog.animateClose();
+        } else if (cameraOverlay != null) {
+            cameraOverlay.animateClose();
         } else {
             fadeOutBackdrop();
             finishCleanly();
@@ -556,6 +610,9 @@ public final class OverlayActivity extends Activity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         UiClickSound.onKeyEvent(this, event);
+        if (cameraOverlay != null && cameraOverlay.handleKeyEvent(event)) {
+            return true;
+        }
         if (event.getAction() == KeyEvent.ACTION_DOWN
                 && event.getKeyCode() == KeyEvent.KEYCODE_ALL_APPS) {
             handleOverlayRequest(MODE_LIBRARY);

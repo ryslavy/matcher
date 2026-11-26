@@ -137,7 +137,9 @@ final class Motion {
         panel.setScaleX(fromScaleX);
         panel.setScaleY(fromScaleY);
         panel.setAlpha(entering ? 0f : 1f);
-        if (!useHwLayer) {
+        // Always invalidate liquid panels on Frame 0 (even with LAYER_TYPE_HARDWARE!) so nested context menus
+        // and dialogs NEVER reuse a pre-reveal RenderNode that drew before nestedRefraction or resting coords were set.
+        if (entering || !useHwLayer) {
             invalidateCached(liquidTargets);
         }
 
@@ -212,6 +214,7 @@ final class Motion {
     static void revealModal(View panel, float density, boolean reducedMotion) {
         cancelPanelAnim(panel);
         if (reducedMotion) {
+            ExpressiveGlass.invalidateLiquidPanels(panel);
             panel.setAlpha(0f);
             panel.setScaleX(1f);
             panel.setScaleY(1f);
@@ -248,6 +251,7 @@ final class Motion {
     static void revealDropdown(View panel, float density, boolean fromBottom, float pivotY, boolean reducedMotion) {
         cancelPanelAnim(panel);
         if (reducedMotion) {
+            ExpressiveGlass.invalidateLiquidPanels(panel);
             panel.setAlpha(0f);
             panel.setScaleX(1f);
             panel.setScaleY(1f);
@@ -287,6 +291,7 @@ final class Motion {
     static void revealTopCornerCard(View panel, float density, boolean rtl, int widthPx, boolean reducedMotion) {
         cancelPanelAnim(panel);
         if (reducedMotion) {
+            ExpressiveGlass.invalidateLiquidPanels(panel);
             panel.setAlpha(0f);
             panel.setScaleX(1f);
             panel.setScaleY(1f);

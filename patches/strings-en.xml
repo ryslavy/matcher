@@ -252,6 +252,7 @@
     <string name="cc_brightness_sub">Dimmer bar</string>
     <string name="cc_aerial">Aerial videos</string>
     <string name="cc_aerial_on">1080p video</string>
+    <string name="cc_aerial_on_4k">4K HEVC video</string>
     <string name="cc_aerial_off">Wallpapers</string>
     <string name="cc_screensaver">Screensaver</string>
     <string name="cc_settings">Settings</string>
@@ -292,6 +293,17 @@
     <string name="ha_state_unavailable">Unavailable</string>
     <string name="ha_state_open">Open</string>
     <string name="ha_state_closed">Closed</string>
+    <string name="ha_state_camera">Live PiP</string>
+    <string name="ha_camera_title">Home Camera</string>
+    <string name="ha_camera_connecting">Connecting to camera…</string>
+    <string name="ha_camera_unavailable">Camera unavailable</string>
+    <string name="ha_camera_hint_pip">OK: Expand · Back: Close</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Back: Close</string>
+    <string name="ha_camera_hint_pip_multi">OK: Expand · ◀ ▶: Camera · Back: Close</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Camera · Back: Close</string>
+
+    <string name="aerial_fav_added">Saved to favorites</string>
+    <string name="aerial_fav_removed">Removed from favorites</string>
 
     <string name="updater_installed">Update installed</string>
     <string name="updater_failed">Update failed</string>
@@ -301,6 +313,10 @@
     <string name="fs_home_liquid">Optical Liquid Glass on Home</string>
     <string name="fs_ui_sounds">Soft UI click sounds</string>
     <string name="fs_oled_drift">OLED screensaver pixel drift</string>
+    <string name="fs_aerial_quality">Aerial video quality</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Favorite Aerials only (hold OK)</string>
 
     <string name="fs_sec_content">Content &amp; Discovery</string>
     <string name="fs_open_discover">Open Discover (Continue Watching &amp; Picks)</string>
@@ -322,7 +338,7 @@
     <string name="fs_immich_album">Immich album</string>
     <string name="fs_immich_all_albums">All photos</string>
 
-    <string name="fs_sec_system">Safety &amp; Updates</string>
+    <string name="fs_sec_system">Safety &amp; Recovery</string>
     <string name="fs_watchdog">Crash-loop recovery watchdog</string>
     <string name="fs_check_updates">Check GitHub Releases update</string>
     <string name="fs_update_uptodate">Launcher is up to date (%1$s)</string>

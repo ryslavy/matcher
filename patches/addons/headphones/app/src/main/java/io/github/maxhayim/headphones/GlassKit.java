@@ -20,9 +20,11 @@ import android.graphics.Outline;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
+import android.graphics.RecordingCanvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.RenderEffect;
+import android.graphics.RenderNode;
 import android.graphics.RuntimeShader;
 import android.graphics.Shader;
 import android.graphics.Typeface;
@@ -126,20 +128,14 @@ final class GlassKit {
                     + "uniform float uInteriorFill;\n"
                     + "uniform float uLiquidMode;\n"
                     + "uniform float3 uRimTint;\n"
+                    + "uniform float uWobble;\n"
+                    + "uniform float uPhase;\n"
                     + "half3 sampleBlur(float2 coord) {\n"
                     + "    half3 c = uBlur.eval(coord).rgb * half(0.36);\n"
                     + "    c += uBlur.eval(coord + float2( 5.25,  2.15)).rgb * half(0.16);\n"
                     + "    c += uBlur.eval(coord + float2(-5.25, -2.15)).rgb * half(0.16);\n"
                     + "    c += uBlur.eval(coord + float2(-2.15,  5.25)).rgb * half(0.16);\n"
                     + "    c += uBlur.eval(coord + float2( 2.15, -5.25)).rgb * half(0.16);\n"
-                    + "    return c;\n"
-                    + "}\n"
-                    + "half3 sampleFrostedRim(float2 coord) {\n"
-                    + "    half3 c = uSharp.eval(coord).rgb * half(0.28);\n"
-                    + "    c += uSharp.eval(coord + float2( 8.6,  3.5)).rgb * half(0.18);\n"
-                    + "    c += uSharp.eval(coord + float2(-8.6, -3.5)).rgb * half(0.18);\n"
-                    + "    c += uSharp.eval(coord + float2(-3.5,  8.6)).rgb * half(0.18);\n"
-                    + "    c += uSharp.eval(coord + float2( 3.5, -8.6)).rgb * half(0.18);\n"
                     + "    return c;\n"
                     + "}\n"
                     + "half3 sampleSharpSmooth(float2 coord) {\n"
@@ -149,6 +145,17 @@ final class GlassKit {
                     + "    c += uSharp.eval(coord + float2(-1.75,  4.25)).rgb * half(0.16);\n"
                     + "    c += uSharp.eval(coord + float2( 1.75, -4.25)).rgb * half(0.16);\n"
                     + "    return c;\n"
+                    + "}\n"
+                    + "half3 applyVibrancyAndAdapt(half3 col, half vibBoost, half dither) {\n"
+                    + "    half luma = dot(col, half3(0.2126, 0.7152, 0.0722));\n"
+                    + "    half satNow = max(col.r, max(col.g, col.b)) - min(col.r, min(col.g, col.b));\n"
+                    + "    half satRoom = half(1.0) - smoothstep(half(0.18), half(0.82), satNow);\n"
+                    + "    half hlProtect = half(1.0) - smoothstep(half(0.70), half(0.96), luma);\n"
+                    + "    half vibAmt = half(1.0) + vibBoost * mix(half(0.28), half(1.0), satRoom * hlProtect);\n"
+                    + "    half3 v = clamp(mix(half3(luma), col, vibAmt), half3(0.0), half3(1.0));\n"
+                    + "    half hlTone = smoothstep(half(0.68), half(0.98), luma);\n"
+                    + "    v = mix(v, v * half(0.84), hlTone * half(0.35));\n"
+                    + "    return clamp(v + half3(dither), half3(0.0), half3(1.0));\n"
                     + "}\n"
                     + "half4 main(float2 fragCoord) {\n"
                     + "    float2 halfSize = uPanelSize * 0.5;\n"
@@ -164,8 +171,7 @@ final class GlassKit {
                     + "    float2 screenPos = uScreenOrigin + fragCoord * uScreenScale;\n"
                     + "    if (uInteriorFill > 0.5) {\n"
                     + "        half3 baseBlur = sampleBlur(screenPos);\n"
-                    + "        half bl = dot(baseBlur, half3(0.2126, 0.7152, 0.0722));\n"
-                    + "        baseBlur = clamp(mix(half3(bl), baseBlur, half(1.18)) * half(0.92) + half3(0.015) + half3(dither), half3(0.0), half3(1.0));\n"
+                    + "        baseBlur = applyVibrancyAndAdapt(baseBlur * half(0.94), half(0.24), dither);\n"
                     + "        return half4(baseBlur * half(mask), half(mask));\n"
                     + "    }\n"
                     + "    float distIn = max(0.0, -d);\n"
@@ -176,49 +182,60 @@ final class GlassKit {
                     + "    float2 n = grad * float2(p.x < 0.0 ? -1.0 : 1.0, p.y < 0.0 ? -1.0 : 1.0);\n"
                     + "    float t = clamp(distIn / max(1.0, uBezel), 0.0, 1.0);\n"
                     + "    float u = 1.0 - t;\n"
-                    + "    float lensCurve = clamp(u / sqrt(max(0.16, 1.0 - u * u)), 0.0, 1.95) / 1.95;\n"
+                    + "    float grav = (pow(1.0 + 4.0 * t, -2.0) - 0.04) / 0.96;\n"
+                    + "    float circleProf = 1.0 - sqrt(max(0.0, 1.0 - u * u));\n"
+                    + "    float lensCurve = mix(grav, circleProf, 0.35);\n"
+                    + "    float2 ripple = float2(0.0);\n"
+                    + "    if (uWobble > 0.001) {\n"
+                    + "        ripple = float2(sin(fragCoord.y * 0.045 + uPhase), cos(fragCoord.x * 0.032 + uPhase * 1.3))\n"
+                    + "                * (uWobble * 6.5 * (0.35 + 0.65 * lensCurve));\n"
+                    + "    }\n"
                     + "    float disp = lensCurve * uRefract;\n"
-                    + "    float2 uvR = screenPos - n * (disp - lensCurve * uChromatic);\n"
-                    + "    float2 uvG = screenPos - n * disp;\n"
-                    + "    float2 uvB = screenPos - n * (disp + lensCurve * uChromatic);\n"
-                    + "    float lightDir = dot(n, float2(-0.4190, -0.9080));\n"
-                    + "    float facing = max(0.0, lightDir);\n"
-                    + "    float back = max(0.0, -lightDir);\n"
-                    + "    half3 specCol = mix(half3(1.0), half3(uRimTint), half(0.28));\n"
+                    + "    float cornerPrism = 0.28 + 0.72 * clamp(abs((p.x * p.y) / max(1.0, halfSize.x * halfSize.y)) * 1.65, 0.0, 1.0);\n"
+                    + "    float ca = lensCurve * uChromatic * cornerPrism;\n"
+                    + "    float2 baseUv = screenPos + ripple - n * disp;\n"
+                    + "    float2 uvR = baseUv + n * ca;\n"
+                    + "    float2 uvO = baseUv + n * (ca * 0.45);\n"
+                    + "    float2 uvG = baseUv;\n"
+                    + "    float2 uvC = baseUv - n * (ca * 0.45);\n"
+                    + "    float2 uvB = baseUv - n * ca;\n"
+                    + "    float lightDot = dot(n, float2(-0.4472, -0.8944));\n"
+                    + "    float lobeF = pow(max(lightDot, 0.0), 3.6);\n"
+                    + "    float lobeB = pow(max(-lightDot, 0.0), 3.8);\n"
+                    + "    half3 specCol = mix(half3(1.0), half3(uRimTint), half(0.24));\n"
+                    + "    float hair = clamp(1.0 - abs(distIn - 1.0) / 2.2, 0.0, 1.0);\n"
+                    + "    float glowIn = clamp((distIn - 0.8) / 2.2, 0.0, 1.0) * pow(clamp(1.0 - distIn / max(4.0, uBezel * 0.44), 0.0, 1.0), 1.6);\n"
                     + "    if (uLiquidMode > 0.5) {\n"
-                    + "        half3 lensFrost = half3(uSharp.eval(uvR).r, uSharp.eval(uvG).g, uSharp.eval(uvB).b);\n"
+                    + "        half3 sR = uSharp.eval(uvR).rgb;\n"
+                    + "        half3 sO = uSharp.eval(uvO).rgb;\n"
+                    + "        half3 sG = uSharp.eval(uvG).rgb;\n"
+                    + "        half3 sC = uSharp.eval(uvC).rgb;\n"
+                    + "        half3 sB = uSharp.eval(uvB).rgb;\n"
+                    + "        half3 lensFrost = half3((sR.r * half(0.55) + sO.r * half(0.45)),\n"
+                    + "                (sO.g * half(0.22) + sG.g * half(0.56) + sC.g * half(0.22)),\n"
+                    + "                (sC.b * half(0.45) + sB.b * half(0.55)));\n"
                     + "        half3 deepBlur = half3(sampleBlur(uvR).r, sampleBlur(uvG).g, sampleBlur(uvB).b);\n"
-                    + "        float clarity = clamp(pow(lensCurve, 0.72) * uEdgeClarity, 0.0, 0.92);\n"
+                    + "        float clarity = clamp(pow(lensCurve, 0.68) * uEdgeClarity, 0.0, 0.92);\n"
                     + "        half3 refracted = mix(deepBlur, lensFrost, half(clarity));\n"
-                    + "        half luma = dot(refracted, half3(0.2126, 0.7152, 0.0722));\n"
-                    + "        refracted = clamp(mix(half3(luma), refracted, half(1.38)) * half(1.26) + half3(0.065) + half3(dither), half3(0.0), half3(1.0));\n"
-                    + "        float meniscusDark = 1.0 - 0.28 * exp(-pow((t - 0.16) / 0.11, 2.0));\n"
-                    + "        refracted *= half(meniscusDark);\n"
-                    + "        float rimLine = smoothstep(2.5, 0.0, distIn);\n"
-                    + "        float innerHalo = smoothstep(uBezel * 0.62, 0.0, distIn);\n"
-                    + "        float fresnel = rimLine * (0.38 + 0.62 * facing + 0.36 * back);\n"
-                    + "        float caustic = smoothstep(uBezel * 0.38, 0.0, abs(distIn - uBezel * 0.34)) * (0.14 + 0.18 * facing + 0.09 * back) + innerHalo * (0.06 * facing + 0.03 * back);\n"
+                    + "        refracted = applyVibrancyAndAdapt(refracted * half(0.94), half(0.46), dither);\n"
+                    + "        float caustic = smoothstep(uBezel * 0.36, 0.0, abs(distIn - uBezel * 0.30)) * (0.12 * lobeF + 0.06 * lobeB);\n"
                     + "        float rimWeight = smoothstep(1.0, 0.0, t);\n"
-                    + "        float refractAlpha = pow(rimWeight, 1.05) * 0.86;\n"
-                    + "        float specAlpha = clamp(fresnel * 0.88 + caustic, 0.0, 0.96);\n"
-                    + "        float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.98);\n"
+                    + "        float refractAlpha = pow(rimWeight, 1.08) * 0.84;\n"
+                    + "        float specAlpha = clamp(hair * (0.06 + 0.68 * (lobeF + lobeB)) + glowIn * (0.18 * lobeF + 0.06 * lobeB) + caustic, 0.0, 0.94);\n"
+                    + "        float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.96);\n"
                     + "        half3 premul = clamp(specCol * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
                     + "        return half4(premul * half(mask), half(outA * mask));\n"
                     + "    }\n"
                     + "    half3 refracted = half3(sampleBlur(uvR).r, sampleBlur(uvG).g, sampleBlur(uvB).b);\n"
                     + "    if (uEdgeClarity > 0.01 && t < 0.99) {\n"
                     + "        half3 sharpEdge = half3(sampleSharpSmooth(uvR).r, sampleSharpSmooth(uvG).g, sampleSharpSmooth(uvB).b);\n"
-                    + "        refracted = mix(refracted, sharpEdge, half(pow(lensCurve, 1.1) * uEdgeClarity * 0.35));\n"
+                    + "        refracted = mix(refracted, sharpEdge, half(pow(lensCurve, 1.05) * uEdgeClarity * 0.38));\n"
                     + "    }\n"
-                    + "    half luma = dot(refracted, half3(0.2126, 0.7152, 0.0722));\n"
-                    + "    refracted = clamp(mix(half3(luma), refracted, half(1.26)) * half(1.24) + half3(0.085) + half3(dither), half3(0.0), half3(1.0));\n"
-                    + "    float rimLine = smoothstep(2.8, 0.0, distIn);\n"
-                    + "    float fresnel = rimLine * (0.40 + 0.44 * facing + 0.30 * back);\n"
-                    + "    float caustic = smoothstep(uBezel * 0.48, 0.0, abs(distIn - uBezel * 0.20)) * (0.085 + 0.115 * facing + 0.055 * back);\n"
+                    + "    refracted = applyVibrancyAndAdapt(refracted * half(0.90), half(0.30), dither);\n"
                     + "    float rimWeight = smoothstep(1.0, 0.0, t);\n"
-                    + "    float refractAlpha = pow(rimWeight, 1.65) * 0.42;\n"
-                    + "    float specAlpha = clamp(fresnel * 0.76 + caustic, 0.0, 0.92);\n"
-                    + "    float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.94);\n"
+                    + "    float refractAlpha = pow(rimWeight, 1.55) * 0.44;\n"
+                    + "    float specAlpha = clamp(hair * (0.06 + 0.62 * (lobeF + lobeB)) + glowIn * (0.14 * lobeF + 0.05 * lobeB), 0.0, 0.90);\n"
+                    + "    float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.92);\n"
                     + "    half3 premul = clamp(specCol * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
                     + "    return half4(premul * half(mask), half(outA * mask));\n"
                     + "}";
@@ -236,6 +253,8 @@ final class GlassKit {
         RefractionBackdrop(Bitmap sharp, Bitmap blur, int screenW, int screenH, int version, boolean overHome) {
             this.sharp = sharp;
             this.blur = blur;
+            sharp.prepareToDraw();
+            blur.prepareToDraw();
             this.screenW = Math.max(1, screenW);
             this.screenH = Math.max(1, screenH);
             this.version = version;
@@ -261,12 +280,14 @@ final class GlassKit {
     }
 
     private static volatile RefractionBackdrop activeBackdrop;
+    private static volatile RefractionBackdrop nestedBackdrop;
+    private static volatile WeakReference<ViewGroup> nestedSourcePanel;
     private static volatile Bitmap activeSharpOnly;
     private static volatile int backdropVersionCounter = 1;
     private static volatile ExecutorService backdropExec;
     private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
     private static final ArrayDeque<RuntimeShader> LIQUID_SHADER_POOL = new ArrayDeque<>();
-    private static final Map<Integer, RenderEffect> STEP_BLUR_CACHE = new HashMap<>();
+    private static final Map<Long, RenderEffect> BACKDROP_EFFECT_CACHE = new HashMap<>();
     private static final Object BLUR_SCRATCH_LOCK = new Object();
     private static int[] blurPxScratch;
     private static int[] blurTmpScratch;
@@ -526,6 +547,42 @@ final class GlassKit {
         }
     }
 
+    private static RenderEffect createBackdropBlurEffect(float density, float radiusDp, int seedRgb, Shader.TileMode tileMode) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return null;
+        int seed = seedRgb == 0 ? DEFAULT_SEED_RGB : (seedRgb & 0x00FFFFFF);
+        float sigma = Math.min(38f, Math.max(12f, radiusDp * density * 0.57735f));
+        long key = (((long) seed) << 16) | (((long) Math.round(sigma * 10f)) << 3) | tileMode.ordinal();
+        synchronized (BACKDROP_EFFECT_CACHE) {
+            RenderEffect cached = BACKDROP_EFFECT_CACHE.get(key);
+            if (cached != null) return cached;
+        }
+        RenderEffect blur = RenderEffect.createBlurEffect(sigma, sigma, tileMode);
+        RenderEffect effect = blur;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            try {
+                RuntimeShader shader = new RuntimeShader(BACKDROP_AGSL);
+                int tint = tonalAccent800(seed);
+                shader.setFloatUniform("uSaturation", 1.26f);
+                shader.setFloatUniform("uLift", 0.012f);
+                shader.setFloatUniform("uDim", 0.86f);
+                shader.setFloatUniform("uTint",
+                        ((tint >> 16) & 0xFF) / 255f,
+                        ((tint >> 8) & 0xFF) / 255f,
+                        (tint & 0xFF) / 255f);
+                shader.setFloatUniform("uTintMix", 0.14f);
+                shader.setFloatUniform("uGrain", 0.014f);
+                effect = RenderEffect.createChainEffect(
+                        RenderEffect.createRuntimeShaderEffect(shader, "content"), blur);
+            } catch (RuntimeException ignored) {
+            }
+        }
+        synchronized (BACKDROP_EFFECT_CACHE) {
+            if (BACKDROP_EFFECT_CACHE.size() >= 8) BACKDROP_EFFECT_CACHE.clear();
+            BACKDROP_EFFECT_CACHE.put(key, effect);
+        }
+        return effect;
+    }
+
     /**
      * 2-layer hardware-cached full-screen backdrop blur host:
      *  - Outer FrameLayout holds LAYER_TYPE_HARDWARE and animates alpha (0 -> 1 -> 0).
@@ -550,31 +607,12 @@ final class GlassKit {
         view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         view.setImageBitmap(src);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            float sigma = Math.min(38f, Math.max(12f, 34f * density * 0.57735f));
-            RenderEffect blur = RenderEffect.createBlurEffect(sigma, sigma, Shader.TileMode.CLAMP);
-            RenderEffect effect = blur;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                try {
-                    RuntimeShader shader = new RuntimeShader(BACKDROP_AGSL);
-                    int tint = tonalAccent800(seedRgb == 0 ? DEFAULT_SEED_RGB : seedRgb);
-                    shader.setFloatUniform("uSaturation", 1.26f);
-                    shader.setFloatUniform("uLift", 0.012f);
-                    shader.setFloatUniform("uDim", 0.86f);
-                    shader.setFloatUniform("uTint",
-                            ((tint >> 16) & 0xFF) / 255f,
-                            ((tint >> 8) & 0xFF) / 255f,
-                            (tint & 0xFF) / 255f);
-                    shader.setFloatUniform("uTintMix", 0.14f);
-                    shader.setFloatUniform("uGrain", 0.014f);
-                    effect = RenderEffect.createChainEffect(
-                            RenderEffect.createRuntimeShaderEffect(shader, "content"), blur);
-                } catch (RuntimeException ignored) {
-                    view.setColorFilter(0x22080B12);
-                }
+            RenderEffect effect = createBackdropBlurEffect(density, 34f, seedRgb, Shader.TileMode.CLAMP);
+            if (effect != null) {
+                view.setRenderEffect(effect);
             } else {
                 view.setColorFilter(0x22080B12);
             }
-            view.setRenderEffect(effect);
             view.setLayerType(View.LAYER_TYPE_NONE, null);
             host.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         } else {
@@ -891,7 +929,7 @@ final class GlassKit {
         view.setScaleX(fromScale);
         view.setScaleY(fromScale);
         view.setAlpha(entering ? 0f : 1f);
-        if (!useHwLayer) {
+        if (entering || !useHwLayer) {
             invalidateCached(liquidTargets);
         }
 
@@ -1075,63 +1113,435 @@ final class GlassKit {
         return btn;
     }
 
-    private static final float[] SUBMENU_BLUR_STEPS_DP = {0f, 3.5f, 7f, 10.5f, 14f, 17.5f, 20.5f, 23f};
     private static final WeakHashMap<ViewGroup, PanelBlurState> PANEL_BLUR_STATES = new WeakHashMap<>();
 
     private static final class PanelBlurState {
         float fraction;
         boolean targetBlurred;
         boolean ringWasVisible;
-        int lastStep = -1;
+        ExpressiveBlurVeilDrawable veilDrawable;
         ValueAnimator animator;
     }
 
-    private static int blurStepForFraction(float f) {
-        int maxStep = SUBMENU_BLUR_STEPS_DP.length - 1;
-        if (f < 0.05f) return 0;
-        if (f >= 0.96f) return maxStep;
-        int idx = 1 + Math.round(f * (maxStep - 2));
-        return Math.max(1, Math.min(maxStep - 1, idx));
+    private static final class ExpressiveBlurVeilDrawable extends Drawable {
+        private final Bitmap sharpChildren;
+        private final Bitmap softwareFallback;
+        private final float cornerRadiusPx;
+        private final float insetPx;
+        private final float density;
+        private final int seedRgb;
+        private final Paint bitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG);
+        private final Paint tintVeilPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
+        private final RectF clipRect = new RectF();
+        private final Path clipPath = new Path();
+        private RenderNode effectNode;
+        private RenderNode cacheNode;
+        private int builtW = -1, builtH = -1;
+        private int curAlpha;
+        private boolean released;
+
+        ExpressiveBlurVeilDrawable(Bitmap sharpChildren, Bitmap softwareFallback,
+                                   float cornerRadiusPx, float insetPx, float density, int seedRgb) {
+            this.sharpChildren = sharpChildren;
+            this.softwareFallback = softwareFallback;
+            this.cornerRadiusPx = cornerRadiusPx;
+            this.insetPx = insetPx;
+            this.density = density;
+            this.seedRgb = seedRgb;
+        }
+
+        private void ensureBuilt(int w, int h) {
+            if (w == builtW && h == builtH) return;
+            builtW = w;
+            builtH = h;
+            clipPath.reset();
+            clipRect.set(insetPx, insetPx, Math.max(insetPx + 1f, w - insetPx), Math.max(insetPx + 1f, h - insetPx));
+            float r = Math.max(0f, Math.min(cornerRadiusPx - insetPx, Math.min(clipRect.width(), clipRect.height()) * 0.5f));
+            clipPath.addRoundRect(clipRect, r, r, Path.Direction.CW);
+
+            int accent800 = tonalAccent800(seedRgb);
+            int topTint = (0x20 << 24) | mixRgb(0x101520, accent800, 0.38f);
+            int botTint = (0x34 << 24) | mixRgb(0x080B12, accent800, 0.28f);
+            tintVeilPaint.setShader(new LinearGradient(
+                    0f, clipRect.top, 0f, clipRect.bottom,
+                    topTint, botTint, Shader.TileMode.CLAMP));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                RenderEffect fx = createBackdropBlurEffect(density, 28f, seedRgb, Shader.TileMode.DECAL);
+                if (fx != null) {
+                    if (effectNode == null) effectNode = new RenderNode("expressive-panel-fx");
+                    if (cacheNode == null) cacheNode = new RenderNode("expressive-panel-cache");
+
+                    effectNode.setPosition(0, 0, w, h);
+                    effectNode.setRenderEffect(fx);
+                    RecordingCanvas ec = effectNode.beginRecording(w, h);
+                    ec.drawBitmap(sharpChildren, null, new Rect(0, 0, w, h), bitmapPaint);
+                    effectNode.endRecording();
+
+                    cacheNode.setPosition(0, 0, w, h);
+                    Outline outline = new Outline();
+                    int l = Math.round(clipRect.left);
+                    int t = Math.round(clipRect.top);
+                    int ri = Math.max(l + 1, Math.round(clipRect.right));
+                    int bt = Math.max(t + 1, Math.round(clipRect.bottom));
+                    outline.setRoundRect(l, t, ri, bt, r);
+                    cacheNode.setOutline(outline);
+                    cacheNode.setClipToOutline(true);
+                    cacheNode.setUseCompositingLayer(true, null);
+
+                    RecordingCanvas cc = cacheNode.beginRecording(w, h);
+                    cc.drawRenderNode(effectNode);
+                    cc.drawRect(clipRect, tintVeilPaint);
+                    cacheNode.endRecording();
+                    cacheNode.setAlpha(curAlpha / 255f);
+                }
+            }
+        }
+
+        @Override
+        public void draw(Canvas canvas) {
+            if (released || curAlpha <= 0 || sharpChildren.isRecycled()) return;
+            Rect b = getBounds();
+            int w = b.width(), h = b.height();
+            if (w <= 0 || h <= 0) return;
+            ensureBuilt(w, h);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && cacheNode != null && canvas.isHardwareAccelerated()) {
+                if (b.left != 0 || b.top != 0) {
+                    int save = canvas.save();
+                    canvas.translate(b.left, b.top);
+                    canvas.drawRenderNode(cacheNode);
+                    canvas.restoreToCount(save);
+                } else {
+                    canvas.drawRenderNode(cacheNode);
+                }
+                return;
+            }
+
+            Bitmap fb = (softwareFallback != null && !softwareFallback.isRecycled()) ? softwareFallback : sharpChildren;
+            int save = canvas.save();
+            if (b.left != 0 || b.top != 0) canvas.translate(b.left, b.top);
+            canvas.clipPath(clipPath);
+            bitmapPaint.setAlpha(curAlpha);
+            canvas.drawBitmap(fb, null, new Rect(0, 0, w, h), bitmapPaint);
+            bitmapPaint.setAlpha(255);
+            tintVeilPaint.setAlpha(curAlpha);
+            canvas.drawRect(clipRect, tintVeilPaint);
+            tintVeilPaint.setAlpha(255);
+            canvas.restoreToCount(save);
+        }
+
+        @Override
+        public void setAlpha(int alpha) {
+            int clamped = Math.max(0, Math.min(255, alpha));
+            if (curAlpha != clamped) {
+                curAlpha = clamped;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && cacheNode != null) {
+                    cacheNode.setAlpha(clamped / 255f);
+                }
+                invalidateSelf();
+            }
+        }
+
+        @Override
+        public void setColorFilter(ColorFilter colorFilter) {
+            bitmapPaint.setColorFilter(colorFilter);
+            invalidateSelf();
+        }
+
+        @Override
+        @SuppressWarnings("deprecation")
+        public int getOpacity() {
+            return PixelFormat.TRANSLUCENT;
+        }
+
+        void release() {
+            if (released) return;
+            released = true;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (cacheNode != null) {
+                    cacheNode.setUseCompositingLayer(false, null);
+                    cacheNode.discardDisplayList();
+                    cacheNode = null;
+                }
+                if (effectNode != null) {
+                    effectNode.setRenderEffect(null);
+                    effectNode.discardDisplayList();
+                    effectNode = null;
+                }
+            }
+            if (softwareFallback != null && !softwareFallback.isRecycled()) {
+                softwareFallback.recycle();
+            }
+            if (!sharpChildren.isRecycled()) {
+                sharpChildren.recycle();
+            }
+        }
     }
 
-    private static RenderEffect cachedStepBlur(int step, float density) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || step <= 0) return null;
-        float sigma = Math.max(2f, SUBMENU_BLUR_STEPS_DP[step] * density * 0.57735f);
-        int key = Math.round(sigma * 10f);
-        synchronized (STEP_BLUR_CACHE) {
-            RenderEffect cached = STEP_BLUR_CACHE.get(key);
-            if (cached != null) return cached;
-            RenderEffect built = RenderEffect.createBlurEffect(sigma, sigma, Shader.TileMode.DECAL);
-            if (STEP_BLUR_CACHE.size() >= 24) STEP_BLUR_CACHE.clear();
-            STEP_BLUR_CACHE.put(key, built);
-            return built;
+    private static void blurPremulRgba(int[] px, int[] tmp, int w, int h, int radius, int dim255) {
+        if (w <= 0 || h <= 0 || radius <= 0 || px.length < w * h || tmp.length < w * h) return;
+        int n = w * h;
+        for (int i = 0; i < n; i++) {
+            int c = px[i];
+            int a = (c >>> 24) & 0xFF;
+            if (a == 0) {
+                px[i] = 0;
+            } else if (a < 255) {
+                int r = (((c >> 16) & 0xFF) * a + 127) / 255;
+                int g = (((c >> 8) & 0xFF) * a + 127) / 255;
+                int b = ((c & 0xFF) * a + 127) / 255;
+                px[i] = (a << 24) | (r << 16) | (g << 8) | b;
+            }
         }
+        for (int pass = 0; pass < 3; pass++) {
+            boxBlurRgbaH(px, tmp, w, h, radius);
+            boxBlurRgbaV(tmp, px, w, h, radius);
+        }
+        for (int i = 0; i < n; i++) {
+            int c = px[i];
+            int a = (c >>> 24) & 0xFF;
+            if (a == 0) {
+                px[i] = 0;
+            } else {
+                int pr = (c >> 16) & 0xFF;
+                int pg = (c >> 8) & 0xFF;
+                int pb = c & 0xFF;
+                int r = Math.min(255, (pr * dim255 + (a >> 1)) / a);
+                int g = Math.min(255, (pg * dim255 + (a >> 1)) / a);
+                int b = Math.min(255, (pb * dim255 + (a >> 1)) / a);
+                px[i] = (a << 24) | (r << 16) | (g << 8) | b;
+            }
+        }
+    }
+
+    private static void boxBlurRgbaH(int[] src, int[] dst, int w, int h, int r) {
+        int span = r * 2 + 1;
+        int invSpan = (1 << 16) / span;
+        int wMax = w - 1;
+        for (int y = 0; y < h; y++) {
+            int row = y * w;
+            int as = 0, rs = 0, gs = 0, bs = 0;
+            for (int i = -r; i <= r; i++) {
+                int c = src[row + (i < 0 ? 0 : (i > wMax ? wMax : i))];
+                as += (c >>> 24) & 0xFF;
+                rs += (c >> 16) & 0xFF;
+                gs += (c >> 8) & 0xFF;
+                bs += c & 0xFF;
+            }
+            for (int x = 0; x < w; x++) {
+                dst[row + x] = (((as * invSpan) >>> 16) << 24)
+                        | (((rs * invSpan) >>> 16) << 16)
+                        | (((gs * invSpan) >>> 16) << 8)
+                        | ((bs * invSpan) >>> 16);
+                int outX = x - r;
+                int inX = x + r + 1;
+                int outC = src[row + (outX < 0 ? 0 : outX)];
+                int inC = src[row + (inX > wMax ? wMax : inX)];
+                as += ((inC >>> 24) & 0xFF) - ((outC >>> 24) & 0xFF);
+                rs += ((inC >> 16) & 0xFF) - ((outC >> 16) & 0xFF);
+                gs += ((inC >> 8) & 0xFF) - ((outC >> 8) & 0xFF);
+                bs += (inC & 0xFF) - (outC & 0xFF);
+            }
+        }
+    }
+
+    private static void boxBlurRgbaV(int[] src, int[] dst, int w, int h, int r) {
+        int span = r * 2 + 1;
+        int invSpan = (1 << 16) / span;
+        int hMax = h - 1;
+        for (int x = 0; x < w; x++) {
+            int as = 0, rs = 0, gs = 0, bs = 0;
+            for (int i = -r; i <= r; i++) {
+                int c = src[(i < 0 ? 0 : (i > hMax ? hMax : i)) * w + x];
+                as += (c >>> 24) & 0xFF;
+                rs += (c >> 16) & 0xFF;
+                gs += (c >> 8) & 0xFF;
+                bs += c & 0xFF;
+            }
+            for (int y = 0; y < h; y++) {
+                dst[y * w + x] = (((as * invSpan) >>> 16) << 24)
+                        | (((rs * invSpan) >>> 16) << 16)
+                        | (((gs * invSpan) >>> 16) << 8)
+                        | ((bs * invSpan) >>> 16);
+                int outY = y - r;
+                int inY = y + r + 1;
+                int outC = src[(outY < 0 ? 0 : outY) * w + x];
+                int inC = src[(inY > hMax ? hMax : inY) * w + x];
+                as += ((inC >>> 24) & 0xFF) - ((outC >>> 24) & 0xFF);
+                rs += ((inC >> 16) & 0xFF) - ((outC >> 16) & 0xFF);
+                gs += ((inC >> 8) & 0xFF) - ((outC >> 8) & 0xFF);
+                bs += (inC & 0xFF) - (outC & 0xFF);
+            }
+        }
+    }
+
+    private static ExpressiveBlurVeilDrawable capturePanelChildrenAndBuildVeil(ViewGroup panel, float density) {
+        int pw = panel.getWidth();
+        int ph = panel.getHeight();
+        if (pw <= 4 || ph <= 4) return null;
+        try {
+            float scale = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                    ? Math.min(0.65f, 720f / Math.max(pw, ph))
+                    : Math.min(0.45f, 240f / Math.max(pw, ph));
+            int sw = Math.max(16, Math.round(pw * scale));
+            int sh = Math.max(16, Math.round(ph * scale));
+            Bitmap sharpChildren = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888);
+            Canvas sc = new Canvas(sharpChildren);
+            sc.scale(sw / (float) pw, sh / (float) ph);
+            PanelDrawable pd = (panel.getBackground() instanceof PanelDrawable)
+                    ? (PanelDrawable) panel.getBackground() : null;
+            if (pd != null) pd.suppressDraw = true;
+            try {
+                panel.draw(sc);
+            } finally {
+                if (pd != null) pd.suppressDraw = false;
+            }
+            sharpChildren.prepareToDraw();
+
+            float softScale = Math.min(1f, 220f / Math.max(sw, sh));
+            int rw = Math.max(16, Math.round(sw * softScale));
+            int rh = Math.max(16, Math.round(sh * softScale));
+            Bitmap softChildren = Bitmap.createBitmap(rw, rh, Bitmap.Config.ARGB_8888);
+            new Canvas(softChildren).drawBitmap(sharpChildren, null, new Rect(0, 0, rw, rh),
+                    new Paint(Paint.FILTER_BITMAP_FLAG));
+            int softRadius = Math.max(3, Math.round(Math.max(rw, rh) * 3.5f / 220f));
+            int needed = rw * rh;
+            synchronized (BLUR_SCRATCH_LOCK) {
+                if (blurPxScratch == null || blurPxScratch.length < needed) {
+                    blurPxScratch = new int[needed];
+                    blurTmpScratch = new int[needed];
+                }
+                softChildren.getPixels(blurPxScratch, 0, rw, 0, 0, rw, rh);
+                blurPremulRgba(blurPxScratch, blurTmpScratch, rw, rh, softRadius, 214);
+                softChildren.setPixels(blurPxScratch, 0, rw, 0, 0, rw, rh);
+            }
+            buildNestedCompositeBackdrop(panel, softChildren, pd, density);
+
+            Bitmap swFallback = null;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                int deepRadius = Math.max(8, Math.round(Math.max(rw, rh) * 10f / 220f));
+                synchronized (BLUR_SCRATCH_LOCK) {
+                    if (blurPxScratch == null || blurPxScratch.length < needed) {
+                        blurPxScratch = new int[needed];
+                        blurTmpScratch = new int[needed];
+                    }
+                    softChildren.getPixels(blurPxScratch, 0, rw, 0, 0, rw, rh);
+                    blurPremulRgba(blurPxScratch, blurTmpScratch, rw, rh, deepRadius, 224);
+                    softChildren.setPixels(blurPxScratch, 0, rw, 0, 0, rw, rh);
+                }
+                softChildren.prepareToDraw();
+                swFallback = softChildren;
+            } else {
+                softChildren.recycle();
+            }
+
+            float rad = pd != null ? pd.cornerRadiusPx : 24f * density;
+            int seed = pd != null ? pd.seedRgb : DEFAULT_SEED_RGB;
+            return new ExpressiveBlurVeilDrawable(sharpChildren, swFallback, rad, 1.5f * density, density, seed);
+        } catch (RuntimeException | OutOfMemoryError ignored) {
+            return null;
+        }
+    }
+
+    private static void buildNestedCompositeBackdrop(ViewGroup panel, Bitmap softChildren,
+                                                     PanelDrawable pd, float density) {
+        try {
+            RefractionBackdrop base = activeBackdrop;
+            android.util.DisplayMetrics dm = panel.getResources().getDisplayMetrics();
+            int screenW = (base != null && base.screenW > 0) ? base.screenW : dm.widthPixels;
+            int screenH = (base != null && base.screenH > 0) ? base.screenH : dm.heightPixels;
+            if (screenW <= 0 || screenH <= 0) return;
+
+            int cw = 480, ch = 270;
+            Bitmap compSharp = Bitmap.createBitmap(cw, ch, Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(compSharp);
+            Paint fp = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+            if (base != null && !base.blur.isRecycled()) {
+                c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
+                c.drawColor(0x64060A12);
+            } else {
+                c.drawColor(0xFF10141C);
+            }
+            int[] loc = new int[2];
+            panel.getLocationOnScreen(loc);
+            float sx = cw / (float) screenW;
+            float sy = ch / (float) screenH;
+            RectF dst = new RectF(
+                    loc[0] * sx, loc[1] * sy,
+                    (loc[0] + panel.getWidth()) * sx, (loc[1] + panel.getHeight()) * sy);
+            float rad = (pd != null ? pd.cornerRadiusPx : 24f * density) * sx;
+            int seed = pd != null ? pd.seedRgb : DEFAULT_SEED_RGB;
+            int accent800 = tonalAccent800(seed);
+            int topBase = mixRgb(0x131720, accent800, 0.36f);
+            int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
+            int botBase = mixRgb(0x07090E, accent800, 0.22f);
+            Paint glassFill = new Paint(Paint.ANTI_ALIAS_FLAG);
+            glassFill.setShader(new LinearGradient(
+                    dst.left, dst.top, dst.left, dst.bottom,
+                    new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase},
+                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
+            c.drawRoundRect(dst, rad, rad, glassFill);
+            c.drawBitmap(softChildren, null, dst, fp);
+            Paint scrimP = new Paint(Paint.ANTI_ALIAS_FLAG);
+            scrimP.setColor(0x3C080C14);
+            c.drawRoundRect(dst, rad, rad, scrimP);
+
+            Bitmap compBlur = makeFastBlurred(compSharp, 240, 135);
+            if (compBlur != null) {
+                nestedBackdrop = new RefractionBackdrop(
+                        compSharp, compBlur, screenW, screenH, ++backdropVersionCounter, true);
+                nestedSourcePanel = new WeakReference<>(panel);
+            } else {
+                compSharp.recycle();
+            }
+        } catch (RuntimeException | OutOfMemoryError ignored) {
+        }
+    }
+
+    private static void clearNestedBackdropIfOwned(ViewGroup panel) {
+        WeakReference<ViewGroup> ref = nestedSourcePanel;
+        if (ref != null && ref.get() == panel) {
+            nestedSourcePanel = null;
+            nestedBackdrop = null;
+        }
+    }
+
+    private static boolean isSameOrDescendant(View host, View ancestor) {
+        if (host == null || ancestor == null) return false;
+        View cur = host;
+        while (cur != null) {
+            if (cur == ancestor) return true;
+            ViewParent p = cur.getParent();
+            cur = p instanceof View ? (View) p : null;
+        }
+        return false;
     }
 
     private static void applyPanelBlurFraction(ViewGroup panel, FocusRing focusRing,
-                                               PanelBlurState state, float f, float density) {
+                                               PanelBlurState state, float f) {
         state.fraction = f;
-        float childAlpha = 1f - 0.22f * f;
-        int step = blurStepForFraction(f);
-        boolean stepChanged = (step != state.lastStep);
-        RenderEffect effect = null;
-        if (stepChanged && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            state.lastStep = step;
-            effect = cachedStepBlur(step, density);
-        }
+        boolean hasVeil = state.veilDrawable != null;
+        float childAlpha = hasVeil ? (1f - f) : (1f - 0.28f * f);
         for (int i = 0, n = panel.getChildCount(); i < n; i++) {
-            View child = panel.getChildAt(i);
-            child.setAlpha(childAlpha);
-            if (stepChanged && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                child.setRenderEffect(effect);
-            }
+            panel.getChildAt(i).setAlpha(childAlpha);
         }
-        if (focusRing != null) {
-            if (state.ringWasVisible) focusRing.glass.setAlpha(childAlpha);
-            if (stepChanged && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                focusRing.setRenderEffect(effect);
-            }
+        if (state.veilDrawable != null) {
+            state.veilDrawable.setBounds(0, 0, panel.getWidth(), panel.getHeight());
+            state.veilDrawable.setAlpha(Math.max(0, Math.min(255, Math.round(255f * f))));
         }
+        if (focusRing != null && state.ringWasVisible) {
+            focusRing.glass.setAlpha(1f - 0.90f * f);
+        }
+    }
+
+    private static void releasePanelBlurVeil(ViewGroup panel, PanelBlurState state) {
+        if (state.veilDrawable != null) {
+            panel.getOverlay().remove(state.veilDrawable);
+            state.veilDrawable.release();
+            state.veilDrawable = null;
+        }
+        clearNestedBackdropIfOwned(panel);
     }
 
     static void setPanelContentBlur(ViewGroup panel, float density, boolean blurred) {
@@ -1139,7 +1549,7 @@ final class GlassKit {
     }
 
     static void setPanelContentBlur(ViewGroup panel, FocusRing focusRing, float density, boolean blurred) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || panel == null) return;
+        if (panel == null) return;
         PanelBlurState state = PANEL_BLUR_STATES.get(panel);
         if (state == null) {
             if (!blurred) return;
@@ -1155,18 +1565,29 @@ final class GlassKit {
             state.animator.cancel();
             state.animator = null;
         }
+        if (blurred && state.veilDrawable == null) {
+            ExpressiveBlurVeilDrawable veil = capturePanelChildrenAndBuildVeil(panel, density);
+            if (veil != null) {
+                veil.setBounds(0, 0, panel.getWidth(), panel.getHeight());
+                panel.getOverlay().add(veil);
+                state.veilDrawable = veil;
+            }
+        }
         final PanelBlurState st = state;
         float start = st.fraction;
         float target = blurred ? 1f : 0f;
         if (Math.abs(target - start) < 0.001f) {
-            applyPanelBlurFraction(panel, focusRing, st, target, density);
-            if (!blurred) PANEL_BLUR_STATES.remove(panel);
+            applyPanelBlurFraction(panel, focusRing, st, target);
+            if (!blurred) {
+                releasePanelBlurVeil(panel, st);
+                PANEL_BLUR_STATES.remove(panel);
+            }
             return;
         }
         ValueAnimator anim = ValueAnimator.ofFloat(start, target);
-        anim.setDuration(blurred ? 185L : 155L);
+        anim.setDuration(blurred ? 190L : 150L);
         anim.setInterpolator(blurred ? EASE_OUT_EXPO : EASE_IN_EXIT);
-        anim.addUpdateListener(a -> applyPanelBlurFraction(panel, focusRing, st, (float) a.getAnimatedValue(), density));
+        anim.addUpdateListener(a -> applyPanelBlurFraction(panel, focusRing, st, (float) a.getAnimatedValue()));
         anim.addListener(new AnimatorListenerAdapter() {
             private boolean canceled;
 
@@ -1179,8 +1600,11 @@ final class GlassKit {
             public void onAnimationEnd(Animator animation) {
                 if (st.animator == anim) st.animator = null;
                 if (!canceled) {
-                    applyPanelBlurFraction(panel, focusRing, st, target, density);
-                    if (!blurred) PANEL_BLUR_STATES.remove(panel);
+                    applyPanelBlurFraction(panel, focusRing, st, target);
+                    if (!blurred) {
+                        releasePanelBlurVeil(panel, st);
+                        PANEL_BLUR_STATES.remove(panel);
+                    }
                 }
             }
         });
@@ -1799,6 +2223,8 @@ final class GlassKit {
         private final RectF rect = new RectF();
         private final RectF insetRect = new RectF();
         private final int[] scrLoc = new int[2];
+        private final Matrix rootMatrix = new Matrix();
+        private final float[] rootMatrixVals = new float[9];
         private final Matrix tempMatrix = new Matrix();
         private final float[] matrixVals = new float[9];
         private RuntimeShader liquidShader;
@@ -1809,6 +2235,7 @@ final class GlassKit {
         private int lastW = -1, lastH = -1;
         private boolean lastEffectiveSmoked;
         boolean useRestingCoords;
+        boolean suppressDraw;
 
         PanelDrawable(View host, float density, float cornerRadiusPx, boolean smoked, int seedRgb, boolean overSharpBackdrop) {
             this.hostRef = host != null ? new WeakReference<>(host) : null;
@@ -1921,7 +2348,10 @@ final class GlassKit {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed) return false;
             View host = hostRef != null ? hostRef.get() : null;
             if (host == null || !host.isAttachedToWindow()) return false;
-            RefractionBackdrop bg = activeBackdrop;
+            RefractionBackdrop nested = nestedBackdrop;
+            ViewGroup nestedSrc = nestedSourcePanel != null ? nestedSourcePanel.get() : null;
+            RefractionBackdrop bg = (nested != null && !nested.sharp.isRecycled() && !nested.blur.isRecycled()
+                    && !isSameOrDescendant(host, nestedSrc)) ? nested : activeBackdrop;
             if (bg == null || bg.sharp.isRecycled() || bg.blur.isRecycled()) return false;
 
             if (liquidShader == null) {
@@ -1987,11 +2417,14 @@ final class GlassKit {
                 scaleX = 1f;
                 scaleY = 1f;
             } else {
+                rootMatrix.reset();
+                rootView.transformMatrixToGlobal(rootMatrix);
+                rootMatrix.getValues(rootMatrixVals);
                 tempMatrix.reset();
                 host.transformMatrixToGlobal(tempMatrix);
                 tempMatrix.getValues(matrixVals);
-                originX = matrixVals[Matrix.MTRANS_X] + winOffX;
-                originY = matrixVals[Matrix.MTRANS_Y] + winOffY;
+                originX = (matrixVals[Matrix.MTRANS_X] - rootMatrixVals[Matrix.MTRANS_X]) + winOffX;
+                originY = (matrixVals[Matrix.MTRANS_Y] - rootMatrixVals[Matrix.MTRANS_Y]) + winOffY;
                 scaleX = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_X]));
                 scaleY = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_Y]));
             }
@@ -2022,6 +2455,8 @@ final class GlassKit {
             liquidShader.setFloatUniform("uInteriorFill", interiorBlurOnly ? 1.0f : 0.0f);
             liquidShader.setFloatUniform("uLiquidMode", optical ? 1.0f : 0.0f);
             liquidShader.setFloatUniform("uRimTint", rimR, rimG, rimB);
+            liquidShader.setFloatUniform("uWobble", 0.0f);
+            liquidShader.setFloatUniform("uPhase", 0.0f);
 
             liquidPaint.setShader(null);
             liquidPaint.setShader(liquidShader);
@@ -2036,6 +2471,7 @@ final class GlassKit {
 
         @Override
         public void draw(Canvas canvas) {
+            if (suppressDraw) return;
             Rect b = getBounds();
             if (b.isEmpty()) return;
             rect.set(b);

@@ -412,6 +412,7 @@ final class WallpaperPlayer {
                 boxBlurVertical(tmp, px, lw, lh, 5);
             }
             out.setPixels(px, 0, lw, 0, 0, lw, lh);
+            out.prepareToDraw();
             return out;
         } catch (RuntimeException | OutOfMemoryError ignored) {
             return null;
@@ -481,6 +482,7 @@ final class WallpaperPlayer {
                 boxBlurVertical(tmp, px, BLUR_W, BLUR_H, 12);
             }
             out.setPixels(px, 0, BLUR_W, 0, 0, BLUR_W, BLUR_H);
+            out.prepareToDraw();
             return out;
         } catch (Exception | OutOfMemoryError ignored) {
             return null;

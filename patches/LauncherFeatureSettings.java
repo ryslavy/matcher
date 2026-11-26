@@ -100,6 +100,22 @@ final class LauncherFeatureSettings {
         addToggleRow(R.string.fs_oled_drift,
                 () -> FeaturePrefs.isOledDriftEnabled(activity),
                 v -> FeaturePrefs.setOledDriftEnabled(activity, v));
+        addActionRow(R.string.fs_aerial_quality,
+                () -> activity.getString(FeaturePrefs.isAerial4kEnabled(activity)
+                        ? R.string.fs_aerial_4k : R.string.fs_aerial_1080p),
+                () -> {
+                    FeaturePrefs.setAerial4kEnabled(activity, !FeaturePrefs.isAerial4kEnabled(activity));
+                    refresh();
+                });
+        addActionRow(R.string.fs_aerial_favorites_only, () -> {
+            int count = AerialCatalog.favoriteCount(activity);
+            boolean on = FeaturePrefs.isAerialFavoritesOnly(activity);
+            String state = activity.getString(on ? R.string.cc_on : R.string.cc_off);
+            return count > 0 ? state + " (\u2605 " + count + ")" : state;
+        }, () -> {
+            FeaturePrefs.setAerialFavoritesOnly(activity, !FeaturePrefs.isAerialFavoritesOnly(activity));
+            refresh();
+        });
 
         // ---- Section 2: Content & Discovery ----
         addSectionHeader(R.string.fs_sec_content);
@@ -159,7 +175,6 @@ final class LauncherFeatureSettings {
             dismissActiveDialog();
             activeDialog = QrSetupDialog.show(activity, () -> {
                 ImmichSyncManager.scheduleIfEnabled(activity);
-                SelfUpdater.scheduleWeeklyIfEnabled(activity);
                 refresh();
             }, onBlurParent);
         });
@@ -196,14 +211,11 @@ final class LauncherFeatureSettings {
             });
         });
 
-        // ---- Section 4: Safety & Updates ----
+        // ---- Section 4: Safety & Recovery ----
         addSectionHeader(R.string.fs_sec_system);
         addToggleRow(R.string.fs_watchdog,
                 () -> FeaturePrefs.isCrashWatchdogEnabled(activity),
                 v -> FeaturePrefs.setCrashWatchdogEnabled(activity, v));
-        addActionRow(R.string.fs_check_updates,
-                () -> "v" + SelfUpdater.installedVersionName(activity),
-                this::runUpdateCheck);
         addActionRow(R.string.fs_restore_stock, () -> "ADB", this::confirmRestoreStockLauncher);
     }
 

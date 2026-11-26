@@ -1,5 +1,6 @@
 package com.gathin.tvhome;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -23,6 +24,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -30,12 +33,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -667,6 +674,8 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         if (holder instanceof Holder) {
             Holder h = (Holder) holder;
+            h.cancelTiltSprings();
+            if (activeSwayCard == h.card) stopAllFocusMotion();
             h.card.animate().cancel();
             h.banner.animate().cancel();
             h.name.animate().cancel();
@@ -819,6 +828,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return;
         }
         try {
+            MainActivity.prepareForAppLaunch();
             ctx.startActivity(i);
             RecentApps.recordLaunch(ctx, e.pkg);
             if (cinematic) LastOpened.record(ctx, e.pkg);
@@ -1203,6 +1213,84 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return 16f * density * Math.min(1f, tileWidthPx / (DESIGN_W_DP * density));
     }
 
+    private static int lastNavDirX = 0;
+    private static int lastNavDirY = 0;
+    private static Handler swayHandler;
+    private static ValueAnimator activeSwayAnim;
+    private static View activeSwayCard;
+    private static TileSheenDrawable activeSwaySheen;
+    private static Runnable pendingSwayStart;
+
+    private static Handler swayHandler() {
+        if (swayHandler == null) swayHandler = new Handler(Looper.getMainLooper());
+        return swayHandler;
+    }
+
+    /** Records the latest D-pad navigation vector so the newly focused tile tilts naturally in 3D. */
+    static void noteNavKey(int keyCode) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_LEFT:  lastNavDirX = -1; lastNavDirY = 0; break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT: lastNavDirX = 1;  lastNavDirY = 0; break;
+            case KeyEvent.KEYCODE_DPAD_UP:    lastNavDirX = 0;  lastNavDirY = -1; break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:  lastNavDirX = 0;  lastNavDirY = 1; break;
+            default: break;
+        }
+    }
+
+    /** Immediately halts the active tvOS 3D focus sway (called on unfocus, pause, or app launch). */
+    static void stopAllFocusMotion() {
+        if (pendingSwayStart != null) {
+            if (swayHandler != null) swayHandler.removeCallbacks(pendingSwayStart);
+            pendingSwayStart = null;
+        }
+        if (activeSwayAnim != null) {
+            activeSwayAnim.cancel();
+            activeSwayAnim = null;
+        }
+        if (activeSwayCard != null) {
+            View c = activeSwayCard;
+            activeSwayCard = null;
+            if (activeSwaySheen != null) {
+                activeSwaySheen.setTiltGlint(0f, 0f);
+                activeSwaySheen = null;
+            }
+            if (c.getRotationX() != 0f || c.getRotationY() != 0f) {
+                c.animate().rotationX(0f).rotationY(0f).setDuration(140L)
+                        .setInterpolator(Motion.easeOutExpo()).start();
+            }
+        }
+    }
+
+    private static void scheduleFocusSway(View card, TileSheenDrawable sheen) {
+        stopAllFocusMotion();
+        Runnable start = () -> {
+            pendingSwayStart = null;
+            if (!card.isFocused() || !card.isAttachedToWindow()) return;
+            activeSwayCard = card;
+            activeSwaySheen = sheen;
+            ValueAnimator sway = ValueAnimator.ofFloat(0f, (float) (2.0 * Math.PI));
+            sway.setDuration(5400L);
+            sway.setRepeatCount(ValueAnimator.INFINITE);
+            sway.setInterpolator(new LinearInterpolator());
+            sway.addUpdateListener(va -> {
+                if (!card.isFocused() || !card.isAttachedToWindow()) {
+                    stopAllFocusMotion();
+                    return;
+                }
+                float t = (float) va.getAnimatedValue();
+                float rx = (float) (-1.35 * Math.cos(t));
+                float ry = (float) (2.05 * Math.sin(t));
+                card.setRotationX(rx);
+                card.setRotationY(ry);
+                if (sheen != null) sheen.setTiltGlint(-ry / 4.5f, -rx / 4.5f);
+            });
+            activeSwayAnim = sway;
+            sway.start();
+        };
+        pendingSwayStart = start;
+        swayHandler().postDelayed(start, 460L);
+    }
+
     static final class Holder extends RecyclerView.ViewHolder {
         private static int lastFocusedPos = -1;
         final View card;
@@ -1224,6 +1312,13 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         boolean inDock;
         /** A folder tile in the grid keeps its name softly visible at rest. */
         boolean isFolder;
+        private SpringAnimation tiltSpringX;
+        private SpringAnimation tiltSpringY;
+
+        void cancelTiltSprings() {
+            if (tiltSpringX != null) tiltSpringX.cancel();
+            if (tiltSpringY != null) tiltSpringY.cancel();
+        }
 
         Holder(View v, TileListener listener, int columns, boolean animations, boolean advancedEffects,
                boolean reducedMotion, float restNameAlpha, boolean overshoot) {
@@ -1252,11 +1347,12 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
             card.setClipToOutline(true);
             ExpressiveGlass.disableOutlineShadow(card);
-            card.setCameraDistance(8000f * density);
+            card.setCameraDistance(3600f * density);
             if (sheen != null) card.setForeground(sheen);
 
             card.setOnKeyListener((view, keyCode, event) -> {
                 if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
+                noteNavKey(keyCode);
                 if (keyCode != KeyEvent.KEYCODE_DPAD_UP && keyCode != KeyEvent.KEYCODE_DPAD_DOWN
                         && keyCode != KeyEvent.KEYCODE_DPAD_LEFT && keyCode != KeyEvent.KEYCODE_DPAD_RIGHT) return false;
                 int pos = getBindingAdapterPosition();
@@ -1264,6 +1360,8 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             });
 
             card.setOnFocusChangeListener((view, focused) -> {
+                cancelTiltSprings();
+                if (!focused && activeSwayCard == view) stopAllFocusMotion();
                 view.animate().cancel();
                 banner.animate().cancel();
                 name.animate().cancel();
@@ -1284,8 +1382,6 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     name.setAlpha(focused ? 1f : idleAlpha);
                     name.setTranslationY(0f);
                 } else if (reducedMotion) {
-                    // A short zoom with no hardware layer: building a layer for so short an animation costs more
-                    // frames than it saves. The name just appears instead of fading.
                     view.setRotationX(0f);
                     view.setRotationY(0f);
                     if (sheen != null) sheen.onFocusChanged(focused, false, 1);
@@ -1296,21 +1392,41 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             .setInterpolator(Motion.smoothDecel())
                             .start();
                     name.setAlpha(focused ? 1f : idleAlpha);
-                    // Same place as the full motion's slide ends: the layout's -6dp is only its starting point, and
-                    // left there the name overlaps the zoomed tile.
-                    // Only on focus: snapping it back to -6dp while it fades out would jump it up over the tile.
                     if (focused) name.setTranslationY(density * 4f);
                 } else {
                     int posNow = getBindingAdapterPosition();
                     int dCol = (lastFocusedPos >= 0 && posNow >= 0) ? (posNow % this.columns) - (lastFocusedPos % this.columns) : 1;
-                    int dir = dCol < 0 ? -1 : 1;
+                    int dir = lastNavDirX != 0 ? lastNavDirX : (dCol < 0 ? -1 : 1);
                     if (focused && advancedEffects) {
                         if (sheen != null) sheen.onFocusChanged(true, true, dir);
-                    } else if (sheen != null) {
-                        sheen.onFocusChanged(false, true, dir);
+                        // tvOS directional 3D spring tilt in navigation direction + subtle elliptical focus sway.
+                        int dx = lastNavDirX != 0 ? lastNavDirX : (dCol == 0 ? 0 : (dCol < 0 ? -1 : 1));
+                        int dy = lastNavDirY;
+                        if (dx != 0 || dy != 0) {
+                            view.setRotationY(dx * 6.5f);
+                            view.setRotationX(-dy * 6.5f);
+                            if (tiltSpringY == null) {
+                                tiltSpringY = new SpringAnimation(view, DynamicAnimation.ROTATION_Y, 0f);
+                                tiltSpringY.getSpring().setDampingRatio(0.36f).setStiffness(195f);
+                                tiltSpringY.addUpdateListener((a, val, vel) -> {
+                                    if (sheen != null) sheen.setTiltGlint(-val / 7.5f, -view.getRotationX() / 7.5f);
+                                });
+                            }
+                            if (tiltSpringX == null) {
+                                tiltSpringX = new SpringAnimation(view, DynamicAnimation.ROTATION_X, 0f);
+                                tiltSpringX.getSpring().setDampingRatio(0.36f).setStiffness(195f);
+                                tiltSpringX.addUpdateListener((a, val, vel) -> {
+                                    if (sheen != null) sheen.setTiltGlint(-view.getRotationY() / 7.5f, -val / 7.5f);
+                                });
+                            }
+                            tiltSpringY.animateToFinalPosition(0f);
+                            tiltSpringX.animateToFinalPosition(0f);
+                        }
+                        scheduleFocusSway(view, sheen);
+                    } else {
+                        if (sheen != null) sheen.onFocusChanged(false, true, dir);
+                        view.animate().rotationX(0f).rotationY(0f);
                     }
-                    // Keep strictly 2D scale/translation transforms (no rotationX/Y perspective tilt) so
-                    // clipToOutline stays on Skia's zero-stencil 2D RRect fast-path at locked 60 fps.
                     view.animate().setStartDelay(0L).scaleX(s).scaleY(s)
                             .translationY(focused && advancedEffects && !inDock ? -4f * density : 0f)
                             .translationZ(focused && advancedEffects ? 8f * density : 0f)

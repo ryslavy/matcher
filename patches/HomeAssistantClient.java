@@ -1,6 +1,8 @@
 package com.gathin.tvhome;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -40,7 +42,7 @@ final class HomeAssistantClient {
 
     static final Set<String> ALLOWED_DOMAINS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
             "light", "switch", "fan", "input_boolean", "cover",
-            "scene", "script", "automation", "button", "input_button")));
+            "scene", "script", "automation", "button", "input_button", "camera")));
 
     static final Set<String> SAFE_COVER_CLASSES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
             "awning", "blind", "curtain", "shade", "shutter")));
@@ -103,6 +105,10 @@ final class HomeAssistantClient {
         boolean isToggleable() {
             return "light".equals(domain) || "switch".equals(domain) || "fan".equals(domain)
                     || "input_boolean".equals(domain) || "cover".equals(domain) || "automation".equals(domain);
+        }
+
+        boolean isCamera() {
+            return "camera".equals(domain);
         }
     }
 
@@ -167,6 +173,67 @@ final class HomeAssistantClient {
                 cachedControls = parseEntities(FeaturePrefs.homeAssistantEntities(ctx));
             }
             return new ArrayList<>(cachedControls);
+        }
+    }
+
+    static List<Control> cameras(Context ctx) {
+        List<Control> out = new ArrayList<>();
+        for (Control ctl : controls(ctx)) {
+            if (ctl.isCamera()) out.add(ctl);
+        }
+        return out;
+    }
+
+    /**
+     * Fetches a live JPEG snapshot for a {@code camera.*} entity via Home Assistant's
+     * {@code /api/camera_proxy/<entity_id>} endpoint (read-only). Bounds decode width to 1280 px
+     * and pre-uploads the texture via {@link Bitmap#prepareToDraw()} for flicker-free PiP rendering.
+     */
+    @Nullable
+    static Bitmap fetchCameraSnapshot(Context ctx, String entityId) {
+        if (!isReady(ctx) || !isAllowedEntityId(entityId) || !entityId.startsWith("camera.")) return null;
+        String baseUrl = trimSlash(FeaturePrefs.homeAssistantUrl(ctx));
+        String token = FeaturePrefs.homeAssistantToken(ctx);
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) new URL(baseUrl + "/api/camera_proxy/" + entityId).openConnection();
+            conn.setInstanceFollowRedirects(false);
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(7000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            conn.setRequestProperty("Accept", "image/jpeg, image/png, image/*");
+            int code = conn.getResponseCode();
+            if (code < 200 || code >= 300) return null;
+            byte[] data;
+            try (InputStream in = conn.getInputStream()) {
+                ByteArrayOutputStream buf = new ByteArrayOutputStream(65536);
+                byte[] chunk = new byte[8192];
+                int n;
+                while ((n = in.read(chunk)) > 0) {
+                    if (buf.size() + n > 4 * 1024 * 1024) return null;
+                    buf.write(chunk, 0, n);
+                }
+                data = buf.toByteArray();
+            }
+            if (data.length == 0) return null;
+            BitmapFactory.Options bounds = new BitmapFactory.Options();
+            bounds.inJustDecodeBounds = true;
+            BitmapFactory.decodeByteArray(data, 0, data.length, bounds);
+            if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null;
+            int sample = 1;
+            while (bounds.outWidth / (sample * 2) >= 1280) sample *= 2;
+            BitmapFactory.Options opts = new BitmapFactory.Options();
+            opts.inSampleSize = sample;
+            opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length, opts);
+            if (bmp != null) bmp.prepareToDraw();
+            return bmp;
+        } catch (IOException | RuntimeException e) {
+            Log.w(TAG, "HA camera snapshot failed for " + entityId + ": " + e.getMessage());
+            return null;
+        } finally {
+            if (conn != null) conn.disconnect();
         }
     }
 

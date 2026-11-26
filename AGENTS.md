@@ -76,34 +76,40 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
 
 ## 3. Liquid Glass & Rendering Invariants (DO NOT REGRESS!)
 
-1. **Strict Porter-Duff Valid Premultiplied Alpha in AGSL Shaders:**
+1. **Strict Porter-Duff Valid Premultiplied Alpha & Dark-TV Color Science in AGSL Shaders:**
    - In `LIQUID_GLASS_PANEL_AGSL` (both [`patches/ExpressiveGlass.java`](patches/ExpressiveGlass.java) and all 8 [`GlassKit.java`](patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) copies), output RGB **MUST NEVER exceed output alpha** (`0 <= premul.rgb <= outA <= 1`).
    - Always combine specular & refracted glass using proper Porter-Duff `SrcOver`:
      ```glsl
-     float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.98);
+     float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.96);
      half3 premul = clamp(specCol * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));
      ```
    - Violating `premul <= outA` causes hardware layer (`LAYER_TYPE_HARDWARE`) FBO compositing to look brighter than direct rendering and flash when animations end.
+   - **No light-mode white lift on dark TV pixels:** `applyVibrancyAndAdapt` protects highlights above `luma > 0.68` without injecting white haze into dark pixels, keeping dark glass rims deep crystal.
 
-2. **Optical Frost Prefilter (Zero Sharp Text in Curved Bezels):**
-   - `ExpressiveGlass.captureHomeWindowForRefraction` captures `480×270` (`REFRACT_SHARP_W/H`) and applies a 2-pass Gaussian-approximating box blur (`sharpRadius ≈ 5`, ~13 px frost on 1080p) before binding `uSharp`, and `WallpaperPlayer.makeSharpScaled` does the same for static wallpapers. Keep this prefilter so curved meniscus rims never refract crisp text/logos.
+2. **4-Layer Optical Backdrop Hierarchy & Frame-0 Invalidation:**
+   - **Layer 0 (Base):** Wallpaper / HeroArt (`homeWallpaperRefraction`) or External App (`overlayRefraction`).
+   - **Layer 1 (Home Chrome):** Dock (with interactive ripple), Top Pills, Liquid Clock → strictly sample Layer 0.
+   - **Layer 2 (Primary Modals / Overlays / Add-ons):** Sample `homeLiveRefraction` over Home or `overlayRefraction` over external apps.
+   - **Layer 3 (Nested Context Menus & Sub-Dialogs):** Sample `nestedRefraction` (composited Layer 0 + dimmed parent panel + softly blurred parent children). `Motion.glidePanel` and `GlassKit.glidePanel` **must always** call `invalidateCached(liquidTargets)` when `entering || !useHwLayer` (even with `LAYER_TYPE_HARDWARE`) so a popup shown before `setPanelContentBlur(true)` never freezes a stale Frame-0 RenderNode sampling Home icons.
+   - `ExpressiveGlass.captureHomeWindowForRefraction` (`480×270`) and `WallpaperPlayer.makeSharpScaled` prefilter `uSharp` so curved meniscus rims never refract harsh text/logos.
 
-3. **Zero Home Wallpaper Leakage Over DRM / External Apps:**
+3. **Hardware-Cached Material 3 Expressive Nested Blur (`ExpressiveBlurVeilDrawable`):**
+   - Both `ExpressiveGlass` and `GlassKit` render nested parent-panel defocus on API 31+ using a 2-`RenderNode` pipeline mounted on `panel.getOverlay()`: inner `effectNode` applies native Skia GPU Gaussian blur (`NESTED_BLUR_RADIUS_DP = 28dp`) chained with `BACKDROP_AGSL`, and outer `cacheNode` caches that output **once** via `setUseCompositingLayer(true, null)` with native `setOutline`/`setClipToOutline(true)`.
+   - Never animate nested blur by mutating per-child `View.setRenderEffect(...)` radii frame-by-frame (causes Mali GPU rebuild stutter and visible stepping).
+
+4. **Zero Home Wallpaper Leakage Over DRM / External Apps:**
    - In `ExpressiveGlass.PanelDrawable.drawLiquidGlass`:
      - When `smoked == true`, use `overlayRefraction` if available; fall back to Home's `activeRefractionBackdrop()` **ONLY when `MainActivity.isHomeVisible()` is `true`**. When an external/DRM app is in foreground (`!isHomeVisible()`), return `null` so smoked overlays never leak Home wallpaper colors.
    - All overlay Activities (launcher + all 8 add-ons) use `Theme.GlassOverlay` (`windowIsTranslucent=true`, `windowBackground=@android:color/transparent`, `windowAnimationStyle=@null`) and handle `onNewIntent` on `singleTask` launch modes.
 
-4. **Zero Frame-0 Coordinate Snap on Floating Windows:**
-   - On Android 14, non-fullscreen `PopupWindow` and `Dialog` windows can report `(0, 0)` from `getLocationOnScreen()` on Frame 1 before WindowManager delivers `MSG_RESIZED`.
-   - `ExpressiveGlass` and `GlassKit` both compute exact Frame-0 screen origins from `WindowManager.LayoutParams` gravity/offsets when `scrLoc == (0, 0)`.
-   - `MediaMiniPlayerDialog` uses a full-screen `MATCH_PARENT × MATCH_PARENT` transparent `backdrop` `PopupWindow` (just like `FolderDialog`) plus direct GPU drawing (`allowHwLayer = false` in `Motion.revealTopCornerCard`/`dismissTopCornerCard`) so there is zero `LAYER_TYPE_HARDWARE` FBO swap or edge brightness blink on open.
+5. **Zero Frame-0 Snap & Zero Scroll Jump on Floating Windows (`computeScreenOrigin`):**
+   - On Android 14, `View.transformMatrixToGlobal` on floating `Dialog`/`PopupWindow` views already includes window origin `(winOffX, winOffY)` — adding `winOff` a second time shifts refraction during scroll/re-layout. Always compute screen origin via `(hostTrans - rootTrans) + winOff` (`ExpressiveGlass.computeScreenOrigin`), with `WindowManager.LayoutParams` gravity fallback when `scrLoc == (0, 0)` on Frame 0.
+   - `MediaMiniPlayerDialog` uses a full-screen `MATCH_PARENT × MATCH_PARENT` transparent `backdrop` `PopupWindow` plus direct GPU drawing (`allowHwLayer = false` in `Motion.revealTopCornerCard`/`dismissTopCornerCard`).
 
-5. **Seamless Backdrop Blur Handoffs & Input Parity:**
-   - Chained Home popups/modals (`Folder ↔ Add Apps / Rename`, `Tile Menu → Folder Picker → New Folder`, `Top Menu → Inputs / Settings`) must call `MainActivity.holdBackdropBlurForHandoff()` (and `OverlayActivity.finishForHandoff()` when leaving `OverlayActivity`) so Home's blurred veil never blinks off between windows.
-   - Every standalone `PopupWindow` and `Dialog` creates its own window tree and **must** explicitly attach `PointerSupport.install(host)` and `UiClickSound.attachFocusSound(host)`.
-
-6. **Shared `GlassKit.java` Synchronization:**
-   - All 8 add-ons contain identical `GlassKit.java` implementations differing **only in line 1 (`package ...;`)**. Whenever you modify one `GlassKit.java`, synchronize it across all 7 other add-ons (UTF-8 without BOM) and mirror all 8 into `patches/addons/`.
+6. **Seamless Backdrop Blur Handoffs, Input Parity & Shared `GlassKit.java`:**
+   - Chained Home popups/modals (`Folder ↔ Add Apps / Rename`, `Tile Menu → Folder Picker → New Folder`, `Top Menu → Inputs / Settings`) must call `MainActivity.holdBackdropBlurForHandoff()` (and `OverlayActivity.finishForHandoff()` when leaving `OverlayActivity`).
+   - Every standalone `PopupWindow` and `Dialog` must explicitly attach `PointerSupport.install(host)` and `UiClickSound.attachFocusSound(host)`.
+   - All 8 add-ons contain identical `GlassKit.java` implementations differing **only in line 1 (`package ...;`)**. Sync across all 8 (UTF-8 without BOM) and mirror into `patches/addons/`.
 
 ---
 
@@ -112,20 +118,20 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
 | File(s) | Responsibility |
 |---|---|
 | `ExpressiveGlass.java`, `Motion.java`, `FocusRingController.java`, `GlassView.java`, `DockDecoration.java`, `FrostedPillDrawable.java`, `LiquidClockView.java` | 3D Liquid Glass AGSL shader engine, backdrop capture/blur veil, vsync glide curves, spring Fresnel focus ring, beveled clock |
-| `MainActivity.java`, `AppAdapter.java`, `WallpaperPlayer.java`, `WallpaperMood.java`, `HeroArt.java` | Home screen, dock, seasonal/mood wallpapers, tile/folder context menus, Add-Apps & Rename dialogs |
+| `MainActivity.java`, `AppAdapter.java`, `TileSheenDrawable.java`, `WallpaperPlayer.java`, `WallpaperMood.java`, `HeroArt.java` | Home screen, dock, 3D tile spring tilt/sway/sheen, seasonal/mood wallpapers, tile/folder context menus, Add-Apps & Rename dialogs |
 | `OverlayActivity.java`, `QuickSettingsActivity.java`, `LauncherSettingsActivity.java`, `LauncherFeatureSettings.java` | Translucent overlay hosts for Recents, App Library, Folders, Discover, Control Center, and Settings |
 | `FolderDialog.java`, `AppLibraryDialog.java`, `RecentsDialog.java`, `MediaMiniPlayerDialog.java`, `DiscoverDialog.java`, `QrSetupDialog.java` | All major glass modals, carousels, mini-player, and nested popovers |
-| `HomeKeyService.java`, `RemoteKeys.java`, `GamepadPassthrough.java`, `PointerSupport.java`, `UiClickSound.java` | Two-level remote key interception, game controller passthrough, air-mouse hover, click sounds |
-| `ClockScene.java`, `ClockActivity.java`, `ClockDream.java`, `AerialCatalog.java`, `AmbientWeather.java`, `ImmichSyncManager.java` | 1080p Aerial video & photo screensaver, weather/sunrise, OLED drift, Immich sync |
-| `WatchNextRepository.java`, `TrendingPicksRepository.java`, `TraktClient.java`, `PlexClient.java`, `HomeAssistantClient.java`, `QrConfigServer.java`, `QrBitmap.java` | Discover providers, Home Assistant API client, ephemeral LAN QR setup web server |
-| `LocalAdbClient.java`, `CrashWatchdog.java`, `TvHomeApp.java`, `SelfUpdater.java`, `FeaturePrefs.java` | Loopback ADB permission/restore client, crash-loop protection, GitHub Releases updater, preferences |
+| `HomeKeyService.java`, `InputKeyService.java`, `RemoteKeys.java`, `GamepadPassthrough.java`, `PointerSupport.java`, `UiClickSound.java` | Three-level (`tap`/`double:`/`hold:`) remote key interception, game controller passthrough, air-mouse hover, click sounds |
+| `ClockScene.java`, `ClockActivity.java`, `ClockDream.java`, `AerialCatalog.java`, `AmbientWeather.java`, `ImmichSyncManager.java` | 4K HEVC / 1080p Aerial video & photo screensaver, favorite loops, weather/sunrise, OLED drift, Immich sync |
+| `WatchNextRepository.java`, `TrendingPicksRepository.java`, `TraktClient.java`, `PlexClient.java`, `HomeAssistantClient.java`, `HaCameraOverlay.java`, `QrConfigServer.java`, `QrBitmap.java` | Discover providers, Home Assistant API client & live `camera.*` PiP overlay, ephemeral LAN QR setup web server |
+| `LocalAdbClient.java`, `CrashWatchdog.java`, `TvHomeApp.java`, `SelfUpdater.java`, `FeaturePrefs.java` | Loopback ADB permission/restore client, crash-loop protection, preferences (`SelfUpdater` disabled by default) |
 
 ---
 
 ## 5. Build, Test & Verify Commands
 
 ```powershell
-# 1. Run all 366 JVM unit tests + build release launcher APK
+# 1. Run all 373 JVM unit tests + build release launcher APK
 $env:JAVA_HOME = (Get-ChildItem .\toolchain\jdk\jdk-17* -Directory | Select-Object -First 1).FullName
 $env:ANDROID_HOME = "$PWD\toolchain\android-sdk"
 Push-Location .\cleanyourtv\launcher

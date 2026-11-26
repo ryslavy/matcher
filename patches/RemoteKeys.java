@@ -44,6 +44,9 @@ final class RemoteKeys {
     /** How long a button is held before its "hold:" entry wins (Android's long-press timeout). */
     static final long HOLD_MS = 500;
 
+    /** Window after a short release in which a second press triggers a button's "double:" entry. */
+    static final long DOUBLE_TAP_MS = 280;
+
     /** The app_keys target that opens the input switcher, as "scan:365:inputs". */
     static final String INPUTS = "inputs";
 
@@ -100,6 +103,19 @@ final class RemoteKeys {
         return parseAppKeys(prefixed(entries, "hold:"), names);
     }
 
+    /** keycode -> package from the "double:" entries (double-tap action within DOUBLE_TAP_MS). */
+    static Map<Integer, String> parseDoubleAppKeys(String[] entries) {
+        return parseDoubleAppKeys(Arrays.asList(entries), KeyEvent::keyCodeFromString);
+    }
+
+    static Map<Integer, String> parseDoubleAppKeys(Iterable<String> entries) {
+        return parseDoubleAppKeys(entries, KeyEvent::keyCodeFromString);
+    }
+
+    static Map<Integer, String> parseDoubleAppKeys(Iterable<String> entries, ToIntFunction<String> names) {
+        return parseAppKeys(prefixed(entries, "double:"), names);
+    }
+
     /** keycode -> target from the "front:" entries, used while the button's own app is already in front. */
     static Map<Integer, String> parseFrontAppKeys(Iterable<String> entries) {
         return parseFrontAppKeys(entries, KeyEvent::keyCodeFromString);
@@ -154,6 +170,11 @@ final class RemoteKeys {
         return parseAppScancodes(prefixed(entries, "hold:"));
     }
 
+    /** scancode -> package from the "double:scan:..." entries; the rest reads as it does in parseAppScancodes. */
+    static Map<Integer, String> parseDoubleAppScancodes(Iterable<String> entries) {
+        return parseAppScancodes(prefixed(entries, "double:"));
+    }
+
     /** The entries with this prefix ("hold:", "front:"), the prefix removed, so the normal parsers can read them. */
     private static Iterable<String> prefixed(Iterable<String> entries, String prefix) {
         List<String> found = new ArrayList<>();
@@ -198,7 +219,16 @@ final class RemoteKeys {
      * normal one on an earlier release. False means neither list has this key, so the caller can pass it on.
      */
     static boolean handle(Context ctx, KeyEvent event, String app, String holdApp) {
-        if (app == null && holdApp == null) return false;
+        return handle(ctx, event, app, null, holdApp);
+    }
+
+    /**
+     * Consumes a key mapped to tap, double-tap ("double:"), and/or long-press ("hold:").
+     * When {@code doubleApp} is null, single taps fire immediately on release with zero delay.
+     */
+    static boolean handle(Context ctx, KeyEvent event, @Nullable String app, @Nullable String doubleApp,
+                          @Nullable String holdApp) {
+        if (app == null && doubleApp == null && holdApp == null) return false;
         if (presses == null) {
             Handler handler = new Handler(Looper.getMainLooper());
             presses = new Presses(new Presses.Timer() {
@@ -208,11 +238,11 @@ final class RemoteKeys {
         }
         String button = event.getDeviceId() + ":" + event.getKeyCode() + ":" + event.getScanCode();
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
-            presses.down(button, event.getEventTime(), event.getRepeatCount(), holdApp, ctx,
+            presses.down(button, event.getEventTime(), event.getRepeatCount(), doubleApp, holdApp, ctx,
                     target -> launch(ctx, target));
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
-            presses.up(button, event.getEventTime(), event.getDownTime(), event.isCanceled(), app, holdApp,
-                    target -> launch(ctx, target));
+            presses.up(button, event.getEventTime(), event.getDownTime(), event.isCanceled(), app, doubleApp,
+                    holdApp, ctx, target -> launch(ctx, target));
         }
         return true;
     }
@@ -241,9 +271,13 @@ final class RemoteKeys {
         private static final class Press {
             long downAt = -1, upAt = -1;
             boolean fired;
+            boolean secondTap;
             Runnable hold;
+            Runnable pendingTap;
             /** The helpers that saw this DOWN while its hold is pending, each with the way it opens a target. */
             final Map<Object, Consumer<String>> owners = new LinkedHashMap<>();
+            /** The helpers that saw the first UP while waiting for a possible double-tap. */
+            final Map<Object, Consumer<String>> tapOwners = new LinkedHashMap<>();
         }
 
         private final Map<String, Press> buttons = new HashMap<>();
@@ -255,6 +289,11 @@ final class RemoteKeys {
 
         void down(String button, long eventTime, int repeatCount, String holdApp, Object owner,
                 Consumer<String> open) {
+            down(button, eventTime, repeatCount, null, holdApp, owner, open);
+        }
+
+        void down(String button, long eventTime, int repeatCount, @Nullable String doubleApp, @Nullable String holdApp,
+                Object owner, Consumer<String> open) {
             if (repeatCount != 0) return;
             Press press = buttons.computeIfAbsent(button, b -> new Press());
             if (press.downAt == eventTime) {
@@ -263,6 +302,14 @@ final class RemoteKeys {
                 return;
             }
             if (press.hold != null) timer.cancel(press.hold);   // its UP never came
+            if (press.pendingTap != null) {
+                timer.cancel(press.pendingTap);
+                press.pendingTap = null;
+                press.tapOwners.clear();
+                press.secondTap = doubleApp != null;
+            } else {
+                press.secondTap = false;
+            }
             press.downAt = eventTime;
             press.fired = false;
             press.hold = null;
@@ -274,25 +321,40 @@ final class RemoteKeys {
                 press.hold = null;
                 press.owners.clear();
                 press.fired = true;
+                press.secondTap = false;
                 first.accept(holdApp);
             };
             timer.post(press.hold, HOLD_MS);
         }
 
-        /** Drops this helper from every pending hold, cancelling a hold it was the last to own. */
+        /** Drops this helper from every pending hold or pending single-tap, cancelling when it was the last owner. */
         void release(Object owner) {
             for (Press press : buttons.values()) {
-                if (press.hold == null || press.owners.remove(owner) == null || !press.owners.isEmpty()) continue;
-                timer.cancel(press.hold);
-                press.hold = null;
-                press.fired = true;   // the press is over: an UP that still comes later opens nothing
+                if (press.hold != null && press.owners.remove(owner) != null && press.owners.isEmpty()) {
+                    timer.cancel(press.hold);
+                    press.hold = null;
+                    press.fired = true;   // the press is over: an UP that still comes later opens nothing
+                }
+                if (press.pendingTap != null && press.tapOwners.remove(owner) != null && press.tapOwners.isEmpty()) {
+                    timer.cancel(press.pendingTap);
+                    press.pendingTap = null;
+                }
             }
         }
 
         void up(String button, long eventTime, long downTime, boolean canceled, String app, String holdApp,
                 Consumer<String> open) {
+            up(button, eventTime, downTime, canceled, app, null, holdApp, null, open);
+        }
+
+        void up(String button, long eventTime, long downTime, boolean canceled, @Nullable String app,
+                @Nullable String doubleApp, @Nullable String holdApp, @Nullable Object owner,
+                Consumer<String> open) {
             Press press = buttons.computeIfAbsent(button, b -> new Press());
-            if (press.upAt == eventTime) return;
+            if (press.upAt == eventTime) {
+                if (press.pendingTap != null && owner != null) press.tapOwners.putIfAbsent(owner, open);
+                return;
+            }
             boolean sawDown = press.downAt > press.upAt;
             press.upAt = eventTime;
             if (press.hold != null) {
@@ -300,9 +362,41 @@ final class RemoteKeys {
                 press.hold = null;
                 press.owners.clear();
             }
-            if (canceled || (sawDown && press.fired)) return;
+            if (canceled || (sawDown && press.fired)) {
+                press.secondTap = false;
+                return;
+            }
             // Without its DOWN (the service started while the button was held), the event's own down time will do.
-            open.accept(target(app, holdApp, eventTime - (sawDown ? press.downAt : downTime)));
+            long heldMs = eventTime - (sawDown ? press.downAt : downTime);
+            if (heldMs >= HOLD_MS && holdApp != null) {
+                press.secondTap = false;
+                open.accept(holdApp);
+                return;
+            }
+            if (press.secondTap && doubleApp != null) {
+                press.secondTap = false;
+                open.accept(doubleApp);
+                return;
+            }
+            press.secondTap = false;
+            if (doubleApp == null) {
+                open.accept(app);
+                return;
+            }
+            if (press.pendingTap != null) {
+                timer.cancel(press.pendingTap);
+                press.pendingTap = null;
+                press.tapOwners.clear();
+            }
+            if (owner != null) press.tapOwners.put(owner, open);
+            press.pendingTap = () -> {
+                Consumer<String> cb = !press.tapOwners.isEmpty()
+                        ? press.tapOwners.values().iterator().next() : open;
+                press.pendingTap = null;
+                press.tapOwners.clear();
+                if (app != null) cb.accept(app);
+            };
+            timer.post(press.pendingTap, DOUBLE_TAP_MS);
         }
     }
 

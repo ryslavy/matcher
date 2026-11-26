@@ -4,9 +4,9 @@ Tato příručka shrnuje ovládání, nové funkce, úpravy vzhledu i bezpečný
 
 ---
 
-## 1. Ovládání dálkovým ovladačem (dvouúrovňové mapování)
+## 1. Ovládání dálkovým ovladačem (tříúrovňové mapování)
 
-Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.json`](../my-theme/config.json) pod `app_keys`):
+Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.json`](../my-theme/config.json) pod `app_keys`; kromě krátkého stisku a podržení `hold:` lze k libovolnému tlačítku přidat i dvojklik `double:` — tlačítka bez `double:` reagují okamžitě bez zpoždění):
 
 | Tlačítko na ovladači | Krátký stisk (Tap) | Podržení ~0,5 s (`hold:`) |
 |---|---|---|
@@ -25,10 +25,12 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ## 2. Hlavní funkce na TV
 
-### Vzhled a Liquid Glass
-- **3D rozostřený Liquid Glass** na celé domovské obrazovce (dock, horní kulaté ikony, složky, Media Mini-Player, Ovládací centrum, Knihovna aplikací, Nedávné aplikace, Objevovat, Spořič i všechna vnořená podokna a kontextová menu). Nad streamovacími aplikacemi (Netflix, YouTube…) se automaticky přepíná na plynulý frosted režim bez úniku tapety plochy.
-- **Dynamické tapety podle denní doby, ročních období a svátků** (`wallpaper_moods` v [`my-theme/config.json`](../my-theme/config.json)).
-- **Volitelné 3D skleněné hodiny (iOS 26)** a **ochrana OLED proti vypálení** na spořiči — přepínače najdeš v *Ovládací centrum → Nastavení*.
+### Vzhled, Liquid Glass 2.0 a Material 3 Expressive blur
+- **4vrstvý optický Liquid Glass 2.0** na celé domovské obrazovce (dock s živým vlněním při pohybu fokusu, horní kulaté ikony, složky, Media Mini-Player, Ovládací centrum, Knihovna aplikací, Nedávné aplikace, Objevovat, Spořič i všechna vnořená podokna a kontextová menu). Každá vrstva opticky láme přesně to, co je pod ní (kontextová menu v *All Apps* / složkách / nastavení lámou obsah rodičovského okna přes `nestedRefraction`, nad cizími streamovacími aplikacemi se přepíná čistý frosted režim bez úniku tapety).
+- **Hardwarově cachovaný Material 3 Expressive blur vnořených menu:** Při otevření kontextové nabídky se podkladový panel plynule (60/120 FPS) rozostří nativním GPU Skia Gaussian + `BACKDROP_AGSL` závojem tónovaným podle aktivní tapety, zatímco vnější skleněný okraj panelu zůstává ostrý.
+- **3D naklánění dlaždic a živý odlesk:** Dlaždice na ploše i ve složkách reagují 3D pružinovým náklonem, jemným pohybem a světelným odleskem (`TileSheenDrawable`).
+- **4K HEVC Aerial spořič a oblíbené smyčky (`★`):** Plynulá Apple TV 4K HEVC videa s automatickým fallbackem na 1080p SDR, připínáním oblíbených scén, počasím, kartou *Právě hraje* a ochranou OLED proti vypálení.
+- **Dynamické tapety podle denní doby, ročních období a svátků** (`wallpaper_moods` v [`my-theme/config.json`](../my-theme/config.json)) a volitelné **3D skleněné hodiny (iOS 26)** v *Ovládací centrum → Nastavení*.
 
 ### Složky, Knihovna aplikací a Media Mini-Player
 - **Složky:** Podrž **OK** na libovolné aplikaci → *Přidat do složky* → *Nová složka*. Uvnitř složky lze kdykoliv přidávat další aplikace (*+ Přidat*), přejmenovat ji, přesouvat dlaždice nebo ji rozpustit.
@@ -41,7 +43,7 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
   - **Nesponzorované tipy** (TMDB / Trakt / Plex) filtrované na tvé nainstalované aplikace, včetně přímého otevírání v Nuvio.
 - **Nastavení z mobilu přes QR kód** *(Nastavení → Nastavit z mobilu (QR) nebo tlačítko QR v Objevovat)*:
   - Zobrazí QR kód na dočasný lokální web na TV — z telefonu pohodlně zadáš API klíče a adresy pro **TMDB, Trakt, Plex, Home Assistant i Immich**. Po zavření dialogu se server okamžitě vypne.
-- **Chytrá domácnost (Home Assistant):** Po zadání adresy, tokenu a entit přes QR se přímo v Ovládacím centru objeví přepínače světel, zásuvek a scén.
+- **Chytrá domácnost a živé kamery PiP (Home Assistant):** Po zadání adresy, tokenu a entit přes QR se přímo v Ovládacím centru objeví přepínače světel, zásuvek, scén i **živý plovoucí náhled kamer (`camera.*`)** přes jakoukoliv aplikaci.
 - **Fotky z Immich:** Periodická synchronizace vybraného alba z vlastního Immich serveru.
 
 ### Zvuky, Air-Mouse a Ochrana proti pádu

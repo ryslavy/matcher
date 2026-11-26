@@ -847,12 +847,18 @@ public final class QuickSettingsActivity extends Activity {
         }
         haSection.setVisibility(View.VISIBLE);
         for (HomeAssistantClient.Control ctl : visible) {
-            TileViews tv = createTile(R.drawable.ic_ha_home, ctl.name, formatHaState(ctl),
+            int iconRes = ctl.isCamera() ? R.drawable.ic_ha_camera : R.drawable.ic_ha_home;
+            TileViews tv = createTile(iconRes, ctl.name, formatHaState(ctl),
                     0xFF60A5FA, 0x462563EB);
             tv.setActive(ctl.isActive());
             tv.root.setAlpha(ctl.isUnavailable() ? 0.50f : 1f);
             tv.root.setOnClickListener(v -> {
                 Motion.pulseClick(v, v.isFocused() ? 1.055f : 1f, reducedMotion);
+                if (ctl.isCamera()) {
+                    handingOff = true;
+                    OverlayActivity.launchCamera(this, ctl.entityId);
+                    return;
+                }
                 HomeAssistantClient.activate(this, ctl, ok -> {
                     if (!closing && !isFinishing() && !isDestroyed()) {
                         tv.sub.setText(formatHaState(ctl));
@@ -881,6 +887,7 @@ public final class QuickSettingsActivity extends Activity {
 
     private String formatHaState(HomeAssistantClient.Control ctl) {
         if (ctl.isUnavailable()) return getString(R.string.ha_state_unavailable);
+        if (ctl.isCamera()) return getString(R.string.ha_state_camera);
         if (ctl.state.isEmpty()) return "…";
         if ("on".equals(ctl.state)) return getString(R.string.cc_on);
         if ("off".equals(ctl.state)) return getString(R.string.cc_off);
@@ -1034,7 +1041,9 @@ public final class QuickSettingsActivity extends Activity {
 
         boolean aerial = AerialCatalog.isEnabled(this);
         tileAerial.setActive(aerial);
-        tileAerial.sub.setText(aerial ? R.string.cc_aerial_on : R.string.cc_aerial_off);
+        tileAerial.sub.setText(aerial
+                ? (FeaturePrefs.isAerial4kEnabled(this) ? R.string.cc_aerial_on_4k : R.string.cc_aerial_on)
+                : R.string.cc_aerial_off);
 
         tileSleepTimer.setActive(false);
         tileBrightness.setActive(false);

@@ -99,6 +99,16 @@ final class SelfUpdater {
 
     private SelfUpdater() { }
 
+    static void cancelScheduled(Context ctx) {
+        JobScheduler js = ctx.getSystemService(JobScheduler.class);
+        if (js != null) {
+            try {
+                js.cancel(JOB_ID);
+            } catch (RuntimeException ignored) {
+            }
+        }
+    }
+
     static void scheduleWeeklyIfEnabled(Context ctx) {
         JobScheduler js = ctx.getSystemService(JobScheduler.class);
         if (js == null) return;

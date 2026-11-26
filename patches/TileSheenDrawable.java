@@ -32,7 +32,20 @@ final class TileSheenDrawable extends Drawable {
     private float sweepPos = -1f;
     private float sweepAlpha = 0f;
     private float restAlpha = 0f;
+    private float tiltShiftX = 0f;
+    private float tiltShiftY = 0f;
     private ValueAnimator animator;
+
+    /** Shifts the live resting specular catchlight dynamically with the tile's 3D tilt/sway angles. */
+    void setTiltGlint(float normX, float normY) {
+        float cx = Math.max(-1f, Math.min(1f, normX));
+        float cy = Math.max(-1f, Math.min(1f, normY));
+        if (Math.abs(cx - tiltShiftX) > 0.01f || Math.abs(cy - tiltShiftY) > 0.01f) {
+            tiltShiftX = cx;
+            tiltShiftY = cy;
+            if (restAlpha > 0.005f) invalidateSelf();
+        }
+    }
 
     void onFocusChanged(boolean focused, boolean animate, int direction) {
         if (animator != null) {
@@ -86,6 +99,8 @@ final class TileSheenDrawable extends Drawable {
         }
         sweepAlpha = 0f;
         restAlpha = 0f;
+        tiltShiftX = 0f;
+        tiltShiftY = 0f;
         invalidateSelf();
     }
 
@@ -130,6 +145,9 @@ final class TileSheenDrawable extends Drawable {
         }
 
         if (restAlpha > 0.005f) {
+            matrix.reset();
+            matrix.setTranslate(b.left + tiltShiftX * w * 0.24f, b.top + tiltShiftY * h * 0.20f);
+            glintShader.setLocalMatrix(matrix);
             glintPaint.setAlpha(Math.round(restAlpha * 255f));
             canvas.drawRect(b, glintPaint);
         }

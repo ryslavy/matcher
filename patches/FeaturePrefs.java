@@ -25,6 +25,9 @@ final class FeaturePrefs {
     static final String KEY_HOME_LIQUID_OPTICS = "home_liquid_optics";
     static final String KEY_UI_SOUNDS = "ui_click_sounds";
     static final String KEY_OLED_DRIFT = "oled_screensaver_drift";
+    static final String KEY_AERIAL_4K = "aerial_4k_enabled";
+    static final String KEY_AERIAL_FAVORITES = "aerial_favorite_urls";
+    static final String KEY_AERIAL_FAVORITES_ONLY = "aerial_favorites_only";
     static final String KEY_CRASH_WATCHDOG = "crash_watchdog_enabled";
     static final String KEY_WATCH_NEXT = "watch_next_enabled";
     static final String KEY_WATCH_NEXT_OFF_PKGS = "watch_next_off_pkgs";
@@ -106,6 +109,49 @@ final class FeaturePrefs {
 
     static void setOledDriftEnabled(Context ctx, boolean on) {
         prefs(ctx).edit().putBoolean(KEY_OLED_DRIFT, on).apply();
+        bumpRevision(ctx);
+    }
+
+    static boolean isAerial4kEnabled(Context ctx) {
+        return prefs(ctx).getBoolean(KEY_AERIAL_4K, false);
+    }
+
+    static void setAerial4kEnabled(Context ctx, boolean on) {
+        prefs(ctx).edit().putBoolean(KEY_AERIAL_4K, on).apply();
+        bumpRevision(ctx);
+    }
+
+    static Set<String> aerialFavorites(Context ctx) {
+        Set<String> s = prefs(ctx).getStringSet(KEY_AERIAL_FAVORITES, null);
+        return s == null ? Collections.emptySet() : new HashSet<>(s);
+    }
+
+    static boolean isAerialFavorite(Context ctx, @Nullable String url) {
+        if (url == null || url.isEmpty()) return false;
+        return aerialFavorites(ctx).contains(url);
+    }
+
+    static boolean toggleAerialFavorite(Context ctx, String url) {
+        Set<String> set = new HashSet<>(aerialFavorites(ctx));
+        boolean added;
+        if (set.contains(url)) {
+            set.remove(url);
+            added = false;
+        } else {
+            set.add(url);
+            added = true;
+        }
+        prefs(ctx).edit().putStringSet(KEY_AERIAL_FAVORITES, set).apply();
+        bumpRevision(ctx);
+        return added;
+    }
+
+    static boolean isAerialFavoritesOnly(Context ctx) {
+        return prefs(ctx).getBoolean(KEY_AERIAL_FAVORITES_ONLY, false);
+    }
+
+    static void setAerialFavoritesOnly(Context ctx, boolean on) {
+        prefs(ctx).edit().putBoolean(KEY_AERIAL_FAVORITES_ONLY, on).apply();
         bumpRevision(ctx);
     }
 
@@ -422,7 +468,7 @@ final class FeaturePrefs {
     // ---- GitHub Self-Updater -------------------------------------------------------------------
 
     static boolean isAutoUpdateEnabled(Context ctx) {
-        return prefs(ctx).getBoolean(KEY_UPDATER_AUTO, true);
+        return prefs(ctx).getBoolean(KEY_UPDATER_AUTO, false);
     }
 
     static void setAutoUpdateEnabled(Context ctx, boolean on) {

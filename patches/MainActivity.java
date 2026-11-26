@@ -495,6 +495,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private java.util.Map<Integer, String> homeAppKeys = java.util.Collections.emptyMap();
     /** clock_format, for the race panel's session times (the TextClocks take it in onCreate). */
     private String clockFormat = "system";
+    private java.util.Map<Integer, String> homeDoubleAppKeys = java.util.Collections.emptyMap();
     private java.util.Map<Integer, String> homeHoldAppKeys = java.util.Collections.emptyMap();
 
     @Override
@@ -508,6 +509,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         homeAppKeys = RemoteKeys.parseAppKeys(cfg.appKeys);
         clockFormat = cfg.clockFormat;
         ClockFormat.apply(getWindow().getDecorView(), clockFormat);
+        homeDoubleAppKeys = RemoteKeys.parseDoubleAppKeys(cfg.appKeys);
         homeHoldAppKeys = RemoteKeys.parseHoldAppKeys(cfg.appKeys);
         // restore_key_services: after a force stop, put back the remote's accessibility helpers that Android took
         // off the list (needs WRITE_SECURE_SETTINGS, granted by build-and-install with RESTORE_KEY_SERVICES=1).
@@ -1541,6 +1543,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (mediaMiniPlayer != null) mediaMiniPlayer.close();
         if (mediaTracker != null) mediaTracker.stop();
         stopAmbientAnimation();
+        AppAdapter.stopAllFocusMotion();
+        if (dockDecoration != null) dockDecoration.cancelRipple();
         cancelHeroDotAnimations(true);
         if (springX != null) springX.cancel();
         if (springY != null) springY.cancel();
@@ -1822,12 +1826,16 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     public boolean dispatchKeyEvent(KeyEvent event) {
         UiClickSound.onKeyEvent(this, event);
         // A real key, not onUserInteraction: that also runs when the firmware starts Live TV over Home at power-on.
-        if (event.getAction() == KeyEvent.ACTION_DOWN) HomeKeyService.keyOnHome();
+        if (event.getAction() == KeyEvent.ACTION_DOWN) {
+            HomeKeyService.keyOnHome();
+            AppAdapter.noteNavKey(event.getKeyCode());
+        }
         if (homeIgnoreChannelKeys && RemoteKeys.isChannelKey(event.getKeyCode())) return true;
         // Vendor keys (TCL Netflix button, 4062) never reach the key services, only the focused window, so their
         // "hold:" entries run here too or nowhere. Only while resumed: onPause releases Home's holds, and a DOWN
         // taken after that would arm one nothing releases.
         if (resumed && event.getKeyCode() >= 1000 && RemoteKeys.handle(this, event, homeAppKeys.get(event.getKeyCode()),
+                homeDoubleAppKeys.get(event.getKeyCode()),
                 homeHoldAppKeys.get(event.getKeyCode()))) return true;
         if (handleSettingsKey(event)) return true;
         if (holdOk(event)) return true;
@@ -2363,6 +2371,26 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
     }
 
+    /** Immediately halts all idle Home animations & sway right before starting an external app so 100% GPU goes to launch. */
+    static void prepareForAppLaunch() {
+        AppAdapter.stopAllFocusMotion();
+        MainActivity inst = currentInstance;
+        if (inst == null || inst.isDestroyed()) return;
+        Runnable freeze = () -> {
+            if (inst.isDestroyed()) return;
+            if (inst.dockDecoration != null) inst.dockDecoration.cancelRipple();
+            inst.stopAmbientAnimation();
+            if (inst.springX != null) inst.springX.cancel();
+            if (inst.springY != null) inst.springY.cancel();
+            if (inst.hero != null) inst.hero.animate().cancel();
+            if (inst.heroArt != null) inst.heroArt.animate().cancel();
+            if (inst.ambient != null) inst.ambient.animate().cancel();
+            if (inst.vinylDisc != null) inst.vinylDisc.setLifecycleActive(false);
+        };
+        if (Looper.myLooper() == Looper.getMainLooper()) freeze.run();
+        else inst.runOnUiThread(freeze);
+    }
+
     static void setOverlayOpen(boolean open) {
         overlayOpen = open;
         MainActivity inst = currentInstance;
@@ -2870,6 +2898,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             glass.onJump(x - glass.getTranslationX(), y - glass.getTranslationY());
             springX.animateToFinalPosition(x - glassScrollShiftX);
             springY.animateToFinalPosition(y - glassScrollShift);
+            if (dockDecoration != null && dockRow && (singleRow || position < COLUMNS)) {
+                dockDecoration.triggerRipple(reducedMotion);
+            }
         }
         View item = (View) card.getParent();
         if (dockRow && (singleRow || position < COLUMNS)) {
@@ -3058,7 +3089,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
         boolean rtl = getResources().getBoolean(R.bool.rtl_menu_bar);
-        Paint paint = new Paint();
+        Paint paint = new Paint(Paint.DITHER_FLAG);
         paint.setShader(new LinearGradient(rtl ? w : 0, 0, rtl ? 0 : w, 0,
                 new int[]{0xD1060406, 0x59060406, 0x00060406}, new float[]{0f, 0.42f, 0.7f}, Shader.TileMode.CLAMP));
         canvas.drawRect(0, 0, w, h, paint);
@@ -3066,7 +3097,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 new int[]{0x00060406, 0x00060406, 0xDB060406, 0xFF060406}, new float[]{0f, 0.28f, 0.58f, 0.76f},
                 Shader.TileMode.CLAMP));
         canvas.drawRect(0, 0, w, h, paint);
+        bmp.prepareToDraw();
         BitmapDrawable scrim = new BitmapDrawable(getResources(), bmp);
+        scrim.setDither(true);
         scrim.setGravity(Gravity.FILL);
         return scrim;
     }
@@ -3278,7 +3311,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             int h = 270;
             Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bmp);
-            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
             if (cinematic) {
                 // Higher and stronger, from the corner away from the shelf's text: the app's colour floods
                 // the top of the screen over its artwork, and the scrim keeps the text side dark.
@@ -3309,7 +3342,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                         Shader.TileMode.CLAMP));
             }
             canvas.drawRect(0, 0, w, h, paint);
+            bmp.prepareToDraw();
             glow = new BitmapDrawable(getResources(), bmp);
+            glow.setDither(true);
             glow.setGravity(Gravity.FILL);
             ambient.setBackground(glow);
         }

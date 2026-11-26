@@ -68,7 +68,7 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
    ```powershell
    .\platform-tools\adb.exe -s <TV_IP> shell "getevent -lt"
    ```
-   Have the user press each shortcut button once, note its Linux scancode (`scan:<hex-to-dec>`) and Android keycode (`KEYCODE_...`), and update `app_keys` (tap + `hold:`) in [`my-theme/config.json`](my-theme/config.json).
+   Have the user press each shortcut button once, note its Linux scancode (`scan:<hex-to-dec>`) and Android keycode (`KEYCODE_...`), and update `app_keys` (tap, optional `double:`, and `hold:`) in [`my-theme/config.json`](my-theme/config.json).
 3. **Update local weather & sunrise/sunset location:**
    Edit `latitude`, `longitude`, and `weather_city` in [`patches/launcher-config.xml`](patches/launcher-config.xml) (lines 503–505), sync to `cleanyourtv/launcher/app/src/main/res/values/config.xml`, and rebuild the launcher APK.
 
@@ -140,6 +140,9 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
   1. Verify `LIQUID_GLASS_PANEL_AGSL` satisfies `premul <= outA` everywhere.
   2. Verify the `PopupWindow` either uses a full-screen `MATCH_PARENT × MATCH_PARENT` transparent backdrop (guaranteed `winOffX == 0, winOffY == 0`) or relies on `ExpressiveGlass` / `GlassKit`'s `WindowManager.LayoutParams` Frame-0 origin resolver.
   3. For small floating popups (`MediaMiniPlayerDialog`), keep `allowHwLayer = false` in `Motion.glidePanel` so there is no `LAYER_TYPE_HARDWARE -> LAYER_TYPE_NONE` FBO swap on animation end.
+- **Nested context menu refracting Home icons or shifting color while scrolling:**
+  1. Ensure `Motion.glidePanel` / `GlassKit.glidePanel` invalidates `liquidTargets` on `entering || !useHwLayer` so Frame-0 RenderNodes created before `setPanelContentBlur(true)` are always re-recorded with `nestedRefraction`.
+  2. Verify floating `Dialog`/`PopupWindow` coordinates use `(hostTrans - rootTrans) + winOff` (`computeScreenOrigin`) so Android 14's `transformMatrixToGlobal` window offset is never double-counted.
 - **Smoked sub-menu missing Liquid Glass on Home:** Ensure `ExpressiveGlass.PanelDrawable.drawLiquidGlass` checks `MainActivity.isHomeVisible()` before returning `null` for `smoked == true`.
 - **Home wallpaper leaking over Netflix/DRM video:** Confirm `MainActivity.isHomeVisible()` is `false` when external apps are foregrounded and `overlayRefraction` is cleared when overlays close.
 - **Remote buttons or Sleep Timer stopped responding:** Re-run the Accessibility bounce-rebind from Playbook 3 and confirm `Crashed services:{}` in `dumpsys accessibility`.

@@ -13,33 +13,34 @@ Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **X
 
 ## Highlights & Features
 
-### 1. Real-Time 3D Optical Liquid Glass Engine
-- **Home & Screensaver Optics:** Custom Android 13/14 AGSL `RuntimeShader` (`ExpressiveGlass`) renders smoothly frosted 3D curved meniscus refraction with RGB prism dispersion and directional Fresnel highlights across the Dock, top circular buttons, Folders, Media Mini-Player, Control Center, App Library, Recents, Discover, Screensaver Now Playing card, and every nested sub-menu/picker.
+### 1. Real-Time Liquid Glass 2.0 & Material 3 Expressive Engine
+- **4-Layer Optical Refraction:** Custom Android 13/14 AGSL `RuntimeShader` (`ExpressiveGlass`) renders dual-profile curved meniscus refraction with 5-tap corner-weighted RGB prism dispersion, dark-TV highlight protection, directional Fresnel speculars, and interactive **Dock glass ripple** on tile focus changes. Each UI tier samples accurately from what sits beneath it: Wallpaper/HeroArt (Layer 0) → Dock, Top Pills & Clock (Layer 1) → Modals, Overlays & Add-ons (Layer 2) → Nested Context Menus & Pickers (Layer 3 via `nestedRefraction`).
+- **60/120 FPS Material 3 Expressive Nested Blur:** Opening a context menu or picker over any modal smoothly crossfades the parent panel into a hardware-cached 2-`RenderNode` GPU Skia Gaussian + `BACKDROP_AGSL` veil (vibrancy, wallpaper-derived tonal tint, IGN anti-banding grain) rasterized **once** into a compositing layer while keeping the parent's outer Liquid Glass rim razor-crisp.
+- **3D Tactile Tile Physics & GPU Pre-Warming:** Spring-damped 3D tile tilt, subtle living focus sway, tilt-coupled specular sheen (`TileSheenDrawable`), instant animation freeze on app launch (`prepareForAppLaunch`), and eager GPU `prepareToDraw()` uploads across wallpapers, hero art, and clock maps.
 - **Smart Context Adaptation:** Automatically switches to smooth frosted glass over external video/DRM apps (Netflix, YouTube, Disney+, etc.) so Home wallpaper colors never leak onto live playback.
 - **Optional iOS 26 Beveled Clock (`LiquidClockView`):** Toggleable in *Settings → Liquid Glass clock*; defaults to crisp luminous typography.
 - **Living Fresnel Focus Ring:** Spring-damped wobbly glass focus highlight that dynamically adapts to tile/app colors.
 
 ### 2. Apple tvOS-Style System Overlays (Accessible Over Any App)
-- **Control Center** *(Hold Home ~0.55 s or Gear button)*: Media controls, Brightness, Sleep Timer, Quiet Hours, Good Night scene, Bluetooth / Headphones, Aerial Video Screensaver, Home Assistant smart-home grid, and direct jumps to App Library, Discover, Recents, Settings, and Standby.
+- **Control Center** *(Hold Home ~0.55 s or Gear button)*: Media controls, Brightness, Sleep Timer, Quiet Hours, Good Night scene, Bluetooth / Headphones, Aerial Video Screensaver, Home Assistant smart-home & live camera grid, and direct jumps to App Library, Discover, Recents, Settings, and Standby.
 - **App Library** *(Apps key)*: Full sortable grid of all installed apps, keeping the Home screen clean and minimal.
 - **App Switcher / Recents** *(Hold Back ~0.5 s)*: Horizontal card carousel with swipe/OK app switching and force-stop management.
 - **Folders** *(Hold OK on any tile → Add to folder)*: Multi-app glass folders with instant *Add apps*, *Rename*, *Reorder*, *Move to another folder*, and *Dissolve*.
 - **Media Mini-Player** *(Spinning Vinyl disc in top bar)*: Multi-session switcher, album art, live scrubbable seek bar, and zero-flicker opening.
-- **Ambient & 1080p Aerial Video Screensaver:** Live time/date, Open-Meteo local weather + sunrise/sunset, Now Playing card, optional OLED pixel drift, and one-press launch.
+- **Ambient & 4K HEVC Aerial Video Screensaver:** Apple TV 4K HEVC Aerial streams (with automatic 1080p SDR fallback), favorite loop pinning (`★`), live time/date, Open-Meteo local weather + sunrise/sunset, Now Playing card, optional OLED pixel drift, and one-press launch.
 
-### 3. Discover, Smart Home, Photos & Phone QR Setup
+### 3. Discover, Smart Home, Live Camera PiP, Photos & Phone QR Setup
 - **Discover Overlay** *(Compass icon in Control Center)*:
   - **Continue Watching:** Reads Android TV Watch Next & preview channels (with 1-click local ADB `READ_TV_LISTINGS` grant right from the TV).
   - **Unsponsored Trending Picks:** TMDB + Trakt + Plex filtered to your installed apps, with region selector (`CZ/SK/DE/GB/US`), animation filter, and optional direct `nuvio://tmdb/...` deep-linking.
 - **Configure From Your Phone via QR Code:** Spins up an ephemeral local LAN web UI with a scannable QR code on TV so you can paste TMDB, Trakt, Plex, Home Assistant, and Immich credentials from your phone instead of typing on a TV remote. The server shuts down immediately when the dialog closes.
-- **Home Assistant Integration:** Fast toggle tiles for lights, switches, and scenes directly inside Control Center.
+- **Home Assistant Smart Home & Live Camera PiP (`HaCameraOverlay`):** Fast toggle tiles for lights, switches, and scenes plus floating smoked-glass live PiP previews for `camera.*` entities directly from Control Center over any app or Home.
 - **Immich Photo Sync:** Periodically syncs a chosen album from your self-hosted Immich server for wallpapers/screensaver.
 
-### 4. Ergonomics, Safety & Updates
-- **Two-Level Remote Remapping (`HomeKeyService`):** Separate Tap and Long-Press (~0.5 s) actions for every shortcut button, plus automatic **Gamepad Passthrough** for Moonlight / game streaming.
+### 4. Ergonomics, Safety & Recovery
+- **Three-Level Remote Remapping (`HomeKeyService` / `InputKeyService`):** Separate Tap, Double-Tap (`double:`), and Long-Press (`hold:`, ~0.5 s) actions for every shortcut button (zero added tap delay on keys without `double:`), plus automatic **Gamepad Passthrough** for Moonlight / game streaming.
 - **Soft UI Click Sounds & Air-Mouse / Pointer Support** across every screen, popup, and dialog.
 - **Crash-Loop Recovery Watchdog** (`CrashWatchdog`) & **1-Click Stock Launcher Restore** via loopback ADB (`LocalAdbClient`) respecting Android 14 safe restore ordering.
-- **GitHub Releases Update Checker** (`SelfUpdater`).
 
 ### 5. 8 Modular Glass Add-ons (Localized in English & Czech)
 All 8 add-ons share [`GlassKit.java`](patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (`Theme.GlassOverlay` + 3D Liquid Glass + spring focus ring):
@@ -160,7 +161,7 @@ matcher/
 ├── docs/README-cs.md                          # Czech user & remote-control manual
 └── patches/                                   # All launcher & add-on source/resource overrides
     ├── *.java / *.xml                         # Launcher Java classes, layouts, drawables, EN+CS strings
-    ├── *Test.java                             # 366 JVM unit tests
+    ├── *Test.java                             # 373 JVM unit tests
     ├── appletv-frosted-glass.patch            # Unified git diff against upstream cleanyourtv
     └── addons/                                # GlassKit, manifests, styles & EN+CS strings for 8 add-ons
 ```

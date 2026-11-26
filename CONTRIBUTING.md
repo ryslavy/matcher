@@ -27,7 +27,7 @@ Because `./cleanyourtv/` is a gitignored clone of upstream `Gathin23/cleanyourtv
    .\gradlew.bat testReleaseUnitTest assembleRelease --no-daemon
    Pop-Location
    ```
-   All 366+ unit tests must pass cleanly without Android device dependencies.
+   All 373+ unit tests must pass cleanly without Android device dependencies.
 3. If you modified `GlassKit.java` in one add-on, sync it identically (preserving each package's `package ...;` line 1, UTF-8 without BOM) across all 8 add-ons:
    - `bluetooth-connect`, `brightness`, `capacity-stats`, `headphones`, `quiet-hours`, `sleep-timer`, `weather`, `world-clock`.
 4. Copy every modified file from `./cleanyourtv/` back to `./patches/` (or `./patches/addons/...`), and regenerate the unified patch:
@@ -79,7 +79,8 @@ We warmly welcome translations! Here is how localization works in Matcher:
 ## 5. UI, Liquid Glass & Code Quality Guidelines
 
 Before opening a Pull Request, check these project standards:
-- **Valid Premultiplied Alpha:** Any AGSL `RuntimeShader` must output `0 <= rgb <= a <= 1` so hardware layers and direct draws are bit-identical.
+- **Valid Premultiplied Alpha & Dark-TV Optics:** Any AGSL `RuntimeShader` must output `0 <= rgb <= a <= 1` so hardware layers and direct draws are bit-identical, and must avoid light-mode white lift on dark pixels.
+- **4-Layer Backdrop & Hardware-Cached Nested Blur:** Nested menus over modals must refract `nestedRefraction` (with Frame-0 invalidation in `Motion.glidePanel`/`GlassKit.glidePanel`), compute floating window origins via `computeScreenOrigin` (never double-counting `winOff`), and use the 2-`RenderNode` hardware-cached `ExpressiveBlurVeilDrawable` instead of per-frame child `RenderEffect` mutations.
 - **No Wallpaper Leakage Over External Apps:** Never fall back to Home's `RefractionBackdrop` when `!MainActivity.isHomeVisible()`.
 - **Translucent Overlays:** Every floating Activity must inherit `Theme.GlassOverlay` and handle `onNewIntent` if `singleTask`.
 - **Input & Audio Parity:** Every new `PopupWindow` or `Dialog` must call `PointerSupport.install(root)` and `UiClickSound.attachFocusSound(root)`, wrap its panel in `FocusRingController.wrapPopup(...)`, clear default window elevation via `ExpressiveGlass.clearDialogShadow(w)`, and support smooth Back-button dismissal.

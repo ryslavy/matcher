@@ -76,6 +76,8 @@ final class FrostedPillDrawable extends Drawable {
     private final int[] rootPos = new int[2];
     private final int[] scrLoc = new int[2];
     private final Matrix shaderMatrix = new Matrix();
+    private final Matrix rootMatrix = new Matrix();
+    private final float[] rootVals = new float[9];
     private final Matrix tempMatrix = new Matrix();
     private final float[] matrixVals = new float[9];
     @Nullable
@@ -319,11 +321,14 @@ final class FrostedPillDrawable extends Drawable {
         }
         View rootView = host.getRootView();
         rootView.getLocationOnScreen(scrLoc);
+        rootMatrix.reset();
+        rootView.transformMatrixToGlobal(rootMatrix);
+        rootMatrix.getValues(rootVals);
         tempMatrix.reset();
         host.transformMatrixToGlobal(tempMatrix);
         tempMatrix.getValues(matrixVals);
-        float originX = matrixVals[Matrix.MTRANS_X] + scrLoc[0];
-        float originY = matrixVals[Matrix.MTRANS_Y] + scrLoc[1];
+        float originX = (matrixVals[Matrix.MTRANS_X] - rootVals[Matrix.MTRANS_X]) + scrLoc[0];
+        float originY = (matrixVals[Matrix.MTRANS_Y] - rootVals[Matrix.MTRANS_Y]) + scrLoc[1];
         float scaleX = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_X]));
         float scaleY = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_Y]));
 
@@ -355,6 +360,8 @@ final class FrostedPillDrawable extends Drawable {
         liquidShader.setFloatUniform("uInteriorFill", 0.0f);
         liquidShader.setFloatUniform("uLiquidMode", optical ? 1.0f : 0.0f);
         liquidShader.setFloatUniform("uRimTint", cachedRimR, cachedRimG, cachedRimB);
+        liquidShader.setFloatUniform("uWobble", 0.0f);
+        liquidShader.setFloatUniform("uPhase", 0.0f);
 
         liquidPaint.setShader(null);
         liquidPaint.setShader(liquidShader);

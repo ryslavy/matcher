@@ -24,6 +24,15 @@ public class ClockActivity extends Activity {
     /** Guards against the finger-release UP of the remote hold key that opened this screensaver. */
     private boolean wakeKeyDownSeen;
     private boolean exiting;
+    private static final long AERIAL_FAV_HOLD_MS = 500L;
+    private final android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private boolean okFavHoldFired;
+    private final Runnable okFavHoldTask = () -> {
+        if (!exiting && scene != null && scene.toggleCurrentAerialFavorite()) {
+            okFavHoldFired = true;
+            wakeKeyDownSeen = false;
+        }
+    };
 
     @Override
     protected void attachBaseContext(android.content.Context base) {
@@ -73,6 +82,7 @@ public class ClockActivity extends Activity {
 
     @Override
     protected void onPause() {
+        mainHandler.removeCallbacks(okFavHoldTask);
         if (scene != null) scene.pauseForExit();
         super.onPause();
         if (!exiting && !isFinishing()) {
@@ -157,19 +167,46 @@ public class ClockActivity extends Activity {
             }
             return true;
         }
-        // Watch from Screensaver: OK opens the featured pick directly when enabled.
+        // Menu / Bookmark / Star pins or unpins the current Aerial video as a favorite loop without waking.
+        if (scene != null && scene.isAerialVideoActive()
+                && (code == KeyEvent.KEYCODE_MENU || code == KeyEvent.KEYCODE_BOOKMARK || code == KeyEvent.KEYCODE_STAR)) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
+                scene.toggleCurrentAerialFavorite();
+            }
+            return true;
+        }
+        // OK / Enter: long-press (>= 500 ms) pins current Aerial video as favorite; short tap opens featured pick or wakes.
         if (scene != null && (code == KeyEvent.KEYCODE_DPAD_CENTER || code == KeyEvent.KEYCODE_ENTER
-                || code == KeyEvent.KEYCODE_NUMPAD_ENTER) && scene.hasFeaturedPick()) {
+                || code == KeyEvent.KEYCODE_NUMPAD_ENTER)) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                wakeKeyDownSeen = true;
+                if (event.getRepeatCount() == 0) {
+                    wakeKeyDownSeen = true;
+                    okFavHoldFired = false;
+                    mainHandler.removeCallbacks(okFavHoldTask);
+                    if (scene.isAerialVideoActive()) {
+                        mainHandler.postDelayed(okFavHoldTask, AERIAL_FAV_HOLD_MS);
+                    }
+                }
                 return true;
             }
-            if (event.getAction() == KeyEvent.ACTION_UP && wakeKeyDownSeen && scene.openFeaturedPick(this)) {
-                exiting = true;
-                scene.pauseForExit();
-                finishSilently();
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                mainHandler.removeCallbacks(okFavHoldTask);
+                if (okFavHoldFired) {
+                    okFavHoldFired = false;
+                    return true;
+                }
+                if (wakeKeyDownSeen) {
+                    if (scene.hasFeaturedPick() && scene.openFeaturedPick(this)) {
+                        exiting = true;
+                        scene.pauseForExit();
+                        finishSilently();
+                    } else {
+                        dismissAnimated();
+                    }
+                }
                 return true;
             }
+            return true;
         }
         // Any other key (OK, Back, etc.) wakes cleanly once pressed inside the screensaver.
         if (event.getAction() == KeyEvent.ACTION_DOWN) {

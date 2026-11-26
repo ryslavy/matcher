@@ -59,7 +59,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Ambient screensaver scene shared by {@link ClockActivity} and {@link ClockDream}:
  * - Dimmed home mood wallpaper + blurred atmospheric album-art wash + dynamic album-colored radial glow.
- * - Floating thin clock, uppercase date, live Prague weather (Open-Meteo), next sunrise/sunset,
+ * - Floating thin clock, uppercase date, live local weather (Open-Meteo), next sunrise/sunset,
  *   and conditional Bluetooth audio / VPN badges.
  * - Frosted-glass "Now Playing" showcase card with artwork, live progress bar, and direct remote control
  *   (Left/Right track skip, Up/Down play/pause without waking the screensaver).
@@ -183,6 +183,9 @@ final class ClockScene {
     private Surface videoSurface;
     private MediaPlayer aerialPlayer;
     private String currentAerialUrl;
+    @Nullable
+    private AerialCatalog.Clip currentAerialClip;
+    private boolean aerialForce1080pFallback;
     private int aerialRetryCount;
     private final Matrix videoMatrix = new Matrix();
     private final GradientDrawable statusDotDrawable = new GradientDrawable();
@@ -662,6 +665,7 @@ final class ClockScene {
         clockRefresh.start();
         if (wallpaperFile != null && !wallpaperShown) loadWallpaper();
         if (appCtx != null) {
+            aerialForce1080pFallback = false;
             aerialEnabled = !usingImmichPhotos && AerialCatalog.isEnabled(appCtx);
             if (aerialEnabled && videoView != null && videoView.isAvailable()) {
                 if (videoSurface == null && videoView.getSurfaceTexture() != null) {
@@ -758,6 +762,53 @@ final class ClockScene {
         return aerialEnabled && (aerialVideoActive || aerialPlayer != null);
     }
 
+    /** Pins or unpins the currently playing Aerial clip as a favorite loop with an instant glass pill confirmation. */
+    boolean toggleCurrentAerialFavorite() {
+        if (!started || appCtx == null || !isAerialVideoActive() || TextUtils.isEmpty(currentAerialUrl)) {
+            return false;
+        }
+        boolean added = AerialCatalog.toggleFavorite(appCtx, currentAerialUrl);
+        if (aerialLocationBox != null && aerialLocationText != null) {
+            String rawLabel = currentAerialClip != null ? currentAerialClip.label : "";
+            String place = AerialCatalog.displayLabel(appCtx, rawLabel, currentAerialClip != null && currentAerialClip.night);
+            String badge = appCtx.getString(added ? R.string.aerial_fav_added : R.string.aerial_fav_removed);
+            String text = TextUtils.isEmpty(place)
+                    ? badge
+                    : (added ? "\u2605 " + place + " \u00B7 " + badge : "\u2606 " + place + " \u00B7 " + badge);
+            aerialLocationText.setText(text);
+            aerialLocationBox.animate().cancel();
+            aerialLocationBox.setVisibility(View.VISIBLE);
+            aerialLocationBox.post(() -> {
+                if (!started) return;
+                positionAerialCaption();
+                aerialLocationBox.animate().alpha(0.96f).scaleX(1.04f).scaleY(1.04f)
+                        .setDuration(180L).setInterpolator(Motion.easeOutExpo())
+                        .withEndAction(() -> {
+                            if (started && aerialLocationBox != null) {
+                                aerialLocationBox.animate().scaleX(1f).scaleY(1f).setDuration(220L).start();
+                            }
+                        }).start();
+            });
+            handler.postDelayed(() -> {
+                if (started && currentAerialClip != null && aerialLocationText != null) {
+                    aerialLocationText.setText(formatAerialCaption(currentAerialClip));
+                    positionAerialCaption();
+                }
+            }, 2400L);
+        }
+        return true;
+    }
+
+    private String formatAerialCaption(AerialCatalog.Clip clip) {
+        String place = AerialCatalog.displayLabel(appCtx, clip.label, clip.night);
+        if (TextUtils.isEmpty(place)) return "";
+        StringBuilder sb = new StringBuilder();
+        if (AerialCatalog.isFavorite(appCtx, clip.url)) sb.append("\u2605 ");
+        sb.append(place);
+        if (clip.is4k) sb.append(" \u00B7 4K");
+        return sb.toString();
+    }
+
     /** Advances to the next Apple TV Aerial video clip immediately (Apple TV swipe-next feel). */
     void skipAerial() {
         if (!started || !aerialEnabled || videoSurface == null) return;
@@ -779,7 +830,8 @@ final class ClockScene {
         if (!started || appCtx == null || !aerialEnabled || videoSurface == null) return;
         stopAerialPlayer();
         boolean night = isNightNow();
-        AerialCatalog.Clip clip = AerialCatalog.pick(appCtx, night, currentAerialUrl, random);
+        AerialCatalog.Clip clip = AerialCatalog.pick(appCtx, night, currentAerialUrl, random, aerialForce1080pFallback);
+        currentAerialClip = clip;
         currentAerialUrl = clip.url;
 
         MediaPlayer mp = new MediaPlayer();
@@ -809,7 +861,7 @@ final class ClockScene {
                         artWashView.animate().alpha(0.14f).setDuration(900).start();
                     }
                     if (aerialLocationBox != null && aerialLocationText != null) {
-                        String place = AerialCatalog.displayLabel(appCtx, clip.label, clip.night);
+                        String place = formatAerialCaption(clip);
                         if (!TextUtils.isEmpty(place)) {
                             aerialLocationText.setText(place);
                             aerialLocationBox.setVisibility(View.VISIBLE);
@@ -833,10 +885,11 @@ final class ClockScene {
             });
             mp.setOnErrorListener((player, what, extra) -> {
                 if (player == aerialPlayer) {
+                    if (clip.is4k) aerialForce1080pFallback = true;
                     stopAerialPlayer();
-                    if (started && aerialRetryCount < 2) {
+                    if (started && aerialRetryCount < 3) {
                         aerialRetryCount++;
-                        handler.postDelayed(this::startNextAerial, 1200L);
+                        handler.postDelayed(this::startNextAerial, 800L);
                     } else {
                         hideAerialVideo();
                     }
@@ -1045,7 +1098,7 @@ final class ClockScene {
 
     private void refreshAmbientMeta() {
         if (appCtx == null) return;
-        // 1. Offline sunrise / sunset from configured coordinates (Prague).
+        // 1. Offline sunrise / sunset from configured coordinates (local).
         if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
             LocalDateTime now = LocalDateTime.now();
             int[] sun = WallpaperMood.sun(now.toLocalDate(), latitude, longitude, ZoneId.systemDefault());
@@ -1576,6 +1629,7 @@ final class ClockScene {
                 new float[]{0f, 0.5f, 1f},
                 Shader.TileMode.CLAMP));
         glowMaskCanvas.drawRect(0f, 0f, w, h, glowMaskPaint);
+        glowMaskBitmap.prepareToDraw();
         ambientGlowView.invalidate();
     }
 

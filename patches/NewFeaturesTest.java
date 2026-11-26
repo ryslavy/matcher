@@ -129,6 +129,14 @@ public class NewFeaturesTest {
         assertFalse("Gates must be blocked", HomeAssistantClient.isCoverClassAllowed("gate"));
         assertFalse("Unclassified covers must be blocked", HomeAssistantClient.isCoverClassAllowed(""));
         assertFalse("Null cover class must be blocked", HomeAssistantClient.isCoverClassAllowed(null));
+
+        // Read-only camera.* entities are allowed for live PiP preview
+        List<HomeAssistantClient.Control> camParsed = HomeAssistantClient.parseEntities(
+                "camera.front_door, lock.front_door, camera.garden");
+        assertEquals(2, camParsed.size());
+        assertTrue(camParsed.get(0).isCamera());
+        assertTrue(camParsed.get(1).isCamera());
+        assertEquals("camera.front_door", camParsed.get(0).entityId);
     }
 
     @Test
@@ -184,13 +192,13 @@ public class NewFeaturesTest {
         assertEquals(0, SelfUpdater.compareVersions("v1.4.2", "1.4.2"));
         assertTrue(SelfUpdater.compareVersions("1.3.9", "1.4.0") < 0);
 
-        String repo = "ryslavy/matcher";
+        String repo = "ryslavy/mitv-box-s-3rd-gen-setup";
         assertTrue(SelfUpdater.isValidReleaseDownloadUrl(repo,
-                "https://github.com/ryslavy/matcher/releases/download/v2.0/tvhome.apk"));
+                "https://github.com/ryslavy/mitv-box-s-3rd-gen-setup/releases/download/v2.0/tvhome.apk"));
         assertFalse(SelfUpdater.isValidReleaseDownloadUrl(repo,
-                "https://evil.example.com/ryslavy/matcher/releases/download/v2.0/tvhome.apk"));
+                "https://evil.example.com/ryslavy/mitv-box-s-3rd-gen-setup/releases/download/v2.0/tvhome.apk"));
         assertFalse(SelfUpdater.isValidReleaseDownloadUrl(repo,
-                "https://github.com/ryslavy/matcher/releases/download/v2.0/readme.txt"));
+                "https://github.com/ryslavy/mitv-box-s-3rd-gen-setup/releases/download/v2.0/readme.txt"));
 
         // SHA-256 of empty byte array
         assertEquals("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",

@@ -72,6 +72,9 @@ public final class LiquidClockView extends TextClock {
             this.cover = cover;
             this.slope = slope;
             this.shadow = shadow;
+            cover.prepareToDraw();
+            slope.prepareToDraw();
+            shadow.prepareToDraw();
             this.drawX = drawX;
             this.drawY = drawY;
             this.inkTop = inkTop;
@@ -96,6 +99,8 @@ public final class LiquidClockView extends TextClock {
     private final Paint glassPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint shadowPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     private final int[] scrLoc = new int[2];
+    private final Matrix rootMatrix = new Matrix();
+    private final float[] rootVals = new float[9];
     private final Matrix tempMatrix = new Matrix();
     private final float[] matrixVals = new float[9];
 
@@ -268,13 +273,16 @@ public final class LiquidClockView extends TextClock {
 
         View rootView = getRootView();
         rootView.getLocationOnScreen(scrLoc);
+        rootMatrix.reset();
+        rootView.transformMatrixToGlobal(rootMatrix);
+        rootMatrix.getValues(rootVals);
         tempMatrix.reset();
         transformMatrixToGlobal(tempMatrix);
         tempMatrix.getValues(matrixVals);
         float scaleX = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_X]));
         float scaleY = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_Y]));
-        float originX = matrixVals[Matrix.MTRANS_X] + scrLoc[0] + g.drawX * scaleX;
-        float originY = matrixVals[Matrix.MTRANS_Y] + scrLoc[1] + g.drawY * scaleY;
+        float originX = (matrixVals[Matrix.MTRANS_X] - rootVals[Matrix.MTRANS_X]) + scrLoc[0] + g.drawX * scaleX;
+        float originY = (matrixVals[Matrix.MTRANS_Y] - rootVals[Matrix.MTRANS_Y]) + scrLoc[1] + g.drawY * scaleY;
 
         int seed = ExpressiveGlass.dynamicSeedRgb();
         if (seed != lastSeed) {

@@ -48,6 +48,7 @@ final class HeroArt {
         Bitmap out = small.isMutable() ? small : small.copy(Bitmap.Config.ARGB_8888, true);
         if (out != small) small.recycle();
         out.setPixels(px, 0, W, 0, 0, W, H);
+        out.prepareToDraw();
         return out;
     }
 

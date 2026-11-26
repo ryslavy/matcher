@@ -104,4 +104,32 @@ public class AmbientScreensaverTest {
         assertFalse(ClockActivity.isMediaControlKey(KeyEvent.KEYCODE_BACK));
         assertFalse(ClockActivity.isMediaControlKey(KeyEvent.KEYCODE_HOME));
     }
+
+    @Test
+    public void aerialCatalogParses4kAnd1080pAndSelectsFavoritesCleanly() {
+        String sample = "[{\"name\":\"Iceland Glacier\",\"videoURL\":\"https:\\/\\/sylvan.apple.com\\/a_SDR_2K_AVC.mov\"},"
+                + "{\"videoURL\":\"https:\\/\\/sylvan.apple.com\\/b_SDR_4K_HEVC.mov\",\"name\":\"Earth Night\"}]";
+        java.util.List<AerialCatalog.Clip> only2k = AerialCatalog.parseBzamayoJson(sample, false);
+        assertEquals(1, only2k.size());
+        assertFalse(only2k.get(0).is4k);
+        assertEquals("http://sylvan.apple.com/a_SDR_2K_AVC.mov", only2k.get(0).url);
+
+        java.util.List<AerialCatalog.Clip> with4k = AerialCatalog.parseBzamayoJson(sample, true);
+        assertEquals(2, with4k.size());
+        assertTrue(with4k.get(1).is4k);
+        assertTrue(with4k.get(1).night);
+
+        java.util.Random rng = new java.util.Random(42L);
+        AerialCatalog.Clip picked4k = AerialCatalog.selectClip(with4k, true, true, false,
+                java.util.Collections.emptySet(), null, rng);
+        assertTrue("4K preference should select 4K clip", picked4k.is4k);
+
+        AerialCatalog.Clip picked2k = AerialCatalog.selectClip(with4k, false, false, false,
+                java.util.Collections.emptySet(), null, rng);
+        assertFalse("1080p mode must not select 4K HEVC", picked2k.is4k);
+
+        java.util.Set<String> favs = java.util.Collections.singleton(with4k.get(0).url);
+        AerialCatalog.Clip favOnly = AerialCatalog.selectClip(with4k, true, true, true, favs, null, rng);
+        assertEquals("Favorites-only mode must honor pinned favorite", with4k.get(0).url, favOnly.url);
+    }
 }

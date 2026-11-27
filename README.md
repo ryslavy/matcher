@@ -5,30 +5,30 @@
 Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **Xiaomi TV Box S 3rd Gen**, `MiTV-AFMU0`, Android 14 / SDK 34), Matcher turns Google TV into a fast, clutter-free living-room interface with optical frosted glass refraction, system-wide overlays, smart-home controls, and zero sponsored home-screen ads.
 
 > **Documentation hub:**
-> - **Visual Gallery (`v1.1.1` — 43 live 1080p screenshots):** [`docs/GALLERY.md`](docs/GALLERY.md)
+> - **Visual Gallery (`v1.1.2` — 4 new Sharp Home shots + 43 `v1.1.1` full-UI shots):** [`docs/GALLERY.md`](docs/GALLERY.md)
 > - **Users (Czech guide):** [`docs/README-cs.md`](docs/README-cs.md)
 > - **Contributors & Translators:** [`CONTRIBUTING.md`](CONTRIBUTING.md)
 > - **AI Coding Agents:** [`AGENTS.md`](AGENTS.md) and [`SKILL.md`](SKILL.md)
 
 ---
 
-## Visual Showcase (`v1.1.1`)
+## Visual Showcase (`v1.1.2`)
 
-[![Gallery Release](https://img.shields.io/badge/Gallery-v1.1.1_(43_Screenshots)-38BDF8?style=flat-square)](docs/GALLERY.md)
+[![Gallery Release](https://img.shields.io/badge/Gallery-v1.1.2_(47_Screenshots)-38BDF8?style=flat-square)](docs/GALLERY.md)
 
-| Home Screen (Liquid Glass 2.0) | Control Center & Now Playing |
+| New in `v1.1.2` — Sharp Home + Crisp `960×540` Control Center | New in `v1.1.2` — Live *Home Backdrop Blur* Toggle |
 |---|---|
-| ![Home Screen](docs/gallery/v1.1.1/01-home-screen.jpg) | ![Control Center](docs/gallery/v1.1.1/13-control-center.jpg) |
+| ![Sharp Home Control Center](docs/gallery/v1.1.2/03-sharp-home-control-center.jpg) | ![Home Backdrop Blur Toggle](docs/gallery/v1.1.2/04-sharp-home-settings-toggle.jpg) |
 
-| App Library + Material 3 Expressive Nested Blur | Open Folder + Nested Context Menu |
+| Home Screen (`v1.1.2` Crisp Dock & Top Pills) | Tile Context Menu Over 100% Sharp Home |
 |---|---|
-| ![App Library Nested Blur](docs/gallery/v1.1.1/16-app-library-nested-menu.jpg) | ![Folder Nested Blur](docs/gallery/v1.1.1/06-folder-item-nested-menu.jpg) |
+| ![Sharp Home Screen](docs/gallery/v1.1.2/01-sharp-home-dock-and-pills.jpg) | ![Tile Context Menu Over Sharp Home](docs/gallery/v1.1.2/02-sharp-home-tile-context-menu.jpg) |
 
-| 4K Aerial Ambient Screensaver | Modular Liquid Glass Add-ons (8 Included, 40+ Upstream) |
+| App Library + Material 3 Expressive Nested Blur | 4K Aerial Ambient Screensaver |
 |---|---|
-| ![Ambient Aerial Screensaver](docs/gallery/v1.1.1/20-ambient-aerial-screensaver.jpg) | ![Weather and Add-ons](docs/gallery/v1.1.1/38-addon-weather.jpg) |
+| ![App Library Nested Blur](docs/gallery/v1.1.1/16-app-library-nested-menu.jpg) | ![Ambient Aerial Screensaver](docs/gallery/v1.1.1/20-ambient-aerial-screensaver.jpg) |
 
-👉 **[Explore the full `v1.1.1` Photo Gallery (all 43 screens, submenus, quick bars & add-ons) → `docs/GALLERY.md`](docs/GALLERY.md)**
+👉 **[Explore the full `v1.1.2` Photo Gallery (all 47 screens, submenus, quick bars & add-ons) → `docs/GALLERY.md`](docs/GALLERY.md)**
 
 ---
 
@@ -36,6 +36,7 @@ Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **X
 
 ### 1. Real-Time Liquid Glass 2.0 & Material 3 Expressive Engine
 - **4-Layer Optical Refraction:** Custom Android 13/14 AGSL `RuntimeShader` (`ExpressiveGlass`) renders dual-profile curved meniscus refraction with 5-tap corner-weighted RGB prism dispersion, dark-TV highlight protection, directional Fresnel speculars, and interactive **Dock glass ripple** on tile focus changes. Each UI tier samples accurately from what sits beneath it: Wallpaper/HeroArt (Layer 0) → Dock, Top Pills & Clock (Layer 1) → Modals, Overlays & Add-ons (Layer 2) → Nested Context Menus & Pickers (Layer 3 via `nestedRefraction`).
+- **Optional Sharp Home Mode (`v1.1.2`):** Toggle **Home backdrop blur** off in *Launcher Settings* to keep the Home screen 100% razor-sharp (0% dim) behind floating modals and menus. Every floating panel automatically switches to its own **GPU `RenderNode`-cached per-panel frosted interior blur** (`uInteriorFill = 1.0f` — locked 60 FPS during D-pad navigation) paired with **untouched crisp `960×540` `uSharp` optical rim refraction** across modals, context menus, Dock, top-right circular pills, beveled clock, and all 8 glass add-ons (with synchronous Frame-0 blur via `EXTRA_OVER_SHARP_BACKDROP`).
 - **60/120 FPS Material 3 Expressive Nested Blur:** Opening a context menu or picker over any modal smoothly crossfades the parent panel into a hardware-cached 2-`RenderNode` GPU Skia Gaussian + `BACKDROP_AGSL` veil (vibrancy, wallpaper-derived tonal tint, IGN anti-banding grain) rasterized **once** into a compositing layer while keeping the parent's outer Liquid Glass rim razor-crisp.
 - **3D Tactile Tile Physics & GPU Pre-Warming:** Spring-damped 3D tile tilt, subtle living focus sway, tilt-coupled specular sheen (`TileSheenDrawable`), instant animation freeze on app launch (`prepareForAppLaunch`), and eager GPU `prepareToDraw()` uploads across wallpapers, hero art, and clock maps.
 - **Smart Context Adaptation:** Automatically switches to smooth frosted glass over external video/DRM apps (Netflix, YouTube, Disney+, etc.) so Home wallpaper colors never leak onto live playback.
@@ -172,7 +173,7 @@ Matcher is intentionally opinionated, and **most visual elements can be toggled 
 
 | What you want to change | Where to change it | Rebuild needed? |
 |---|---|---|
-| Toggle **Liquid Glass clock**, **Home Liquid Glass optics**, **UI click sounds**, **OLED drift**, **Discover region** | On TV: **Control Center → Settings** | No |
+| Toggle **Liquid Glass clock**, **Home Liquid Glass optics**, **Home backdrop blur** (sharp Home mode), **UI click sounds**, **OLED drift**, **Discover region** | On TV: **Control Center → Settings** | No |
 | Toggle **Dock glass/opacity**, **Cinematic top shelf**, **Ambient/App glow**, **Grid columns**, **Reduced motion**, **Glow snap**, **Wallpapers**, **Dock apps**, **Remote buttons** | Edit [`my-theme/config.json`](my-theme/config.json) → run `.\switch-theme.ps1 my-theme -TvHost <TV_IP>` | No |
 | Switch to any of **30+ upstream themes** (keeping your dock & remote keys) | `.\switch-theme.ps1 -List` → `.\switch-theme.ps1 <name> -TvHost <TV_IP>` | No |
 | Configure **TMDB, Trakt, Plex, Home Assistant, Immich** | On TV: **Control Center → Settings → Phone QR setup** | No |
@@ -208,12 +209,13 @@ matcher/
 ├── my-theme/                                  # Active theme config.json + seasonal/mood wallpapers
 ├── presets/xiaomi-tv-box-s-3rd-gen/           # Device preset (debloat list & remote keymap)
 ├── docs/
-│   ├── GALLERY.md                             # Version-pinned v1.1.1 visual gallery (43 screenshots)
-│   ├── gallery/v1.1.1/                        # 1920x1080 screenshots captured on release v1.1.1
+│   ├── GALLERY.md                             # Version-pinned v1.1.2 visual gallery (47 screenshots)
+│   ├── gallery/v1.1.2/                        # 1920x1080 Sharp Home & crisp-edge shots (v1.1.2)
+│   ├── gallery/v1.1.1/                        # Full 43-screen reference gallery (v1.1.1)
 │   └── README-cs.md                           # Czech user & remote-control manual
 └── patches/                                   # All launcher & add-on source/resource overrides
     ├── *.java / *.xml                         # Launcher Java classes, layouts, drawables, EN+CS strings
-    ├── *Test.java                             # 375 JVM unit tests
+    ├── *Test.java                             # 376 JVM unit tests
     ├── appletv-frosted-glass.patch            # Unified git diff against upstream cleanyourtv
     └── addons/                                # GlassKit, manifests, styles & EN+CS strings for 8 add-ons
 ```

@@ -2,15 +2,15 @@
 
 Tato příručka shrnuje ovládání, nové funkce, úpravy vzhledu i bezpečný návrat do původního stavu pro launcher **Matcher** (postavený na [CleanYourTV](https://github.com/Gathin23/cleanyourtv) s 3D optickým Liquid Glass a 8 lokalizovanými modulárními doplňky).
 
-> 📸 **[Kompletní fotogalerie release `v1.1.1` (43 snímků všech obrazovek, menu, podmenu a doplňků) → `GALLERY.md`](GALLERY.md)**
+> 📸 **[Kompletní fotogalerie release `v1.1.2` (4 nové snímky režimu ostrého Home + 43 snímků `v1.1.1` všech obrazovek, menu a doplňků) → `GALLERY.md`](GALLERY.md)**
 
-| Domovská obrazovka (Liquid Glass 2.0) | Ovládací centrum & Právě hraje |
+| Nově v `v1.1.2` — Ovládací centrum nad ostrým Home | Nově v `v1.1.2` — Přepínač *Rozostření pozadí na Home* |
 |---|---|
-| ![Domovská obrazovka](gallery/v1.1.1/01-home-screen.jpg) | ![Ovládací centrum](gallery/v1.1.1/13-control-center.jpg) |
+| ![Ovládací centrum nad ostrým Home](gallery/v1.1.2/03-sharp-home-control-center.jpg) | ![Přepínač rozostření pozadí na Home](gallery/v1.1.2/04-sharp-home-settings-toggle.jpg) |
 
-| Knihovna aplikací + Material 3 Expressive blur | Složka + vnořené kontextové menu |
+| Domovská obrazovka (`v1.1.2` ostré hrany Docku a pilulek) | Kontextové menu dlaždice nad 100% ostrým Home |
 |---|---|
-| ![Knihovna aplikací](gallery/v1.1.1/16-app-library-nested-menu.jpg) | ![Složka a vnořené menu](gallery/v1.1.1/06-folder-item-nested-menu.jpg) |
+| ![Domovská obrazovka](gallery/v1.1.2/01-sharp-home-dock-and-pills.jpg) | ![Kontextové menu nad ostrým Home](gallery/v1.1.2/02-sharp-home-tile-context-menu.jpg) |
 
 ---
 
@@ -37,6 +37,7 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ### Vzhled, Liquid Glass 2.0 a Material 3 Expressive blur
 - **4vrstvý optický Liquid Glass 2.0** na celé domovské obrazovce (dock s živým vlněním při pohybu fokusu, horní kulaté ikony, složky, Media Mini-Player, Ovládací centrum, Knihovna aplikací, Nedávné aplikace, Objevovat, Spořič i všechna vnořená podokna a kontextová menu). Každá vrstva opticky láme přesně to, co je pod ní (kontextová menu v *All Apps* / složkách / nastavení lámou obsah rodičovského okna přes `nestedRefraction`, nad cizími streamovacími aplikacemi se přepíná čistý frosted režim bez úniku tapety).
+- **Volitelný režim 100% ostrého Home (`v1.1.2`):** Přepínač **Rozostření pozadí na Home** v *Nastavení domovské obrazovky* vypne celoobrazovkový blur za okny, takže plocha vně oken zůstane úplně ostrá (0 % ztmavení). Každé plovoucí okno, kontextové menu i doplněk si samo vykreslí vlastní mléčný rozostřený vnitřek cachovaný v GPU `RenderNode` (plynulých 60 FPS při listování) a ostré `960×540` optické hrany se automaticky adaptují i pro Dock, kulatá tlačítka vpravo nahoře a hodiny.
 - **Hardwarově cachovaný Material 3 Expressive blur vnořených menu:** Při otevření kontextové nabídky se podkladový panel plynule (60/120 FPS) rozostří nativním GPU Skia Gaussian + `BACKDROP_AGSL` závojem tónovaným podle aktivní tapety, zatímco vnější skleněný okraj panelu zůstává ostrý.
 - **3D naklánění dlaždic a živý odlesk:** Dlaždice na ploše i ve složkách reagují 3D pružinovým náklonem, jemným pohybem a světelným odleskem (`TileSheenDrawable`).
 - **4K HEVC Aerial spořič a oblíbené smyčky (`★`):** Plynulá Apple TV 4K HEVC videa s automatickým fallbackem na 1080p SDR, připínáním oblíbených scén, počasím, kartou *Právě hraje* a ochranou OLED proti vypálení.
@@ -121,7 +122,7 @@ Matcher je otestovaný primárně na **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, 
 ## 5. Vypínání vizuálních prvků a rychlé příkazy z PC
 
 Většinu efektů lze snadno vypnout nebo upravit i bez znalosti kódu (nebo o to požádat svého AI agenta — repozitář obsahuje `AGENTS.md` a `SKILL.md`):
-* **Přímo v TV (*Ovládací centrum → Nastavení*):** 3D Liquid Glass hodiny, Liquid Glass optika na ploše, zvuky kliknutí, OLED ochrana spořiče, Aerial videa, region Objevovat.
+* **Přímo v TV (*Ovládací centrum → Nastavení*):** 3D Liquid Glass hodiny, Liquid Glass optika na ploše, **Rozostření pozadí na Home** (režim ostrého Home), zvuky kliknutí, OLED ochrana spořiče, Aerial videa, region Objevovat.
 * **V [`my-theme/config.json`](../my-theme/config.json) (bez kompilace):** `dock_glass`, `dock_opacity`, `cinematic_home`, `ambient_glow`, `app_glow`, `reduced_motion`, `glow_snap`, `columns`, `dock_apps`, `app_labels`, `app_keys`, vlastní tapety v `my-theme/wallpapers/`.
 * **Vlastní výběr doplňků:** nepotřebné doplňky můžeš kdykoliv odebrat nebo naopak přidat kterýkoliv ze 40+ doplňků z `cleanyourtv/addons/` a nechat AI agenta sladit jeho vzhled přes `GlassKit.java` (postup v [`SKILL.md`](../SKILL.md#playbook-4--adding-visually-matching-glasskit-or-removing-modular-add-ons)).
 * **Vlastní město pro počasí/slunce:** uprav `latitude`, `longitude`, `weather_city` v [`patches/launcher-config.xml`](../patches/launcher-config.xml) (výchozí `Prague`) před buildem.

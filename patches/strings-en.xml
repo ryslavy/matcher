@@ -311,6 +311,7 @@
     <string name="fs_sec_glass">Liquid Glass &amp; Experience</string>
     <string name="fs_liquid_clock">Liquid Glass clock (iOS 26)</string>
     <string name="fs_home_liquid">Optical Liquid Glass on Home</string>
+    <string name="fs_home_backdrop_blur">Home backdrop blur</string>
     <string name="fs_ui_sounds">Soft UI click sounds</string>
     <string name="fs_oled_drift">OLED screensaver pixel drift</string>
     <string name="fs_aerial_quality">Aerial video quality</string>

@@ -202,6 +202,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private FrameLayout backdropBlurVeilHost;
     private ImageView backdropBlurVeil;
     private boolean backdropBlurred;
+    private boolean homeBackdropBlurEnabled = true;
     private boolean mediaMiniPlayerPending;
     private int lastHeroPosition = -1;
     /** config.xml glow_snap: the glow takes a new colour in one frame instead of the dip-and-fade. */
@@ -560,6 +561,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // black under it is a second full-screen fill on every frame for nothing. The starting window still uses
         // the theme's background, so launch looks the same.
         getWindow().setBackgroundDrawable(null);
+        // Sync glass optics & sharp-Home preference BEFORE WallpaperPlayer decodes the first wallpaper!
+        ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
+        homeBackdropBlurEnabled = FeaturePrefs.isHomeBackdropBlurEnabled(this);
+        ExpressiveGlass.setHomeBackdropBlurEnabled(homeBackdropBlurEnabled);
         // Group Wallpaper + Sky + HeroArt + Ambient + HeroScrim into one hardware-cached layer when settled,
         // collapsing 3 full-screen 1920x1080 alpha-blended passes (6.2M px) into 1 opaque texture blit!
         homeBackdropLayer = wrapHomeBackdropLayer(root);
@@ -749,12 +754,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             }
             grid.addItemDecoration(dockDecoration);
         }
-        ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
         applyHomeTypography();
         wallpaperPlayer.setOnWallpaperChanged(() -> {
             markBackdropLayerAnimating(120L);
             cachedBackdropBlur = null;
-            if (backdropBlurred && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && root != null) {
+            if (backdropBlurred && homeBackdropBlurEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && root != null) {
                 cachedBackdropBlur = ExpressiveGlass.createBackdropBlurEffect(
                         density, ExpressiveGlass.SHADE_BLUR_RADIUS_DP, true, Shader.TileMode.CLAMP);
                 if (backdropBlurVeilHost != null && backdropBlurVeilHost.getVisibility() == View.VISIBLE
@@ -772,6 +776,13 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             if (dockDecoration != null) dockDecoration.invalidateBackdrop();
             if (grid != null) grid.invalidate();
             invalidateTopButtons();
+            if (backdropBlurred && !homeBackdropBlurEnabled) {
+                root.post(() -> {
+                    if (!isDestroyed() && backdropBlurred && !homeBackdropBlurEnabled) {
+                        ExpressiveGlass.captureHomeWindowForRefraction(getWindow(), MainActivity::refreshLiveLiquidPanels);
+                    }
+                });
+            }
         });
         if (cfg.fadeRows) TopFade.attach(grid, 48 * density);
         // Reduced motion: the tiles are simply there, with no entrance (reloadApps skips it there too).
@@ -1365,6 +1376,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (vinylDisc != null) vinylDisc.setLifecycleActive(!backdropBlurred);
         if (mediaTracker != null) mediaTracker.start();
         ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
+        homeBackdropBlurEnabled = FeaturePrefs.isHomeBackdropBlurEnabled(this);
+        ExpressiveGlass.setHomeBackdropBlurEnabled(homeBackdropBlurEnabled);
+        if (wallpaperPlayer != null) wallpaperPlayer.refreshSharpnessIfNeeded(!homeBackdropBlurEnabled);
         applyHomeTypography();
         if (!OverlayActivity.isLive() && !OverlayActivity.isLaunchInFlight()) overlayOpen = false;
         if (!QuickSettingsActivity.isLive() && !QuickSettingsActivity.isLaunchInFlight()) controlCenterOpen = false;
@@ -2312,6 +2326,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     static void attachAddonBackdropExtras(Intent intent, boolean overHome) {
         if (intent == null) return;
         intent.putExtra(ExpressiveGlass.EXTRA_OVER_HOME, overHome);
+        intent.putExtra(ExpressiveGlass.EXTRA_OVER_SHARP_BACKDROP,
+                overHome && !ExpressiveGlass.isHomeBackdropBlurEnabled());
         byte[] jpeg = ExpressiveGlass.encodeActiveBackdropJpeg(overHome);
         if (jpeg != null && jpeg.length > 0) {
             intent.putExtra(ExpressiveGlass.EXTRA_BACKDROP_JPEG, jpeg);
@@ -2333,6 +2349,73 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         OverlayActivity.refreshBackdropIfOpen();
         QuickSettingsActivity.refreshBackdropIfOpen();
+        LauncherSettingsActivity.refreshBackdropIfOpen();
+    }
+
+    /** Live toggle from LauncherSettingsActivity: fades full-screen Home blur in/out immediately without closing Settings. */
+    static void applyHomeBackdropBlurPreference(boolean enabled) {
+        MainActivity inst = currentInstance;
+        if (inst == null || inst.isDestroyed()) {
+            ExpressiveGlass.setHomeBackdropBlurEnabled(enabled);
+            return;
+        }
+        inst.runOnUiThread(() -> {
+            if (inst.isDestroyed()) {
+                ExpressiveGlass.setHomeBackdropBlurEnabled(enabled);
+                return;
+            }
+            inst.homeBackdropBlurEnabled = enabled;
+            if (inst.wallpaperPlayer != null) {
+                inst.wallpaperPlayer.refreshSharpnessIfNeeded(!enabled);
+            }
+            if (!inst.backdropBlurred) {
+                ExpressiveGlass.setHomeBackdropBlurEnabled(enabled);
+                refreshLiveLiquidPanels();
+                return;
+            }
+            if (enabled) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && inst.root != null) {
+                    if (inst.cachedBackdropBlur == null) {
+                        inst.cachedBackdropBlur = ExpressiveGlass.createBackdropBlurEffect(
+                                inst.density, ExpressiveGlass.SHADE_BLUR_RADIUS_DP, true, Shader.TileMode.CLAMP);
+                    }
+                    Runnable finishEnable = () -> {
+                        if (inst.homeBackdropBlurEnabled) {
+                            ExpressiveGlass.setHomeBackdropBlurEnabled(true);
+                            refreshLiveLiquidPanels();
+                        }
+                    };
+                    if (ExpressiveGlass.hasFreshHomeLiveBackdrop()) {
+                        inst.showBackdropBlurSmooth(false);
+                        if (inst.reducedMotion || !inst.animations) finishEnable.run();
+                        else inst.handler.postDelayed(finishEnable, 115L);
+                    } else {
+                        ExpressiveGlass.captureHomeWindowForRefraction(inst.getWindow(), () -> {
+                            if (!inst.isDestroyed() && inst.backdropBlurred && inst.homeBackdropBlurEnabled) {
+                                inst.showBackdropBlurSmooth(false);
+                                if (inst.reducedMotion || !inst.animations) finishEnable.run();
+                                else inst.handler.postDelayed(finishEnable, 115L);
+                            } else {
+                                finishEnable.run();
+                            }
+                        });
+                    }
+                } else {
+                    ExpressiveGlass.setHomeBackdropBlurEnabled(true);
+                    refreshLiveLiquidPanels();
+                }
+            } else {
+                // Switch floating panels to per-panel frosted interior blur FIRST so dissolving the outer veil never flashes clear.
+                ExpressiveGlass.setHomeBackdropBlurEnabled(false);
+                refreshLiveLiquidPanels();
+                inst.fadeOutBackdropBlurVeil(false, () -> {
+                    if (!inst.isDestroyed() && inst.backdropBlurred && !inst.homeBackdropBlurEnabled) {
+                        // Recapture live Home at crisp 960x540 (prefilterSharp=false) so open Settings upgrades immediately.
+                        ExpressiveGlass.captureHomeWindowForRefraction(inst.getWindow(), MainActivity::refreshLiveLiquidPanels);
+                    }
+                });
+            }
+        });
     }
 
     static boolean isHomeVisible() {
@@ -2538,7 +2621,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
      * hardware FBO) over Home at the user's native display refresh rate with zero downscaled patterns or banding.
      */
     private void showBackdropBlurSmooth(boolean deferFadeStart) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || root == null) return;
+        if (!homeBackdropBlurEnabled || Build.VERSION.SDK_INT < Build.VERSION_CODES.S || root == null) return;
         ExpressiveGlass.RefractionBackdrop live = ExpressiveGlass.homeLiveRefraction();
         if (live == null || live.sharp.isRecycled()) {
             live = ExpressiveGlass.homeWallpaperRefraction();
@@ -2580,7 +2663,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     /** Starts the cached-FBO blur fade-in on the exact vsync frame that a popup or modal begins its reveal. */
     void startBackdropBlurFadeIn() {
         handler.removeCallbacks(blurFadeFallback);
-        if (!backdropBlurred || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
+        if (!backdropBlurred || !homeBackdropBlurEnabled || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return;
         if (backdropBlurVeilHost != null && backdropBlurVeilHost.getVisibility() == View.VISIBLE) {
             backdropBlurVeilHost.animate().cancel();
             if (reducedMotion || !animations) {
@@ -2643,69 +2726,100 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (blurred) {
-                if (cachedBackdropBlur == null) {
-                    // Android 17 Material 3 Expressive blur (AOSP 34dp * 1/sqrt(3) + AGSL vibrancy, dynamic
-                    // wallpaper tint & native-1080p IGN anti-banding). Rendered ONCE into Skia's cached FBO.
-                    cachedBackdropBlur = ExpressiveGlass.createBackdropBlurEffect(
-                            density, ExpressiveGlass.SHADE_BLUR_RADIUS_DP, true, Shader.TileMode.CLAMP);
-                }
-                if (ExpressiveGlass.hasFreshHomeLiveBackdrop()) {
-                    showBackdropBlurSmooth(deferFadeStart);
-                } else {
-                    // Capture the unblurred Home screen FIRST (~8ms GPU PixelCopy) so Liquid Glass panels
-                    // always refract exact live icons/dock/wallpaper instead of racing with root blur.
-                    final java.util.concurrent.atomic.AtomicBoolean applied = new java.util.concurrent.atomic.AtomicBoolean(false);
-                    Runnable applyNow = () -> {
-                        if (!applied.compareAndSet(false, true) || !backdropBlurred || isDestroyed() || root == null) return;
-                        showBackdropBlurSmooth(false);
-                        refreshLiveLiquidPanels();
-                    };
-                    handler.postDelayed(applyNow, 65L);
-                    ExpressiveGlass.captureHomeWindowForRefraction(getWindow(), () -> {
-                        handler.removeCallbacks(applyNow);
-                        applyNow.run();
-                    });
-                }
-            } else {
-                root.setRenderEffect(null);
-                if (backdropBlurVeilHost != null && backdropBlurVeilHost.getVisibility() == View.VISIBLE) {
-                    backdropBlurVeilHost.animate().cancel();
-                    if (reducedMotion || !animations) {
-                        backdropBlurVeilHost.setAlpha(0f);
-                        backdropBlurVeilHost.setVisibility(View.GONE);
-                        backdropBlurVeilHost.setLayerType(View.LAYER_TYPE_NONE, null);
-                        if (backdropBlurVeil != null) {
-                            backdropBlurVeil.setRenderEffect(null);
-                            backdropBlurVeil.setImageDrawable(null);
-                        }
-                        ExpressiveGlass.clearHomeLiveBackdrop();
-                        if (vinylDisc != null) vinylDisc.setLifecycleActive(resumed);
+                if (homeBackdropBlurEnabled) {
+                    if (cachedBackdropBlur == null) {
+                        // Android 17 Material 3 Expressive blur (AOSP 34dp * 1/sqrt(3) + AGSL vibrancy, dynamic
+                        // wallpaper tint & native-1080p IGN anti-banding). Rendered ONCE into Skia's cached FBO.
+                        cachedBackdropBlur = ExpressiveGlass.createBackdropBlurEffect(
+                                density, ExpressiveGlass.SHADE_BLUR_RADIUS_DP, true, Shader.TileMode.CLAMP);
+                    }
+                    if (ExpressiveGlass.hasFreshHomeLiveBackdrop()) {
+                        showBackdropBlurSmooth(deferFadeStart);
                     } else {
-                        backdropBlurVeilHost.animate()
-                                .alpha(0f)
-                                .setDuration(175L)
-                                .setInterpolator(Motion.easeInExit())
-                                .withEndAction(() -> {
-                                    if (!backdropBlurred && backdropBlurVeilHost != null) {
-                                        backdropBlurVeilHost.setVisibility(View.GONE);
-                                        backdropBlurVeilHost.setLayerType(View.LAYER_TYPE_NONE, null);
-                                        if (backdropBlurVeil != null) {
-                                            backdropBlurVeil.setRenderEffect(null);
-                                            backdropBlurVeil.setImageDrawable(null);
-                                        }
-                                        ExpressiveGlass.clearHomeLiveBackdrop();
-                                        if (vinylDisc != null) vinylDisc.setLifecycleActive(resumed);
-                                    }
-                                })
-                                .start();
+                        // Capture the unblurred Home screen FIRST (~8ms GPU PixelCopy) so Liquid Glass panels
+                        // always refract exact live icons/dock/wallpaper instead of racing with root blur.
+                        final java.util.concurrent.atomic.AtomicBoolean applied = new java.util.concurrent.atomic.AtomicBoolean(false);
+                        Runnable applyNow = () -> {
+                            if (!applied.compareAndSet(false, true) || !backdropBlurred || isDestroyed() || root == null) return;
+                            showBackdropBlurSmooth(false);
+                            refreshLiveLiquidPanels();
+                        };
+                        handler.postDelayed(applyNow, 65L);
+                        ExpressiveGlass.captureHomeWindowForRefraction(getWindow(), () -> {
+                            handler.removeCallbacks(applyNow);
+                            applyNow.run();
+                        });
                     }
                 } else {
-                    ExpressiveGlass.clearHomeLiveBackdrop();
-                    if (vinylDisc != null) vinylDisc.setLifecycleActive(resumed);
+                    // User disabled full-screen Home backdrop blur: keep Home razor-sharp (0% dim) while still
+                    // capturing the live unblurred Home window so Liquid Glass 2.0 rims refract crisp icons & art.
+                    root.setRenderEffect(null);
+                    if (backdropBlurVeilHost != null && backdropBlurVeilHost.getVisibility() == View.VISIBLE) {
+                        fadeOutBackdropBlurVeil(false);
+                    }
+                    if (!ExpressiveGlass.hasFreshHomeLiveBackdrop()) {
+                        final java.util.concurrent.atomic.AtomicBoolean applied = new java.util.concurrent.atomic.AtomicBoolean(false);
+                        Runnable applyNow = () -> {
+                            if (!applied.compareAndSet(false, true) || !backdropBlurred || isDestroyed() || root == null) return;
+                            refreshLiveLiquidPanels();
+                        };
+                        handler.postDelayed(applyNow, 65L);
+                        ExpressiveGlass.captureHomeWindowForRefraction(getWindow(), () -> {
+                            handler.removeCallbacks(applyNow);
+                            applyNow.run();
+                        });
+                    } else {
+                        refreshLiveLiquidPanels();
+                    }
                 }
+            } else {
+                fadeOutBackdropBlurVeil(true);
             }
         } else if (!blurred && vinylDisc != null) {
             vinylDisc.setLifecycleActive(resumed);
+        }
+    }
+
+    private void fadeOutBackdropBlurVeil(boolean clearLiveAndResumeVinyl) {
+        fadeOutBackdropBlurVeil(clearLiveAndResumeVinyl, null);
+    }
+
+    private void fadeOutBackdropBlurVeil(boolean clearLiveAndResumeVinyl, Runnable onHidden) {
+        if (root != null) root.setRenderEffect(null);
+        if (backdropBlurVeilHost != null && backdropBlurVeilHost.getVisibility() == View.VISIBLE) {
+            backdropBlurVeilHost.animate().cancel();
+            Runnable finish = () -> {
+                if ((!backdropBlurred || !homeBackdropBlurEnabled) && backdropBlurVeilHost != null) {
+                    backdropBlurVeilHost.setAlpha(0f);
+                    backdropBlurVeilHost.setVisibility(View.GONE);
+                    backdropBlurVeilHost.setLayerType(View.LAYER_TYPE_NONE, null);
+                    if (backdropBlurVeil != null) {
+                        backdropBlurVeil.setRenderEffect(null);
+                        backdropBlurVeil.setImageDrawable(null);
+                    }
+                }
+                if (clearLiveAndResumeVinyl && !backdropBlurred) {
+                    ExpressiveGlass.clearHomeLiveBackdrop();
+                    if (vinylDisc != null) vinylDisc.setLifecycleActive(resumed);
+                }
+                if (onHidden != null) onHidden.run();
+            };
+            if (reducedMotion || !animations) {
+                finish.run();
+            } else {
+                backdropBlurVeilHost.animate()
+                        .alpha(0f)
+                        .setDuration(175L)
+                        .setInterpolator(Motion.easeInExit())
+                        .withEndAction(finish)
+                        .start();
+            }
+        } else {
+            if (clearLiveAndResumeVinyl) {
+                ExpressiveGlass.clearHomeLiveBackdrop();
+                if (vinylDisc != null) vinylDisc.setLifecycleActive(resumed);
+            }
+            if (onHidden != null) onHidden.run();
         }
     }
 

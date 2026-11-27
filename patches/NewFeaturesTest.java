@@ -70,7 +70,7 @@ public class NewFeaturesTest {
 
     @Test
     public void qrBitmapEncodesValidSquareMatrixWithFinderPatterns() {
-        boolean[][] m = QrBitmap.encode("http://192.168.1.50:49152/AbCdEfGhIjKl");
+        boolean[][] m = QrBitmap.encode("http://192.0.2.10:49152/AbCdEfGhIjKl");
         assertTrue("QR size must be >= 21", m.length >= 21);
         assertEquals("QR matrix must be square", m.length, m[0].length);
         // Top-left 7x7 finder corners & center must be dark
@@ -203,5 +203,12 @@ public class NewFeaturesTest {
         // SHA-256 of empty byte array
         assertEquals("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
                 SelfUpdater.sha256Hex(new byte[0]));
+    }
+
+    @Test
+    public void featurePrefsDefinesDistinctHomeBackdropBlurKey() {
+        assertEquals("home_backdrop_blur", FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
+        assertNotEquals(FeaturePrefs.KEY_HOME_LIQUID_OPTICS, FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
+        assertNotEquals(FeaturePrefs.KEY_LIQUID_CLOCK, FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
     }
 }

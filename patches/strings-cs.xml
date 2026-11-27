@@ -265,6 +265,7 @@
     <string name="fs_sec_glass">Liquid Glass &amp; Ovládání</string>
     <string name="fs_liquid_clock">Liquid Glass hodiny (iOS 26)</string>
     <string name="fs_home_liquid">Optický Liquid Glass na Home</string>
+    <string name="fs_home_backdrop_blur">Rozostření pozadí na Home</string>
     <string name="fs_ui_sounds">Jemné zvuky rozhraní</string>
     <string name="fs_oled_drift">OLED ochrana spořiče (posun)</string>
     <string name="fs_aerial_quality">Kvalita Aerial videí</string>

@@ -288,6 +288,7 @@ final class ExpressiveGlass {
 
     static final String EXTRA_BACKDROP_JPEG = "com.gathin.tvhome.BACKDROP_JPEG";
     static final String EXTRA_OVER_HOME = "com.gathin.tvhome.OVER_HOME";
+    static final String EXTRA_OVER_SHARP_BACKDROP = "com.gathin.tvhome.OVER_SHARP_BACKDROP";
     static final String EXTRA_SEAMLESS_HANDOFF = "com.gathin.tvhome.SEAMLESS_HANDOFF";
     static final String ACTION_ADDON_DISMISSING = "com.gathin.tvhome.ACTION_ADDON_DISMISSING";
 
@@ -299,6 +300,7 @@ final class ExpressiveGlass {
     static final int REFRACT_BLUR_H = 180;
 
     static volatile boolean homeLiquidOpticsEnabled = true;
+    static volatile boolean homeBackdropBlurEnabled = true;
 
     static final class RefractionBackdrop {
         final Bitmap sharp;
@@ -551,6 +553,14 @@ final class ExpressiveGlass {
         homeLiquidOpticsEnabled = enabled;
     }
 
+    static boolean isHomeBackdropBlurEnabled() {
+        return homeBackdropBlurEnabled;
+    }
+
+    static void setHomeBackdropBlurEnabled(boolean enabled) {
+        homeBackdropBlurEnabled = enabled;
+    }
+
     static void clearHomeLiveBackdrop() {
         homeLiveRefraction = null;
         nestedRefraction = null;
@@ -619,15 +629,19 @@ final class ExpressiveGlass {
             captureInFlight = true;
         }
         try {
-            Bitmap dest = Bitmap.createBitmap(REFRACT_SHARP_W, REFRACT_SHARP_H, Bitmap.Config.ARGB_8888);
+            // When full-screen Home backdrop blur is OFF (sharp Home mode), capture crisp untouched 960x540
+            // uSharp (just like ClockScene's Aerial video card) so curved Liquid Glass 2.0 bezels refract
+            // razor-sharp wallpaper, text, and dock colors with full prism lens optics. When full-screen
+            // Home blur is ON, keep the softer 480x270 prefiltered uSharp so rims blend with blurred Home.
+            final boolean crispMode = !homeBackdropBlurEnabled;
+            final int capW = crispMode ? HOME_WALLPAPER_SHARP_W : REFRACT_SHARP_W;
+            final int capH = crispMode ? HOME_WALLPAPER_SHARP_H : REFRACT_SHARP_H;
+            Bitmap dest = Bitmap.createBitmap(capW, capH, Bitmap.Config.ARGB_8888);
             Handler main = mainHandler();
             PixelCopy.request(window, dest, result -> {
                 if (result == PixelCopy.SUCCESS) {
                     refractExec().execute(() -> {
-                        // Apply silky 2-pass Gaussian optical-frost prefilter to the freshly allocated 640x360
-                        // capture before publishing it so modal Liquid Glass rims bend smoothly blurred glowing
-                        // contours with zero sharp text/logos leaking into the curved bezel.
-                        Bitmap blur = makeFastBlurred(dest, REFRACT_BLUR_W, REFRACT_BLUR_H, true);
+                        Bitmap blur = makeFastBlurred(dest, REFRACT_BLUR_W, REFRACT_BLUR_H, !crispMode);
                         if (blur != null) {
                             RefractionBackdrop built = new RefractionBackdrop(dest, blur, sw, sh, ++backdropVersionCounter, false);
                             homeLiveRefraction = built;
@@ -648,14 +662,30 @@ final class ExpressiveGlass {
         }
     }
 
+    @Nullable
+    private static byte[] compressBackdropForIntent(Bitmap sharp) {
+        try {
+            int quality = sharp.getWidth() >= HOME_WALLPAPER_SHARP_W ? 72 : 76;
+            ByteArrayOutputStream out = new ByteArrayOutputStream(40960);
+            sharp.compress(Bitmap.CompressFormat.JPEG, quality, out);
+            byte[] bytes = out.toByteArray();
+            if (bytes.length > 180_000) {
+                out.reset();
+                sharp.compress(Bitmap.CompressFormat.JPEG, 56, out);
+                bytes = out.toByteArray();
+            }
+            return bytes;
+        } catch (RuntimeException ignored) {
+            return null;
+        }
+    }
+
     private static void preEncodeJpegIfCurrent(RefractionBackdrop bg) {
         if (bg == null || bg.sharp.isRecycled() || cachedJpegVersion == bg.version) return;
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream(24576);
-            bg.sharp.compress(Bitmap.CompressFormat.JPEG, 76, out);
-            cachedJpegBytes = out.toByteArray();
+        byte[] bytes = compressBackdropForIntent(bg.sharp);
+        if (bytes != null) {
+            cachedJpegBytes = bytes;
             cachedJpegVersion = bg.version;
-        } catch (RuntimeException ignored) {
         }
     }
 
@@ -689,16 +719,12 @@ final class ExpressiveGlass {
         if (cachedJpegVersion == bg.version && cachedJpegBytes != null) {
             return cachedJpegBytes;
         }
-        try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream(24576);
-            bg.sharp.compress(Bitmap.CompressFormat.JPEG, 76, out);
-            byte[] bytes = out.toByteArray();
+        byte[] bytes = compressBackdropForIntent(bg.sharp);
+        if (bytes != null) {
             cachedJpegBytes = bytes;
             cachedJpegVersion = bg.version;
-            return bytes;
-        } catch (RuntimeException ignored) {
-            return null;
         }
+        return bytes;
     }
 
     @Nullable
@@ -1405,14 +1431,22 @@ final class ExpressiveGlass {
             int screenH = (base != null && base.screenH > 0) ? base.screenH : dm.heightPixels;
             if (screenW <= 0 || screenH <= 0) return;
 
-            int cw = 480, ch = 270;
+            boolean sharpHomeOutside = !homeBackdropBlurEnabled
+                    && base != null && !base.externalApp
+                    && MainActivity.isHomeVisible();
+            int cw = sharpHomeOutside ? 640 : 480;
+            int ch = sharpHomeOutside ? 360 : 270;
             Bitmap compSharp = Bitmap.createBitmap(cw, ch, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(compSharp);
             Paint fp = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
             if (base != null && !base.blur.isRecycled()) {
-                c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
-                // Match Home/overlay backdropBlurVeil's dark shade so area outside parent panel matches eye perception.
-                c.drawColor(0x64060A12);
+                if (sharpHomeOutside && !base.sharp.isRecycled()) {
+                    c.drawBitmap(base.sharp, null, new Rect(0, 0, cw, ch), fp);
+                } else {
+                    c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
+                    // Match Home/overlay backdropBlurVeil's dark shade so area outside parent panel matches eye perception.
+                    c.drawColor(0x64060A12);
+                }
             } else {
                 c.drawColor(0xFF10141C);
             }
@@ -1425,7 +1459,16 @@ final class ExpressiveGlass {
                     loc[0] * sx, loc[1] * sy,
                     (loc[0] + panel.getWidth()) * sx, (loc[1] + panel.getHeight()) * sy);
             float rad = (pd != null ? pd.cornerRadiusPx : 24f * density) * sx;
-            int[] cols = panelGlassColors(dynamicSeedRgb, pd != null && pd.smoked);
+            if (sharpHomeOutside && base != null && !base.blur.isRecycled()) {
+                int save = c.save();
+                Path clip = new Path();
+                clip.addRoundRect(dst, rad, rad, Path.Direction.CW);
+                c.clipPath(clip);
+                c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
+                c.restoreToCount(save);
+            }
+            boolean parentSmoked = pd != null && pd.smoked;
+            int[] cols = panelGlassColors(dynamicSeedRgb, parentSmoked, sharpHomeOutside && !parentSmoked);
             Paint glassFill = new Paint(Paint.ANTI_ALIAS_FLAG);
             glassFill.setShader(new LinearGradient(
                     dst.left, dst.top, dst.left, dst.bottom,
@@ -1942,6 +1985,15 @@ final class ExpressiveGlass {
      * wallpaper accent1_800 tinting.
      */
     static int[] panelGlassColors(int seedRgb, boolean smoked) {
+        return panelGlassColors(seedRgb, smoked, false);
+    }
+
+    /**
+     * Computes 3-stop frosted-glass panel gradient colors. When {@code frostedOverSharp} is true
+     * (per-panel frosted glass floating over an unblurred sharp Home screen), deepens the glass body
+     * tint slightly to match the exact readability contrast of full-screen blurred mode.
+     */
+    static int[] panelGlassColors(int seedRgb, boolean smoked, boolean frostedOverSharp) {
         int accent800 = tonalAccent800(seedRgb);
         int topBase = mixRgb(0x131720, accent800, 0.36f);
         int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
@@ -1951,6 +2003,13 @@ final class ExpressiveGlass {
                     (0xA4 << 24) | topBase,
                     (0xB2 << 24) | midBase,
                     (0xC0 << 24) | botBase
+            };
+        }
+        if (frostedOverSharp) {
+            return new int[]{
+                    (0x76 << 24) | topBase,
+                    (0x84 << 24) | midBase,
+                    (0x92 << 24) | botBase
             };
         }
         return new int[]{
@@ -2086,6 +2145,7 @@ final class ExpressiveGlass {
         private final Paint rimPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         private final RectF rect = new RectF();
+        private final RectF localRect = new RectF();
         private final RectF insetRect = new RectF();
         private final int[] winLoc = new int[2];
         private final int[] scrLoc = new int[2];
@@ -2104,6 +2164,12 @@ final class ExpressiveGlass {
         private int lastW = -1;
         private int lastH = -1;
         private int lastSeed = -1;
+        private int lastFillMode = -1;
+        @Nullable
+        private RenderNode panelCacheNode;
+        private int cacheW = -1, cacheH = -1, cacheSeed = -1, cacheBgVer = -1, cacheFillMode = -1;
+        private float cacheRad = -1f, cacheOriginX = Float.NaN, cacheOriginY = Float.NaN, cacheScaleX = -1f, cacheScaleY = -1f;
+        private boolean cacheNeedInterior, cacheOptical, cacheSmoked;
         boolean useRestingCoords;
         boolean suppressDraw;
 
@@ -2132,6 +2198,7 @@ final class ExpressiveGlass {
                             liquidPaint.setShader(null);
                             recycleLiquidShader(s);
                         }
+                        releasePanelCacheNode();
                     }
                 });
             }
@@ -2144,8 +2211,18 @@ final class ExpressiveGlass {
             rimPaint.setStrokeWidth(1.25f * density);
         }
 
+        private void releasePanelCacheNode() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && panelCacheNode != null) {
+                panelCacheNode.setUseCompositingLayer(false, null);
+                panelCacheNode.discardDisplayList();
+                panelCacheNode = null;
+            }
+            cacheW = -1;
+        }
+
         void setCustomBackdrop(@Nullable RefractionBackdrop backdrop) {
             this.customBackdrop = backdrop;
+            this.cacheW = -1;
             invalidateSelf();
         }
 
@@ -2153,6 +2230,7 @@ final class ExpressiveGlass {
             if (this.smoked == smoked) return;
             this.smoked = smoked;
             this.lastSeed = -1;
+            this.cacheW = -1;
             invalidateSelf();
         }
 
@@ -2161,19 +2239,21 @@ final class ExpressiveGlass {
             this.smoked = smoked;
             this.overSharpBackdrop = overSharpBackdrop;
             this.lastSeed = -1;
+            this.cacheW = -1;
             invalidateSelf();
         }
 
-        private void ensureShaders(RectF r) {
+        private void ensureShaders(RectF r, int fillMode) {
             int w = Math.round(r.width());
             int h = Math.round(r.height());
             int seed = dynamicSeedRgb;
-            if (w == lastW && h == lastH && seed == lastSeed) return;
+            if (w == lastW && h == lastH && seed == lastSeed && fillMode == lastFillMode) return;
             lastW = w;
             lastH = h;
             lastSeed = seed;
+            lastFillMode = fillMode;
 
-            int[] cols = panelGlassColors(seed, smoked);
+            int[] cols = panelGlassColors(seed, fillMode == 2, fillMode == 1);
             // Bake the top 18% white specular caustic directly into the panel's single vertical gradient
             // (eliminates a second full-panel clipRect+drawRoundRect pass and 1.54M px invisible micro-noise pass).
             int topWithCaustic = blendOverWhite(cols[0], 0x12);
@@ -2211,10 +2291,9 @@ final class ExpressiveGlass {
                     | Math.round(ab + (bb - ab) * t);
         }
 
-        private boolean drawLiquidGlass(Canvas canvas, RectF r, float rad, boolean interiorBlurOnly) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed) return false;
-            View host = hostRef != null ? hostRef.get() : null;
-            if (host == null || !host.isAttachedToWindow()) return false;
+        @Nullable
+        private RefractionBackdrop resolveBackdrop(@Nullable View host) {
+            if (host == null || !host.isAttachedToWindow()) return null;
             // 4-Layer Liquid Glass Backdrop Hierarchy:
             // - Layer 0 (Base): Wallpaper / HeroArt (homeWallpaperRefraction) or External App (overlayRefraction).
             // - Layer 1 (Home Chrome): Dock, Top Pills, Liquid Clock -> strictly sample Layer 0 (Wallpaper/HeroArt).
@@ -2244,17 +2323,11 @@ final class ExpressiveGlass {
             } else {
                 bg = activeRefractionBackdrop();
             }
-            if (bg == null || bg.sharp.isRecycled() || bg.blur.isRecycled()) return false;
+            if (bg == null || bg.sharp.isRecycled() || bg.blur.isRecycled()) return null;
+            return bg;
+        }
 
-            if (liquidShader == null) {
-                liquidShader = acquireLiquidShader();
-                boundBackdropVersion = -1;
-                if (liquidShader == null) {
-                    liquidShaderFailed = true;
-                    return false;
-                }
-            }
-
+        private void resolveScreenTransform(View host, RefractionBackdrop bg, float[] outOriginScale) {
             View rootView = host.getRootView();
             rootView.getLocationOnScreen(scrLoc);
             int winOffX = scrLoc[0];
@@ -2290,10 +2363,6 @@ final class ExpressiveGlass {
                     }
                 }
             }
-            float originX;
-            float originY;
-            float scaleX;
-            float scaleY;
             if (useRestingCoords) {
                 float rx = winOffX;
                 float ry = winOffY;
@@ -2304,10 +2373,10 @@ final class ExpressiveGlass {
                     ViewParent p = cur.getParent();
                     cur = p instanceof View ? (View) p : null;
                 }
-                originX = rx;
-                originY = ry;
-                scaleX = 1f;
-                scaleY = 1f;
+                outOriginScale[0] = rx;
+                outOriginScale[1] = ry;
+                outOriginScale[2] = 1f;
+                outOriginScale[3] = 1f;
             } else {
                 rootMatrix.reset();
                 rootView.transformMatrixToGlobal(rootMatrix);
@@ -2319,10 +2388,26 @@ final class ExpressiveGlass {
                         matrixVals[Matrix.MTRANS_X], matrixVals[Matrix.MTRANS_Y],
                         rootMatrixVals[Matrix.MTRANS_X], rootMatrixVals[Matrix.MTRANS_Y],
                         winOffX, winOffY, originOut);
-                originX = originOut[0];
-                originY = originOut[1];
-                scaleX = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_X]));
-                scaleY = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_Y]));
+                outOriginScale[0] = originOut[0];
+                outOriginScale[1] = originOut[1];
+                outOriginScale[2] = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_X]));
+                outOriginScale[3] = Math.max(0.05f, Math.abs(matrixVals[Matrix.MSCALE_Y]));
+            }
+        }
+
+        private final float[] transformTmp = new float[4];
+
+        private boolean drawLiquidGlassPass(Canvas canvas, RectF r, float rad, @Nullable RefractionBackdrop bg,
+                                            float originX, float originY, float scaleX, float scaleY,
+                                            boolean interiorBlurOnly, int alpha) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed || bg == null) return false;
+            if (liquidShader == null) {
+                liquidShader = acquireLiquidShader();
+                boundBackdropVersion = -1;
+                if (liquidShader == null) {
+                    liquidShaderFailed = true;
+                    return false;
+                }
             }
 
             fillPaint.setDither(true);
@@ -2364,7 +2449,7 @@ final class ExpressiveGlass {
 
             liquidPaint.setShader(null);
             liquidPaint.setShader(liquidShader);
-            liquidPaint.setAlpha(liquidAlpha);
+            liquidPaint.setAlpha(alpha);
             if (interiorBlurOnly) {
                 canvas.drawRect(r, liquidPaint);
             } else {
@@ -2373,34 +2458,121 @@ final class ExpressiveGlass {
             return true;
         }
 
+        private void drawPanelContent(Canvas canvas, RectF r, float rad, @Nullable RefractionBackdrop bg,
+                                      float originX, float originY, float scaleX, float scaleY,
+                                      boolean sharpHomePanel, boolean needInteriorBlur, int alpha) {
+            boolean drewInteriorBlur = false;
+            if (needInteriorBlur) {
+                drewInteriorBlur = drawLiquidGlassPass(canvas, r, rad, bg, originX, originY, scaleX, scaleY, true, alpha);
+            }
+
+            // Layer 1: Single-pass Material 3 Expressive translucent glass body (with baked top specular caustic).
+            int fillMode = (smoked || (needInteriorBlur && !drewInteriorBlur))
+                    ? 2 : (sharpHomePanel ? 1 : 0);
+            ensureShaders(r, fillMode);
+            fillPaint.setAlpha(alpha);
+            canvas.drawRoundRect(r, rad, rad, fillPaint);
+
+            // Layer 2: Real-time Liquid Glass rim refraction + chromatic dispersion + Fresnel specular!
+            if (drawLiquidGlassPass(canvas, r, rad, bg, originX, originY, scaleX, scaleY, false, alpha)) return;
+
+            float halfOuter = outerShadowBorder.getStrokeWidth() * 0.5f;
+            insetRect.set(r.left + halfOuter, r.top + halfOuter, r.right - halfOuter, r.bottom - halfOuter);
+            canvas.drawRoundRect(insetRect, Math.max(0f, rad - halfOuter), Math.max(0f, rad - halfOuter), outerShadowBorder);
+
+            float halfRim = rimPaint.getStrokeWidth() * 0.5f + halfOuter;
+            insetRect.set(r.left + halfRim, r.top + halfRim, r.right - halfRim, r.bottom - halfRim);
+            rimPaint.setAlpha(alpha);
+            canvas.drawRoundRect(insetRect, Math.max(0f, rad - halfRim), Math.max(0f, rad - halfRim), rimPaint);
+        }
+
         @Override
         public void draw(@NonNull Canvas canvas) {
             if (suppressDraw) return;
             Rect b = getBounds();
             if (b.isEmpty()) return;
+            int w = b.width();
+            int h = b.height();
             rect.set(b);
-            float rad = Math.min(cornerRadiusPx, Math.min(rect.width(), rect.height()) * 0.5f);
+            float rad = Math.min(cornerRadiusPx, Math.min(w, h) * 0.5f);
 
-            // For floating panels over sharp video/wallpapers (e.g. screensaver Now Playing card),
-            // paint the silky blurred backdrop inside the rounded card before Layer 1 glass tint.
-            if (overSharpBackdrop) {
-                drawLiquidGlass(canvas, rect, rad, true);
+            View host = hostRef != null ? hostRef.get() : null;
+            RefractionBackdrop bg = resolveBackdrop(host);
+            float originX = 0f, originY = 0f, scaleX = 1f, scaleY = 1f;
+            if (host != null && bg != null) {
+                resolveScreenTransform(host, bg, transformTmp);
+                originX = transformTmp[0];
+                originY = transformTmp[1];
+                scaleX = transformTmp[2];
+                scaleY = transformTmp[3];
             }
 
-            // Layer 1: Single-pass Material 3 Expressive translucent glass body (with baked top specular caustic).
-            ensureShaders(rect);
-            canvas.drawRoundRect(rect, rad, rad, fillPaint);
+            // For floating panels over sharp video/wallpapers (screensaver media card) OR over sharp Home
+            // when full-screen Home backdrop blur is turned off, paint the silky blurred backdrop strictly
+            // inside the rounded panel first; if unavailable, fall back to rich smoked opacity.
+            boolean sharpHomePanel = !overSharpBackdrop && !homeBackdropBlurEnabled && MainActivity.isHomeVisible();
+            boolean needInteriorBlur = overSharpBackdrop || sharpHomePanel;
 
-            // Layer 2: Real-time Liquid Glass rim refraction + chromatic dispersion + Fresnel specular!
-            if (drawLiquidGlass(canvas, rect, rad, false)) return;
+            // Hardware RenderNode compositing cache (API 29+): rasterizes all 3 AGSL glass passes ONCE into GPU VRAM
+            // when the panel is stationary, turning D-pad focus glides, scrolling & toggles into a 0.15ms GPU quad blit!
+            boolean canCache = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+                    && host != null && canvas.isHardwareAccelerated()
+                    && fillPaint.getColorFilter() == null
+                    && w > 0 && h > 0 && w <= 4096 && h <= 4096;
+            if (canCache) {
+                int seed = dynamicSeedRgb;
+                int bgVer = bg != null ? bg.version : -1;
+                boolean optical = homeLiquidOpticsEnabled && (bg == null || !bg.externalApp || overSharpBackdrop);
+                int expectedFillMode = (smoked || (needInteriorBlur && (bg == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed)))
+                        ? 2 : (sharpHomePanel ? 1 : 0);
+                boolean dirty = panelCacheNode == null || !panelCacheNode.hasDisplayList()
+                        || w != cacheW || h != cacheH || seed != cacheSeed || bgVer != cacheBgVer
+                        || expectedFillMode != cacheFillMode || needInteriorBlur != cacheNeedInterior
+                        || optical != cacheOptical || smoked != cacheSmoked
+                        || Math.abs(rad - cacheRad) > 0.25f
+                        || Math.abs(originX - cacheOriginX) > 0.25f || Math.abs(originY - cacheOriginY) > 0.25f
+                        || Math.abs(scaleX - cacheScaleX) > 0.002f || Math.abs(scaleY - cacheScaleY) > 0.002f;
+                if (dirty) {
+                    if (panelCacheNode == null) {
+                        panelCacheNode = new RenderNode("liquid-panel-cache");
+                        panelCacheNode.setUseCompositingLayer(true, null);
+                    }
+                    panelCacheNode.setPosition(0, 0, w, h);
+                    panelCacheNode.setAlpha(Math.max(0, Math.min(255, liquidAlpha)) / 255f);
+                    localRect.set(0f, 0f, w, h);
+                    RecordingCanvas rc = panelCacheNode.beginRecording(w, h);
+                    drawPanelContent(rc, localRect, rad, bg, originX, originY, scaleX, scaleY,
+                            sharpHomePanel, needInteriorBlur, 255);
+                    panelCacheNode.endRecording();
+                    fillPaint.setAlpha(liquidAlpha);
+                    rimPaint.setAlpha(liquidAlpha);
+                    cacheW = w;
+                    cacheH = h;
+                    cacheSeed = seed;
+                    cacheBgVer = bgVer;
+                    cacheFillMode = expectedFillMode;
+                    cacheNeedInterior = needInteriorBlur;
+                    cacheOptical = optical;
+                    cacheSmoked = smoked;
+                    cacheRad = rad;
+                    cacheOriginX = originX;
+                    cacheOriginY = originY;
+                    cacheScaleX = scaleX;
+                    cacheScaleY = scaleY;
+                }
+                if (b.left != 0 || b.top != 0) {
+                    int save = canvas.save();
+                    canvas.translate(b.left, b.top);
+                    canvas.drawRenderNode(panelCacheNode);
+                    canvas.restoreToCount(save);
+                } else {
+                    canvas.drawRenderNode(panelCacheNode);
+                }
+                return;
+            }
 
-            float halfOuter = outerShadowBorder.getStrokeWidth() * 0.5f;
-            insetRect.set(rect.left + halfOuter, rect.top + halfOuter, rect.right - halfOuter, rect.bottom - halfOuter);
-            canvas.drawRoundRect(insetRect, Math.max(0f, rad - halfOuter), Math.max(0f, rad - halfOuter), outerShadowBorder);
-
-            float halfRim = rimPaint.getStrokeWidth() * 0.5f + halfOuter;
-            insetRect.set(rect.left + halfRim, rect.top + halfRim, rect.right - halfRim, rect.bottom - halfRim);
-            canvas.drawRoundRect(insetRect, Math.max(0f, rad - halfRim), Math.max(0f, rad - halfRim), rimPaint);
+            drawPanelContent(canvas, rect, rad, bg, originX, originY, scaleX, scaleY,
+                    sharpHomePanel, needInteriorBlur, liquidAlpha);
         }
 
         @Override
@@ -2408,12 +2580,16 @@ final class ExpressiveGlass {
             liquidAlpha = alpha;
             fillPaint.setAlpha(alpha);
             rimPaint.setAlpha(alpha);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && panelCacheNode != null) {
+                panelCacheNode.setAlpha(Math.max(0, Math.min(255, alpha)) / 255f);
+            }
             invalidateSelf();
         }
 
         @Override
         public void setColorFilter(@Nullable ColorFilter colorFilter) {
             fillPaint.setColorFilter(colorFilter);
+            cacheW = -1;
             invalidateSelf();
         }
 

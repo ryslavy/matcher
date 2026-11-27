@@ -91,6 +91,12 @@ final class LauncherFeatureSettings {
                     ExpressiveGlass.setHomeLiquidOpticsEnabled(v);
                     onPreferenceChanged.run();
                 });
+        addToggleRow(R.string.fs_home_backdrop_blur,
+                () -> FeaturePrefs.isHomeBackdropBlurEnabled(activity),
+                v -> {
+                    FeaturePrefs.setHomeBackdropBlurEnabled(activity, v);
+                    MainActivity.applyHomeBackdropBlurPreference(v);
+                });
         addToggleRow(R.string.fs_ui_sounds,
                 () -> FeaturePrefs.isUiSoundsEnabled(activity),
                 v -> {

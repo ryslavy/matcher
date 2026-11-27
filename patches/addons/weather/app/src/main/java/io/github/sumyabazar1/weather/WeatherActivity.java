@@ -187,7 +187,8 @@ public final class WeatherActivity extends Activity {
         int seed = weatherSeedRgb(r.code, r.day);
         if (seed != lastSeedRgb) {
             lastSeedRgb = seed;
-            GlassKit.applyPanelSurface(modal.panel, d, 26f, !modal.overHome && modal.backdropView == null, false, seed);
+            GlassKit.applyPanelSurface(modal.panel, d, 26f, !modal.overHome && modal.backdropView == null,
+                    false, seed, modal.overSharpHome, modal.overSharpHome);
         }
 
         ((TextView) findViewById(R.id.place)).setText(place.getString("name", ""));

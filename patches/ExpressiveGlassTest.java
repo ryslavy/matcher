@@ -57,13 +57,17 @@ public class ExpressiveGlassTest {
     @Test
     public void panelAndDockGlassColorsPreserveExpectedTranslucency() {
         int[] overHome = ExpressiveGlass.panelGlassColors(0x2E7D6A, false);
+        int[] frostedOverSharp = ExpressiveGlass.panelGlassColors(0x2E7D6A, false, true);
         int[] smoked = ExpressiveGlass.panelGlassColors(0x2E7D6A, true);
         int[] dock = ExpressiveGlass.dockGlassColors(0x2E7D6A);
         assertEquals(3, overHome.length);
+        assertEquals(3, frostedOverSharp.length);
         assertEquals(3, smoked.length);
         assertEquals(3, dock.length);
-        assertTrue("Smoked panel over external apps must be denser than over Home",
-                ((smoked[0] >>> 24) & 0xFF) > ((overHome[0] >>> 24) & 0xFF));
+        assertTrue("Frosted-over-sharp panel must be richer than blurred-backdrop Home panel",
+                ((frostedOverSharp[0] >>> 24) & 0xFF) > ((overHome[0] >>> 24) & 0xFF));
+        assertTrue("Smoked panel over external apps must remain denser than frosted-over-sharp panel",
+                ((smoked[0] >>> 24) & 0xFF) > ((frostedOverSharp[0] >>> 24) & 0xFF));
         assertTrue("Dock glass must remain more translucent than modal panels",
                 ((dock[1] >>> 24) & 0xFF) < ((overHome[1] >>> 24) & 0xFF));
     }

@@ -23,6 +23,7 @@ final class FeaturePrefs {
 
     static final String KEY_LIQUID_CLOCK = "liquid_glass_clock";
     static final String KEY_HOME_LIQUID_OPTICS = "home_liquid_optics";
+    static final String KEY_HOME_BACKDROP_BLUR = "home_backdrop_blur";
     static final String KEY_UI_SOUNDS = "ui_click_sounds";
     static final String KEY_OLED_DRIFT = "oled_screensaver_drift";
     static final String KEY_AERIAL_4K = "aerial_4k_enabled";
@@ -91,6 +92,15 @@ final class FeaturePrefs {
 
     static void setHomeLiquidOpticsEnabled(Context ctx, boolean on) {
         prefs(ctx).edit().putBoolean(KEY_HOME_LIQUID_OPTICS, on).apply();
+        bumpRevision(ctx);
+    }
+
+    static boolean isHomeBackdropBlurEnabled(Context ctx) {
+        return prefs(ctx).getBoolean(KEY_HOME_BACKDROP_BLUR, true);
+    }
+
+    static void setHomeBackdropBlurEnabled(Context ctx, boolean on) {
+        prefs(ctx).edit().putBoolean(KEY_HOME_BACKDROP_BLUR, on).apply();
         bumpRevision(ctx);
     }
 

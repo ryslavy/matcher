@@ -90,6 +90,7 @@ final class GlassKit {
 
     static final String EXTRA_BACKDROP_JPEG = "com.gathin.tvhome.BACKDROP_JPEG";
     static final String EXTRA_OVER_HOME = "com.gathin.tvhome.OVER_HOME";
+    static final String EXTRA_OVER_SHARP_BACKDROP = "com.gathin.tvhome.OVER_SHARP_BACKDROP";
     static final String EXTRA_INHERIT_BACKDROP = "com.gathin.tvhome.INHERIT_BACKDROP";
     static final String ACTION_ADDON_DISMISSING = "com.gathin.tvhome.ACTION_ADDON_DISMISSING";
 
@@ -383,6 +384,9 @@ final class GlassKit {
         if (src.hasExtra(EXTRA_OVER_HOME)) {
             to.putExtra(EXTRA_OVER_HOME, src.getBooleanExtra(EXTRA_OVER_HOME, false));
         }
+        if (src.hasExtra(EXTRA_OVER_SHARP_BACKDROP)) {
+            to.putExtra(EXTRA_OVER_SHARP_BACKDROP, src.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false));
+        }
         byte[] jpeg = src.getByteArrayExtra(EXTRA_BACKDROP_JPEG);
         if (jpeg != null && jpeg.length > 0) {
             to.putExtra(EXTRA_BACKDROP_JPEG, jpeg);
@@ -391,11 +395,13 @@ final class GlassKit {
 
     /**
      * Decodes launcher-captured backdrop JPEG off the hot blur path (immutable Bitmap so HWUI RenderThread
-     * upload never races with background blur generation). Defaults {@code overHome} to {@code false} and
-     * clears stale cached backdrops whenever an Intent carries no JPEG.
+     * upload never races with background blur generation). When floating over sharp Home (full-screen Home
+     * backdrop blur disabled), synchronously builds a 240x135 blur (~2.5ms) so Frame 0 renders silky frosted
+     * glass inside the panel immediately with zero smoked-to-frosted flash.
      */
     static boolean installBackdropFromIntent(Activity activity, Intent intent) {
         final boolean overHome = intent != null && intent.getBooleanExtra(EXTRA_OVER_HOME, false);
+        final boolean overSharp = overHome && intent != null && intent.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false);
         byte[] jpeg = intent != null ? intent.getByteArrayExtra(EXTRA_BACKDROP_JPEG) : null;
         if (jpeg != null && jpeg.length > 0) {
             try {
@@ -406,6 +412,13 @@ final class GlassKit {
                     activeSharpOnly = sharp;
                     final android.util.DisplayMetrics dm = activity.getResources().getDisplayMetrics();
                     final int sw = dm.widthPixels, sh = dm.heightPixels;
+                    if (overSharp) {
+                        Bitmap blur = makeFastBlurred(sharp, 240, 135);
+                        if (blur != null) {
+                            activeBackdrop = new RefractionBackdrop(sharp, blur, sw, sh, ++backdropVersionCounter, overHome);
+                            return overHome;
+                        }
+                    }
                     final WeakReference<Activity> actRef = new WeakReference<>(activity);
                     backdropExec().execute(() -> {
                         Bitmap blur = makeFastBlurred(sharp, 360, 202);
@@ -750,13 +763,19 @@ final class GlassKit {
 
     static void applyPanelSurface(View panel, float density, float cornerRadiusDp, boolean smoked,
                                   boolean clipToOutline, int seedRgb, boolean overSharpBackdrop) {
+        applyPanelSurface(panel, density, cornerRadiusDp, smoked, clipToOutline, seedRgb, overSharpBackdrop, false);
+    }
+
+    static void applyPanelSurface(View panel, float density, float cornerRadiusDp, boolean smoked,
+                                  boolean clipToOutline, int seedRgb, boolean overSharpBackdrop,
+                                  boolean richInteriorTint) {
         float radiusPx = cornerRadiusDp * density;
         int resolvedSeed = seedRgb == 0 ? DEFAULT_SEED_RGB : seedRgb;
         Drawable existing = panel.getBackground();
         if (existing instanceof PanelDrawable) {
-            ((PanelDrawable) existing).updateConfig(radiusPx, smoked, resolvedSeed, overSharpBackdrop);
+            ((PanelDrawable) existing).updateConfig(radiusPx, smoked, resolvedSeed, overSharpBackdrop, richInteriorTint);
         } else {
-            panel.setBackground(new PanelDrawable(panel, density, radiusPx, smoked, resolvedSeed, overSharpBackdrop));
+            panel.setBackground(new PanelDrawable(panel, density, radiusPx, smoked, resolvedSeed, overSharpBackdrop, richInteriorTint));
         }
         panel.setElevation(0f);
         panel.setTranslationZ(0f);
@@ -1457,9 +1476,14 @@ final class GlassKit {
             Bitmap compSharp = Bitmap.createBitmap(cw, ch, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(compSharp);
             Paint fp = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+            boolean sharpHomeOutside = pd != null && pd.overSharpBackdrop && base != null && base.overHome;
             if (base != null && !base.blur.isRecycled()) {
-                c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
-                c.drawColor(0x64060A12);
+                if (sharpHomeOutside && !base.sharp.isRecycled()) {
+                    c.drawBitmap(base.sharp, null, new Rect(0, 0, cw, ch), fp);
+                } else {
+                    c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
+                    c.drawColor(0x64060A12);
+                }
             } else {
                 c.drawColor(0xFF10141C);
             }
@@ -1471,15 +1495,26 @@ final class GlassKit {
                     loc[0] * sx, loc[1] * sy,
                     (loc[0] + panel.getWidth()) * sx, (loc[1] + panel.getHeight()) * sy);
             float rad = (pd != null ? pd.cornerRadiusPx : 24f * density) * sx;
+            if (sharpHomeOutside && base != null && !base.blur.isRecycled()) {
+                int save = c.save();
+                Path clip = new Path();
+                clip.addRoundRect(dst, rad, rad, Path.Direction.CW);
+                c.clipPath(clip);
+                c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
+                c.restoreToCount(save);
+            }
             int seed = pd != null ? pd.seedRgb : DEFAULT_SEED_RGB;
             int accent800 = tonalAccent800(seed);
             int topBase = mixRgb(0x131720, accent800, 0.36f);
             int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
             int botBase = mixRgb(0x07090E, accent800, 0.22f);
+            int[] glassCols = sharpHomeOutside
+                    ? new int[]{(0x76 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase}
+                    : new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase};
             Paint glassFill = new Paint(Paint.ANTI_ALIAS_FLAG);
             glassFill.setShader(new LinearGradient(
                     dst.left, dst.top, dst.left, dst.bottom,
-                    new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase},
+                    glassCols,
                     new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
             c.drawRoundRect(dst, rad, rad, glassFill);
             c.drawBitmap(softChildren, null, dst, fp);
@@ -1650,6 +1685,7 @@ final class GlassKit {
         final FrameLayout backdrop;
         FrameLayout backdropView;
         boolean overHome;
+        boolean overSharpHome;
         boolean inheritBackdrop;
         final int seedRgb;
         final FrameLayout panelStage;
@@ -1661,13 +1697,14 @@ final class GlassKit {
         private final Runnable deferredUnblur;
 
         private Modal(Activity activity, FrameLayout backdrop, FrameLayout backdropView, boolean overHome,
-                      boolean inheritBackdrop, int seedRgb,
+                      boolean overSharpHome, boolean inheritBackdrop, int seedRgb,
                       FrameLayout panelStage, LinearLayout panel, FocusRing focusRing) {
             this.activity = activity;
             this.density = density(activity);
             this.backdrop = backdrop;
             this.backdropView = backdropView;
             this.overHome = overHome;
+            this.overSharpHome = overSharpHome;
             this.inheritBackdrop = inheritBackdrop;
             this.seedRgb = seedRgb;
             this.panelStage = panelStage;
@@ -1681,6 +1718,7 @@ final class GlassKit {
         void onNewIntent(Intent intent) {
             activity.setIntent(intent);
             overHome = installBackdropFromIntent(activity, intent);
+            overSharpHome = overHome && intent != null && intent.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false);
             inheritBackdrop = intent != null && intent.getBooleanExtra(EXTRA_INHERIT_BACKDROP, false);
             if (backdropView != null) {
                 backdropView.animate().cancel();
@@ -1693,7 +1731,7 @@ final class GlassKit {
             }
             boolean smoked = !overHome && !inheritBackdrop && backdropView == null;
             applyWindowGlass(activity.getWindow(), density, smoked ? 0.36f : 0f, smoked);
-            applyPanelSurface(panel, density, 26f, smoked, false, seedRgb);
+            applyPanelSurface(panel, density, 26f, smoked, false, seedRgb, overSharpHome, overSharpHome);
             if (closing) {
                 closing = false;
                 setClosing(panelStage, false);
@@ -1812,6 +1850,7 @@ final class GlassKit {
         float d = density(activity);
         Intent intent = activity.getIntent();
         boolean overHome = installBackdropFromIntent(activity, intent);
+        boolean overSharpHome = overHome && intent != null && intent.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false);
         boolean inheritBackdrop = intent != null && intent.getBooleanExtra(EXTRA_INHERIT_BACKDROP, false);
 
         android.util.DisplayMetrics dm = activity.getResources().getDisplayMetrics();
@@ -1854,7 +1893,7 @@ final class GlassKit {
         panel.setClipChildren(false);
         panel.setClipToPadding(false);
         panel.setOnClickListener(v -> { /* consume inside taps */ });
-        applyPanelSurface(panel, d, 26f, smoked, false, seedRgb);
+        applyPanelSurface(panel, d, 26f, smoked, false, seedRgb, overSharpHome, overSharpHome);
 
         FrameLayout.LayoutParams panelLp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -1869,7 +1908,7 @@ final class GlassKit {
         backdrop.addView(panelStage, new FrameLayout.LayoutParams(w + 2 * pad, stageH, Gravity.CENTER));
         activity.setContentView(backdrop);
 
-        Modal modal = new Modal(activity, backdrop, backdropView, overHome, inheritBackdrop, seedRgb, panelStage, panel, ring);
+        Modal modal = new Modal(activity, backdrop, backdropView, overHome, overSharpHome, inheritBackdrop, seedRgb, panelStage, panel, ring);
         holder[0] = modal;
         backdrop.setOnClickListener(v -> modal.dismiss());
         return modal;
@@ -1925,6 +1964,9 @@ final class GlassKit {
         host.setClipToPadding(false);
         if (panel.getParent() instanceof ViewGroup) {
             ((ViewGroup) panel.getParent()).removeView(panel);
+        }
+        if (parentModal != null && parentModal.overSharpHome && panel.getBackground() instanceof PanelDrawable) {
+            ((PanelDrawable) panel.getBackground()).setOverSharpBackdrop(true);
         }
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
@@ -2216,6 +2258,7 @@ final class GlassKit {
         private boolean smoked;
         private int seedRgb;
         private boolean overSharpBackdrop;
+        private boolean richInteriorTint;
         private final Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private final Paint liquidPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private final Paint outerShadowBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -2233,17 +2276,19 @@ final class GlassKit {
         private float rimR, rimG, rimB;
         private int liquidAlpha = 255;
         private int lastW = -1, lastH = -1;
-        private boolean lastEffectiveSmoked;
+        private int lastFillMode = -1;
         boolean useRestingCoords;
         boolean suppressDraw;
 
-        PanelDrawable(View host, float density, float cornerRadiusPx, boolean smoked, int seedRgb, boolean overSharpBackdrop) {
+        PanelDrawable(View host, float density, float cornerRadiusPx, boolean smoked, int seedRgb,
+                      boolean overSharpBackdrop, boolean richInteriorTint) {
             this.hostRef = host != null ? new WeakReference<>(host) : null;
             this.density = density;
             this.cornerRadiusPx = cornerRadiusPx;
             this.smoked = smoked;
             this.seedRgb = seedRgb & 0x00FFFFFF;
             this.overSharpBackdrop = overSharpBackdrop;
+            this.richInteriorTint = richInteriorTint;
             updateRimRgb();
 
             if (host != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -2284,31 +2329,44 @@ final class GlassKit {
             this.rimB = (rimTint & 0xFF) / 255f;
         }
 
-        void updateConfig(float radiusPx, boolean smoked, int seedRgb, boolean overSharpBackdrop) {
+        void setOverSharpBackdrop(boolean overSharpBackdrop) {
+            if (this.overSharpBackdrop == overSharpBackdrop) return;
+            this.overSharpBackdrop = overSharpBackdrop;
+            this.lastW = -1;
+            invalidateSelf();
+        }
+
+        void updateConfig(float radiusPx, boolean smoked, int seedRgb, boolean overSharpBackdrop, boolean richInteriorTint) {
             this.cornerRadiusPx = radiusPx;
             this.smoked = smoked;
             this.seedRgb = seedRgb & 0x00FFFFFF;
             this.overSharpBackdrop = overSharpBackdrop;
+            this.richInteriorTint = richInteriorTint;
             updateRimRgb();
             this.lastW = -1;
             invalidateSelf();
         }
 
-        private void ensureShaders(RectF r, boolean effectiveSmoked) {
+        private void ensureShaders(RectF r, int fillMode) {
             int w = Math.round(r.width());
             int h = Math.round(r.height());
-            if (w == lastW && h == lastH && effectiveSmoked == lastEffectiveSmoked) return;
+            if (w == lastW && h == lastH && fillMode == lastFillMode) return;
             lastW = w;
             lastH = h;
-            lastEffectiveSmoked = effectiveSmoked;
+            lastFillMode = fillMode;
 
             int accent800 = tonalAccent800(seedRgb);
             int topBase = mixRgb(0x131720, accent800, 0.36f);
             int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
             int botBase = mixRgb(0x07090E, accent800, 0.22f);
-            int[] cols = effectiveSmoked
-                    ? new int[]{(0xA4 << 24) | topBase, (0xB2 << 24) | midBase, (0xC0 << 24) | botBase}
-                    : new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase};
+            int[] cols;
+            if (fillMode == 2) {
+                cols = new int[]{(0xA4 << 24) | topBase, (0xB2 << 24) | midBase, (0xC0 << 24) | botBase};
+            } else if (fillMode == 1) {
+                cols = new int[]{(0x76 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase};
+            } else {
+                cols = new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase};
+            }
             int topWithCaustic = blendOverWhite(cols[0], 0x12);
             int stop18 = lerpArgb(cols[0], cols[1], 0.18f / 0.48f);
             fillPaint.setShader(new LinearGradient(
@@ -2485,7 +2543,9 @@ final class GlassKit {
             }
 
             // Layer 1: Single-pass Material 3 Expressive translucent glass body (with baked top specular caustic).
-            ensureShaders(rect, smoked || (overSharpBackdrop && !drewInteriorBlur));
+            int fillMode = (smoked || (overSharpBackdrop && !drewInteriorBlur))
+                    ? 2 : (richInteriorTint ? 1 : 0);
+            ensureShaders(rect, fillMode);
             canvas.drawRoundRect(rect, rad, rad, fillPaint);
 
             // Layer 2: Real-time Liquid Glass rim refraction + chromatic dispersion + Fresnel specular!

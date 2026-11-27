@@ -1,20 +1,37 @@
-# Matcher Visual Gallery — Release `v1.1.1`
+# Matcher Visual Gallery — Release `v1.1.2`
 
-[![Gallery Release](https://img.shields.io/badge/Gallery_Release-v1.1.1-38BDF8?style=for-the-badge)](https://github.com/ryslavy/matcher/releases/tag/v1.1.1)
+[![Gallery Release](https://img.shields.io/badge/Gallery_Release-v1.1.2-38BDF8?style=for-the-badge)](https://github.com/ryslavy/matcher/releases/tag/v1.1.2)
 ![Hardware](https://img.shields.io/badge/Device-Xiaomi_TV_Box_S_3rd_Gen_(Android_14)-1E293B?style=for-the-badge)
 ![Resolution](https://img.shields.io/badge/Resolution-1920x1080-1E293B?style=for-the-badge)
-![Screenshots](https://img.shields.io/badge/Screenshots-43_Screens-22C55E?style=for-the-badge)
+![Screenshots](https://img.shields.io/badge/Screenshots-47_Screens_(v1.1.2_%2B_v1.1.1)-22C55E?style=for-the-badge)
 
-> **Version-pinned gallery (`v1.1.1`):** All **43 screenshots** below were captured live on a **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, Android 14 / SDK 34) running **Matcher [`v1.1.1`](https://github.com/ryslavy/matcher/releases/tag/v1.1.1)** (built on CleanYourTV 3.6+ `be608705`). Every image is stored under [`docs/gallery/v1.1.1/`](gallery/v1.1.1/) and explicitly tagged with the release version so the gallery always matches the latest shipped UI and never silently goes stale.
+> **Version-pinned gallery (`v1.1.2`):** All screenshots below were captured live on a **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, Android 14 / SDK 34). The **4 highlight shots in Section 0** showcase **Matcher [`v1.1.2`](https://github.com/ryslavy/matcher/releases/tag/v1.1.2)** (*Sharp Home Mode*, per-panel frosted interior blur with GPU `RenderNode` caching, and crisp `960×540` optical Liquid Glass edges across Dock, top-right circular pills, clock, modals & add-ons) stored under [`docs/gallery/v1.1.2/`](gallery/v1.1.2/). Sections 1–5 preserve the full **43-screen `v1.1.1` reference gallery** ([`docs/gallery/v1.1.1/`](gallery/v1.1.1/)) covering every submenu, overlay, screensaver, and modular add-on.
 >
 > *Click any image to view it at full 1920×1080 resolution. Shown in Czech (`cs`); complete English (`en`) UI is included out of the box. Personal hometown and LAN IP were anonymized.*
 
 ### Jump to Section
+0. [New in `v1.1.2` — Sharp Home Mode & Crisp `960×540` Liquid Glass Edges (4)](#0-new-in-v112--sharp-home-mode--crisp-960540-liquid-glass-edges)
 1. [Home Screen, App Grid & Dock (4)](#1-home-screen-app-grid--dock)
 2. [Folders, Context Menus & Material 3 Expressive Nested Blur (8)](#2-folders-context-menus--material-3-expressive-nested-blur)
 3. [System Overlays & Ambient 4K Aerial Screensaver (8)](#3-system-overlays--ambient-4k-aerial-screensaver)
 4. [Top Menu, Module Cards & Launcher Settings (8)](#4-top-menu-module-cards--launcher-settings)
 5. [8 Modular Liquid Glass Add-ons, Submenus & Floating Quick Bars (15)](#5-8-modular-liquid-glass-add-ons-submenus--floating-quick-bars)
+
+---
+
+## 0. New in `v1.1.2` — Sharp Home Mode & Crisp `960×540` Liquid Glass Edges
+
+> Toggle **Home backdrop blur** (*Rozostření pozadí na Home*) off in *Launcher Settings → Liquid Glass & Controls* to keep the Home screen **100% razor-sharp (0% dim)** outside floating sheets while every modal, context menu, and add-on renders its own hardware-cached (`RenderNode`) silky frosted interior blur and crisp untouched `960×540` optical Liquid Glass rim refraction — matching the Dock, top-right circular pills, and clock.
+
+| Sharp Home — Crisp `960×540` Dock, Circular Pills & Liquid Clock | Tile Context Menu Over 100% Sharp Home |
+|---|---|
+| ![Sharp Home Dock and Top Pills](gallery/v1.1.2/01-sharp-home-dock-and-pills.jpg) | ![Tile Context Menu Over Sharp Home](gallery/v1.1.2/02-sharp-home-tile-context-menu.jpg) |
+| *Untouched `960×540` optical rim refraction adapts automatically to the Dock, top-right circular pills, and beveled clock when full-screen Home blur is off.* | *Crisp wallpaper and title typography bend optically through the curved 24dp glass rim with RGB dispersion while the menu interior stays silky frosted and crisp.* |
+
+| Control Center Floating Over 100% Sharp Home | Launcher Settings — Live *Home Backdrop Blur* Toggle |
+|---|---|
+| ![Control Center Over Sharp Home](gallery/v1.1.2/03-sharp-home-control-center.jpg) | ![Launcher Settings Home Backdrop Blur Toggle](gallery/v1.1.2/04-sharp-home-settings-toggle.jpg) |
+| *GPU `RenderNode`-cached frosted glass interior keeps 60 FPS D-pad navigation smooth while the curved bezel refracts the sharp Dock and forest behind it.* | *Instant no-rebuild toggle under **Liquid Glass & Controls** smoothly dissolves the full-screen veil and upgrades all rims to crisp `960×540` optics live.* |
 
 ---
 

@@ -61,6 +61,8 @@ final class WallpaperPlayer {
     private Bitmap blurredCurrent;
     /** 480x270 crisp scaled wallpaper for AGSL Liquid Glass edge refraction. */
     private Bitmap sharpCurrent;
+    private File displayedFile;
+    private boolean sharpCrispMode;
     private Runnable onWallpaperChanged;
     private boolean active;
     private boolean closed;
@@ -132,9 +134,12 @@ final class WallpaperPlayer {
         List<File> playable = playable();
         File first = WallpaperRotation.find(playable, previous);
         if (first == null) first = WallpaperRotation.pick(playable, previous, order, random);
+        boolean crisp = !ExpressiveGlass.isHomeBackdropBlurEnabled();
         while (first != null) {
-            DecodedWallpaper decoded = decode(first);
+            DecodedWallpaper decoded = decode(first, crisp);
             if (decoded != null) {
+                displayedFile = first;
+                sharpCrispMode = crisp;
                 show(decoded);
                 // The picture covers the whole screen: the root's plain colour under it is overdraw.
                 root.setBackground(null);
@@ -150,6 +155,27 @@ final class WallpaperPlayer {
             playable = playable();
             first = WallpaperRotation.pick(playable, previous, order, random);
         }
+    }
+
+    /**
+     * Re-decodes the active wallpaper's 960x540 uSharp backdrop off-thread when the user toggles
+     * sharp-Home mode so Dock, top-right circular pills, and Liquid Clock immediately match.
+     */
+    void refreshSharpnessIfNeeded(boolean crisp) {
+        if (closed || current == null || displayedFile == null || sharpCrispMode == crisp) return;
+        final File target = displayedFile;
+        decoder.execute(() -> {
+            DecodedWallpaper decoded = decode(target, crisp);
+            root.post(() -> {
+                if (closed || !target.equals(displayedFile) || sharpCrispMode == crisp) {
+                    if (decoded != null) decoded.recycle();
+                    return;
+                }
+                if (decoded == null) return;
+                sharpCrispMode = crisp;
+                show(decoded);
+            });
+        });
     }
 
     void start() {
@@ -183,6 +209,7 @@ final class WallpaperPlayer {
         current = null;
         blurredCurrent = null;
         sharpCurrent = null;
+        displayedFile = null;
         ExpressiveGlass.setHomeWallpaperBackdrop(null, null, 0, 0);
         displayed = "";
         root.setBackgroundColor(backgroundColor);
@@ -218,9 +245,10 @@ final class WallpaperPlayer {
         }
         if (selected == null || selected.getName().equals(displayed)) return;
         File next = selected;
+        final boolean crisp = !ExpressiveGlass.isHomeBackdropBlurEnabled();
         loading = true;
         decoder.execute(() -> {
-            DecodedWallpaper decoded = decode(next);
+            DecodedWallpaper decoded = decode(next, crisp);
             root.post(() -> {
                 loading = false;
                 if (closed || !active) {
@@ -233,6 +261,8 @@ final class WallpaperPlayer {
                     update();
                     return;
                 }
+                displayedFile = next;
+                sharpCrispMode = crisp;
                 show(decoded);
                 displayed = next.getName();
                 showCaption(true);
@@ -361,7 +391,7 @@ final class WallpaperPlayer {
         if (old != null && old != pair.main) image.postDelayed(old::recycle, 500);
     }
 
-    private DecodedWallpaper decode(File file) {
+    private DecodedWallpaper decode(File file, boolean crispSharp) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -391,7 +421,7 @@ final class WallpaperPlayer {
             int[] seedOut = {ExpressiveGlass.DEFAULT_SEED_RGB};
             Bitmap blurred = makeBlurred(decoded, this.width, this.height, seedOut);
             paintReadabilityScrims(canvas, decoded.getWidth(), decoded.getHeight());
-            Bitmap sharp = makeSharpScaled(decoded, this.width, this.height);
+            Bitmap sharp = makeSharpScaled(decoded, this.width, this.height, crispSharp);
             // One copy in GPU memory instead of a software bitmap plus its texture; the decode stays off the UI
             // thread for rotations, and Home's return no longer uploads 4-8 MB to the GPU.
             Bitmap gpu = decoded.copy(Bitmap.Config.HARDWARE, false);
@@ -403,7 +433,7 @@ final class WallpaperPlayer {
         }
     }
 
-    private static Bitmap makeSharpScaled(Bitmap src, int screenW, int screenH) {
+    private static Bitmap makeSharpScaled(Bitmap src, int screenW, int screenH, boolean crisp) {
         try {
             int sw = src.getWidth(), sh = src.getHeight();
             Rect crop;
@@ -418,21 +448,25 @@ final class WallpaperPlayer {
             } else {
                 crop = new Rect(0, 0, sw, sh);
             }
-            // Produce a silky ~10px Gaussian-frosted 960x540 optical lens backdrop so Home's Liquid Glass
-            // Dock, circular pills, and overlays bend vivid, softly blurred contours with zero sharp text or pixelation.
+            // When sharp-Home mode is active (crisp == true), keep 960x540 uSharp 100% untouched so Dock,
+            // top-right circular pills, and Liquid Clock refract crystal-sharp wallpaper details along their
+            // curved Liquid Glass 2.0 bezels (matching the Screensaver Now Playing card). Otherwise apply
+            // a soft 2-pass prefilter matching full-screen blurred Home mode.
             int lw = ExpressiveGlass.HOME_WALLPAPER_SHARP_W;
             int lh = ExpressiveGlass.HOME_WALLPAPER_SHARP_H;
             Bitmap out = Bitmap.createBitmap(lw, lh, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(out);
             c.drawBitmap(src, crop, new Rect(0, 0, lw, lh), new Paint(Paint.FILTER_BITMAP_FLAG));
-            int[] px = new int[lw * lh];
-            int[] tmp = new int[lw * lh];
-            out.getPixels(px, 0, lw, 0, 0, lw, lh);
-            for (int pass = 0; pass < 2; pass++) {
-                boxBlurHorizontal(px, tmp, lw, lh, 5);
-                boxBlurVertical(tmp, px, lw, lh, 5);
+            if (!crisp) {
+                int[] px = new int[lw * lh];
+                int[] tmp = new int[lw * lh];
+                out.getPixels(px, 0, lw, 0, 0, lw, lh);
+                for (int pass = 0; pass < 2; pass++) {
+                    boxBlurHorizontal(px, tmp, lw, lh, 5);
+                    boxBlurVertical(tmp, px, lw, lh, 5);
+                }
+                out.setPixels(px, 0, lw, 0, 0, lw, lh);
             }
-            out.setPixels(px, 0, lw, 0, 0, lw, lh);
             out.prepareToDraw();
             return out;
         } catch (RuntimeException | OutOfMemoryError ignored) {

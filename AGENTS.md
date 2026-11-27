@@ -67,7 +67,7 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
    - For Android 14 Wireless Debugging, pair once (`adb pair <IP>:<PAIR_PORT>`) and pass `-TvHost <IP>:<CONNECT_PORT>`.
 
 7. **Personalizing Visuals, Apps, Remote & Location for Any User:**
-   - **No-rebuild toggles (in TV Settings / `FeaturePrefs`):** Liquid Glass clock, Home Liquid Glass optics, UI click sounds, OLED screensaver drift, Aerial videos, Watch from Screensaver, Discover region (`CZ/SK/DE/GB/US`).
+   - **No-rebuild toggles (in TV Settings / `FeaturePrefs`):** Liquid Glass clock, Home Liquid Glass optics, Home backdrop blur (`home_backdrop_blur` — sharp Home mode), UI click sounds, OLED screensaver drift, Aerial videos, Watch from Screensaver, Discover region (`CZ/SK/DE/GB/US`).
    - **No-rebuild theme config (`my-theme/config.json` + `switch-theme.ps1`):** `dock_glass`, `dock_opacity`, `cinematic_home`, `ambient_glow`, `app_glow`, `glass_style`, `fade_rows`, `advanced_effects`, `reduced_motion`, `glow_snap`, `columns`, `dock_apps`, `app_labels`, `app_keys`, `wallpaper_moods`.
    - **Build-time config (`patches/launcher-config.xml`):** `latitude`, `longitude`, `weather_city` (lines 503–505, default `Prague`).
    - **Shader tuning (rebuild required):** Rim refraction/tint/opacity live in `LIQUID_GLASS_PANEL_AGSL` inside `ExpressiveGlass.java` (launcher) and all patched `GlassKit.java` copies (must stay synchronized and preserve `0 <= premul.rgb <= outA`).
@@ -92,7 +92,7 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
    - **Layer 1 (Home Chrome):** Dock (with interactive ripple), Top Pills, Liquid Clock → strictly sample Layer 0.
    - **Layer 2 (Primary Modals / Overlays / Add-ons):** Sample `homeLiveRefraction` over Home or `overlayRefraction` over external apps.
    - **Layer 3 (Nested Context Menus & Sub-Dialogs):** Sample `nestedRefraction` (composited Layer 0 + dimmed parent panel + softly blurred parent children). `Motion.glidePanel` and `GlassKit.glidePanel` **must always** call `invalidateCached(liquidTargets)` when `entering || !useHwLayer` (even with `LAYER_TYPE_HARDWARE`) so a popup shown before `setPanelContentBlur(true)` never freezes a stale Frame-0 RenderNode sampling Home icons.
-   - `ExpressiveGlass.captureHomeWindowForRefraction` (`480×270`) and `WallpaperPlayer.makeSharpScaled` prefilter `uSharp` so curved meniscus rims never refract harsh text/logos.
+   - **Sharp Home Mode (`home_backdrop_blur = false`, `v1.1.2`):** When the user turns off full-screen Home backdrop blur in *Launcher Settings*, `MainActivity` skips `backdropBlurVeilHost` (leaving Home 100% razor-sharp, 0% dim), `ExpressiveGlass.PanelDrawable` renders per-panel frosted interior blur (`uInteriorFill = 1.0f`) + `frostedOverSharp` body tint (`0x76..0x92`) cached once in a hardware `RenderNode` compositing layer (`panelCacheNode`, released in `onViewDetachedFromWindow`) for 0.15 ms / 60 FPS D-pad navigation, `captureHomeWindowForRefraction` and `WallpaperPlayer.makeSharpScaled` keep `960×540` `uSharp` untouched (`prefilterSharp = false`) so modals, Dock, top-right circular pills, and Liquid Clock all refract crisp edges, and `MainActivity.attachAddonBackdropExtras` forwards `EXTRA_OVER_SHARP_BACKDROP` so `GlassKit.installBackdropFromIntent` builds synchronous Frame-0 blur for all 8 add-ons. When `home_backdrop_blur = true` (default), `captureHomeWindowForRefraction` (`480×270`) and `WallpaperPlayer.makeSharpScaled` apply the classic soft 2-pass prefilter so rims blend smoothly with the full-screen blurred Home veil.
 
 3. **Hardware-Cached Material 3 Expressive Nested Blur (`ExpressiveBlurVeilDrawable`):**
    - Both `ExpressiveGlass` and `GlassKit` render nested parent-panel defocus on API 31+ using a 2-`RenderNode` pipeline mounted on `panel.getOverlay()`: inner `effectNode` applies native Skia GPU Gaussian blur (`NESTED_BLUR_RADIUS_DP = 28dp`) chained with `BACKDROP_AGSL`, and outer `cacheNode` caches that output **once** via `setUseCompositingLayer(true, null)` with native `setOutline`/`setClipToOutline(true)`.
@@ -132,7 +132,7 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
 ## 5. Build, Test & Verify Commands
 
 ```powershell
-# 1. Run all 375 JVM unit tests + build release launcher APK
+# 1. Run all 376 JVM unit tests + build release launcher APK
 $env:JAVA_HOME = (Get-ChildItem .\toolchain\jdk\jdk-17* -Directory | Select-Object -First 1).FullName
 $env:ANDROID_HOME = "$PWD\toolchain\android-sdk"
 Push-Location .\cleanyourtv\launcher
@@ -152,4 +152,4 @@ git -C .\cleanyourtv diff --binary --output="$PWD\patches\appletv-frosted-glass.
 
 - Always write PowerShell-generated files as **UTF-8 without BOM** (`New-Object System.Text.UTF8Encoding($false)`).
 - Never commit device dumps, serial numbers, personal LAN IPs, or personal API tokens.
-- **Release-pinned visual gallery:** Screenshots live in `docs/gallery/v<release>/` and are indexed in `docs/GALLERY.md` (plus 6 hero previews in `README.md` / `docs/README-cs.md`) explicitly tagged with the release version (`v1.1.1`). When shipping a future UI-changing release, re-capture into `docs/gallery/v<new-release>/`, anonymize any personal city/IP/SSID, and update the gallery release tag so screenshots never go silently stale.
+- **Release-pinned visual gallery:** Screenshots live in `docs/gallery/v<release>/` and are indexed in `docs/GALLERY.md` (plus hero previews in `README.md` / `docs/README-cs.md`) explicitly tagged with the release version (`v1.1.2`, preserving the 43-screen `v1.1.1` full reference set). When shipping a future UI-changing release, capture new/changed screens into `docs/gallery/v<new-release>/`, anonymize any personal city/IP/SSID, and update the gallery release tag so screenshots never go silently stale.

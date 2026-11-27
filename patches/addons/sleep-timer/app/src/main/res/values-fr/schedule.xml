@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Programmation TV"</string>
+    <string name="sched_1">"Les horaires s'appliquent au jour sélectionné. Les périodes d'exclusion bloquent uniquement le réveil automatique. Retour annule les modifications non enregistrées."</string>
+    <string name="sched_2">"Programmation : ACTIVÉE"</string>
+    <string name="sched_3">"Programmation : DÉSACTIVÉE"</string>
+    <string name="sched_4">"+ Ajouter une heure de réveil / veille"</string>
+    <string name="sched_5">"Pas de réveil : "</string>
+    <string name="sched_6">"Période d'exclusion du réveil"</string>
+    <string name="sched_7">"Modifier les dates"</string>
+    <string name="sched_8">"Supprimer"</string>
+    <string name="sched_9">"+ Ajouter une période d'exclusion"</string>
+    <string name="sched_10">"Enregistrer"</string>
+    <string name="sched_11">"Réveil  "</string>
+    <string name="sched_12">"Veille  "</string>
+    <string name="sched_13">"Ajouter un événement"</string>
+    <string name="sched_14">"Réveil"</string>
+    <string name="sched_15">"Veille"</string>
+    <string name="sched_16">"Jours de la semaine"</string>
+    <string name="sched_17">"Annuler"</string>
+    <string name="sched_18">"Heure"</string>
+    <string name="sched_19">"Sélectionnez au moins un jour"</string>
+    <string name="sched_20">"La fin doit être égale ou postérieure au début"</string>
+    <string name="sched_21">"Dernier jour (inclus)"</string>
+    <string name="sched_22">"Premier jour (inclus)"</string>
+    <string name="sched_23">"Lundi"</string>
+    <string name="sched_24">"Mardi"</string>
+    <string name="sched_25">"Mercredi"</string>
+    <string name="sched_26">"Jeudi"</string>
+    <string name="sched_27">"Vendredi"</string>
+    <string name="sched_28">"Samedi"</string>
+    <string name="sched_29">"Dimanche"</string>
+</resources>

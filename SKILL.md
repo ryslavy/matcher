@@ -7,7 +7,7 @@ description: Build, customize, add/remove/visually match modular add-ons, transl
 
 Use this skill when assisting a user with deploying, customizing, extending, translating, debugging, or restoring **Matcher** on an Android TV / Google TV box.
 
-Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safety constraints.
+Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safety constraints. If the TV is **already configured** and the user only wants an incremental update or single-feature cherry-pick, follow [`UPDATE.md`](UPDATE.md) and [`CHANGELOG.md`](CHANGELOG.md) instead of Playbook 1 (skip debloat and preserve the user's theme/config).
 
 ---
 

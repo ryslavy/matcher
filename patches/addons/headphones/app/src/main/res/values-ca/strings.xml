@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Auriculars</string>
+    <string name="plays_through">El so es reprodueix ara per: %1$s</string>
+    <string name="output_speakers">els altaveus del TV</string>
+    <string name="output_fixed">la sortida d\'àudio del TV (HDMI ARC o òptica)</string>
+    <string name="allow_title">Permet l\'accés a Bluetooth</string>
+    <string name="allow_detail">Per llistar els teus auriculars i detectar quan es desconnecten. Prem OK per demanar-ho.</string>
+    <string name="not_allowed">No permès</string>
+    <string name="pair_title">Vincula o connecta auriculars</string>
+    <string name="pair_detail">Obre la configuració de Bluetooth del TV. Posa primer els auriculars en mode de vinculació.</string>
+    <string name="guard_title">Silenci en desconnectar-se</string>
+    <string name="guard_detail">Pausa la reproducció i silencia els altaveus del TV quan els auriculars es desconnecten, perquè el so no soni a l\'habitació. Torna a activar el so quan es reconnectin.</string>
+    <string name="guard_detail_fixed">Pausa la reproducció quan els auriculars es desconnecten. El volum d\'aquest TV és fix (ARC o un amplificador), així que no pot silenciar també els altaveus.</string>
+    <string name="on">Activat</string>
+    <string name="off">Desactivat</string>
+    <string name="unmute_title">Reactiva el so dels altaveus</string>
+    <string name="unmute_detail">Silenciats en desconnectar-se els auriculars.</string>
+    <string name="muted">Silenciat</string>
+    <string name="heading_paired">Auriculars i altaveus vinculats</string>
+    <string name="no_bluetooth">Aquest TV no té Bluetooth</string>
+    <string name="bluetooth_off">El Bluetooth està desactivat</string>
+    <string name="bluetooth_off_detail">Activa\'l a la configuració del TV.</string>
+    <string name="none_yet">Encara cap</string>
+    <string name="none_yet_detail">Fes servir la fila de dalt per vincular-ne algun.</string>
+    <string name="connected">Connectat</string>
+    <string name="connected_battery">Connectat, bateria %1$s</string>
+    <string name="not_connected_detail">No connectat. OK obre la configuració de Bluetooth per connectar-lo.</string>
+    <string name="unnamed">Dispositiu sense nom</string>
+    <string name="heading_several">Diversos auriculars alhora</string>
+    <string name="sharing_one_pair">Aquest TV envia el so a un sol parell d\'auriculars Bluetooth alhora. Per a dos parells, fes servir un transmissor Bluetooth d\'enllaç dual a la sortida d\'auriculars o òptica del TV.</string>
+    <string name="sharing_auracast">Aquest TV pot emetre a diversos auriculars LE Audio (Auracast) alhora: inicia la compartició des de la configuració de Bluetooth del TV.</string>
+    <string name="sharing_no_broadcast">Aquest TV envia el so a un sol parell d\'auriculars Bluetooth alhora; no té emissió LE Audio. Per a dos parells, fes servir un transmissor Bluetooth d\'enllaç dual a la sortida d\'auriculars o òptica del TV.</string>
+</resources>

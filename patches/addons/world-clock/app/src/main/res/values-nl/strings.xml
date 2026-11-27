@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wereldklok</string>
+    <string name="add_city">Stad toevoegen</string>
+    <string name="clock_format">Kloknotatie</string>
+    <string name="local">Lokaal</string>
+    <string name="search_city">Stad of tijdzone</string>
+    <string name="search_hint">Druk op OK om te typen · Omlaag om een stad te kiezen</string>
+    <string name="no_cities">Geen overeenkomende steden</string>
+    <string name="change_city">Stad wijzigen</string>
+    <string name="move_earlier">Naar voren verplaatsen</string>
+    <string name="move_later">Naar achteren verplaatsen</string>
+    <string name="remove_city">Stad verwijderen</string>
+    <string name="city_limit">Kies maximaal zes klokken</string>
+    <string name="already_shown">Deze klok wordt al weergegeven</string>
+    <string name="same_day">Zelfde dag als lokaal</string>
+    <string name="tomorrow">Morgen in deze stad</string>
+    <string name="yesterday">Gisteren in deze stad</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d dag t.o.v. lokaal</item>
+        <item quantity="other">%1$+d dagen t.o.v. lokaal</item>
+    </plurals>
+    <string name="local_reference">Datums vergeleken met %1$s</string>
+    <string name="controls">Pijltjes om te verplaatsen · OK voor stadsopties · Terug om terug te gaan</string>
+    <string name="format_system">Tv-instelling gebruiken</string>
+    <string name="format_12">12-uursklok</string>
+    <string name="format_24">24-uursklok</string>
+    <string name="close">Sluiten</string>
+    <string name="screensaver">Screensaver</string>
+    <string name="preview">Voorbeeld · elke knop keert terug</string>
+    <string name="background_option">Achtergrond: %1$s</string>
+    <string name="motion_option">Beweging: %1$s</string>
+    <string name="brightness_option">Klokhelderheid: %1$s</string>
+    <string name="gradient">Luchtverloop</string>
+    <string name="plain">Zwart</string>
+    <string name="motion_on">Aan</string>
+    <string name="motion_reduced">Verminderd (stilstaand)</string>
+    <string name="clock_brightness">Klokhelderheid</string>
+    <string name="dim">Gedimd</string>
+    <string name="medium">Gemiddeld</string>
+    <string name="bright">Helder</string>
+    <string name="tv_screensaver_settings">Screensaverinstellingen van tv</string>
+    <string name="screensaver_unavailable">Deze tv biedt geen toegang tot screensaverinstellingen. Voorbeeld blijft wel beschikbaar.</string>
+    <string name="background">Achtergrond</string>
+    <string name="starfield">Sterrenhemel</string>
+    <string name="world_map">Wereldkaart</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

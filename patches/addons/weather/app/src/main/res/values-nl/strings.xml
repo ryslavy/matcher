@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weer</string>
+
+    <string name="feels_like">Gevoelstemp. %1$d°</string>
+    <string name="humidity">Luchtvochtigheid %1$d%%</string>
+    <string name="wind">Wind %1$d km/h</string>
+    <string name="wind_mph">Wind %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Luchtkwaliteit %1$d · %2$s</string>
+    <string name="updated">Bijgewerkt %1$s · Open-Meteo</string>
+    <string name="change_city">Stad wijzigen</string>
+    <string name="weather_settings">Weerinstellingen</string>
+    <string name="settings_done">Gereed</string>
+    <string name="setting_units">Temperatuureenheid</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Beide eenheden tonen</string>
+    <string name="setting_days">Lengte voorspelling</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d dag</item>
+        <item quantity="other">%1$d dagen</item>
+    </plurals>
+    <string name="setting_humidity">Luchtvochtigheid tonen</string>
+    <string name="setting_wind">Wind tonen</string>
+    <string name="setting_reset">Weerinstellingen resetten</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Aan</string>
+    <string name="option_off">Uit</string>
+    <string name="loading">Weer laden…</string>
+    <string name="offline">Kan Open-Meteo niet bereiken. Controleer de internetverbinding van de tv; over 5 minuten wordt het opnieuw geprobeerd.</string>
+
+    <string name="pick_title">Welke stad?</string>
+    <string name="pick_hint">Stadsnaam, bijv. Amsterdam</string>
+    <string name="pick_search">Zoeken</string>
+    <string name="pick_none">Geen plaats gevonden met de naam \"%1$s\"</string>
+    <string name="pick_first">Kies een stad om het weer te bekijken.</string>
+
+    <string name="aqi_good">Goed</string>
+    <string name="aqi_moderate">Matig</string>
+    <string name="aqi_sensitive">Ongezond voor gevoelige groepen</string>
+    <string name="aqi_unhealthy">Ongezond</string>
+    <string name="aqi_very_unhealthy">Zeer ongezond</string>
+    <string name="aqi_hazardous">Gevaarlijk</string>
+
+    <string name="sky_clear">Helder</string>
+    <string name="sky_sunny">Zonnig</string>
+    <string name="sky_mostly_clear">Overwegend helder</string>
+    <string name="sky_mostly_sunny">Overwegend zonnig</string>
+    <string name="sky_partly_cloudy">Half bewolkt</string>
+    <string name="sky_cloudy">Bewolkt</string>
+    <string name="sky_fog">Mist</string>
+    <string name="sky_drizzle">Motregen</string>
+    <string name="sky_freezing_drizzle">Aanvriezende motregen</string>
+    <string name="sky_light_rain">Lichte regen</string>
+    <string name="sky_rain">Regen</string>
+    <string name="sky_heavy_rain">Zware regen</string>
+    <string name="sky_freezing_rain">IJzel</string>
+    <string name="sky_light_snow">Lichte sneeuw</string>
+    <string name="sky_snow">Sneeuw</string>
+    <string name="sky_heavy_snow">Zware sneeuw</string>
+    <string name="sky_snow_grains">Motsneeuw</string>
+    <string name="sky_showers">Buien</string>
+    <string name="sky_snow_showers">Sneeuwbuien</string>
+    <string name="sky_thunderstorm">Onweer</string>
+</resources>

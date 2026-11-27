@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kapasiteettitiedot</string>
+    <string name="loading">Luetaan mittareita…</string>
+    <string name="unavailable">Tiedot eivät ole käytettävissä</string>
+    <string name="back">Takaisin</string>
+    <string name="memory">Vapaata RAM-muistia: %1$s</string>
+    <string name="memory_used">Käytettyä RAM-muistia: %1$s</string>
+    <string name="storage">Vapaata tallennustilaa: %1$s</string>
+    <string name="note">Vapaa RAM sisältää vapautettavat välimuistit; käytetty RAM on kokonaismuisti miinus vapaa muisti. Tallennustila viittaa datatiedostojärjestelmään.</string>
+</resources>

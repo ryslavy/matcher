@@ -211,6 +211,7 @@ public class ScheduleActivity extends Activity {
         footer.addView(save, new LinearLayout.LayoutParams(-2, Ui.dp(this, 40)));
         panel.addView(footer, new LinearLayout.LayoutParams(-1, -2));
 
+        GlassKit.applyAdaptiveContentTheme(panel);
         if (focusIndex <= 0 || focusIndex > list.getChildCount() || !list.getChildAt(focusIndex - 1).requestFocus()) {
             toggle.requestFocus();
         }

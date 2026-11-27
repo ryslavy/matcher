@@ -208,12 +208,13 @@ public final class WeatherActivity extends Activity {
         ((TextView) findViewById(R.id.feels)).setText(feels);
 
         TextView air = findViewById(R.id.airQuality);
+        GlassKit.markPreserveTextColor(air);
         if (r.aqi >= 0) {
             air.setText(getString(R.string.aqi_line, r.aqi, getString(Forecast.aqiLabel(r.aqi))));
             air.setTextColor(Forecast.aqiTextColour(r.aqi));
             GradientDrawable pill = new GradientDrawable();
             pill.setColor(Forecast.aqiColour(r.aqi));
-            pill.setStroke(Math.max(1, Math.round(1f * d)), 0x33FFFFFF);
+            pill.setStroke(Math.max(1, Math.round(1f * d)), GlassKit.isLightGlass() ? 0x280F172A : 0x33FFFFFF);
             pill.setCornerRadius(100 * d);
             air.setBackground(pill);
             air.setVisibility(View.VISIBLE);
@@ -229,6 +230,7 @@ public final class WeatherActivity extends Activity {
         for (int i = 0; i < count; i++) {
             Forecast.Day day = r.days.get(i);
             View card = inflater.inflate(R.layout.item_day, days, false);
+            card.setBackground(GlassKit.makeStaticCardBg(d, 18f));
             ((TextView) card.findViewById(R.id.dayName)).setText(day.date.getDayOfWeek()
                     .getDisplayName(compact ? TextStyle.SHORT : TextStyle.FULL, Locale.getDefault()));
             TextView sky = card.findViewById(R.id.daySky);
@@ -253,6 +255,7 @@ public final class WeatherActivity extends Activity {
 
         ((TextView) findViewById(R.id.updated))
                 .setText(getString(R.string.updated, DateFormat.getTimeFormat(this).format(updatedAt)));
+        GlassKit.applyAdaptiveContentTheme(modal.panel);
         message.setVisibility(View.GONE);
         content.setVisibility(View.VISIBLE);
         modal.panel.post(() -> modal.refreshFocus());

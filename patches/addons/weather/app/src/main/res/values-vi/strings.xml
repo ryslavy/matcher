@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Thời tiết</string>
+
+    <string name="feels_like">Cảm giác như %1$d°</string>
+    <string name="humidity">Độ ẩm %1$d%%</string>
+    <string name="wind">Gió %1$d km/h</string>
+    <string name="wind_mph">Gió %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Chất lượng không khí %1$d · %2$s</string>
+    <string name="updated">Cập nhật lúc %1$s · Open-Meteo</string>
+    <string name="change_city">Đổi thành phố</string>
+    <string name="weather_settings">Cài đặt thời tiết</string>
+    <string name="settings_done">Xong</string>
+    <string name="setting_units">Đơn vị nhiệt độ</string>
+    <string name="unit_c">Độ C (°C)</string>
+    <string name="unit_f">Độ F (°F)</string>
+    <string name="setting_both_units">Hiển thị cả hai đơn vị</string>
+    <string name="setting_days">Số ngày dự báo</string>
+    <plurals name="day_count">
+        <item quantity="other">%1$d ngày</item>
+    </plurals>
+    <string name="setting_humidity">Hiển thị độ ẩm</string>
+    <string name="setting_wind">Hiển thị gió</string>
+    <string name="setting_reset">Đặt lại cài đặt thời tiết</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Bật</string>
+    <string name="option_off">Tắt</string>
+    <string name="loading">Đang tải thời tiết…</string>
+    <string name="offline">Không thể kết nối Open-Meteo. Kiểm tra kết nối internet của TV; sẽ thử lại sau 5 phút.</string>
+
+    <string name="pick_title">Chọn thành phố nào?</string>
+    <string name="pick_hint">Tên thành phố, vd: Hà Nội</string>
+    <string name="pick_search">Tìm kiếm</string>
+    <string name="pick_none">Không có địa điểm nào tên \"%1$s\"</string>
+    <string name="pick_first">Chọn một thành phố để xem thời tiết.</string>
+
+    <string name="aqi_good">Tốt</string>
+    <string name="aqi_moderate">Trung bình</string>
+    <string name="aqi_sensitive">Kém với nhóm nhạy cảm</string>
+    <string name="aqi_unhealthy">Không lành mạnh</string>
+    <string name="aqi_very_unhealthy">Rất không lành mạnh</string>
+    <string name="aqi_hazardous">Nguy hại</string>
+
+    <string name="sky_clear">Trời quang</string>
+    <string name="sky_sunny">Nắng</string>
+    <string name="sky_mostly_clear">Phần lớn trời quang</string>
+    <string name="sky_mostly_sunny">Phần lớn có nắng</string>
+    <string name="sky_partly_cloudy">Có mây rải rác</string>
+    <string name="sky_cloudy">Nhiều mây</string>
+    <string name="sky_fog">Sương mù</string>
+    <string name="sky_drizzle">Mưa phùn</string>
+    <string name="sky_freezing_drizzle">Mưa phùn băng giá</string>
+    <string name="sky_light_rain">Mưa nhẹ</string>
+    <string name="sky_rain">Mưa</string>
+    <string name="sky_heavy_rain">Mưa to</string>
+    <string name="sky_freezing_rain">Mưa băng</string>
+    <string name="sky_light_snow">Tuyết nhẹ</string>
+    <string name="sky_snow">Tuyết</string>
+    <string name="sky_heavy_snow">Tuyết dày</string>
+    <string name="sky_snow_grains">Mưa tuyết hạt</string>
+    <string name="sky_showers">Mưa rào</string>
+    <string name="sky_snow_showers">Mưa tuyết rào</string>
+    <string name="sky_thunderstorm">Dông</string>
+</resources>

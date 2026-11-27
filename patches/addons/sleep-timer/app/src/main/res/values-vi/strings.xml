@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hẹn giờ ngủ</string>
+    <string name="hint">Chọn thời điểm TV chuyển sang chế độ chờ. Cảnh báo sẽ hiện trước một phút.</string>
+    <string name="in_minutes">%1$d phút</string>
+    <string name="cancel">Hủy hẹn giờ</string>
+    <string name="state_off">Chưa đặt hẹn giờ.</string>
+    <string name="state_on">Chuyển sang chế độ chờ lúc %1$s.</string>
+    <string name="no_service">Dịch vụ trợ năng Hẹn giờ ngủ đang tắt (hãy chạy tập lệnh cài đặt).</string>
+    <string name="warning_title">TV sắp tắt</string>
+    <string name="warning_seconds">sau %1$d giây</string>
+    <string name="more">Thêm 15 phút</string>
+    <string name="now">Tắt ngay</string>
+    <string name="service_label">Hẹn giờ ngủ</string>
+    <string name="quick_hint">◀ ▶ chọn thời gian · OK đóng</string>
+    <string name="service_description">Chỉ đưa TV sang chế độ chờ khi hết thời gian Hẹn giờ ngủ. Không đọc nội dung màn hình.</string>
+    <string name="schedule_row">Lịch biểu</string>
+</resources>

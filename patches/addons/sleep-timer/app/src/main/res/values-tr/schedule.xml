@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"TV programı"</string>
+    <string name="sched_1">"Saatler seçilen takvim gününe aittir. Hariç tutma dönemleri yalnızca otomatik uyandırmayı engeller. Geri kaydedilmemiş değişiklikleri iptal eder."</string>
+    <string name="sched_2">"Program: AÇIK"</string>
+    <string name="sched_3">"Program: KAPALI"</string>
+    <string name="sched_4">"+ Uyandırma / uyku saati ekle"</string>
+    <string name="sched_5">"Uyandırma yok: "</string>
+    <string name="sched_6">"Uyandırma hariç tutma dönemi"</string>
+    <string name="sched_7">"Tarihleri düzenle"</string>
+    <string name="sched_8">"Sil"</string>
+    <string name="sched_9">"+ Hariç tutma dönemi ekle"</string>
+    <string name="sched_10">"Kaydet"</string>
+    <string name="sched_11">"Uyandırma  "</string>
+    <string name="sched_12">"Uyku  "</string>
+    <string name="sched_13">"Etkinlik ekle"</string>
+    <string name="sched_14">"Uyandırma"</string>
+    <string name="sched_15">"Uyku"</string>
+    <string name="sched_16">"Haftanın günleri"</string>
+    <string name="sched_17">"İptal"</string>
+    <string name="sched_18">"Saat"</string>
+    <string name="sched_19">"En az bir gün seçin"</string>
+    <string name="sched_20">"Bitiş, başlangıçla aynı veya daha sonra olmalıdır"</string>
+    <string name="sched_21">"Son gün (dahil)"</string>
+    <string name="sched_22">"İlk gün (dahil)"</string>
+    <string name="sched_23">"Pazartesi"</string>
+    <string name="sched_24">"Salı"</string>
+    <string name="sched_25">"Çarşamba"</string>
+    <string name="sched_26">"Perşembe"</string>
+    <string name="sched_27">"Cuma"</string>
+    <string name="sched_28">"Cumartesi"</string>
+    <string name="sched_29">"Pazar"</string>
+</resources>

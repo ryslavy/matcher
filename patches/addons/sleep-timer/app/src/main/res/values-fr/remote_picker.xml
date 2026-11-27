@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Heures"</string>
+    <string name="remote_minutes">"Minutes"</string>
+    <string name="remote_day">"Jour"</string>
+    <string name="remote_month">"Mois"</string>
+    <string name="remote_year">"Année"</string>
+    <string name="remote_hint">"Gauche / Droite : champ · Haut / Bas : valeur · OK : suivant · Retour : annuler"</string>
+    <string name="remote_page_hint">"Choisissez une ligne avec les flèches et appuyez sur OK. Enregistrez pour appliquer les modifications."</string>
+    <string name="remote_events">"ÉVÉNEMENTS HEBDOMADAIRES"</string>
+    <string name="remote_exclusions">"PÉRIODES SANS RÉVEIL AUTOMATIQUE"</string>
+    <string name="remote_wake_time">"Heure de réveil"</string>
+    <string name="remote_sleep_time">"Heure de veille"</string>
+</resources>

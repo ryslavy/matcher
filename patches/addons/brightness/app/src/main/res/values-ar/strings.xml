@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">السطوع</string>
+    <string name="quick_brightness">السطوع %1$d%%</string>
+    <string name="quick_night_brightness">السطوع الليلي %1$d%%</string>
+    <string name="quick_hint">◀ ▶ ضبط · OK إغلاق</string>
+    <string name="channel_name">تعتيم الشاشة</string>
+    <string name="notification_text">جارٍ تعتيم الشاشة. افتح السطوع للتغيير أو الإيقاف.</string>
+</resources>

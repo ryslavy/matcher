@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Sati"</string>
+    <string name="remote_minutes">"Minuti"</string>
+    <string name="remote_day">"Dan"</string>
+    <string name="remote_month">"Mesec"</string>
+    <string name="remote_year">"Godina"</string>
+    <string name="remote_hint">"Levo / Desno: polje · Gore / Dole: vrednost · OK: dalje · Nazad: otkaži"</string>
+    <string name="remote_page_hint">"Izaberite red strelicama i pritisnite OK. Promene važe nakon čuvanja."</string>
+    <string name="remote_events">"NEDELJNI DOGAĐAJI"</string>
+    <string name="remote_exclusions">"PERIODI BEZ AUTOMATSKOG BUĐENJA"</string>
+    <string name="remote_wake_time">"Vreme buđenja"</string>
+    <string name="remote_sleep_time">"Vreme spavanja"</string>
+</resources>

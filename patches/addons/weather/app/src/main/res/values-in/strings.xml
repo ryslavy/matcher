@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cuaca</string>
+
+    <string name="feels_like">Terasa seperti %1$d°</string>
+    <string name="humidity">Kelembapan %1$d%%</string>
+    <string name="wind">Angin %1$d km/j</string>
+    <string name="wind_mph">Angin %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Kualitas udara %1$d · %2$s</string>
+    <string name="updated">Diperbarui %1$s · Open-Meteo</string>
+    <string name="change_city">Ganti kota</string>
+    <string name="weather_settings">Setelan cuaca</string>
+    <string name="settings_done">Selesai</string>
+    <string name="setting_units">Satuan suhu</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Tampilkan kedua satuan</string>
+    <string name="setting_days">Durasi prakiraan</string>
+    <plurals name="day_count">
+        <item quantity="other">%1$d hari</item>
+    </plurals>
+    <string name="setting_humidity">Tampilkan kelembapan</string>
+    <string name="setting_wind">Tampilkan angin</string>
+    <string name="setting_reset">Setel ulang setelan cuaca</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Aktif</string>
+    <string name="option_off">Nonaktif</string>
+    <string name="loading">Memuat cuaca…</string>
+    <string name="offline">Tidak dapat menjangkau Open-Meteo. Periksa koneksi internet TV; mencoba lagi dalam 5 menit.</string>
+
+    <string name="pick_title">Kota mana?</string>
+    <string name="pick_hint">Nama kota, mis. Jakarta</string>
+    <string name="pick_search">Cari</string>
+    <string name="pick_none">Tidak ada tempat bernama \"%1$s\"</string>
+    <string name="pick_first">Pilih kota untuk melihat cuacanya.</string>
+
+    <string name="aqi_good">Baik</string>
+    <string name="aqi_moderate">Sedang</string>
+    <string name="aqi_sensitive">Tidak sehat bagi kelompok sensitif</string>
+    <string name="aqi_unhealthy">Tidak sehat</string>
+    <string name="aqi_very_unhealthy">Sangat tidak sehat</string>
+    <string name="aqi_hazardous">Berbahaya</string>
+
+    <string name="sky_clear">Cerah</string>
+    <string name="sky_sunny">Terik</string>
+    <string name="sky_mostly_clear">Sebagian besar cerah</string>
+    <string name="sky_mostly_sunny">Sebagian besar terik</string>
+    <string name="sky_partly_cloudy">Cerah berawan</string>
+    <string name="sky_cloudy">Mendung</string>
+    <string name="sky_fog">Kabut</string>
+    <string name="sky_drizzle">Gerimis</string>
+    <string name="sky_freezing_drizzle">Gerimis beku</string>
+    <string name="sky_light_rain">Hujan ringan</string>
+    <string name="sky_rain">Hujan</string>
+    <string name="sky_heavy_rain">Hujan lebat</string>
+    <string name="sky_freezing_rain">Hujan beku</string>
+    <string name="sky_light_snow">Salju ringan</string>
+    <string name="sky_snow">Salju</string>
+    <string name="sky_heavy_snow">Salju lebat</string>
+    <string name="sky_snow_grains">Butiran salju</string>
+    <string name="sky_showers">Hujan lokal</string>
+    <string name="sky_snow_showers">Hujan salju</string>
+    <string name="sky_thunderstorm">Badai petir</string>
+</resources>

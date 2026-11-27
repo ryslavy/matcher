@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stilletimer</string>
+    <string name="channel_name">Lydstyrkegrænse</string>
+    <string name="notification_text">Holder lydstyrken under grænsen. Åbn Stilletimer for at ændre den.</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"ตารางเวลาทีวี"</string>
+    <string name="sched_1">"เวลาจะอ้างอิงตามวันที่เลือก ช่วงเวลายกเว้นจะบล็อกเฉพาะการปลุกอัตโนมัติ กดกลับเพื่อยกเลิกการเปลี่ยนแปลงที่ยังไม่บันทึก"</string>
+    <string name="sched_2">"ตารางเวลา: เปิด"</string>
+    <string name="sched_3">"ตารางเวลา: ปิด"</string>
+    <string name="sched_4">"+ เพิ่มเวลาปลุก / พักเครื่อง"</string>
+    <string name="sched_5">"ไม่ปลุก: "</string>
+    <string name="sched_6">"ช่วงเวลายกเว้นการปลุก"</string>
+    <string name="sched_7">"แก้ไขวันที่"</string>
+    <string name="sched_8">"ลบ"</string>
+    <string name="sched_9">"+ เพิ่มช่วงเวลายกเว้น"</string>
+    <string name="sched_10">"บันทึก"</string>
+    <string name="sched_11">"ปลุก  "</string>
+    <string name="sched_12">"พักเครื่อง  "</string>
+    <string name="sched_13">"เพิ่มกิจกรรม"</string>
+    <string name="sched_14">"ปลุก"</string>
+    <string name="sched_15">"พักเครื่อง"</string>
+    <string name="sched_16">"วันในสัปดาห์"</string>
+    <string name="sched_17">"ยกเลิก"</string>
+    <string name="sched_18">"เวลา"</string>
+    <string name="sched_19">"เลือกอย่างน้อยหนึ่งวัน"</string>
+    <string name="sched_20">"วันสิ้นสุดต้องตรงกับหรือหลังวันเริ่มต้น"</string>
+    <string name="sched_21">"วันสุดท้าย (รวมวัน)"</string>
+    <string name="sched_22">"วันแรก (รวมวัน)"</string>
+    <string name="sched_23">"วันจันทร์"</string>
+    <string name="sched_24">"วันอังคาร"</string>
+    <string name="sched_25">"วันพุธ"</string>
+    <string name="sched_26">"วันพฤหัสบดี"</string>
+    <string name="sched_27">"วันศุกร์"</string>
+    <string name="sched_28">"วันเสาร์"</string>
+    <string name="sched_29">"วันอาทิตย์"</string>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jam Dunia</string>
+    <string name="add_city">Tambah kota</string>
+    <string name="clock_format">Format jam</string>
+    <string name="local">Lokal</string>
+    <string name="search_city">Kota atau zona waktu</string>
+    <string name="search_hint">Tekan OK untuk mengetik; Bawah untuk memilih kota</string>
+    <string name="no_cities">Tidak ada kota yang cocok</string>
+    <string name="change_city">Ganti kota</string>
+    <string name="move_earlier">Geser lebih awal</string>
+    <string name="move_later">Geser lebih akhir</string>
+    <string name="remove_city">Hapus kota</string>
+    <string name="city_limit">Pilih hingga enam jam</string>
+    <string name="already_shown">Jam tersebut sudah ditampilkan</string>
+    <string name="same_day">Hari yang sama dengan lokal</string>
+    <string name="tomorrow">Besok di kota ini</string>
+    <string name="yesterday">Kemarin di kota ini</string>
+    <plurals name="day_difference">
+        <item quantity="other">%1$+d hari dari lokal</item>
+    </plurals>
+    <string name="local_reference">Tanggal dibandingkan dengan %1$s</string>
+    <string name="controls">Panah untuk berpindah · OK untuk opsi kota · Kembali untuk keluar</string>
+    <string name="format_system">Ikuti setelan TV</string>
+    <string name="format_12">Waktu 12 jam</string>
+    <string name="format_24">Waktu 24 jam</string>
+    <string name="close">Tutup</string>
+    <string name="screensaver">Screensaver</string>
+    <string name="preview">Pratinjau · tekan tombol apa saja untuk kembali</string>
+    <string name="background_option">Latar belakang: %1$s</string>
+    <string name="motion_option">Gerakan: %1$s</string>
+    <string name="brightness_option">Kecerahan jam: %1$s</string>
+    <string name="gradient">Gradien langit</string>
+    <string name="plain">Hitam</string>
+    <string name="motion_on">Aktif</string>
+    <string name="motion_reduced">Dikurangi (diam)</string>
+    <string name="clock_brightness">Kecerahan jam</string>
+    <string name="dim">Redup</string>
+    <string name="medium">Sedang</string>
+    <string name="bright">Terang</string>
+    <string name="tv_screensaver_settings">Setelan screensaver TV</string>
+    <string name="screensaver_unavailable">TV ini tidak menyediakan setelan screensaver. Pratinjau tetap tersedia.</string>
+    <string name="background">Latar belakang</string>
+    <string name="starfield">Langit berbintang</string>
+    <string name="world_map">Peta dunia</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

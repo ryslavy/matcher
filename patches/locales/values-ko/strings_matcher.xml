@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 앱 폴더 -->
+    <string name="folder_add_to">폴더에 추가…</string>
+    <string name="folder_new">+ 새 폴더</string>
+    <string name="folder_new_title">새 폴더</string>
+    <string name="folder_rename">폴더 이름 변경…</string>
+    <string name="folder_rename_title">폴더 이름 변경</string>
+    <string name="folder_open">폴더 열기</string>
+    <string name="folder_add_apps">앱 추가…</string>
+    <string name="folder_add_apps_title">%1$s에 앱 추가</string>
+    <string name="folder_add_apps_empty">홈 앱이 모두 이미 폴더에 있습니다</string>
+    <string name="folder_dissolve">폴더 해제</string>
+    <string name="folder_remove_app">폴더에서 제거</string>
+    <string name="folder_move_to">폴더로 이동…</string>
+    <string name="folder_hint">OK로 열기 · OK 길게 눌러 옵션 · 위로 눌러 폴더 관리</string>
+    <string name="folder_default_name">폴더 %1$d</string>
+    <string name="folder_name_hint">폴더 이름</string>
+    <string name="folder_create">만들기</string>
+    <string name="folder_save">저장</string>
+    <string name="folder_cancel">취소</string>
+    <string name="folder_btn_add">+ 추가</string>
+    <string name="folder_btn_reorder">순서 변경</string>
+    <string name="folder_btn_done">완료</string>
+    <string name="folder_btn_rename">이름 변경</string>
+    <string name="folder_preset_streaming">스트리밍</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">스포츠</string>
+    <string name="folder_preset_music">음악</string>
+    <string name="folder_preset_games">게임</string>
+    <string name="folder_preset_tools">도구</string>
+
+    <!-- 지금 재생 중 미니 플레이어 -->
+    <string name="media_now_playing">지금 재생 중</string>
+    <string name="media_playing">재생 중</string>
+    <string name="media_paused">일시정지됨</string>
+    <string name="media_live">라이브</string>
+    <string name="media_prev">이전</string>
+    <string name="media_play_pause">재생 또는 일시정지</string>
+    <string name="media_next">다음</string>
+    <string name="media_open_app">앱 열기</string>
+    <string name="media_switch_hint">위로 눌러 앱 전환 · OK로 재생 재개</string>
+
+    <!-- 최근 앱 전환기 -->
+    <string name="recents_title">최근 앱</string>
+    <string name="recents_hint">OK로 전환 · 위 버튼 2번 눌러 닫기 · OK 길게 눌러 옵션</string>
+    <string name="recents_empty">열려 있는 최근 앱이 없습니다</string>
+    <string name="recents_switch">앱으로 전환</string>
+    <string name="recents_close_app">앱 닫기</string>
+    <string name="recents_close_all">모두 닫기</string>
+    <string name="recents_swipe_close">위로 한 번 더 눌러 닫기</string>
+    <string name="recents_playing_badge">재생 중</string>
+    <string name="recents_free_ram">여유 RAM: %1$d MB</string>
+    <string name="recents_just_now">방금 전</string>
+    <string name="recents_minutes_ago">%1$d분 전</string>
+    <string name="recents_hours_ago">%1$d시간 전</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">앱 %1$d개를 닫았습니다</item>
+        <item quantity="other">앱 %1$d개를 닫았습니다</item>
+    </plurals>
+
+    <!-- 앰비언트 화면 보호기 -->
+    <string name="ambient_controls_hint">◄ ► 트랙 · ▼ 재생/일시정지 · ▲ 열기</string>
+    <string name="ambient_action_prev">이전 트랙</string>
+    <string name="ambient_action_next">다음 트랙</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">맑음</string>
+    <string name="weather_partly">구름 조금</string>
+    <string name="weather_cloudy">흐림</string>
+    <string name="weather_fog">안개</string>
+    <string name="weather_drizzle">이슬비</string>
+    <string name="weather_rain">비</string>
+    <string name="weather_snow">눈</string>
+    <string name="weather_showers">소나기</string>
+    <string name="weather_storm">뇌우</string>
+
+    <!-- 제어 센터, 야간 사운드, 취침 모드 & 항공 영상 -->
+    <string name="cc_title">제어 센터</string>
+    <string name="cc_bedtime">취침 모드</string>
+    <string name="cc_bedtime_sub">30분 타이머 · 어둡게 · 야간 사운드</string>
+    <string name="cc_bedtime_on">활성</string>
+    <string name="cc_night_audio">야간 사운드</string>
+    <string name="cc_night_audio_on">큰 소리 자동 억제</string>
+    <string name="cc_night_audio_off">꺼짐</string>
+    <string name="cc_night_audio_unavailable">오디오 프로세서를 사용할 수 없음</string>
+    <string name="cc_audio">오디오</string>
+    <string name="cc_audio_tv">TV 스피커</string>
+    <string name="cc_sleep_timer">취침 타이머</string>
+    <string name="cc_sleep_timer_sub">타이머 설정</string>
+    <string name="cc_brightness">밝기</string>
+    <string name="cc_brightness_sub">밝기 조절 바</string>
+    <string name="cc_aerial">항공 영상</string>
+    <string name="cc_aerial_on">1080p 영상</string>
+    <string name="cc_aerial_on_4k">4K HEVC 영상</string>
+    <string name="cc_aerial_off">배경화면</string>
+    <string name="cc_screensaver">화면 보호기</string>
+    <string name="cc_settings">설정</string>
+    <string name="cc_sleep_tv">TV 절전</string>
+    <string name="cc_reorder_tiles">타일 순서 변경</string>
+    <string name="cc_footer_hint">TV 절전에서 OK 길게 눌러 재시작 · 뒤로로 닫기</string>
+    <string name="cc_on">켜짐</string>
+    <string name="cc_off">꺼짐</string>
+    <string name="close">닫기</string>
+
+    <!-- QR 휴대폰 설정, 탐색, Home Assistant, Immich, 워치독 & 업데이트 -->
+    <string name="qr_setup_title">휴대폰으로 설정</string>
+    <string name="qr_setup_subtitle">같은 Wi-Fi의 휴대폰으로 스캔해 리모컨 버튼, 배경화면, 도시 또는 TMDB / Trakt / Plex / HA / Immich 설정</string>
+    <string name="qr_setup_short">QR 설정</string>
+    <string name="qr_setup_no_wifi">먼저 TV를 Wi-Fi 또는 이더넷에 연결하세요</string>
+    <string name="qr_setup_waiting">휴대폰 연결 대기 중… (5분간 유효)</string>
+    <string name="qr_setup_expired">QR 세션이 만료되었습니다 — 다시 열어 새 코드를 생성하세요</string>
+
+    <string name="discover_title">탐색 &amp; 이어보기</string>
+    <string name="discover_refresh">새로고침</string>
+    <string name="discover_continue_watching">이어보기</string>
+    <string name="discover_trending">인기 추천 (광고 없음)</string>
+    <string name="discover_tab_all">전체</string>
+    <string name="discover_tab_movies">영화</string>
+    <string name="discover_tab_shows">시리즈</string>
+    <string name="discover_grant_watchnext_msg">앱 전반의 이어보기를 표시하려면 TV 편성표 권한을 허용하세요</string>
+    <string name="discover_grant_adb_btn">ADB로 허용</string>
+    <string name="discover_grant_success">이어보기가 활성화되었습니다</string>
+    <string name="discover_hidden_toast">이어보기에서 숨김</string>
+    <string name="discover_empty_no_key">QR 설정에서 무료 TMDB API 키(또는 Plex 서버)를 추가해 설치된 앱의 광고 없는 추천을 받아보세요.</string>
+    <string name="discover_empty_no_matches">설치된 스트리밍 앱과 일치하는 추천 콘텐츠가 지금 없습니다.</string>
+
+    <string name="adb_connecting">로컬 ADB에 연결 중…</string>
+    <string name="adb_accept_prompt">TV에서 “USB 디버깅 항상 허용”을 수락하세요</string>
+
+    <string name="ha_section_title">스마트 홈</string>
+    <string name="ha_action_failed">Home Assistant 작업 실패</string>
+    <string name="ha_state_unavailable">사용 불가</string>
+    <string name="ha_state_open">열림</string>
+    <string name="ha_state_closed">닫힘</string>
+    <string name="ha_state_camera">실시간 PiP</string>
+    <string name="ha_camera_title">홈 카메라</string>
+    <string name="ha_camera_connecting">카메라에 연결 중…</string>
+    <string name="ha_camera_unavailable">카메라를 사용할 수 없음</string>
+    <string name="ha_camera_hint_pip">OK: 확대 · 뒤로: 닫기</string>
+    <string name="ha_camera_hint_expanded">OK: 미니 PiP · 뒤로: 닫기</string>
+    <string name="ha_camera_hint_pip_multi">OK: 확대 · ◀ ▶: 카메라 · 뒤로: 닫기</string>
+    <string name="ha_camera_hint_expanded_multi">OK: 미니 PiP · ◀ ▶: 카메라 · 뒤로: 닫기</string>
+
+    <string name="aerial_fav_added">즐겨찾기에 저장됨</string>
+    <string name="aerial_fav_removed">즐겨찾기에서 제거됨</string>
+
+    <string name="updater_installed">업데이트가 설치되었습니다</string>
+    <string name="updater_failed">업데이트 실패</string>
+
+    <!-- 런처 기능 설정 & 글래스 재질 시스템 -->
+    <string name="fs_sec_glass">Liquid Glass &amp; 사용 환경</string>
+    <string name="fs_liquid_clock">Liquid Glass 시계 (iOS 26)</string>
+    <string name="fs_home_liquid">홈 화면 광학 Liquid Glass</string>
+    <string name="fs_home_backdrop_blur">홈 배경 블러</string>
+    <string name="fs_glass_material">글래스 스타일</string>
+    <string name="fs_glass_material_title">Liquid Glass 스타일 선택</string>
+    <string name="glass_style_tonal">프로스트 토널</string>
+    <string name="glass_style_tonal_sub">배경화면 색조가 반영된 내부 카드와 균형 잡힌 다크 글래스</string>
+    <string name="glass_style_obsidian">퓨어 블랙 (OLED)</string>
+    <string name="glass_style_obsidian_sub">어두운 공간에 어울리는 선명한 프레넬 테두리의 딥 옵시디언 크리스탈</string>
+    <string name="glass_style_frost">프로스트 화이트</string>
+    <string name="glass_style_frost_sub">다크 그라파이트 텍스트와 아이콘이 조화된 진주빛 밝은 글래스</string>
+    <string name="glass_style_clear">클리어 크리스탈</string>
+    <string name="glass_style_clear_sub">선명한 광학 테두리 굴절이 돋보이는 투명하고 가벼운 글래스</string>
+    <string name="glass_style_chromatic">크로매틱 틴트</string>
+    <string name="glass_style_chromatic_sub">패널과 내부 카드 전반에 풍부한 Material You 배경화면 색상 적용</string>
+    <string name="glass_style_auto">자동 (주간 / 야간)</string>
+    <string name="glass_style_auto_sub">낮에는 프로스트 화이트, 일몰 후에는 퓨어 블랙</string>
+    <string name="fs_remote_buttons">리모컨 버튼</string>
+    <string name="fs_ui_sounds">부드러운 UI 클릭음</string>
+    <string name="fs_oled_drift">OLED 화면 보호기 픽셀 시프트</string>
+    <string name="fs_aerial_quality">항공 영상 화질</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">즐겨찾기 항공 영상만 재생 (OK 길게 누르기)</string>
+
+    <string name="fs_sec_content">콘텐츠 &amp; 탐색</string>
+    <string name="fs_open_discover">탐색 열기 (이어보기 &amp; 추천)</string>
+    <string name="fs_watch_next">이어보기</string>
+    <string name="fs_open_nuvio">추천 콘텐츠를 Nuvio에서 바로 열기</string>
+    <string name="fs_watch_saver">화면 보호기에서 추천 실행 (OK)</string>
+    <string name="fs_hide_animation">애니메이션 &amp; 애니 추천 숨기기</string>
+    <string name="fs_region">스트리밍 지역</string>
+    <string name="fs_trakt">Trakt.tv 계정</string>
+    <string name="fs_trakt_code_msg">%1$s에 접속해 코드 입력: %2$s</string>
+    <string name="fs_trakt_signed_in">Trakt에 로그인됨 (%1$s)</string>
+    <string name="fs_trakt_signed_out">Trakt에서 로그아웃됨</string>
+
+    <string name="fs_sec_smart">스마트 홈, 사진 &amp; 휴대폰 설정</string>
+    <string name="fs_qr_setup">휴대폰 QR로 키, 리모컨 &amp; 배경화면 설정</string>
+    <string name="fs_ha_toggle">제어 센터에 Home Assistant 표시</string>
+    <string name="fs_immich_toggle">화면 보호기에 Immich 사진 표시</string>
+    <string name="fs_immich_sync">Immich 사진 지금 동기화</string>
+    <string name="fs_immich_album">Immich 앨범</string>
+    <string name="fs_immich_all_albums">모든 사진</string>
+
+    <string name="fs_sec_system">안전 &amp; 복구</string>
+    <string name="fs_watchdog">크래시 루프 복구 워치독</string>
+    <string name="fs_check_updates">업데이트 (GitHub Releases)</string>
+    <string name="fs_updates_title">업데이트 (GitHub)</string>
+    <string name="fs_updates_current">설치됨: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">지금 업데이트 확인</string>
+    <string name="fs_updates_checking">GitHub Releases 확인 중…</string>
+    <string name="fs_updates_downloading">다운로드 및 SHA-256 검증 중…</string>
+    <string name="fs_updates_install_launcher">Matcher %1$s 설치</string>
+    <string name="fs_updates_install_addon">%1$s 업데이트 (%2$s)</string>
+    <string name="fs_updates_weekly">매주 백그라운드 업데이트 확인</string>
+    <string name="fs_update_uptodate">런처가 최신 상태입니다 (%1$s)</string>
+    <string name="fs_update_found">새 버전 %1$s 사용 가능</string>
+    <string name="fs_restore_stock">기본 Google TV 런처 복원 (ADB)</string>
+    <string name="fs_restore_confirm_title">기본 런처를 복원할까요?</string>
+    <string name="fs_restore_confirm_msg">안전하게 Google TV 런처를 먼저 다시 활성화해 홈으로 설정한 뒤, SetupWraith를 활성화하고 디스크에 동기화합니다.</string>
+    <string name="fs_restore_ok">지금 복원</string>
+    <string name="fs_cancel">취소</string>
+
+    <!-- 앱 내 리모컨 버튼 학습 및 재매핑 -->
+    <string name="rm_title">리모컨 버튼</string>
+    <string name="rm_subtitle_ready">모든 리모컨 버튼에 짧게 누르기, 두 번 누르기, 길게 누르기 동작을 지정합니다</string>
+    <string name="rm_subtitle_need_a11y">어디서나 버튼을 재매핑하려면 TV 설정에서 접근성 → 홈 버튼을 활성화하세요</string>
+    <string name="rm_open_a11y">TV 접근성 설정 열기</string>
+    <string name="rm_open_a11y_sub">전역 리모컨 버튼 재매핑에 필요합니다</string>
+    <string name="rm_learn_btn">리모컨 버튼 학습</string>
+    <string name="rm_learn_sub">물리 버튼을 눌러 keycode 및 scancode를 감지합니다</string>
+    <string name="rm_empty">저장된 사용자 지정 버튼이 없습니다 (테마 기본값 적용)</string>
+    <string name="rm_reset_all">사용자 지정 버튼 초기화</string>
+    <string name="rm_reset_all_sub">테마 config.json 매핑으로 되돌립니다</string>
+    <string name="rm_reset_done">사용자 지정 버튼 매핑이 초기화되었습니다</string>
+    <string name="rm_capture_title">리모컨 버튼을 누르세요</string>
+    <string name="rm_capture_hint">방향키, OK, 뒤로 및 볼륨 버튼은 예약됨 · 뒤로 눌러 취소</string>
+    <string name="rm_capture_waiting">버튼 입력 대기 중…</string>
+    <string name="rm_edit_subtitle">키 토큰: %1$s</string>
+    <string name="rm_slot_tap">짧게 누르기</string>
+    <string name="rm_slot_double">두 번 누르기</string>
+    <string name="rm_slot_hold">길게 누르기 (0.5초)</string>
+    <string name="rm_short_tap">짧게</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">길게</string>
+    <string name="rm_target_none">미지정</string>
+    <string name="rm_delete_btn">사용자 지정 버튼 제거</string>
+    <string name="rm_saved">버튼 매핑이 저장되었습니다</string>
+    <string name="rm_action_mute">음소거</string>
+    <string name="rm_action_ignore">버튼 무시 (비활성화)</string>
+</resources>

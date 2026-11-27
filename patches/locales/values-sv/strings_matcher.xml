@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Appmappar -->
+    <string name="folder_add_to">Lägg till i mapp…</string>
+    <string name="folder_new">+ Ny mapp</string>
+    <string name="folder_new_title">Ny mapp</string>
+    <string name="folder_rename">Byt namn på mapp…</string>
+    <string name="folder_rename_title">Byt namn på mapp</string>
+    <string name="folder_open">Öppna mapp</string>
+    <string name="folder_add_apps">Lägg till appar…</string>
+    <string name="folder_add_apps_title">Lägg till appar i %1$s</string>
+    <string name="folder_add_apps_empty">Alla startskärmsappar ligger redan i mappar</string>
+    <string name="folder_dissolve">Lös upp mapp</string>
+    <string name="folder_remove_app">Ta bort från mapp</string>
+    <string name="folder_move_to">Flytta till mapp…</string>
+    <string name="folder_hint">OK öppnar · Håll in OK för val · Upp för mappåtgärder</string>
+    <string name="folder_default_name">Mapp %1$d</string>
+    <string name="folder_name_hint">Mappnamn</string>
+    <string name="folder_create">Skapa</string>
+    <string name="folder_save">Spara</string>
+    <string name="folder_cancel">Avbryt</string>
+    <string name="folder_btn_add">+ Lägg till</string>
+    <string name="folder_btn_reorder">Ändra ordning</string>
+    <string name="folder_btn_done">Klar</string>
+    <string name="folder_btn_rename">Byt namn</string>
+    <string name="folder_preset_streaming">Streaming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Sport</string>
+    <string name="folder_preset_music">Musik</string>
+    <string name="folder_preset_games">Spel</string>
+    <string name="folder_preset_tools">Verktyg</string>
+
+    <!-- Spelas nu mini-mediespelare -->
+    <string name="media_now_playing">Spelas nu</string>
+    <string name="media_playing">Spelar</string>
+    <string name="media_paused">Pausad</string>
+    <string name="media_live">Live</string>
+    <string name="media_prev">Föregående</string>
+    <string name="media_play_pause">Spela upp eller pausa</string>
+    <string name="media_next">Nästa</string>
+    <string name="media_open_app">Öppna app</string>
+    <string name="media_switch_hint">Upp för att byta app · OK återupptar uppspelning</string>
+
+    <!-- Senaste appar -->
+    <string name="recents_title">Senaste appar</string>
+    <string name="recents_hint">OK byter · 2× Upp stänger · Håll in OK för val</string>
+    <string name="recents_empty">Inga senaste appar öppna</string>
+    <string name="recents_switch">Byt till app</string>
+    <string name="recents_close_app">Stäng app</string>
+    <string name="recents_close_all">Stäng alla</string>
+    <string name="recents_swipe_close">Tryck Upp igen för att stänga</string>
+    <string name="recents_playing_badge">Spelar</string>
+    <string name="recents_free_ram">Ledigt RAM: %1$d MB</string>
+    <string name="recents_just_now">Just nu</string>
+    <string name="recents_minutes_ago">%1$d min sedan</string>
+    <string name="recents_hours_ago">%1$d tim sedan</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Stängde %1$d app</item>
+        <item quantity="other">Stängde %1$d appar</item>
+    </plurals>
+
+    <!-- Ambient-skärmsläckare -->
+    <string name="ambient_controls_hint">◄ ► spår · ▼ spela/pausa · ▲ öppna</string>
+    <string name="ambient_action_prev">Föregående spår</string>
+    <string name="ambient_action_next">Nästa spår</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Klart</string>
+    <string name="weather_partly">Halvklart</string>
+    <string name="weather_cloudy">Mulet</string>
+    <string name="weather_fog">Dimma</string>
+    <string name="weather_drizzle">Duggregn</string>
+    <string name="weather_rain">Regn</string>
+    <string name="weather_snow">Snö</string>
+    <string name="weather_showers">Skurar</string>
+    <string name="weather_storm">Åskväder</string>
+
+    <!-- Kontrollcenter, Nattljud, God natt & Aerial-videor -->
+    <string name="cc_title">Kontrollcenter</string>
+    <string name="cc_bedtime">God natt</string>
+    <string name="cc_bedtime_sub">30 min timer · Dimma · Nattljud</string>
+    <string name="cc_bedtime_on">Aktivt</string>
+    <string name="cc_night_audio">Nattljud</string>
+    <string name="cc_night_audio_on">Höga toppar dämpas</string>
+    <string name="cc_night_audio_off">Av</string>
+    <string name="cc_night_audio_unavailable">Ljudprocessor inte tillgänglig</string>
+    <string name="cc_audio">Ljud</string>
+    <string name="cc_audio_tv">TV-högtalare</string>
+    <string name="cc_sleep_timer">Sovtimer</string>
+    <string name="cc_sleep_timer_sub">Ställ in timer</string>
+    <string name="cc_brightness">Ljusstyrka</string>
+    <string name="cc_brightness_sub">Dimmerreglage</string>
+    <string name="cc_aerial">Aerial-videor</string>
+    <string name="cc_aerial_on">1080p-video</string>
+    <string name="cc_aerial_on_4k">4K HEVC-video</string>
+    <string name="cc_aerial_off">Bakgrundsbilder</string>
+    <string name="cc_screensaver">Skärmsläckare</string>
+    <string name="cc_settings">Inställningar</string>
+    <string name="cc_sleep_tv">Viloläge för TV</string>
+    <string name="cc_reorder_tiles">Ordna brickor</string>
+    <string name="cc_footer_hint">Håll in OK på Viloläge för omstart · Tillbaka stänger</string>
+    <string name="cc_on">På</string>
+    <string name="cc_off">Av</string>
+    <string name="close">Stäng</string>
+
+    <!-- QR-konfiguration från mobil, Upptäck, Home Assistant, Immich, Watchdog & Uppdateringar -->
+    <string name="qr_setup_title">Konfigurera från mobilen</string>
+    <string name="qr_setup_subtitle">Skanna med mobilen (samma Wi-Fi) för att ändra knappar, bakgrundsbild, stad eller TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">QR-inställning</string>
+    <string name="qr_setup_no_wifi">Anslut TV:n till Wi-Fi eller Ethernet först</string>
+    <string name="qr_setup_waiting">Väntar på mobilen… (giltig i 5 min)</string>
+    <string name="qr_setup_expired">QR-sessionen har gått ut — öppna igen för en ny kod</string>
+
+    <string name="discover_title">Upptäck &amp; Fortsätt titta</string>
+    <string name="discover_refresh">Uppdatera</string>
+    <string name="discover_continue_watching">Fortsätt titta</string>
+    <string name="discover_trending">Populära tips (reklamfritt)</string>
+    <string name="discover_tab_all">Alla</string>
+    <string name="discover_tab_movies">Filmer</string>
+    <string name="discover_tab_shows">Serier</string>
+    <string name="discover_grant_watchnext_msg">Tillåt behörighet för TV-listor för att visa Fortsätt titta mellan appar</string>
+    <string name="discover_grant_adb_btn">Tillåt via ADB</string>
+    <string name="discover_grant_success">Fortsätt titta aktiverat</string>
+    <string name="discover_hidden_toast">Dold från Fortsätt titta</string>
+    <string name="discover_empty_no_key">Använd QR-inställning för att lägga till en gratis TMDB API-nyckel (eller Plex-server) för reklamfria tips från dina appar.</string>
+    <string name="discover_empty_no_matches">Inga matchande titlar hittades för dina installerade streamingappar just nu.</string>
+
+    <string name="adb_connecting">Ansluter till lokal ADB…</string>
+    <string name="adb_accept_prompt">Godkänn ”Tillåt alltid USB-felsökning” på TV:n</string>
+
+    <string name="ha_section_title">Smart hem</string>
+    <string name="ha_action_failed">Home Assistant-åtgärden misslyckades</string>
+    <string name="ha_state_unavailable">Otillgänglig</string>
+    <string name="ha_state_open">Öppen</string>
+    <string name="ha_state_closed">Stängd</string>
+    <string name="ha_state_camera">Live PiP</string>
+    <string name="ha_camera_title">Hemmakamera</string>
+    <string name="ha_camera_connecting">Ansluter till kamera…</string>
+    <string name="ha_camera_unavailable">Kamera inte tillgänglig</string>
+    <string name="ha_camera_hint_pip">OK: Förstora · Tillbaka: Stäng</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Tillbaka: Stäng</string>
+    <string name="ha_camera_hint_pip_multi">OK: Förstora · ◀ ▶: Kamera · Tillbaka: Stäng</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Tillbaka: Stäng</string>
+
+    <string name="aerial_fav_added">Sparad i favoriter</string>
+    <string name="aerial_fav_removed">Borttagen från favoriter</string>
+
+    <string name="updater_installed">Uppdatering installerad</string>
+    <string name="updater_failed">Uppdateringen misslyckades</string>
+
+    <!-- Startskärmsfunktioner & Liquid Glass-stilar -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Upplevelse</string>
+    <string name="fs_liquid_clock">Liquid Glass-klocka (iOS 26)</string>
+    <string name="fs_home_liquid">Optiskt Liquid Glass på startskärmen</string>
+    <string name="fs_home_backdrop_blur">Bakgrundsoskärpa på startskärmen</string>
+    <string name="fs_glass_material">Glasstil</string>
+    <string name="fs_glass_material_title">Välj Liquid Glass-stil</string>
+    <string name="glass_style_tonal">Frostat tonat</string>
+    <string name="glass_style_tonal_sub">Balanserat mörkt glas med bakgrundstonade inre kort</string>
+    <string name="glass_style_obsidian">Helt svart (OLED)</string>
+    <string name="glass_style_obsidian_sub">Djupt obsidiankristall med skarp Fresnel-kant för mörka rum</string>
+    <string name="glass_style_frost">Frostvitt</string>
+    <string name="glass_style_frost_sub">Ljust pärlemorglas med mörk grafittext och mörka ikoner</string>
+    <string name="glass_style_clear">Klart kristallglas</string>
+    <string name="glass_style_clear_sub">Luftigt, kristallklart glas med tydlig optisk kantbrytning</string>
+    <string name="glass_style_chromatic">Kromatisk ton</string>
+    <string name="glass_style_chromatic_sub">Fyllig Material You-bakgrundsfärg på paneler och inre kort</string>
+    <string name="glass_style_auto">Auto (Dag / Natt)</string>
+    <string name="glass_style_auto_sub">Frostvitt på dagen, Helt svart efter solnedgång</string>
+    <string name="fs_remote_buttons">Fjärrkontrollsknappar</string>
+    <string name="fs_ui_sounds">Mjuka klickljud i gränssnittet</string>
+    <string name="fs_oled_drift">OLED-skärmsläckare pixelförskjutning</string>
+    <string name="fs_aerial_quality">Kvalitet på Aerial-videor</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Endast favorit-Aerials (håll in OK)</string>
+
+    <string name="fs_sec_content">Innehåll &amp; Upptäck</string>
+    <string name="fs_open_discover">Öppna Upptäck (Fortsätt titta &amp; Tips)</string>
+    <string name="fs_watch_next">Fortsätt titta</string>
+    <string name="fs_open_nuvio">Öppna tips direkt i Nuvio</string>
+    <string name="fs_watch_saver">Starta tips från skärmsläckare (OK)</string>
+    <string name="fs_hide_animation">Dölj animerat &amp; anime-tips</string>
+    <string name="fs_region">Streamingregion</string>
+    <string name="fs_trakt">Trakt.tv-konto</string>
+    <string name="fs_trakt_code_msg">Gå till %1$s och ange koden: %2$s</string>
+    <string name="fs_trakt_signed_in">Inloggad på Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Utloggad från Trakt</string>
+
+    <string name="fs_sec_smart">Smart hem, Foton &amp; Mobilinställning</string>
+    <string name="fs_qr_setup">Konfigurera nycklar, knappar &amp; bakgrund via QR</string>
+    <string name="fs_ha_toggle">Home Assistant i Kontrollcenter</string>
+    <string name="fs_immich_toggle">Immich-foton på skärmsläckaren</string>
+    <string name="fs_immich_sync">Synkronisera Immich-foton nu</string>
+    <string name="fs_immich_album">Immich-album</string>
+    <string name="fs_immich_all_albums">Alla foton</string>
+
+    <string name="fs_sec_system">Säkerhet &amp; Återställning</string>
+    <string name="fs_watchdog">Skydd mot kraschloop</string>
+    <string name="fs_check_updates">Uppdateringar (GitHub Releases)</string>
+    <string name="fs_updates_title">Uppdateringar (GitHub)</string>
+    <string name="fs_updates_current">Installerat: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Sök efter uppdateringar nu</string>
+    <string name="fs_updates_checking">Söker på GitHub Releases…</string>
+    <string name="fs_updates_downloading">Laddar ned &amp; verifierar SHA-256…</string>
+    <string name="fs_updates_install_launcher">Installera Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Uppdatera %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Sök efter uppdateringar varje vecka</string>
+    <string name="fs_update_uptodate">Startskärmen är uppdaterad (%1$s)</string>
+    <string name="fs_update_found">Ny version %1$s tillgänglig</string>
+    <string name="fs_restore_stock">Återställ standard-startskärm för Google TV (ADB)</string>
+    <string name="fs_restore_confirm_title">Återställa standard-startskärm?</string>
+    <string name="fs_restore_confirm_msg">Aktiverar säkert Google TV Launcher först, ställer in den som Hem, aktiverar sedan SetupWraith och synkroniserar disken.</string>
+    <string name="fs_restore_ok">Återställ nu</string>
+    <string name="fs_cancel">Avbryt</string>
+
+    <!-- Knappanpassning i appen -->
+    <string name="rm_title">Fjärrkontrollsknappar</string>
+    <string name="rm_subtitle_ready">Tilldela Tryck, Dubbeltryck eller Håll in till valfri knapp</string>
+    <string name="rm_subtitle_need_a11y">Aktivera Tillgänglighet → Hemknapp i TV-inställningarna för att mappa om knappar överallt</string>
+    <string name="rm_open_a11y">Öppna TV-inställningar för Tillgänglighet</string>
+    <string name="rm_open_a11y_sub">Krävs för global knappanpassning</string>
+    <string name="rm_learn_btn">Lär in fjärrkontrollsknapp</string>
+    <string name="rm_learn_sub">Tryck på valfri fysisk knapp för att läsa av keycode &amp; scancode</string>
+    <string name="rm_empty">Inga anpassade knappar sparade än (temats standard gäller)</string>
+    <string name="rm_reset_all">Återställ anpassade knappar</string>
+    <string name="rm_reset_all_sub">Återgå till temats mappningar i config.json</string>
+    <string name="rm_reset_done">Anpassade knappmappningar rensade</string>
+    <string name="rm_capture_title">Tryck på en knapp på fjärrkontrollen</string>
+    <string name="rm_capture_hint">Piltangenter, OK, Tillbaka och Volym är reserverade · Tillbaka avbryter</string>
+    <string name="rm_capture_waiting">Väntar på knapptryckning…</string>
+    <string name="rm_edit_subtitle">Knappkod: %1$s</string>
+    <string name="rm_slot_tap">Kort tryck (Tryck)</string>
+    <string name="rm_slot_double">Dubbeltryck</string>
+    <string name="rm_slot_hold">Långt tryck (Håll 0,5 s)</string>
+    <string name="rm_short_tap">Tryck</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Håll</string>
+    <string name="rm_target_none">Ej tilldelad</string>
+    <string name="rm_delete_btn">Ta bort anpassad knapp</string>
+    <string name="rm_saved">Knappmappning sparad</string>
+    <string name="rm_action_mute">Stäng av ljudet</string>
+    <string name="rm_action_ignore">Ignorera knapp (inaktivera)</string>
+</resources>

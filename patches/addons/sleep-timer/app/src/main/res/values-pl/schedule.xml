@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Harmonogram TV"</string>
+    <string name="sched_1">"Godziny dotyczą wybranego dnia kalendarzowego. Wyjątki blokują tylko automatyczne budzenie. Wstecz odrzuca niezapisane zmiany."</string>
+    <string name="sched_2">"Harmonogram: WŁ."</string>
+    <string name="sched_3">"Harmonogram: WYŁ."</string>
+    <string name="sched_4">"+ Dodaj godzinę budzenia / uśpienia"</string>
+    <string name="sched_5">"Bez budzenia: "</string>
+    <string name="sched_6">"Okres bez automatycznego budzenia"</string>
+    <string name="sched_7">"Edytuj daty"</string>
+    <string name="sched_8">"Usuń"</string>
+    <string name="sched_9">"+ Dodaj okres wyjątku"</string>
+    <string name="sched_10">"Zapisz"</string>
+    <string name="sched_11">"Budzenie  "</string>
+    <string name="sched_12">"Uśpienie  "</string>
+    <string name="sched_13">"Dodaj zdarzenie"</string>
+    <string name="sched_14">"Budzenie"</string>
+    <string name="sched_15">"Uśpienie"</string>
+    <string name="sched_16">"Dni tygodnia"</string>
+    <string name="sched_17">"Anuluj"</string>
+    <string name="sched_18">"Godzina"</string>
+    <string name="sched_19">"Wybierz co najmniej jeden dzień"</string>
+    <string name="sched_20">"Koniec nie może być wcześniejszy niż początek"</string>
+    <string name="sched_21">"Ostatni dzień (włącznie)"</string>
+    <string name="sched_22">"Pierwszy dzień (włącznie)"</string>
+    <string name="sched_23">"Poniedziałek"</string>
+    <string name="sched_24">"Wtorek"</string>
+    <string name="sched_25">"Środa"</string>
+    <string name="sched_26">"Czwartek"</string>
+    <string name="sched_27">"Piątek"</string>
+    <string name="sched_28">"Sobota"</string>
+    <string name="sched_29">"Niedziela"</string>
+</resources>

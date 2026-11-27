@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Uygulama klasörleri -->
+    <string name="folder_add_to">Klasöre ekle…</string>
+    <string name="folder_new">+ Yeni klasör</string>
+    <string name="folder_new_title">Yeni klasör</string>
+    <string name="folder_rename">Klasörü yeniden adlandır…</string>
+    <string name="folder_rename_title">Klasörü yeniden adlandır</string>
+    <string name="folder_open">Klasörü aç</string>
+    <string name="folder_add_apps">Uygulama ekle…</string>
+    <string name="folder_add_apps_title">%1$s klasörüne ekle</string>
+    <string name="folder_add_apps_empty">Ana ekrandaki tüm uygulamalar zaten klasörlerde</string>
+    <string name="folder_dissolve">Klasörü dağıt</string>
+    <string name="folder_remove_app">Klasörden kaldır</string>
+    <string name="folder_move_to">Klasöre taşı…</string>
+    <string name="folder_hint">OK açar · Seçenekler için OK\'a basılı tutun · Klasör işlemleri için Yukarı</string>
+    <string name="folder_default_name">Klasör %1$d</string>
+    <string name="folder_name_hint">Klasör adı</string>
+    <string name="folder_create">Oluştur</string>
+    <string name="folder_save">Kaydet</string>
+    <string name="folder_cancel">İptal</string>
+    <string name="folder_btn_add">+ Ekle</string>
+    <string name="folder_btn_reorder">Sırala</string>
+    <string name="folder_btn_done">Bitti</string>
+    <string name="folder_btn_rename">Yeniden adlandır</string>
+    <string name="folder_preset_streaming">Yayın</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Spor</string>
+    <string name="folder_preset_music">Müzik</string>
+    <string name="folder_preset_games">Oyunlar</string>
+    <string name="folder_preset_tools">Araçlar</string>
+
+    <!-- Şimdi Oynatılıyor medya mini oynatıcı -->
+    <string name="media_now_playing">Şimdi Oynatılıyor</string>
+    <string name="media_playing">Oynatılıyor</string>
+    <string name="media_paused">Duraklatıldı</string>
+    <string name="media_live">Canlı</string>
+    <string name="media_prev">Önceki</string>
+    <string name="media_play_pause">Oynat veya duraklat</string>
+    <string name="media_next">Sonraki</string>
+    <string name="media_open_app">Uygulamayı aç</string>
+    <string name="media_switch_hint">Uygulama değiştirmek için Yukarı · OK oynatmaya devam eder</string>
+
+    <!-- Son Uygulamalar Değiştirici -->
+    <string name="recents_title">Son uygulamalar</string>
+    <string name="recents_hint">OK geçiş yapar · Kapatmak için 2× Yukarı · Seçenekler için OK\'a basılı tutun</string>
+    <string name="recents_empty">Açık son uygulama yok</string>
+    <string name="recents_switch">Uygulamaya geç</string>
+    <string name="recents_close_app">Uygulamayı kapat</string>
+    <string name="recents_close_all">Tümünü kapat</string>
+    <string name="recents_swipe_close">Kapatmak için tekrar Yukarı basın</string>
+    <string name="recents_playing_badge">Oynatılıyor</string>
+    <string name="recents_free_ram">Boş RAM: %1$d MB</string>
+    <string name="recents_just_now">Az önce</string>
+    <string name="recents_minutes_ago">%1$d dk önce</string>
+    <string name="recents_hours_ago">%1$d sa önce</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">%1$d uygulama kapatıldı</item>
+        <item quantity="other">%1$d uygulama kapatıldı</item>
+    </plurals>
+
+    <!-- Ortam Ekran Koruyucusu -->
+    <string name="ambient_controls_hint">◄ ► parça · ▼ oynat/duraklat · ▲ aç</string>
+    <string name="ambient_action_prev">Önceki parça</string>
+    <string name="ambient_action_next">Sonraki parça</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Açık</string>
+    <string name="weather_partly">Parçalı bulutlu</string>
+    <string name="weather_cloudy">Çok bulutlu</string>
+    <string name="weather_fog">Sisli</string>
+    <string name="weather_drizzle">Çiseleyen yağmur</string>
+    <string name="weather_rain">Yağmurlu</string>
+    <string name="weather_snow">Karlı</string>
+    <string name="weather_showers">Sağanak yağış</string>
+    <string name="weather_storm">Gök gürültülü fırtına</string>
+
+    <!-- Kontrol Merkezi, Gece Sesi, İyi Geceler ve Aerial Videoları -->
+    <string name="cc_title">Kontrol Merkezi</string>
+    <string name="cc_bedtime">İyi geceler</string>
+    <string name="cc_bedtime_sub">30 dk zamanlayıcı · Kısık ışık · Gece sesi</string>
+    <string name="cc_bedtime_on">Etkin</string>
+    <string name="cc_night_audio">Gece sesi</string>
+    <string name="cc_night_audio_on">Yüksek sesler azaltıldı</string>
+    <string name="cc_night_audio_off">Kapalı</string>
+    <string name="cc_night_audio_unavailable">Ses işlemcisi kullanılamıyor</string>
+    <string name="cc_audio">Ses</string>
+    <string name="cc_audio_tv">TV hoparlörleri</string>
+    <string name="cc_sleep_timer">Uyku zamanlayıcısı</string>
+    <string name="cc_sleep_timer_sub">Zamanlayıcı ayarla</string>
+    <string name="cc_brightness">Parlaklık</string>
+    <string name="cc_brightness_sub">Karartma çubuğu</string>
+    <string name="cc_aerial">Aerial videoları</string>
+    <string name="cc_aerial_on">1080p video</string>
+    <string name="cc_aerial_on_4k">4K HEVC video</string>
+    <string name="cc_aerial_off">Duvar kağıtları</string>
+    <string name="cc_screensaver">Ekran koruyucu</string>
+    <string name="cc_settings">Ayarlar</string>
+    <string name="cc_sleep_tv">TV\'yi uyut</string>
+    <string name="cc_reorder_tiles">Karoları sırala</string>
+    <string name="cc_footer_hint">Yeniden başlatmak için TV\'yi uyut\'ta OK\'a basılı tutun · Geri kapatır</string>
+    <string name="cc_on">Açık</string>
+    <string name="cc_off">Kapalı</string>
+    <string name="close">Kapat</string>
+
+    <!-- QR Telefon Kurulumu, Keşfet, Home Assistant, Immich, Koruma ve Güncelleyici -->
+    <string name="qr_setup_title">Telefondan Yapılandır</string>
+    <string name="qr_setup_subtitle">Kumanda tuşları, duvar kağıdı, şehir veya TMDB / Trakt / Plex / HA / Immich için telefonla tarayın (aynı Wi-Fi)</string>
+    <string name="qr_setup_short">QR Kurulum</string>
+    <string name="qr_setup_no_wifi">Önce TV\'yi Wi-Fi veya Ethernet\'e bağlayın</string>
+    <string name="qr_setup_waiting">Telefon bekleniyor… (5 dk geçerli)</string>
+    <string name="qr_setup_expired">QR oturumu sona erdi — yeni kod için tekrar açın</string>
+
+    <string name="discover_title">Keşfet &amp; İzlemeye Devam Et</string>
+    <string name="discover_refresh">Yenile</string>
+    <string name="discover_continue_watching">İzlemeye Devam Et</string>
+    <string name="discover_trending">Trend Öneriler (Reklamsız)</string>
+    <string name="discover_tab_all">Tümü</string>
+    <string name="discover_tab_movies">Filmler</string>
+    <string name="discover_tab_shows">Diziler</string>
+    <string name="discover_grant_watchnext_msg">Uygulamalar arası İzlemeye Devam Et için TV Listeleri iznini verin</string>
+    <string name="discover_grant_adb_btn">ADB ile izin ver</string>
+    <string name="discover_grant_success">İzlemeye Devam Et etkinleştirildi</string>
+    <string name="discover_hidden_toast">İzlemeye Devam Et\'ten gizlendi</string>
+    <string name="discover_empty_no_key">Yüklü uygulamalarınızdan reklamsız öneriler için QR Kurulum ile ücretsiz bir TMDB API anahtarı (veya Plex sunucusu) ekleyin.</string>
+    <string name="discover_empty_no_matches">Şu anda yüklü yayın uygulamalarınızla eşleşen içerik bulunamadı.</string>
+
+    <string name="adb_connecting">Yerel ADB\'ye bağlanılıyor…</string>
+    <string name="adb_accept_prompt">TV\'de “USB hata ayıklamaya her zaman izin ver” seçeneğini onaylayın</string>
+
+    <string name="ha_section_title">Akıllı Ev</string>
+    <string name="ha_action_failed">Home Assistant işlemi başarısız</string>
+    <string name="ha_state_unavailable">Kullanılamıyor</string>
+    <string name="ha_state_open">Açık</string>
+    <string name="ha_state_closed">Kapalı</string>
+    <string name="ha_state_camera">Canlı PiP</string>
+    <string name="ha_camera_title">Ev Kamerası</string>
+    <string name="ha_camera_connecting">Kameraya bağlanılıyor…</string>
+    <string name="ha_camera_unavailable">Kamera kullanılamıyor</string>
+    <string name="ha_camera_hint_pip">OK: Büyüt · Geri: Kapat</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Geri: Kapat</string>
+    <string name="ha_camera_hint_pip_multi">OK: Büyüt · ◀ ▶: Kamera · Geri: Kapat</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Geri: Kapat</string>
+
+    <string name="aerial_fav_added">Favorilere kaydedildi</string>
+    <string name="aerial_fav_removed">Favorilerden kaldırıldı</string>
+
+    <string name="updater_installed">Güncelleme yüklendi</string>
+    <string name="updater_failed">Güncelleme başarısız</string>
+
+    <!-- Başlatıcı Özellik Ayarları ve Liquid Glass Sistemi -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Deneyim</string>
+    <string name="fs_liquid_clock">Liquid Glass saati (iOS 26)</string>
+    <string name="fs_home_liquid">Ana ekranda optik Liquid Glass</string>
+    <string name="fs_home_backdrop_blur">Ana ekran arka plan bulanıklığı</string>
+    <string name="fs_glass_material">Cam stili</string>
+    <string name="fs_glass_material_title">Liquid Glass stili seçin</string>
+    <string name="glass_style_tonal">Buzlu Tonlu</string>
+    <string name="glass_style_tonal_sub">Duvar kağıdı tonlu iç kartlara sahip dengeli koyu cam</string>
+    <string name="glass_style_obsidian">Saf Siyah (OLED)</string>
+    <string name="glass_style_obsidian_sub">Karanlık odalar için keskin Fresnel kenarlı derin obsidyen kristal</string>
+    <string name="glass_style_frost">Buzlu Beyaz</string>
+    <string name="glass_style_frost_sub">Koyu grafit metin ve simgeli aydınlık inci cam</string>
+    <string name="glass_style_clear">Berrak Kristal</string>
+    <string name="glass_style_clear_sub">Belirgin optik kenar kırılmalı ferah ve yüksek şeffaflıklı cam</string>
+    <string name="glass_style_chromatic">Kromatik Ton</string>
+    <string name="glass_style_chromatic_sub">Panel ve iç kartlarda zengin Material You duvar kağıdı renkleri</string>
+    <string name="glass_style_auto">Otomatik (Gündüz / Gece)</string>
+    <string name="glass_style_auto_sub">Gündüz Buzlu Beyaz, gün batımından sonra Saf Siyah</string>
+    <string name="fs_remote_buttons">Kumanda tuşları</string>
+    <string name="fs_ui_sounds">Yumuşak arayüz tıklama sesleri</string>
+    <string name="fs_oled_drift">OLED ekran koruyucu piksel kaydırma</string>
+    <string name="fs_aerial_quality">Aerial video kalitesi</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Yalnızca favori Aerial videoları (OK\'a basılı tutun)</string>
+
+    <string name="fs_sec_content">İçerik &amp; Keşif</string>
+    <string name="fs_open_discover">Keşfet\'i aç (İzlemeye Devam Et &amp; Öneriler)</string>
+    <string name="fs_watch_next">İzlemeye Devam Et</string>
+    <string name="fs_open_nuvio">Önerileri doğrudan Nuvio\'da aç</string>
+    <string name="fs_watch_saver">Önerileri ekran koruyucudan aç (OK)</string>
+    <string name="fs_hide_animation">Animasyon ve anime önerilerini gizle</string>
+    <string name="fs_region">Yayın bölgesi</string>
+    <string name="fs_trakt">Trakt.tv hesabı</string>
+    <string name="fs_trakt_code_msg">%1$s adresine gidin ve kodu girin: %2$s</string>
+    <string name="fs_trakt_signed_in">Trakt oturumu açık (%1$s)</string>
+    <string name="fs_trakt_signed_out">Trakt oturumu kapatıldı</string>
+
+    <string name="fs_sec_smart">Akıllı Ev, Fotoğraflar &amp; Telefon Kurulumu</string>
+    <string name="fs_qr_setup">Telefon QR ile tuş, kumanda ve duvar kağıdı ayarla</string>
+    <string name="fs_ha_toggle">Kontrol Merkezi\'nde Home Assistant</string>
+    <string name="fs_immich_toggle">Ekran koruyucuda Immich fotoğrafları</string>
+    <string name="fs_immich_sync">Immich fotoğraflarını şimdi eşitle</string>
+    <string name="fs_immich_album">Immich albümü</string>
+    <string name="fs_immich_all_albums">Tüm fotoğraflar</string>
+
+    <string name="fs_sec_system">Güvenlik &amp; Kurtarma</string>
+    <string name="fs_watchdog">Çökme döngüsü kurtarma koruması</string>
+    <string name="fs_check_updates">Güncellemeler (GitHub Releases)</string>
+    <string name="fs_updates_title">Güncellemeler (GitHub)</string>
+    <string name="fs_updates_current">Yüklü: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Güncellemeleri şimdi denetle</string>
+    <string name="fs_updates_checking">GitHub Releases denetleniyor…</string>
+    <string name="fs_updates_downloading">İndiriliyor ve SHA-256 doğrulanıyor…</string>
+    <string name="fs_updates_install_launcher">Matcher %1$s yükle</string>
+    <string name="fs_updates_install_addon">%1$s güncelle (%2$s)</string>
+    <string name="fs_updates_weekly">Haftalık arka plan güncelleme denetimi</string>
+    <string name="fs_update_uptodate">Başlatıcı güncel (%1$s)</string>
+    <string name="fs_update_found">Yeni sürüm %1$s mevcut</string>
+    <string name="fs_restore_stock">Varsayılan Google TV başlatıcısını geri yükle (ADB)</string>
+    <string name="fs_restore_confirm_title">Varsayılan Başlatıcı Geri Yüklensin mi?</string>
+    <string name="fs_restore_confirm_msg">Önce Google TV başlatıcısını güvenle yeniden etkinleştirir, Ana ekran olarak ayarlar, ardından SetupWraith\'i yeniden etkinleştirip diski eşitler.</string>
+    <string name="fs_restore_ok">Şimdi geri yükle</string>
+    <string name="fs_cancel">İptal</string>
+
+    <!-- Uygulama İçi Kumanda Tuşu Atama -->
+    <string name="rm_title">Kumanda tuşları</string>
+    <string name="rm_subtitle_ready">Herhangi bir kumanda tuşuna Kısa basma, Çift basma veya Basılı tutma atayın</string>
+    <string name="rm_subtitle_need_a11y">Tuşları her yerde atamak için TV Ayarları → Erişilebilirlik → Ana ekran tuşu seçeneğini açın</string>
+    <string name="rm_open_a11y">TV Erişilebilirlik ayarlarını aç</string>
+    <string name="rm_open_a11y_sub">Genel kumanda tuşu ataması için gerekli</string>
+    <string name="rm_learn_btn">Kumanda tuşu öğret</string>
+    <string name="rm_learn_sub">Keycode ve scancode algılamak için herhangi bir fiziksel tuşa basın</string>
+    <string name="rm_empty">Henüz özel tuş kaydedilmedi (tema varsayılanları geçerli)</string>
+    <string name="rm_reset_all">Özel tuşları sıfırla</string>
+    <string name="rm_reset_all_sub">Tema config.json atamalarına geri dön</string>
+    <string name="rm_reset_done">Özel tuş atamaları temizlendi</string>
+    <string name="rm_capture_title">Bir kumanda tuşuna basın</string>
+    <string name="rm_capture_hint">Yön tuşları, OK, Geri ve Ses ayrılmıştır · İptal için Geri\'ye basın</string>
+    <string name="rm_capture_waiting">Tuş basımı bekleniyor…</string>
+    <string name="rm_edit_subtitle">Tuş kodu: %1$s</string>
+    <string name="rm_slot_tap">Kısa basma</string>
+    <string name="rm_slot_double">Çift basma</string>
+    <string name="rm_slot_hold">Uzun basma (0,5 sn basılı tutun)</string>
+    <string name="rm_short_tap">Bas</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Basılı</string>
+    <string name="rm_target_none">Atanmadı</string>
+    <string name="rm_delete_btn">Özel tuşu kaldır</string>
+    <string name="rm_saved">Tuş ataması kaydedildi</string>
+    <string name="rm_action_mute">Sesi kapat</string>
+    <string name="rm_action_ignore">Tuşu yok say (devre dışı bırak)</string>
+</resources>

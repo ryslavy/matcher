@@ -109,6 +109,7 @@ public class QuickActivity extends Activity {
         setIntent(intent);
         GlassKit.installQuickBarBackdropFromIntent(this, intent);
         GlassKit.invalidateLiquidPanels(panel);
+        show();
         resetIfClosing();
         closeLater();
     }
@@ -187,26 +188,31 @@ public class QuickActivity extends Activity {
 
     private void show() {
         long end = Timer.end(this);
+        boolean light = GlassKit.isLightGlass();
         if (!Timer.canSleep()) {
             label.setText(R.string.no_service);
-            label.setTextColor(0xFFFCA5A5);
+            label.setTextColor(GlassKit.adaptiveAccentTextColor(0xFFFCA5A5));
         } else if (end == 0) {
             label.setText(R.string.state_off);
-            label.setTextColor(0xCCFFFFFF);
+            label.setTextColor(GlassKit.adaptiveSecondaryTextColor());
         } else {
             label.setText(getString(R.string.in_minutes, (end - System.currentTimeMillis() + 59_999) / 60_000) + " · "
                     + getString(R.string.state_on, DateFormat.getTimeFormat(this).format(end)));
-            label.setTextColor(Color.WHITE);
+            label.setTextColor(GlassKit.adaptivePrimaryTextColor());
         }
         if (stepDotBgs != null) {
+            int activeLav = GlassKit.adaptiveAccentTextColor(Ui.ACCENT_LAVENDER);
+            int filledLav = light ? 0x885B21B6 : 0x88A78BFA;
+            int restDot = light ? 0x260F172A : 0x2EFFFFFF;
+            int offActive = light ? 0xCC0F172A : 0xCCFFFFFF;
             for (int i = 0; i < stepDotBgs.length; i++) {
                 int color;
                 if (i == choice) {
-                    color = choice == 0 ? 0xCCFFFFFF : Ui.ACCENT_LAVENDER;
+                    color = choice == 0 ? offActive : activeLav;
                 } else if (choice > 0 && i > 0 && i < choice) {
-                    color = 0x88A78BFA;
+                    color = filledLav;
                 } else {
-                    color = 0x2EFFFFFF;
+                    color = restDot;
                 }
                 stepDotBgs[i].setColor(color);
             }

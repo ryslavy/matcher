@@ -69,7 +69,8 @@ final class Row extends LinearLayout {
 
     void setAccentActive(boolean active) {
         setSelected(active);
-        value.setTextColor(active ? 0xFF6EE7B7 : 0xD8FFFFFF);
+        GlassKit.markPreserveTextColor(value);
+        value.setTextColor(active ? GlassKit.adaptiveAccentTextColor(0xFF6EE7B7) : GlassKit.adaptiveSecondaryTextColor());
         GlassKit.configureFocus(this, 1.015f, 0f, 14f, active ? EMERALD : 0);
     }
 }

@@ -109,7 +109,7 @@
             android:shadowRadius="2.2"
             android:textAllCaps="true" />
 
-        <!-- Weather (local) + next sunrise/sunset on one crisp editorial line. -->
+        <!-- Local weather + next sunrise/sunset on one crisp editorial line. -->
         <LinearLayout
             android:id="@+id/dreamInfoRow"
             android:layout_width="wrap_content"

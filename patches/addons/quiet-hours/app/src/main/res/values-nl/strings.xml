@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stille uren</string>
+    <string name="channel_name">Volumelimiet</string>
+    <string name="notification_text">Houdt het volume onder de limiet. Open Stille uren om dit aan te passen.</string>
+</resources>

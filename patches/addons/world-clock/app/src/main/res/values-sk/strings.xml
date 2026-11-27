@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Svetový čas</string>
+    <string name="add_city">Pridať mesto</string>
+    <string name="clock_format">Formát hodín</string>
+    <string name="local">Miestny</string>
+    <string name="search_city">Mesto alebo časové pásmo</string>
+    <string name="search_hint">OK pre zadanie · Dole pre výber mesta</string>
+    <string name="no_cities">Žiadne zodpovedajúce mestá</string>
+    <string name="change_city">Zmeniť mesto</string>
+    <string name="move_earlier">Posunúť skôr</string>
+    <string name="move_later">Posunúť neskôr</string>
+    <string name="remove_city">Odstrániť mesto</string>
+    <string name="city_limit">Vyberte najviac šesť hodín</string>
+    <string name="already_shown">Tieto hodiny sú už zobrazené</string>
+    <string name="same_day">Rovnaký deň ako miestny</string>
+    <string name="tomorrow">V tomto meste je zajtra</string>
+    <string name="yesterday">V tomto meste je včera</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d deň od miestneho času</item>
+        <item quantity="few">%1$+d dni od miestneho času</item>
+        <item quantity="many">%1$+d dňa od miestneho času</item>
+        <item quantity="other">%1$+d dní od miestneho času</item>
+    </plurals>
+    <string name="local_reference">Dátumy porovnané s %1$s</string>
+    <string name="controls">Šípky: pohyb · OK: možnosti mesta · Späť: návrat</string>
+    <string name="format_system">Podľa nastavení TV</string>
+    <string name="format_12">12-hodinový čas</string>
+    <string name="format_24">24-hodinový čas</string>
+    <string name="close">Zatvoriť</string>
+    <string name="screensaver">Šetrič obrazovky</string>
+    <string name="preview">Náhľad · ľubovoľné tlačidlo vráti späť</string>
+    <string name="background_option">Pozadie: %1$s</string>
+    <string name="motion_option">Pohyb: %1$s</string>
+    <string name="brightness_option">Jas hodín: %1$s</string>
+    <string name="gradient">Farebný prechod</string>
+    <string name="plain">Čierna</string>
+    <string name="motion_on">Zapnutý</string>
+    <string name="motion_reduced">Obmedzený (statický)</string>
+    <string name="clock_brightness">Jas hodín</string>
+    <string name="dim">Tlmený</string>
+    <string name="medium">Stredný</string>
+    <string name="bright">Jasný</string>
+    <string name="tv_screensaver_settings">Nastavenia šetriča TV</string>
+    <string name="screensaver_unavailable">Táto TV nesprístupňuje nastavenia šetriča. Náhľad je stále dostupný.</string>
+    <string name="background">Pozadie</string>
+    <string name="starfield">Hviezdne pole</string>
+    <string name="world_map">Mapa sveta</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

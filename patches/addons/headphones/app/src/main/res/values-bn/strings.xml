@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">হেডফোন</string>
+    <string name="plays_through">শব্দ এখন বাজছে: %1$s</string>
+    <string name="output_speakers">টিভি স্পিকার</string>
+    <string name="output_fixed">টিভির অডিও আউটপুট (HDMI ARC বা অপটিক্যাল)</string>
+    <string name="allow_title">Bluetooth অ্যাক্সেসের অনুমতি দিন</string>
+    <string name="allow_detail">আপনার হেডফোন তালিকাভুক্ত করতে এবং সংযোগ বিচ্ছিন্ন হলে বুঝতে। অনুমতি চাইতে OK চাপুন।</string>
+    <string name="not_allowed">অনুমোদিত নয়</string>
+    <string name="pair_title">হেডফোন পেয়ার বা সংযুক্ত করুন</string>
+    <string name="pair_detail">টিভির Bluetooth সেটিংস খোলে। আগে হেডফোনটি পেয়ারিং মোডে রাখুন।</string>
+    <string name="guard_title">বিচ্ছিন্ন হলে নিঃশব্দ করুন</string>
+    <string name="guard_detail">হেডফোন বিচ্ছিন্ন হলে প্লেব্যাক বিরতি দেয় এবং টিভি স্পিকার মিউট করে, যাতে শব্দ ঘরে ছড়িয়ে না পড়ে। আবার যুক্ত হলে মিউট সরিয়ে দেয়।</string>
+    <string name="guard_detail_fixed">হেডফোন বিচ্ছিন্ন হলে প্লেব্যাক বিরতি দেয়। এই টিভির ভলিউম স্থির (ARC বা অ্যামপ্লিফায়ার), তাই এটি স্পিকার মিউট করতে পারে না।</string>
+    <string name="on">চালু</string>
+    <string name="off">বন্ধ</string>
+    <string name="unmute_title">স্পিকার আনমিউট করুন</string>
+    <string name="unmute_detail">হেডফোন বিচ্ছিন্ন হওয়ায় মিউট করা হয়েছে।</string>
+    <string name="muted">মিউট</string>
+    <string name="heading_paired">পেয়ার করা হেডফোন ও স্পিকার</string>
+    <string name="no_bluetooth">এই টিভিতে Bluetooth নেই</string>
+    <string name="bluetooth_off">Bluetooth বন্ধ আছে</string>
+    <string name="bluetooth_off_detail">টিভির সেটিংস থেকে এটি চালু করুন।</string>
+    <string name="none_yet">এখনো কিছু নেই</string>
+    <string name="none_yet_detail">পেয়ার করতে উপরের সারি ব্যবহার করুন।</string>
+    <string name="connected">সংযুক্ত</string>
+    <string name="connected_battery">সংযুক্ত, ব্যাটারি %1$s</string>
+    <string name="not_connected_detail">সংযুক্ত নয়। সংযোগ করতে OK চাপলে Bluetooth সেটিংস খুলবে।</string>
+    <string name="unnamed">নামহীন ডিভাইস</string>
+    <string name="heading_several">একসাথে একাধিক হেডফোন</string>
+    <string name="sharing_one_pair">এই টিভি একসাথে একটি Bluetooth হেডফোনে শব্দ পাঠায়। দুটি হেডফোনের জন্য টিভির হেডফোন বা অপটিক্যাল আউটপুটে ডুয়াল-লিংক Bluetooth ট্রান্সমিটার ব্যবহার করুন।</string>
+    <string name="sharing_auracast">এই টিভি একসাথে একাধিক LE Audio (Auracast) হেডফোনে ব্রডকাস্ট করতে পারে: টিভির Bluetooth সেটিংস থেকে শেয়ারিং চালু করুন।</string>
+    <string name="sharing_no_broadcast">এই টিভি একসাথে একটি Bluetooth হেডফোনে শব্দ পাঠায়; এতে LE Audio ব্রডকাস্ট নেই। দুটি হেডফোনের জন্য টিভির হেডফোন বা অপটিক্যাল আউটপুটে ডুয়াল-লিংক Bluetooth ট্রান্সমিটার ব্যবহার করুন।</string>
+</resources>

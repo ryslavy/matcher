@@ -352,6 +352,7 @@ final class RecentsDialog {
             empty.setGravity(Gravity.CENTER);
             empty.setPadding(dp(16), dp(54), dp(16), dp(54));
             panel.addView(empty, new LinearLayout.LayoutParams(-1, -2));
+            ExpressiveGlass.applyAdaptiveContentTheme(panel);
             return;
         }
 
@@ -384,6 +385,7 @@ final class RecentsDialog {
 
         float focusScale = cardFocusScale();
         highlight = new GlassView(activity, null);
+        highlight.setLightSurface(ExpressiveGlass.isLightGlass());
         highlight.setRadius(dp(16) * focusScale);
         highlight.setLiquidEnabled(animations && !reducedMotion);
         highlight.setAlpha(0f);
@@ -482,6 +484,7 @@ final class RecentsDialog {
         LinearLayout.LayoutParams barLp = new LinearLayout.LayoutParams(-1, -2);
         barLp.topMargin = dp(2);
         panel.addView(actionBar, barLp);
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
     }
 
     private void updateHeaderStats() {
@@ -865,6 +868,7 @@ final class RecentsDialog {
 
     private void addActionRow(LinearLayout rows, String label, Runnable action) {
         View row = activity.getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
         ((TextView) row.findViewById(R.id.title)).setText(label);
         row.setFocusableInTouchMode(true);
         row.findViewById(R.id.icon).setVisibility(View.GONE);
@@ -872,6 +876,7 @@ final class RecentsDialog {
         row.findViewById(R.id.status).setVisibility(View.GONE);
         row.setOnClickListener(v -> action.run());
         Motion.attachRowFocus(row, density, reducedMotion);
+        ExpressiveGlass.applyAdaptiveContentTheme(row);
         rows.addView(row);
         row.setOnKeyListener((v, key, event) -> {
             int index = rows.indexOfChild(v);
@@ -889,8 +894,8 @@ final class RecentsDialog {
         btn.setTypeface(UiFont.get(activity, R.string.font_medium));
         btn.setGravity(Gravity.CENTER);
         btn.setPadding(dp(16), 0, dp(16), 0);
-        btn.setBackgroundResource(R.drawable.pill_bg);
-        btn.setTextColor(activity.getColorStateList(R.color.pill_text));
+        btn.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 18f, 0));
+        btn.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         btn.setFocusable(true);
         btn.setFocusableInTouchMode(true);
         btn.setClickable(true);
@@ -1004,10 +1009,12 @@ final class RecentsDialog {
 
             ImageView banner = new ImageView(activity);
             banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ExpressiveGlass.markPreserveImage(banner);
             card.addView(banner, new FrameLayout.LayoutParams(-1, -1));
 
             ImageView icon = new ImageView(activity);
             icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ExpressiveGlass.markPreserveImage(icon);
             card.addView(icon, new FrameLayout.LayoutParams(dp(56), dp(56), Gravity.CENTER));
 
             // Playing badge (top-right corner).
@@ -1042,7 +1049,7 @@ final class RecentsDialog {
             closeOverlay.addView(closeBadge, new FrameLayout.LayoutParams(-2, -2, Gravity.CENTER));
             card.addView(closeOverlay, new FrameLayout.LayoutParams(-1, -1));
 
-            TextView name = makeText("", 15f, 0xEBFFFFFF);
+            TextView name = makeText("", 15f, ExpressiveGlass.adaptiveSecondaryTextColor());
             name.setGravity(Gravity.CENTER);
             name.setSingleLine(true);
             name.setEllipsize(TextUtils.TruncateAt.END);
@@ -1050,7 +1057,7 @@ final class RecentsDialog {
             nameLp.topMargin = dp(10);
             root.addView(name, nameLp);
 
-            TextView meta = makeText("", 12f, 0x99FFFFFF);
+            TextView meta = makeText("", 12f, ExpressiveGlass.adaptiveHintTextColor());
             meta.setGravity(Gravity.CENTER);
             meta.setSingleLine(true);
             meta.setEllipsize(TextUtils.TruncateAt.END);
@@ -1169,16 +1176,16 @@ final class RecentsDialog {
                         selectedPosition = idx;
                         lastFocusedCardPos = idx;
                     }
-                    h.name.setTextColor(Color.WHITE);
-                    h.meta.setTextColor(0xCCFFFFFF);
+                    h.name.setTextColor(ExpressiveGlass.adaptivePrimaryTextColor());
+                    h.meta.setTextColor(ExpressiveGlass.adaptiveSecondaryTextColor());
                     v.post(() -> {
                         if (v.hasFocus() && list != null && armedClosePos != h.getBindingAdapterPosition()) {
                             highlightCard(h.card, item.accent, true);
                         }
                     });
                 } else {
-                    h.name.setTextColor(0xB8FFFFFF);
-                    h.meta.setTextColor(0x88FFFFFF);
+                    h.name.setTextColor(ExpressiveGlass.adaptiveSecondaryTextColor());
+                    h.meta.setTextColor(ExpressiveGlass.adaptiveHintTextColor());
                 }
             });
             h.itemView.setOnKeyListener((v, key, event) -> {

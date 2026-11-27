@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ljusstyrka</string>
+    <string name="quick_brightness">Ljusstyrka %1$d%%</string>
+    <string name="quick_night_brightness">Nattljusstyrka %1$d%%</string>
+    <string name="quick_hint">◀ ▶ justera · OK stäng</string>
+    <string name="channel_name">Skärmdimning</string>
+    <string name="notification_text">Dimmar skärmen. Öppna Ljusstyrka för att ändra eller stänga av.</string>
+</resources>

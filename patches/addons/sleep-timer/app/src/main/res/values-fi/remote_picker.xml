@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Tunnit"</string>
+    <string name="remote_minutes">"Minuutit"</string>
+    <string name="remote_day">"Päivä"</string>
+    <string name="remote_month">"Kuukausi"</string>
+    <string name="remote_year">"Vuosi"</string>
+    <string name="remote_hint">"Vasen / Oikea: kenttä · Ylös / Alas: arvo · OK: seuraava · Takaisin: peruuta"</string>
+    <string name="remote_page_hint">"Valitse rivi nuolinäppäimillä ja paina OK. Muutokset tulevat voimaan tallennuksen jälkeen."</string>
+    <string name="remote_events">"VIIKOITTAISET TAPAHTUMAT"</string>
+    <string name="remote_exclusions">"AJANJAKSOT ILMAN AUTOMAATTISTA HERÄTYSTÄ"</string>
+    <string name="remote_wake_time">"Herätysaika"</string>
+    <string name="remote_sleep_time">"Valmiustila-aika"</string>
+</resources>

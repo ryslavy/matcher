@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Zegar światowy</string>
+    <string name="add_city">Dodaj miasto</string>
+    <string name="clock_format">Format zegara</string>
+    <string name="local">Lokalny</string>
+    <string name="search_city">Miasto lub strefa czasowa</string>
+    <string name="search_hint">Naciśnij OK, aby wpisać · W dół, aby wybrać miasto</string>
+    <string name="no_cities">Brak pasujących miast</string>
+    <string name="change_city">Zmień miasto</string>
+    <string name="move_earlier">Przesuń wcześniej</string>
+    <string name="move_later">Przesuń później</string>
+    <string name="remove_city">Usuń miasto</string>
+    <string name="city_limit">Wybierz maksymalnie sześć zegarów</string>
+    <string name="already_shown">Ten zegar jest już wyświetlany</string>
+    <string name="same_day">Ten sam dzień co lokalnie</string>
+    <string name="tomorrow">W tym mieście jest jutro</string>
+    <string name="yesterday">W tym mieście jest wczoraj</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d dzień względem czasu lokalnego</item>
+        <item quantity="few">%1$+d dni względem czasu lokalnego</item>
+        <item quantity="many">%1$+d dni względem czasu lokalnego</item>
+        <item quantity="other">%1$+d dni względem czasu lokalnego</item>
+    </plurals>
+    <string name="local_reference">Daty porównane z %1$s</string>
+    <string name="controls">Strzałki: nawigacja · OK: opcje miasta · Wstecz: powrót</string>
+    <string name="format_system">Ustawienie TV</string>
+    <string name="format_12">Format 12-godzinny</string>
+    <string name="format_24">Format 24-godzinny</string>
+    <string name="close">Zamknij</string>
+    <string name="screensaver">Wygaszacz ekranu</string>
+    <string name="preview">Podgląd · dowolny przycisk zamyka</string>
+    <string name="background_option">Tło: %1$s</string>
+    <string name="motion_option">Ruch: %1$s</string>
+    <string name="brightness_option">Jasność zegara: %1$s</string>
+    <string name="gradient">Gradient nieba</string>
+    <string name="plain">Czerń</string>
+    <string name="motion_on">Wł.</string>
+    <string name="motion_reduced">Ograniczony (statyczny)</string>
+    <string name="clock_brightness">Jasność zegara</string>
+    <string name="dim">Przyciemniony</string>
+    <string name="medium">Średni</string>
+    <string name="bright">Jasny</string>
+    <string name="tv_screensaver_settings">Ustawienia wygaszacza TV</string>
+    <string name="screensaver_unavailable">Ten TV nie udostępnia ustawień wygaszacza. Podgląd jest nadal dostępny.</string>
+    <string name="background">Tło</string>
+    <string name="starfield">Gwiezdne niebo</string>
+    <string name="world_map">Mapa świata</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

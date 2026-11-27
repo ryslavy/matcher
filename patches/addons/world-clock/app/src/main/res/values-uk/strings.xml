@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Світовий час</string>
+    <string name="add_city">Додати місто</string>
+    <string name="clock_format">Формат годинника</string>
+    <string name="local">Місцевий</string>
+    <string name="search_city">Місто або часовий пояс</string>
+    <string name="search_hint">OK — введення · Вниз — вибір міста</string>
+    <string name="no_cities">Відповідних міст не знайдено</string>
+    <string name="change_city">Змінити місто</string>
+    <string name="move_earlier">Перемістити раніше</string>
+    <string name="move_later">Перемістити пізніше</string>
+    <string name="remove_city">Видалити місто</string>
+    <string name="city_limit">Можна вибрати до шести годинників</string>
+    <string name="already_shown">Цей годинник уже відображається</string>
+    <string name="same_day">Той самий день, що й локально</string>
+    <string name="tomorrow">У цьому місті вже завтра</string>
+    <string name="yesterday">У цьому місті ще вчора</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d день від місцевого часу</item>
+        <item quantity="few">%1$+d дні від місцевого часу</item>
+        <item quantity="many">%1$+d днів від місцевого часу</item>
+        <item quantity="other">%1$+d днів від місцевого часу</item>
+    </plurals>
+    <string name="local_reference">Дати порівняно з %1$s</string>
+    <string name="controls">Стрілки — навігація · OK — опції міста · Назад — повернення</string>
+    <string name="format_system">За налаштуванням ТБ</string>
+    <string name="format_12">12-годинний формат</string>
+    <string name="format_24">24-годинний формат</string>
+    <string name="close">Закрити</string>
+    <string name="screensaver">Заставка</string>
+    <string name="preview">Попередній перегляд · будь-яка кнопка — назад</string>
+    <string name="background_option">Фон: %1$s</string>
+    <string name="motion_option">Рух: %1$s</string>
+    <string name="brightness_option">Яскравість годинника: %1$s</string>
+    <string name="gradient">Градієнт неба</string>
+    <string name="plain">Чорний</string>
+    <string name="motion_on">Увімк.</string>
+    <string name="motion_reduced">Зменшений (статично)</string>
+    <string name="clock_brightness">Яскравість годинника</string>
+    <string name="dim">Тьмяна</string>
+    <string name="medium">Середня</string>
+    <string name="bright">Яскрава</string>
+    <string name="tv_screensaver_settings">Налаштування заставки ТБ</string>
+    <string name="screensaver_unavailable">Цей ТБ не надає доступу до налаштувань заставки. Попередній перегляд усе одно доступний.</string>
+    <string name="background">Фон</string>
+    <string name="starfield">Зоряне небо</string>
+    <string name="world_map">Карта світу</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

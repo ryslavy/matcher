@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kuulokkeet</string>
+    <string name="plays_through">Ääni toistetaan nyt laitteella: %1$s</string>
+    <string name="output_speakers">TV:n kaiuttimet</string>
+    <string name="output_fixed">TV:n äänilähtö (HDMI ARC tai optinen)</string>
+    <string name="allow_title">Salli Bluetooth-käyttö</string>
+    <string name="allow_detail">Jotta kuulokkeesi voidaan luetella ja niiden irrottaminen havaita. Paina OK pyytääksesi lupaa.</string>
+    <string name="not_allowed">Ei sallittu</string>
+    <string name="pair_title">Yhdistä tai pariliitä kuulokkeet</string>
+    <string name="pair_detail">Avaa TV:n Bluetooth-asetukset. Aseta kuulokkeet ensin pariliitostilaan.</string>
+    <string name="guard_title">Hiljennä irrotettaessa</string>
+    <string name="guard_detail">Keskeyttää toiston ja mykistää TV:n kaiuttimet, kun kuulokkeiden yhteys katkeaa, jotta ääni ei kuulu huoneeseen. Poistaa mykistyksen, kun yhteys palaa.</string>
+    <string name="guard_detail_fixed">Keskeyttää toiston, kun kuulokkeiden yhteys katkeaa. Tämän TV:n äänenvoimakkuus on kiinteä (ARC tai vahvistin), joten kaiuttimia ei voi myös mykistää.</string>
+    <string name="on">Päällä</string>
+    <string name="off">Pois</string>
+    <string name="unmute_title">Poista kaiuttimien mykistys</string>
+    <string name="unmute_detail">Mykistetty kuulokkeiden yhteyden katkettua.</string>
+    <string name="muted">Mykistetty</string>
+    <string name="heading_paired">Pariliitetyt kuulokkeet ja kaiuttimet</string>
+    <string name="no_bluetooth">Tässä TV:ssä ei ole Bluetoothia</string>
+    <string name="bluetooth_off">Bluetooth on pois päältä</string>
+    <string name="bluetooth_off_detail">Ota se käyttöön TV:n asetuksista.</string>
+    <string name="none_yet">Ei vielä yhtään</string>
+    <string name="none_yet_detail">Pariliitä laite yllä olevan rivin kautta.</string>
+    <string name="connected">Yhdistetty</string>
+    <string name="connected_battery">Yhdistetty, akku %1$s</string>
+    <string name="not_connected_detail">Ei yhdistetty. OK avaa Bluetooth-asetukset yhdistämistä varten.</string>
+    <string name="unnamed">Nimetön laite</string>
+    <string name="heading_several">Useita kuulokkeita samanaikaisesti</string>
+    <string name="sharing_one_pair">Tämä TV lähettää äänen yksiin Bluetooth-kuulokkeisiin kerrallaan. Kahdelle parille tarvitset kaksikanavaisen Bluetooth-lähettimen TV:n kuuloke- tai optiseen lähtöön.</string>
+    <string name="sharing_auracast">Tämä TV voi lähettää ääntä useisiin LE Audio (Auracast) -kuulokkeisiin samanaikaisesti: aloita jakaminen TV:n Bluetooth-asetuksista.</string>
+    <string name="sharing_no_broadcast">Tämä TV lähettää äänen yksiin Bluetooth-kuulokkeisiin kerrallaan eikä tue LE Audio -lähetystä. Kahdelle parille tarvitset kaksikanavaisen Bluetooth-lähettimen TV:n kuuloke- tai optiseen lähtöön.</string>
+</resources>

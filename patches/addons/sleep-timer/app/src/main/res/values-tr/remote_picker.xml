@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Saat"</string>
+    <string name="remote_minutes">"Dakika"</string>
+    <string name="remote_day">"Gün"</string>
+    <string name="remote_month">"Ay"</string>
+    <string name="remote_year">"Yıl"</string>
+    <string name="remote_hint">"Sol / Sağ: alan · Yukarı / Aşağı: değer · OK: ileri · Geri: iptal"</string>
+    <string name="remote_page_hint">"Oklarla bir satır seçin ve OK tuşuna basın. Değişiklikler Kaydet'ten sonra uygulanır."</string>
+    <string name="remote_events">"HAFTALIK ETKİNLİKLER"</string>
+    <string name="remote_exclusions">"OTOMATİK UYANDIRMA OLMAYAN DÖNEMLER"</string>
+    <string name="remote_wake_time">"Uyandırma saati"</string>
+    <string name="remote_sleep_time">"Uyku saati"</string>
+</resources>

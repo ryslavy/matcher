@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Verdensklokke</string>
+    <string name="add_city">Legg til by</string>
+    <string name="clock_format">Klokkeformat</string>
+    <string name="local">Lokal</string>
+    <string name="search_city">By eller tidssone</string>
+    <string name="search_hint">Trykk OK for å skrive · Ned for å velge en by</string>
+    <string name="no_cities">Ingen matchende byer</string>
+    <string name="change_city">Bytt by</string>
+    <string name="move_earlier">Flytt frem</string>
+    <string name="move_later">Flytt bakover</string>
+    <string name="remove_city">Fjern by</string>
+    <string name="city_limit">Velg opptil seks klokker</string>
+    <string name="already_shown">Den klokken vises allerede</string>
+    <string name="same_day">Samme dag som lokal tid</string>
+    <string name="tomorrow">I morgen i denne byen</string>
+    <string name="yesterday">I går i denne byen</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d dag fra lokal tid</item>
+        <item quantity="other">%1$+d dager fra lokal tid</item>
+    </plurals>
+    <string name="local_reference">Datoer sammenlignet med %1$s</string>
+    <string name="controls">Piler for å flytte · OK for byalternativer · Tilbake for å gå tilbake</string>
+    <string name="format_system">Bruk TV-innstilling</string>
+    <string name="format_12">12-timers tid</string>
+    <string name="format_24">24-timers tid</string>
+    <string name="close">Lukk</string>
+    <string name="screensaver">Skjermsparer</string>
+    <string name="preview">Forhåndsvisning · hvilken som helst knapp går tilbake</string>
+    <string name="background_option">Bakgrunn: %1$s</string>
+    <string name="motion_option">Bevegelse: %1$s</string>
+    <string name="brightness_option">Klokkelysstyrke: %1$s</string>
+    <string name="gradient">Himmelforløp</string>
+    <string name="plain">Svart</string>
+    <string name="motion_on">På</string>
+    <string name="motion_reduced">Redusert (stille)</string>
+    <string name="clock_brightness">Klokkelysstyrke</string>
+    <string name="dim">Dempet</string>
+    <string name="medium">Middels</string>
+    <string name="bright">Lys</string>
+    <string name="tv_screensaver_settings">TV-ens skjermsparerinnstillinger</string>
+    <string name="screensaver_unavailable">Denne TV-en gir ikke tilgang til skjermsparerinnstillinger. Forhåndsvisning er fortsatt tilgjengelig.</string>
+    <string name="background">Bakgrunn</string>
+    <string name="starfield">Stjernehimmel</string>
+    <string name="world_map">Verdenskart</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

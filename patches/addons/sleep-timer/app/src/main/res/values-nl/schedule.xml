@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Tv-schema"</string>
+    <string name="sched_1">"Tijden gelden voor de gekozen kalenderdag. Uitzonderingsperiodes blokkeren alleen automatisch inschakelen. Terug annuleert niet-opgeslagen wijzigingen."</string>
+    <string name="sched_2">"Schema: AAN"</string>
+    <string name="sched_3">"Schema: UIT"</string>
+    <string name="sched_4">"+ Inschakel- / slaaptijd toevoegen"</string>
+    <string name="sched_5">"Niet inschakelen: "</string>
+    <string name="sched_6">"Uitzonderingsperiode voor inschakelen"</string>
+    <string name="sched_7">"Datums bewerken"</string>
+    <string name="sched_8">"Verwijderen"</string>
+    <string name="sched_9">"+ Uitzonderingsperiode toevoegen"</string>
+    <string name="sched_10">"Opslaan"</string>
+    <string name="sched_11">"Inschakelen  "</string>
+    <string name="sched_12">"Slaapstand  "</string>
+    <string name="sched_13">"Gebeurtenis toevoegen"</string>
+    <string name="sched_14">"Inschakelen"</string>
+    <string name="sched_15">"Slaapstand"</string>
+    <string name="sched_16">"Dagen van de week"</string>
+    <string name="sched_17">"Annuleren"</string>
+    <string name="sched_18">"Tijd"</string>
+    <string name="sched_19">"Selecteer minstens één dag"</string>
+    <string name="sched_20">"Einddatum moet op of na de startdatum liggen"</string>
+    <string name="sched_21">"Laatste dag (inbegrepen)"</string>
+    <string name="sched_22">"Eerste dag (inbegrepen)"</string>
+    <string name="sched_23">"Maandag"</string>
+    <string name="sched_24">"Dinsdag"</string>
+    <string name="sched_25">"Woensdag"</string>
+    <string name="sched_26">"Donderdag"</string>
+    <string name="sched_27">"Vrijdag"</string>
+    <string name="sched_28">"Zaterdag"</string>
+    <string name="sched_29">"Zondag"</string>
+</resources>

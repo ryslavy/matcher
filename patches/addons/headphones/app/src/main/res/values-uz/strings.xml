@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quloqchinlar</string>
+    <string name="plays_through">Ovoz hozir shundan chiqmoqda: %1$s</string>
+    <string name="output_speakers">TV karnaylari</string>
+    <string name="output_fixed">TV ning audio chiqishi (HDMI ARC yoki optik)</string>
+    <string name="allow_title">Bluetooth ruxsatini berish</string>
+    <string name="allow_detail">Quloqchinlaringizni koʻrsatish va uzilganini aniqlash uchun. OK ruxsat soʻraydi.</string>
+    <string name="not_allowed">Ruxsat berilmagan</string>
+    <string name="pair_title">Quloqchinlarni ulash yoki juftlash</string>
+    <string name="pair_detail">TV ning Bluetooth sozlamalarini ochadi. Avval quloqchinni juftlash rejimiga oʻtkazing.</string>
+    <string name="guard_title">Uzilganda ovozni oʻchirish</string>
+    <string name="guard_detail">Ovoz xonaga tarqalmasligi uchun quloqchin uzilganda ijroni toʻxtatadi va TV karnaylari ovozini oʻchiradi. Qayta ulanganda ovozni yoqadi.</string>
+    <string name="guard_detail_fixed">Quloqchin uzilganda ijroni toʻxtatadi. Bu TV ning ovoz balandligi oʻzgarmas (ARC yoki kuchaytirgich), shuning uchun karnaylar ovozini oʻchira olmaydi.</string>
+    <string name="on">Yoqiq</string>
+    <string name="off">Oʻchiq</string>
+    <string name="unmute_title">Karnaylar ovozini yoqish</string>
+    <string name="unmute_detail">Quloqchin uzilganda ovoz oʻchirilgan.</string>
+    <string name="muted">Ovozsiz</string>
+    <string name="heading_paired">Juftlangan quloqchinlar va karnaylar</string>
+    <string name="no_bluetooth">Bu TV da Bluetooth yoʻq</string>
+    <string name="bluetooth_off">Bluetooth oʻchiq</string>
+    <string name="bluetooth_off_detail">Uni TV sozlamalaridan yoqing.</string>
+    <string name="none_yet">Hozircha yoʻq</string>
+    <string name="none_yet_detail">Juftlash uchun yuqoridagi qatordan foydalaning.</string>
+    <string name="connected">Ulangan</string>
+    <string name="connected_battery">Ulangan, batareya %1$s</string>
+    <string name="not_connected_detail">Ulanmagan. Ulash uchun OK Bluetooth sozlamalarini ochadi.</string>
+    <string name="unnamed">Nomsiz qurilma</string>
+    <string name="heading_several">Bir vaqtda bir nechta quloqchin</string>
+    <string name="sharing_one_pair">Bu TV bir vaqtda faqat bitta Bluetooth quloqchinga ovoz uzatadi. Ikki juft uchun TV ning quloqchin yoki optik chiqishiga ikki kanalli Bluetooth uzatkich ulang.</string>
+    <string name="sharing_auracast">Bu TV bir vaqtda koʻplab LE Audio (Auracast) quloqchinlarga uzatishi mumkin: ulashishni TV ning Bluetooth sozlamalaridan boshlang.</string>
+    <string name="sharing_no_broadcast">Bu TV bir vaqtda faqat bitta Bluetooth quloqchinga ovoz uzatadi; unda LE Audio uzatish yoʻq. Ikki juft uchun TV ning quloqchin yoki optik chiqishiga ikki kanalli Bluetooth uzatkich ulang.</string>
+</resources>

@@ -347,9 +347,11 @@ final class AppLibraryDialog {
         this.excludedApps = excludedApps;
         density = activity.getResources().getDisplayMetrics().density;
         stagePad = FocusRingController.wrapInsetPx(density);
-        cardBgHomeState = surface(0x22FFFFFF, 18).getConstantState();
-        cardBgRestState = surface(0x14FFFFFF, 18).getConstantState();
-        cardBgCarriedState = surface(0x3438BDF8, 18, 0xCC38BDF8).getConstantState();
+        cardBgHomeState = ExpressiveGlass.makeAdaptiveCardBg(density, 18f, true).getConstantState();
+        cardBgRestState = ExpressiveGlass.makeAdaptiveCardBg(density, 18f, false).getConstantState();
+        cardBgCarriedState = surface(
+                ExpressiveGlass.isLightGlass() ? 0x2E0284C7 : 0x3438BDF8, 18,
+                ExpressiveGlass.isLightGlass() ? 0xCC0369A1 : 0xCC38BDF8).getConstantState();
         recentDotState = surface(0xFF70D9A0, 8).getConstantState();
 
         panelStage = new FrameLayout(activity) {
@@ -697,11 +699,11 @@ final class AppLibraryDialog {
         btn.setText(label);
         btn.setTextSize(13f);
         btn.setTypeface(UiFont.get(activity, R.string.font_medium));
-        btn.setTextColor(activity.getColorStateList(R.color.pill_text));
+        btn.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         btn.setGravity(Gravity.CENTER);
         btn.setSingleLine(true);
         btn.setPadding(dp(14), 0, dp(14), 0);
-        btn.setBackgroundResource(R.drawable.pill_bg);
+        btn.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 17f, 0));
         btn.setFocusable(true);
         btn.setFocusableInTouchMode(true);
         btn.setClickable(true);
@@ -731,7 +733,7 @@ final class AppLibraryDialog {
         if (btnReorder != null) {
             btnReorder.setText(R.string.folder_btn_done);
             btnReorder.setActivated(true);
-            btnReorder.setTextColor(0xFF93D1FF);
+            btnReorder.setTextColor(ExpressiveGlass.adaptiveAccentTextColor(0xFF93D1FF));
         }
         int target = Math.max(0, Math.min(selectedPosition, apps.size() - 1));
         boolean fromHeader = highlightedIsPill;
@@ -779,7 +781,7 @@ final class AppLibraryDialog {
         if (btnReorder != null) {
             btnReorder.setText(R.string.folder_btn_reorder);
             btnReorder.setActivated(false);
-            btnReorder.setTextColor(activity.getColorStateList(R.color.pill_text));
+            btnReorder.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         }
         refreshReorderVisuals();
         if (highlight != null && !highlightedIsPill && catalog != null
@@ -1058,10 +1060,12 @@ final class AppLibraryDialog {
         if (apps.isEmpty()) {
             instructions.setVisibility(View.GONE);
             heading(activity.getString(R.string.library_empty));
+            ExpressiveGlass.applyAdaptiveContentTheme(panel);
             panel.setFocusableInTouchMode(true);
             panel.requestFocus();
             return;
         }
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
         shelf = new FrameLayout(activity);
         // The glass uses physical x/y coordinates; only the catalogue mirrors its item order.
         shelf.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
@@ -1084,6 +1088,7 @@ final class AppLibraryDialog {
         list.setAdapter(catalogAdapter);
         shelf.addView(list, new FrameLayout.LayoutParams(-1, -1));
         highlight = new GlassView(activity, null);
+        highlight.setLightSurface(ExpressiveGlass.isLightGlass());
         highlight.setRadius(dp(18));
         highlight.setLiquidEnabled(animations && !reducedMotion);
         highlight.setAlpha(0f);
@@ -1362,6 +1367,7 @@ final class AppLibraryDialog {
 
     private void addAction(LinearLayout rows, int label, Runnable action) {
         View row = activity.getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
         ((TextView) row.findViewById(R.id.title)).setText(label);
         row.setFocusableInTouchMode(true);
         row.findViewById(R.id.icon).setVisibility(View.GONE);
@@ -1369,6 +1375,7 @@ final class AppLibraryDialog {
         row.findViewById(R.id.status).setVisibility(View.GONE);
         row.setOnClickListener(v -> action.run());
         Motion.attachRowFocus(row, density, reducedMotion);
+        ExpressiveGlass.applyAdaptiveContentTheme(row);
         rows.addView(row);
         row.setOnKeyListener((v, key, event) -> {
             int index = rows.indexOfChild(v);
@@ -1414,8 +1421,9 @@ final class AppLibraryDialog {
             ImageView icon = new ImageView(activity);
             icon.setId(R.id.icon);
             icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ExpressiveGlass.markPreserveImage(icon);
             content.addView(icon, new LinearLayout.LayoutParams(dp(52), dp(52)));
-            TextView name = text("", 13, Color.WHITE);
+            TextView name = text("", 13, ExpressiveGlass.adaptivePrimaryTextColor());
             name.setId(R.id.title);
             name.setGravity(Gravity.CENTER);
             name.setMaxLines(2);

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Horario de la TV"</string>
+    <string name="sched_1">"Las horas corresponden al día seleccionado. Los periodos de exclusión solo bloquean el encendido automático. Atrás descarta los cambios sin guardar."</string>
+    <string name="sched_2">"Horario: ACTIVADO"</string>
+    <string name="sched_3">"Horario: DESACTIVADO"</string>
+    <string name="sched_4">"+ Añadir hora de encendido / suspensión"</string>
+    <string name="sched_5">"Sin encendido: "</string>
+    <string name="sched_6">"Periodo sin encendido automático"</string>
+    <string name="sched_7">"Editar fechas"</string>
+    <string name="sched_8">"Eliminar"</string>
+    <string name="sched_9">"+ Añadir periodo de exclusión"</string>
+    <string name="sched_10">"Guardar"</string>
+    <string name="sched_11">"Encender  "</string>
+    <string name="sched_12">"Suspender  "</string>
+    <string name="sched_13">"Añadir evento"</string>
+    <string name="sched_14">"Encender"</string>
+    <string name="sched_15">"Suspender"</string>
+    <string name="sched_16">"Días de la semana"</string>
+    <string name="sched_17">"Cancelar"</string>
+    <string name="sched_18">"Hora"</string>
+    <string name="sched_19">"Selecciona al menos un día"</string>
+    <string name="sched_20">"El final debe ser igual o posterior al inicio"</string>
+    <string name="sched_21">"Último día (incluido)"</string>
+    <string name="sched_22">"Primer día (incluido)"</string>
+    <string name="sched_23">"Lunes"</string>
+    <string name="sched_24">"Martes"</string>
+    <string name="sched_25">"Miércoles"</string>
+    <string name="sched_26">"Jueves"</string>
+    <string name="sched_27">"Viernes"</string>
+    <string name="sched_28">"Sábado"</string>
+    <string name="sched_29">"Domingo"</string>
+</resources>

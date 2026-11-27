@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Jadwal TV"</string>
+    <string name="sched_1">"Waktu mengikuti hari kalender yang dipilih. Periode pengecualian hanya memblokir bangun otomatis. Kembali membatalkan perubahan yang belum disimpan."</string>
+    <string name="sched_2">"Jadwal: AKTIF"</string>
+    <string name="sched_3">"Jadwal: NONAKTIF"</string>
+    <string name="sched_4">"+ Tambah waktu bangun / tidur"</string>
+    <string name="sched_5">"Jangan bangun: "</string>
+    <string name="sched_6">"Periode pengecualian bangun"</string>
+    <string name="sched_7">"Edit tanggal"</string>
+    <string name="sched_8">"Hapus"</string>
+    <string name="sched_9">"+ Tambah periode pengecualian"</string>
+    <string name="sched_10">"Simpan"</string>
+    <string name="sched_11">"Bangun  "</string>
+    <string name="sched_12">"Tidur  "</string>
+    <string name="sched_13">"Tambah acara"</string>
+    <string name="sched_14">"Bangun"</string>
+    <string name="sched_15">"Tidur"</string>
+    <string name="sched_16">"Hari dalam seminggu"</string>
+    <string name="sched_17">"Batal"</string>
+    <string name="sched_18">"Waktu"</string>
+    <string name="sched_19">"Pilih setidaknya satu hari"</string>
+    <string name="sched_20">"Tanggal akhir harus sama atau setelah tanggal mulai"</string>
+    <string name="sched_21">"Hari terakhir (termasuk)"</string>
+    <string name="sched_22">"Hari pertama (termasuk)"</string>
+    <string name="sched_23">"Senin"</string>
+    <string name="sched_24">"Selasa"</string>
+    <string name="sched_25">"Rabu"</string>
+    <string name="sched_26">"Kamis"</string>
+    <string name="sched_27">"Jumat"</string>
+    <string name="sched_28">"Sabtu"</string>
+    <string name="sched_29">"Minggu"</string>
+</resources>

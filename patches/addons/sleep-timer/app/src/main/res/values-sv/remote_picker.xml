@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Timmar"</string>
+    <string name="remote_minutes">"Minuter"</string>
+    <string name="remote_day">"Dag"</string>
+    <string name="remote_month">"Månad"</string>
+    <string name="remote_year">"År"</string>
+    <string name="remote_hint">"Vänster / Höger: fält · Upp / Ned: värde · OK: nästa · Tillbaka: avbryt"</string>
+    <string name="remote_page_hint">"Välj en rad med piltangenterna och tryck OK. Ändringar tillämpas efter Spara."</string>
+    <string name="remote_events">"VECKOHÄNDELSER"</string>
+    <string name="remote_exclusions">"PERIODER UTAN AUTOMATISK VÄCKNING"</string>
+    <string name="remote_wake_time">"Väckningstid"</string>
+    <string name="remote_sleep_time">"Vilotid"</string>
+</resources>

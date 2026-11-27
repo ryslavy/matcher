@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Temporizador d\'espera</string>
+    <string name="hint">Escueyi cuándo pasa la TV al mou d\'espera. Amuésase un avisu un minutu enantes.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Encaboxar el temporizador</string>
+    <string name="state_off">Nun hai nengún temporizador afitáu.</string>
+    <string name="state_on">N\'espera a les %1$s.</string>
+    <string name="no_service">El serviciu d\'accesibilidá del Temporizador d\'espera ta desactiváu (executa\'l script d\'instalación).</string>
+    <string name="warning_title">La TV va apagase</string>
+    <string name="warning_seconds">en %1$d segundos</string>
+    <string name="more">15 minutos más</string>
+    <string name="now">Apagar agora</string>
+    <string name="service_label">Temporizador d\'espera</string>
+    <string name="quick_hint">◀ ▶ escoyer tiempu · OK zarrar</string>
+    <string name="service_description">Namás pon la TV n\'espera cuando acaba\'l Temporizador d\'espera. Nun llee la pantalla.</string>
+    <string name="schedule_row">Horariu</string>
+</resources>

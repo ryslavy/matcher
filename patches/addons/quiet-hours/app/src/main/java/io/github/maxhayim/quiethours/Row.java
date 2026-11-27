@@ -75,7 +75,7 @@ final class Row extends LinearLayout {
             LinearLayout track = new LinearLayout(context);
             track.setOrientation(HORIZONTAL);
             GradientDrawable trackBg = new GradientDrawable();
-            trackBg.setColor(0x2EFFFFFF);
+            trackBg.setColor(GlassKit.isLightGlass() ? 0x260F172A : 0x2EFFFFFF);
             trackBg.setCornerRadius(4f * density);
             track.setBackground(trackBg);
             track.setOutlineProvider(new ViewOutlineProvider() {
@@ -123,7 +123,8 @@ final class Row extends LinearLayout {
 
     void setAccentActive(boolean active) {
         setSelected(active);
-        value.setTextColor(active ? 0xFFC4B5FD : 0xCCFFFFFF);
+        GlassKit.markPreserveTextColor(value);
+        value.setTextColor(active ? GlassKit.adaptiveAccentTextColor(0xFFC4B5FD) : GlassKit.adaptiveSecondaryTextColor());
         GlassKit.configureFocus(this, 1.015f, 0f, 14f, active ? VIOLET : 0);
     }
 

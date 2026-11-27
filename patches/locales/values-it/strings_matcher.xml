@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Cartelle delle app -->
+    <string name="folder_add_to">Aggiungi alla cartella…</string>
+    <string name="folder_new">+ Nuova cartella</string>
+    <string name="folder_new_title">Nuova cartella</string>
+    <string name="folder_rename">Rinomina cartella…</string>
+    <string name="folder_rename_title">Rinomina cartella</string>
+    <string name="folder_open">Apri cartella</string>
+    <string name="folder_add_apps">Aggiungi app…</string>
+    <string name="folder_add_apps_title">Aggiungi app a %1$s</string>
+    <string name="folder_add_apps_empty">Tutte le app della Home sono già in cartelle</string>
+    <string name="folder_dissolve">Sciogli cartella</string>
+    <string name="folder_remove_app">Rimuovi dalla cartella</string>
+    <string name="folder_move_to">Sposta nella cartella…</string>
+    <string name="folder_hint">OK apre · Tieni OK per opzioni · Su per azioni cartella</string>
+    <string name="folder_default_name">Cartella %1$d</string>
+    <string name="folder_name_hint">Nome cartella</string>
+    <string name="folder_create">Crea</string>
+    <string name="folder_save">Salva</string>
+    <string name="folder_cancel">Annulla</string>
+    <string name="folder_btn_add">+ Aggiungi</string>
+    <string name="folder_btn_reorder">Riordina</string>
+    <string name="folder_btn_done">Fine</string>
+    <string name="folder_btn_rename">Rinomina</string>
+    <string name="folder_preset_streaming">Streaming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Sport</string>
+    <string name="folder_preset_music">Musica</string>
+    <string name="folder_preset_games">Giochi</string>
+    <string name="folder_preset_tools">Strumenti</string>
+
+    <!-- Mini-lettore multimediale -->
+    <string name="media_now_playing">In riproduzione</string>
+    <string name="media_playing">In riproduzione</string>
+    <string name="media_paused">In pausa</string>
+    <string name="media_live">Dal vivo</string>
+    <string name="media_prev">Precedente</string>
+    <string name="media_play_pause">Riproduci o metti in pausa</string>
+    <string name="media_next">Successivo</string>
+    <string name="media_open_app">Apri app</string>
+    <string name="media_switch_hint">Su per cambiare app · OK riprende la riproduzione</string>
+
+    <!-- App recenti -->
+    <string name="recents_title">App recenti</string>
+    <string name="recents_hint">OK cambia · Su due volte per chiudere · Tieni OK per opzioni</string>
+    <string name="recents_empty">Nessuna app recente aperta</string>
+    <string name="recents_switch">Passa all\'app</string>
+    <string name="recents_close_app">Chiudi app</string>
+    <string name="recents_close_all">Chiudi tutto</string>
+    <string name="recents_swipe_close">Premi ancora Su per chiudere</string>
+    <string name="recents_playing_badge">In riproduzione</string>
+    <string name="recents_free_ram">RAM libera: %1$d MB</string>
+    <string name="recents_just_now">Adesso</string>
+    <string name="recents_minutes_ago">%1$d min fa</string>
+    <string name="recents_hours_ago">%1$d h fa</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Chiusa %1$d app</item>
+        <item quantity="other">Chiuse %1$d app</item>
+    </plurals>
+
+    <!-- Salvaschermo Ambient -->
+    <string name="ambient_controls_hint">◄ ► traccia · ▼ play/pausa · ▲ apri</string>
+    <string name="ambient_action_prev">Traccia precedente</string>
+    <string name="ambient_action_next">Traccia successiva</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Sereno</string>
+    <string name="weather_partly">Parzialmente nuvoloso</string>
+    <string name="weather_cloudy">Coperto</string>
+    <string name="weather_fog">Nebbia</string>
+    <string name="weather_drizzle">Pioggerella</string>
+    <string name="weather_rain">Pioggia</string>
+    <string name="weather_snow">Neve</string>
+    <string name="weather_showers">Rovesci</string>
+    <string name="weather_storm">Temporale</string>
+
+    <!-- Centro di controllo, Audio notturno, Buonanotte e video Aerial -->
+    <string name="cc_title">Centro di controllo</string>
+    <string name="cc_bedtime">Buonanotte</string>
+    <string name="cc_bedtime_sub">30 min · Scuro · Audio notturno</string>
+    <string name="cc_bedtime_on">Attivo</string>
+    <string name="cc_night_audio">Audio notturno</string>
+    <string name="cc_night_audio_on">Picchi forti ridotti</string>
+    <string name="cc_night_audio_off">Disattivato</string>
+    <string name="cc_night_audio_unavailable">Processore audio non disponibile</string>
+    <string name="cc_audio">Audio</string>
+    <string name="cc_audio_tv">Altoparlanti TV</string>
+    <string name="cc_sleep_timer">Timer spegnimento</string>
+    <string name="cc_sleep_timer_sub">Imposta timer</string>
+    <string name="cc_brightness">Luminosità</string>
+    <string name="cc_brightness_sub">Barra attenuazione</string>
+    <string name="cc_aerial">Video Aerial</string>
+    <string name="cc_aerial_on">Video 1080p</string>
+    <string name="cc_aerial_on_4k">Video 4K HEVC</string>
+    <string name="cc_aerial_off">Sfondi</string>
+    <string name="cc_screensaver">Salvaschermo</string>
+    <string name="cc_settings">Impostazioni</string>
+    <string name="cc_sleep_tv">Sospendi TV</string>
+    <string name="cc_reorder_tiles">Riordina riquadri</string>
+    <string name="cc_footer_hint">Tieni OK su Sospendi TV per riavviare · Indietro chiude</string>
+    <string name="cc_on">Attivo</string>
+    <string name="cc_off">Disattivato</string>
+    <string name="close">Chiudi</string>
+
+    <!-- Configurazione QR, Scopri, Home Assistant, Immich e aggiornamenti -->
+    <string name="qr_setup_title">Configura dal telefono</string>
+    <string name="qr_setup_subtitle">Scansiona dal telefono (stesso Wi-Fi) per modificare tasti del telecomando, sfondo, città o TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">Config. QR</string>
+    <string name="qr_setup_no_wifi">Collega prima la TV al Wi-Fi o a Ethernet</string>
+    <string name="qr_setup_waiting">In attesa del telefono… (valido 5 min)</string>
+    <string name="qr_setup_expired">Sessione QR scaduta — riapri per generare un nuovo codice</string>
+
+    <string name="discover_title">Scopri &amp; Continua</string>
+    <string name="discover_refresh">Aggiorna</string>
+    <string name="discover_continue_watching">Continua a guardare</string>
+    <string name="discover_trending">Di tendenza (senza pubblicità)</string>
+    <string name="discover_tab_all">Tutto</string>
+    <string name="discover_tab_movies">Film</string>
+    <string name="discover_tab_shows">Serie TV</string>
+    <string name="discover_grant_watchnext_msg">Consenti l\'autorizzazione Elenchi TV per mostrare Continua a guardare tra le app</string>
+    <string name="discover_grant_adb_btn">Consenti tramite ADB</string>
+    <string name="discover_grant_success">Continua a guardare attivato</string>
+    <string name="discover_hidden_toast">Nascosto da Continua a guardare</string>
+    <string name="discover_empty_no_key">Usa Config. QR per aggiungere una chiave API TMDB gratuita (o un server Plex) per consigli senza pubblicità dalle tue app installate.</string>
+    <string name="discover_empty_no_matches">Nessun titolo corrispondente trovato al momento per le tue app di streaming.</string>
+
+    <string name="adb_connecting">Connessione ad ADB locale…</string>
+    <string name="adb_accept_prompt">Accetta “Consenti sempre il debug USB” sulla TV</string>
+
+    <string name="ha_section_title">Casa intelligente</string>
+    <string name="ha_action_failed">Azione Home Assistant non riuscita</string>
+    <string name="ha_state_unavailable">Non disponibile</string>
+    <string name="ha_state_open">Aperto</string>
+    <string name="ha_state_closed">Chiuso</string>
+    <string name="ha_state_camera">PiP dal vivo</string>
+    <string name="ha_camera_title">Telecamera di casa</string>
+    <string name="ha_camera_connecting">Connessione alla telecamera…</string>
+    <string name="ha_camera_unavailable">Telecamera non disponibile</string>
+    <string name="ha_camera_hint_pip">OK: Espandi · Indietro: Chiudi</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Indietro: Chiudi</string>
+    <string name="ha_camera_hint_pip_multi">OK: Espandi · ◀ ▶: Telecamera · Indietro: Chiudi</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Telecamera · Indietro: Chiudi</string>
+
+    <string name="aerial_fav_added">Salvato nei preferiti</string>
+    <string name="aerial_fav_removed">Rimosso dai preferiti</string>
+
+    <string name="updater_installed">Aggiornamento installato</string>
+    <string name="updater_failed">Aggiornamento non riuscito</string>
+
+    <!-- Impostazioni funzionalità e stili Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Esperienza</string>
+    <string name="fs_liquid_clock">Orologio Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">Liquid Glass ottico nella Home</string>
+    <string name="fs_home_backdrop_blur">Sfocatura sfondo Home</string>
+    <string name="fs_glass_material">Stile vetro</string>
+    <string name="fs_glass_material_title">Scegli stile Liquid Glass</string>
+    <string name="glass_style_tonal">Vetro satinato tonale</string>
+    <string name="glass_style_tonal_sub">Vetro scuro bilanciato con schede interne colorate dallo sfondo</string>
+    <string name="glass_style_obsidian">Nero puro (OLED)</string>
+    <string name="glass_style_obsidian_sub">Cristallo ossidiana profondo con bordo Fresnel netto per stanze buie</string>
+    <string name="glass_style_frost">Bianco ghiaccio</string>
+    <string name="glass_style_frost_sub">Vetro chiaro perlato luminoso con testo e icone grafite scuro</string>
+    <string name="glass_style_clear">Cristallo trasparente</string>
+    <string name="glass_style_clear_sub">Vetro leggero ad alta nitidezza con marcata rifrazione ottica ai bordi</string>
+    <string name="glass_style_chromatic">Tinta cromatica</string>
+    <string name="glass_style_chromatic_sub">Ricco colore Material You dallo sfondo su pannelli e schede interne</string>
+    <string name="glass_style_auto">Auto (Giorno / Notte)</string>
+    <string name="glass_style_auto_sub">Bianco ghiaccio di giorno, Nero puro dopo il tramonto</string>
+    <string name="fs_remote_buttons">Tasti del telecomando</string>
+    <string name="fs_ui_sounds">Suoni di clic discreti</string>
+    <string name="fs_oled_drift">Spostamento pixel salvaschermo OLED</string>
+    <string name="fs_aerial_quality">Qualità video Aerial</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Solo Aerial preferiti (tieni OK)</string>
+
+    <string name="fs_sec_content">Contenuti &amp; Scoperta</string>
+    <string name="fs_open_discover">Apri Scopri (Continua a guardare &amp; Consigli)</string>
+    <string name="fs_watch_next">Continua a guardare</string>
+    <string name="fs_open_nuvio">Apri i consigli direttamente in Nuvio</string>
+    <string name="fs_watch_saver">Avvia i consigli dal salvaschermo (OK)</string>
+    <string name="fs_hide_animation">Nascondi animazione e anime</string>
+    <string name="fs_region">Regione di streaming</string>
+    <string name="fs_trakt">Account Trakt.tv</string>
+    <string name="fs_trakt_code_msg">Vai su %1$s e inserisci il codice: %2$s</string>
+    <string name="fs_trakt_signed_in">Accesso effettuato a Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Disconnesso da Trakt</string>
+
+    <string name="fs_sec_smart">Casa intelligente, Foto &amp; Telefono</string>
+    <string name="fs_qr_setup">Configura chiavi, telecomando e sfondo via QR</string>
+    <string name="fs_ha_toggle">Home Assistant nel Centro di controllo</string>
+    <string name="fs_immich_toggle">Foto Immich sul salvaschermo</string>
+    <string name="fs_immich_sync">Sincronizza foto Immich ora</string>
+    <string name="fs_immich_album">Album Immich</string>
+    <string name="fs_immich_all_albums">Tutte le foto</string>
+
+    <string name="fs_sec_system">Sicurezza &amp; Ripristino</string>
+    <string name="fs_watchdog">Protezione anti-crash loop</string>
+    <string name="fs_check_updates">Aggiornamenti (GitHub Releases)</string>
+    <string name="fs_updates_title">Aggiornamenti (GitHub)</string>
+    <string name="fs_updates_current">Installato: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Controlla aggiornamenti ora</string>
+    <string name="fs_updates_checking">Controllo GitHub Releases…</string>
+    <string name="fs_updates_downloading">Download e verifica SHA-256…</string>
+    <string name="fs_updates_install_launcher">Installa Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Aggiorna %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Controllo settimanale in background</string>
+    <string name="fs_update_uptodate">Il launcher è aggiornato (%1$s)</string>
+    <string name="fs_update_found">Nuova versione %1$s disponibile</string>
+    <string name="fs_restore_stock">Ripristina launcher Google TV originale (ADB)</string>
+    <string name="fs_restore_confirm_title">Ripristinare il launcher originale?</string>
+    <string name="fs_restore_confirm_msg">Riattiva in sicurezza prima il launcher Google TV, lo imposta come Home, poi riattiva SetupWraith e sincronizza il disco.</string>
+    <string name="fs_restore_ok">Ripristina ora</string>
+    <string name="fs_cancel">Annulla</string>
+
+    <!-- Rimappatura tasti del telecomando -->
+    <string name="rm_title">Tasti del telecomando</string>
+    <string name="rm_subtitle_ready">Associa qualsiasi tasto a Pressione breve, Doppio clic o Pressione prolungata</string>
+    <string name="rm_subtitle_need_a11y">Attiva Accessibilità → Tasto Home nelle Impostazioni TV per rimappare ovunque</string>
+    <string name="rm_open_a11y">Apri impostazioni Accessibilità TV</string>
+    <string name="rm_open_a11y_sub">Necessario per la rimappatura globale dei tasti</string>
+    <string name="rm_learn_btn">Apprendi tasto telecomando</string>
+    <string name="rm_learn_sub">Premi un tasto fisico per rilevarne keycode e scancode</string>
+    <string name="rm_empty">Nessun tasto personalizzato salvato (si applicano i valori del tema)</string>
+    <string name="rm_reset_all">Ripristina tasti personalizzati</string>
+    <string name="rm_reset_all_sub">Torna alle mappature di config.json del tema</string>
+    <string name="rm_reset_done">Mappature personalizzate cancellate</string>
+    <string name="rm_capture_title">Premi un tasto del telecomando</string>
+    <string name="rm_capture_hint">Frecce, OK, Indietro e Volume sono riservati · Indietro annulla</string>
+    <string name="rm_capture_waiting">In attesa della pressione di un tasto…</string>
+    <string name="rm_edit_subtitle">Codice tasto: %1$s</string>
+    <string name="rm_slot_tap">Pressione breve</string>
+    <string name="rm_slot_double">Doppio clic</string>
+    <string name="rm_slot_hold">Pressione prolungata (0,5 s)</string>
+    <string name="rm_short_tap">Breve</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Lunga</string>
+    <string name="rm_target_none">Non assegnato</string>
+    <string name="rm_delete_btn">Rimuovi tasto personalizzato</string>
+    <string name="rm_saved">Mappatura tasto salvata</string>
+    <string name="rm_action_mute">Disattiva audio</string>
+    <string name="rm_action_ignore">Ignora tasto (disabilita)</string>
+</resources>

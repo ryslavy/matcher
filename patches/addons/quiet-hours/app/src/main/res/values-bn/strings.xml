@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">নীরব সময়</string>
+    <string name="channel_name">ভলিউম সীমা</string>
+    <string name="notification_text">ভলিউম নির্ধারিত সীমার নিচে রাখা হচ্ছে। পরিবর্তন করতে নীরব সময় খুলুন।</string>
+</resources>

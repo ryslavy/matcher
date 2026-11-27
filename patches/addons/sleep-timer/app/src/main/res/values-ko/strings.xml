@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">취침 타이머</string>
+    <string name="hint">TV가 대기 모드로 전환될 시간을 선택하세요. 1분 전에 알림이 표시됩니다.</string>
+    <string name="in_minutes">%1$d분</string>
+    <string name="cancel">타이머 취소</string>
+    <string name="state_off">설정된 타이머가 없습니다.</string>
+    <string name="state_on">%1$s에 대기 모드로 전환됩니다.</string>
+    <string name="no_service">취침 타이머 접근성 서비스가 꺼져 있습니다(설치 스크립트를 실행하세요).</string>
+    <string name="warning_title">TV가 곧 꺼집니다</string>
+    <string name="warning_seconds">%1$d초 후</string>
+    <string name="more">15분 연장</string>
+    <string name="now">지금 끄기</string>
+    <string name="service_label">취침 타이머</string>
+    <string name="quick_hint">◀ ▶ 시간 선택 · OK 닫기</string>
+    <string name="service_description">취침 타이머가 종료될 때만 TV를 대기 모드로 전환합니다. 화면 내용은 읽지 않습니다.</string>
+    <string name="schedule_row">일정</string>
+</resources>

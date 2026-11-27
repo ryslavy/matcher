@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Världsklocka</string>
+    <string name="add_city">Lägg till stad</string>
+    <string name="clock_format">Klockformat</string>
+    <string name="local">Lokal</string>
+    <string name="search_city">Stad eller tidszon</string>
+    <string name="search_hint">Tryck OK för att skriva · Ned för att välja stad</string>
+    <string name="no_cities">Inga matchande städer</string>
+    <string name="change_city">Byt stad</string>
+    <string name="move_earlier">Flytta framåt</string>
+    <string name="move_later">Flytta bakåt</string>
+    <string name="remove_city">Ta bort stad</string>
+    <string name="city_limit">Välj upp till sex klockor</string>
+    <string name="already_shown">Den klockan visas redan</string>
+    <string name="same_day">Samma dag som lokal tid</string>
+    <string name="tomorrow">Imorgon i den här staden</string>
+    <string name="yesterday">Igår i den här staden</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d dag från lokal tid</item>
+        <item quantity="other">%1$+d dagar från lokal tid</item>
+    </plurals>
+    <string name="local_reference">Datum jämförda med %1$s</string>
+    <string name="controls">Pilar för att flytta · OK för stadsalternativ · Tillbaka för att återgå</string>
+    <string name="format_system">Använd TV-inställning</string>
+    <string name="format_12">12-timmarsformat</string>
+    <string name="format_24">24-timmarsformat</string>
+    <string name="close">Stäng</string>
+    <string name="screensaver">Skärmsläckare</string>
+    <string name="preview">Förhandsvisning · valfri knapp återgår</string>
+    <string name="background_option">Bakgrund: %1$s</string>
+    <string name="motion_option">Rörelse: %1$s</string>
+    <string name="brightness_option">Klockans ljusstyrka: %1$s</string>
+    <string name="gradient">Himmelstoning</string>
+    <string name="plain">Svart</string>
+    <string name="motion_on">På</string>
+    <string name="motion_reduced">Minskad (stilla)</string>
+    <string name="clock_brightness">Klockans ljusstyrka</string>
+    <string name="dim">Svag</string>
+    <string name="medium">Medel</string>
+    <string name="bright">Ljus</string>
+    <string name="tv_screensaver_settings">TV:ns skärmsläckarinställningar</string>
+    <string name="screensaver_unavailable">Den här TV:n visar inte skärmsläckarinställningar. Förhandsvisning fungerar ändå.</string>
+    <string name="background">Bakgrund</string>
+    <string name="starfield">Stjärnhimmel</string>
+    <string name="world_map">Världskarta</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

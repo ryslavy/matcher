@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Helderheid</string>
+    <string name="quick_brightness">Helderheid %1$d%%</string>
+    <string name="quick_night_brightness">Nachthelderheid %1$d%%</string>
+    <string name="quick_hint">◀ ▶ aanpassen · OK sluiten</string>
+    <string name="channel_name">Scherm dimmen</string>
+    <string name="notification_text">Het scherm wordt gedimd. Open Helderheid om dit te wijzigen of uit te schakelen.</string>
+</resources>

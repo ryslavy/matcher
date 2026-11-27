@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ساعات الهدوء</string>
+    <string name="channel_name">الحد الأقصى للصوت</string>
+    <string name="notification_text">الحفاظ على الصوت دون الحد الأقصى. افتح ساعات الهدوء لتغييره.</string>
+</resources>

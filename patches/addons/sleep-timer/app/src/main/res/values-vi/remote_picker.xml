@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Giờ"</string>
+    <string name="remote_minutes">"Phút"</string>
+    <string name="remote_day">"Ngày"</string>
+    <string name="remote_month">"Tháng"</string>
+    <string name="remote_year">"Năm"</string>
+    <string name="remote_hint">"Trái / Phải: mục · Lên / Xuống: giá trị · OK: tiếp · Quay lại: hủy"</string>
+    <string name="remote_page_hint">"Chọn một hàng bằng phím mũi tên và nhấn OK. Thay đổi áp dụng sau khi Lưu."</string>
+    <string name="remote_events">"SỰ KIỆN HẰNG TUẦN"</string>
+    <string name="remote_exclusions">"KHOẢNG THỜI GIAN KHÔNG TỰ ĐỘNG BẬT"</string>
+    <string name="remote_wake_time">"Giờ bật"</string>
+    <string name="remote_sleep_time">"Giờ ngủ"</string>
+</resources>

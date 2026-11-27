@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 應用程式資料夾 -->
+    <string name="folder_add_to">加入資料夾…</string>
+    <string name="folder_new">+ 新增資料夾</string>
+    <string name="folder_new_title">新增資料夾</string>
+    <string name="folder_rename">重新命名資料夾…</string>
+    <string name="folder_rename_title">重新命名資料夾</string>
+    <string name="folder_open">開啟資料夾</string>
+    <string name="folder_add_apps">新增應用程式…</string>
+    <string name="folder_add_apps_title">新增應用程式至 %1$s</string>
+    <string name="folder_add_apps_empty">所有主畫面應用程式皆已在資料夾中</string>
+    <string name="folder_dissolve">解散資料夾</string>
+    <string name="folder_remove_app">從資料夾移除</string>
+    <string name="folder_move_to">移至資料夾…</string>
+    <string name="folder_hint">按 OK 開啟 · 長按 OK 顯示選項 · 按上鍵管理資料夾</string>
+    <string name="folder_default_name">資料夾 %1$d</string>
+    <string name="folder_name_hint">資料夾名稱</string>
+    <string name="folder_create">建立</string>
+    <string name="folder_save">儲存</string>
+    <string name="folder_cancel">取消</string>
+    <string name="folder_btn_add">+ 新增</string>
+    <string name="folder_btn_reorder">重新排序</string>
+    <string name="folder_btn_done">完成</string>
+    <string name="folder_btn_rename">重新命名</string>
+    <string name="folder_preset_streaming">串流影音</string>
+    <string name="folder_preset_tv">電視</string>
+    <string name="folder_preset_sport">體育</string>
+    <string name="folder_preset_music">音樂</string>
+    <string name="folder_preset_games">遊戲</string>
+    <string name="folder_preset_tools">工具</string>
+
+    <!-- 正在播放迷你播放器 -->
+    <string name="media_now_playing">正在播放</string>
+    <string name="media_playing">播放中</string>
+    <string name="media_paused">已暫停</string>
+    <string name="media_live">直播</string>
+    <string name="media_prev">上一首</string>
+    <string name="media_play_pause">播放或暫停</string>
+    <string name="media_next">下一首</string>
+    <string name="media_open_app">開啟應用程式</string>
+    <string name="media_switch_hint">按上鍵切換應用程式 · 按 OK 繼續播放</string>
+
+    <!-- 最近使用的應用程式切換器 -->
+    <string name="recents_title">最近使用的應用程式</string>
+    <string name="recents_hint">按 OK 切換 · 連按兩次上鍵關閉 · 長按 OK 顯示選項</string>
+    <string name="recents_empty">目前沒有開啟的最近應用程式</string>
+    <string name="recents_switch">切換至應用程式</string>
+    <string name="recents_close_app">關閉應用程式</string>
+    <string name="recents_close_all">全部關閉</string>
+    <string name="recents_swipe_close">再按一次上鍵即可關閉</string>
+    <string name="recents_playing_badge">播放中</string>
+    <string name="recents_free_ram">可用 RAM：%1$d MB</string>
+    <string name="recents_just_now">剛剛</string>
+    <string name="recents_minutes_ago">%1$d 分鐘前</string>
+    <string name="recents_hours_ago">%1$d 小時前</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">已關閉 %1$d 個應用程式</item>
+        <item quantity="other">已關閉 %1$d 個應用程式</item>
+    </plurals>
+
+    <!-- 微光螢幕保護程式 -->
+    <string name="ambient_controls_hint">◄ ► 切換曲目 · ▼ 播放/暫停 · ▲ 開啟</string>
+    <string name="ambient_action_prev">上一曲</string>
+    <string name="ambient_action_next">下一曲</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">晴朗</string>
+    <string name="weather_partly">局部多雲</string>
+    <string name="weather_cloudy">陰天</string>
+    <string name="weather_fog">起霧</string>
+    <string name="weather_drizzle">毛毛雨</string>
+    <string name="weather_rain">下雨</string>
+    <string name="weather_snow">下雪</string>
+    <string name="weather_showers">陣雨</string>
+    <string name="weather_storm">雷雨</string>
+
+    <!-- 控制中心、夜間音效、晚安模式與空拍影片 -->
+    <string name="cc_title">控制中心</string>
+    <string name="cc_bedtime">晚安模式</string>
+    <string name="cc_bedtime_sub">30 分鐘定時 · 調暗 · 夜間音效</string>
+    <string name="cc_bedtime_on">運作中</string>
+    <string name="cc_night_audio">夜間音效</string>
+    <string name="cc_night_audio_on">已降低突然大聲片段</string>
+    <string name="cc_night_audio_off">已關閉</string>
+    <string name="cc_night_audio_unavailable">音訊處理器無法使用</string>
+    <string name="cc_audio">音訊</string>
+    <string name="cc_audio_tv">電視喇叭</string>
+    <string name="cc_sleep_timer">睡眠計時器</string>
+    <string name="cc_sleep_timer_sub">設定計時</string>
+    <string name="cc_brightness">亮度</string>
+    <string name="cc_brightness_sub">調光列</string>
+    <string name="cc_aerial">空拍影片</string>
+    <string name="cc_aerial_on">1080p 影片</string>
+    <string name="cc_aerial_on_4k">4K HEVC 影片</string>
+    <string name="cc_aerial_off">桌布</string>
+    <string name="cc_screensaver">螢幕保護</string>
+    <string name="cc_settings">設定</string>
+    <string name="cc_sleep_tv">電視休眠</string>
+    <string name="cc_reorder_tiles">重新排序動態磚</string>
+    <string name="cc_footer_hint">在「電視休眠」長按 OK 重新啟動 · 按返回關閉</string>
+    <string name="cc_on">開</string>
+    <string name="cc_off">關</string>
+    <string name="close">關閉</string>
+
+    <!-- 手機 QR 設定、探索、Home Assistant、Immich、監控與更新 -->
+    <string name="qr_setup_title">透過手機設定</string>
+    <string name="qr_setup_subtitle">以相同 Wi-Fi 下的手機掃描，編輯遙控器按鍵、桌布、城市或 TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">QR 設定</string>
+    <string name="qr_setup_no_wifi">請先將電視連線至 Wi-Fi 或乙太網路</string>
+    <string name="qr_setup_waiting">正在等待手機連線…（5 分鐘內有效）</string>
+    <string name="qr_setup_expired">QR 工作階段已過期 — 請重新開啟以產生新碼</string>
+
+    <string name="discover_title">探索與繼續觀看</string>
+    <string name="discover_refresh">重新整理</string>
+    <string name="discover_continue_watching">繼續觀看</string>
+    <string name="discover_trending">熱門精選（無廣告）</string>
+    <string name="discover_tab_all">全部</string>
+    <string name="discover_tab_movies">電影</string>
+    <string name="discover_tab_shows">影集</string>
+    <string name="discover_grant_watchnext_msg">允許「電視節目表」權限以跨應用程式顯示「繼續觀看」</string>
+    <string name="discover_grant_adb_btn">透過 ADB 授權</string>
+    <string name="discover_grant_success">已啟用「繼續觀看」</string>
+    <string name="discover_hidden_toast">已從「繼續觀看」隱藏</string>
+    <string name="discover_empty_no_key">使用 QR 設定新增免費的 TMDB API 金鑰（或 Plex 伺服器），取得已安裝應用程式的無廣告精選。</string>
+    <string name="discover_empty_no_matches">目前找不到與您已安裝串流應用程式相符的影片。</string>
+
+    <string name="adb_connecting">正在連線至本機 ADB…</string>
+    <string name="adb_accept_prompt">請在電視上同意「一律允許 USB 偵錯」</string>
+
+    <string name="ha_section_title">智慧家庭</string>
+    <string name="ha_action_failed">Home Assistant 操作失敗</string>
+    <string name="ha_state_unavailable">無法使用</string>
+    <string name="ha_state_open">已開啟</string>
+    <string name="ha_state_closed">已關閉</string>
+    <string name="ha_state_camera">即時 PiP</string>
+    <string name="ha_camera_title">家用攝影機</string>
+    <string name="ha_camera_connecting">正在連線至攝影機…</string>
+    <string name="ha_camera_unavailable">攝影機無法使用</string>
+    <string name="ha_camera_hint_pip">OK：展開 · 返回：關閉</string>
+    <string name="ha_camera_hint_expanded">OK：迷你 PiP · 返回：關閉</string>
+    <string name="ha_camera_hint_pip_multi">OK：展開 · ◀ ▶：攝影機 · 返回：關閉</string>
+    <string name="ha_camera_hint_expanded_multi">OK：迷你 PiP · ◀ ▶：攝影機 · 返回：關閉</string>
+
+    <string name="aerial_fav_added">已儲存至最愛</string>
+    <string name="aerial_fav_removed">已從最愛移除</string>
+
+    <string name="updater_installed">已安裝更新</string>
+    <string name="updater_failed">更新失敗</string>
+
+    <!-- 啟動器功能設定與玻璃材質系統 -->
+    <string name="fs_sec_glass">Liquid Glass 與體驗</string>
+    <string name="fs_liquid_clock">Liquid Glass 時鐘 (iOS 26)</string>
+    <string name="fs_home_liquid">主畫面光學 Liquid Glass</string>
+    <string name="fs_home_backdrop_blur">主畫面背景模糊</string>
+    <string name="fs_glass_material">玻璃風格</string>
+    <string name="fs_glass_material_title">選擇 Liquid Glass 風格</string>
+    <string name="glass_style_tonal">霧面色調</string>
+    <string name="glass_style_tonal_sub">均衡深色玻璃，內層卡片隨桌布自動著色</string>
+    <string name="glass_style_obsidian">純黑 (OLED)</string>
+    <string name="glass_style_obsidian_sub">深邃黑曜石質感搭配銳利菲涅耳邊緣，適合暗室觀看</string>
+    <string name="glass_style_frost">霜白</string>
+    <string name="glass_style_frost_sub">溫潤珍珠淺色玻璃，搭配深灰文字與圖示</string>
+    <string name="glass_style_clear">澄澈水晶</string>
+    <string name="glass_style_clear_sub">輕盈高透光玻璃，呈現鮮明光學邊緣折射</string>
+    <string name="glass_style_chromatic">色彩渲染</string>
+    <string name="glass_style_chromatic_sub">於面板與內層卡片套用豐富的 Material You 桌布色彩</string>
+    <string name="glass_style_auto">自動（日間 / 夜間）</string>
+    <string name="glass_style_auto_sub">日間為霜白，日落後切換為純黑</string>
+    <string name="fs_remote_buttons">遙控器按鍵</string>
+    <string name="fs_ui_sounds">輕柔介面點擊音效</string>
+    <string name="fs_oled_drift">OLED 螢幕保護像素偏移防烙印</string>
+    <string name="fs_aerial_quality">空拍影片畫質</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">僅播放最愛空拍影片（長按 OK）</string>
+
+    <string name="fs_sec_content">內容與探索</string>
+    <string name="fs_open_discover">開啟探索（繼續觀看與精選）</string>
+    <string name="fs_watch_next">繼續觀看</string>
+    <string name="fs_open_nuvio">直接在 Nuvio 開啟精選</string>
+    <string name="fs_watch_saver">從螢幕保護直接啟動精選 (OK)</string>
+    <string name="fs_hide_animation">隱藏動畫與動漫精選</string>
+    <string name="fs_region">串流地區</string>
+    <string name="fs_trakt">Trakt.tv 帳號</string>
+    <string name="fs_trakt_code_msg">前往 %1$s 並輸入代碼：%2$s</string>
+    <string name="fs_trakt_signed_in">已登入 Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">已登出 Trakt</string>
+
+    <string name="fs_sec_smart">智慧家庭、相片與手機設定</string>
+    <string name="fs_qr_setup">透過手機 QR 設定金鑰、遙控器與桌布</string>
+    <string name="fs_ha_toggle">在控制中心顯示 Home Assistant</string>
+    <string name="fs_immich_toggle">在螢幕保護顯示 Immich 相片</string>
+    <string name="fs_immich_sync">立即同步 Immich 相片</string>
+    <string name="fs_immich_album">Immich 相簿</string>
+    <string name="fs_immich_all_albums">所有相片</string>
+
+    <string name="fs_sec_system">安全與復原</string>
+    <string name="fs_watchdog">當機循環復原監控</string>
+    <string name="fs_check_updates">更新 (GitHub Releases)</string>
+    <string name="fs_updates_title">更新 (GitHub)</string>
+    <string name="fs_updates_current">已安裝：%1$s · %2$s</string>
+    <string name="fs_updates_check_now">立即檢查更新</string>
+    <string name="fs_updates_checking">正在檢查 GitHub Releases…</string>
+    <string name="fs_updates_downloading">正在下載並驗證 SHA-256…</string>
+    <string name="fs_updates_install_launcher">安裝 Matcher %1$s</string>
+    <string name="fs_updates_install_addon">更新 %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">每週背景檢查更新</string>
+    <string name="fs_update_uptodate">啟動器已是最新版本 (%1$s)</string>
+    <string name="fs_update_found">有新版本 %1$s 可用</string>
+    <string name="fs_restore_stock">還原原廠 Google TV 啟動器 (ADB)</string>
+    <string name="fs_restore_confirm_title">要還原原廠啟動器嗎？</string>
+    <string name="fs_restore_confirm_msg">會先安全地重新啟用 Google TV 啟動器並設為主畫面，再重新啟用 SetupWraith 並同步寫入磁碟。</string>
+    <string name="fs_restore_ok">立即還原</string>
+    <string name="fs_cancel">取消</string>
+
+    <!-- 應用程式內遙控器按鍵學習與重新對應 -->
+    <string name="rm_title">遙控器按鍵</string>
+    <string name="rm_subtitle_ready">將任何遙控器按鍵對應至短按、連按兩下或長按動作</string>
+    <string name="rm_subtitle_need_a11y">請在電視設定開啟 無障礙設定 → 主畫面按鈕，以全域重新對應按鍵</string>
+    <string name="rm_open_a11y">開啟電視無障礙設定</string>
+    <string name="rm_open_a11y_sub">全域重新對應遙控器按鍵的必要權限</string>
+    <string name="rm_learn_btn">學習遙控器按鍵</string>
+    <string name="rm_learn_sub">按下任一實體按鍵即可偵測其按鍵碼與掃描碼</string>
+    <string name="rm_empty">尚未儲存自訂按鍵（套用主題預設值）</string>
+    <string name="rm_reset_all">重設自訂按鍵</string>
+    <string name="rm_reset_all_sub">回復主題 config.json 的預設對應</string>
+    <string name="rm_reset_done">已清除自訂按鍵對應</string>
+    <string name="rm_capture_title">請按下遙控器按鍵</string>
+    <string name="rm_capture_hint">方向鍵、OK、返回與音量鍵為系統保留 · 按返回取消</string>
+    <string name="rm_capture_waiting">正在等待按鍵輸入…</string>
+    <string name="rm_edit_subtitle">按鍵代碼：%1$s</string>
+    <string name="rm_slot_tap">短按</string>
+    <string name="rm_slot_double">連按兩下</string>
+    <string name="rm_slot_hold">長按（0.5 秒）</string>
+    <string name="rm_short_tap">短按</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">長按</string>
+    <string name="rm_target_none">未指派</string>
+    <string name="rm_delete_btn">移除自訂按鍵</string>
+    <string name="rm_saved">已儲存按鍵對應</string>
+    <string name="rm_action_mute">靜音</string>
+    <string name="rm_action_ignore">忽略按鍵（停用）</string>
+</resources>

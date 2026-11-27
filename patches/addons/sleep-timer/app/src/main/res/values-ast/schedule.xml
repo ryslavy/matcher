@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Horariu de la TV"</string>
+    <string name="sched_1">"Les hores pertenecen al día escoyíu del calendariu. Los periodos d'esclusión namás bloquien l'espertar automáticu. Atrás encaboxa los cambeos ensin guardar."</string>
+    <string name="sched_2">"Horariu: ACTIVÁU"</string>
+    <string name="sched_3">"Horariu: DESACTIVÁU"</string>
+    <string name="sched_4">"+ Amestar hora d'espertar / espera"</string>
+    <string name="sched_5">"Ensin espertar: "</string>
+    <string name="sched_6">"Periodu d'esclusión d'espertar"</string>
+    <string name="sched_7">"Editar dates"</string>
+    <string name="sched_8">"Desaniciar"</string>
+    <string name="sched_9">"+ Amestar periodu d'esclusión"</string>
+    <string name="sched_10">"Guardar"</string>
+    <string name="sched_11">"Espertar  "</string>
+    <string name="sched_12">"Espera  "</string>
+    <string name="sched_13">"Amestar eventu"</string>
+    <string name="sched_14">"Espertar"</string>
+    <string name="sched_15">"Espera"</string>
+    <string name="sched_16">"Díes de la selmana"</string>
+    <string name="sched_17">"Encaboxar"</string>
+    <string name="sched_18">"Hora"</string>
+    <string name="sched_19">"Escueyi polo menos un día"</string>
+    <string name="sched_20">"El fin tien de ser igual o posterior al aniciu"</string>
+    <string name="sched_21">"Últimu día (incluyíu)"</string>
+    <string name="sched_22">"Primer día (incluyíu)"</string>
+    <string name="sched_23">"Llunes"</string>
+    <string name="sched_24">"Martes"</string>
+    <string name="sched_25">"Miércoles"</string>
+    <string name="sched_26">"Xueves"</string>
+    <string name="sched_27">"Vienres"</string>
+    <string name="sched_28">"Sábadu"</string>
+    <string name="sched_29">"Domingu"</string>
+</resources>

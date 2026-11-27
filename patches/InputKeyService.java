@@ -39,6 +39,20 @@ public class InputKeyService extends AccessibilityService {
     /** The bound helper, for global actions Home's own key path asks for (RemoteKeys). */
     static InputKeyService running;
 
+    static void reloadRemoteKeys() {
+        InputKeyService service = running;
+        if (service == null) return;
+        Config config = Config.load(service);
+        service.appKeys = RemoteKeys.parseAppKeys(config.appKeys);
+        service.appScancodes = RemoteKeys.parseAppScancodes(config.appKeys);
+        service.doubleAppKeys = RemoteKeys.parseDoubleAppKeys(config.appKeys);
+        service.doubleAppScancodes = RemoteKeys.parseDoubleAppScancodes(config.appKeys);
+        service.holdAppKeys = RemoteKeys.parseHoldAppKeys(config.appKeys);
+        service.holdAppScancodes = RemoteKeys.parseHoldAppScancodes(config.appKeys);
+        service.frontAppKeys = RemoteKeys.parseFrontAppKeys(config.appKeys);
+        service.frontAppScancodes = RemoteKeys.parseFrontAppScancodes(config.appKeys);
+    }
+
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
@@ -71,6 +85,10 @@ public class InputKeyService extends AccessibilityService {
 
     @Override
     protected boolean onKeyEvent(KeyEvent event) {
+        if (HomeKeyService.keyCaptureListener != null
+                && !HomeKeyService.isNavigationOrCancelKey(event.getKeyCode())) {
+            return true;
+        }
         if (consumeVolumeKeys && VolumeKeys.handle(this, event)) return true;
         // A scancode entry is more specific than any keycode, so it goes first.
         if (RemoteKeys.handle(this, event, RemoteKeys.tap(appScancodes.get(event.getScanCode()),

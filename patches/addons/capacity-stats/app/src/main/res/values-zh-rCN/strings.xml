@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">容量统计</string>
+    <string name="loading">正在读取统计数据…</string>
+    <string name="unavailable">无法获取数据</string>
+    <string name="back">返回</string>
+    <string name="memory">可用 RAM：%1$s</string>
+    <string name="memory_used">已用 RAM：%1$s</string>
+    <string name="storage">可用存储空间：%1$s</string>
+    <string name="note">可用 RAM 包含可回收缓存；已用 RAM 等于总内存减去可用内存。存储空间指数据分区文件系统。</string>
+</resources>

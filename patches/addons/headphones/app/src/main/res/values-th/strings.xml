@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">หูฟัง</string>
+    <string name="plays_through">เสียงกำลังเล่นผ่าน: %1$s</string>
+    <string name="output_speakers">ลำโพงทีวี</string>
+    <string name="output_fixed">เอาต์พุตเสียงของทีวี (HDMI ARC หรือออปติคอล)</string>
+    <string name="allow_title">อนุญาตการเข้าถึงบลูทูธ</string>
+    <string name="allow_detail">เพื่อแสดงรายการหูฟังของคุณและตรวจจับเมื่อหลุดการเชื่อมต่อ กด OK เพื่อขออนุญาต</string>
+    <string name="not_allowed">ไม่ได้รับอนุญาต</string>
+    <string name="pair_title">จับคู่หรือเชื่อมต่อหูฟัง</string>
+    <string name="pair_detail">เปิดการตั้งค่าบลูทูธของทีวี โปรดเปิดโหมดจับคู่บนหูฟังก่อน</string>
+    <string name="guard_title">ปิดเสียงอัตโนมัติเมื่อหูฟังหลุด</string>
+    <string name="guard_detail">หยุดสื่อที่เล่นอยู่ชั่วคราวและปิดเสียงลำโพงทีวีเมื่อหูฟังตัดการเชื่อมต่อ เพื่อไม่ให้เสียงดังออกลำโพง และเปิดเสียงกลับเมื่อเชื่อมต่ออีกครั้ง</string>
+    <string name="guard_detail_fixed">หยุดสื่อที่เล่นอยู่ชั่วคราวเมื่อหูฟังตัดการเชื่อมต่อ ทีวีนี้ใช้ระดับเสียงคงที่ (ARC หรือแอมพลิฟายเออร์) จึงไม่สามารถปิดเสียงลำโพงได้</string>
+    <string name="on">เปิด</string>
+    <string name="off">ปิด</string>
+    <string name="unmute_title">เปิดเสียงลำโพง</string>
+    <string name="unmute_detail">ปิดเสียงไว้เมื่อหูฟังตัดการเชื่อมต่อ</string>
+    <string name="muted">ปิดเสียงอยู่</string>
+    <string name="heading_paired">หูฟังและลำโพงที่จับคู่ไว้</string>
+    <string name="no_bluetooth">ทีวีนี้ไม่มีบลูทูธ</string>
+    <string name="bluetooth_off">บลูทูธปิดอยู่</string>
+    <string name="bluetooth_off_detail">เปิดใช้งานได้ในการตั้งค่าของทีวี</string>
+    <string name="none_yet">ยังไม่มีอุปกรณ์</string>
+    <string name="none_yet_detail">ใช้แถวด้านบนเพื่อจับคู่อุปกรณ์</string>
+    <string name="connected">เชื่อมต่อแล้ว</string>
+    <string name="connected_battery">เชื่อมต่อแล้ว แบตเตอรี่ %1$s</string>
+    <string name="not_connected_detail">ไม่ได้เชื่อมต่อ กด OK เพื่อเปิดการตั้งค่าบลูทูธและเชื่อมต่อ</string>
+    <string name="unnamed">อุปกรณ์ไม่มีชื่อ</string>
+    <string name="heading_several">ใช้หูฟังหลายอันพร้อมกัน</string>
+    <string name="sharing_one_pair">ทีวีนี้ส่งเสียงไปยังหูฟังบลูทูธได้ทีละ 1 คู่ หากต้องการใช้ 2 คู่ ให้ต่อตัวส่งสัญญาณบลูทูธแบบ Dual-Link ที่ช่องหูฟังหรือช่องออปติคอลของทีวี</string>
+    <string name="sharing_auracast">ทีวีนี้สามารถส่งสัญญาณเสียงไปยังหูฟัง LE Audio (Auracast) หลายคู่พร้อมกันได้ โดยเริ่มการแชร์จากการตั้งค่าบลูทูธของทีวี</string>
+    <string name="sharing_no_broadcast">ทีวีนี้ส่งเสียงไปยังหูฟังบลูทูธได้ทีละ 1 คู่ และไม่รองรับการกระจายเสียง LE Audio หากต้องการใช้ 2 คู่ ให้ต่อตัวส่งสัญญาณบลูทูธแบบ Dual-Link ที่ช่องหูฟังหรือช่องออปติคอลของทีวี</string>
+</resources>

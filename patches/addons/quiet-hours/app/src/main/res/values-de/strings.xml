@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ruhezeiten</string>
+    <string name="channel_name">Lautstärkelimit</string>
+    <string name="notification_text">Die Lautstärke bleibt unter dem Limit. Öffne Ruhezeiten, um es zu ändern.</string>
+</resources>

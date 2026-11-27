@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Thư mục ứng dụng -->
+    <string name="folder_add_to">Thêm vào thư mục…</string>
+    <string name="folder_new">+ Thư mục mới</string>
+    <string name="folder_new_title">Thư mục mới</string>
+    <string name="folder_rename">Đổi tên thư mục…</string>
+    <string name="folder_rename_title">Đổi tên thư mục</string>
+    <string name="folder_open">Mở thư mục</string>
+    <string name="folder_add_apps">Thêm ứng dụng…</string>
+    <string name="folder_add_apps_title">Thêm ứng dụng vào %1$s</string>
+    <string name="folder_add_apps_empty">Tất cả ứng dụng Màn hình chính đã nằm trong thư mục</string>
+    <string name="folder_dissolve">Tách nhóm thư mục</string>
+    <string name="folder_remove_app">Xóa khỏi thư mục</string>
+    <string name="folder_move_to">Di chuyển sang thư mục…</string>
+    <string name="folder_hint">OK để mở · Giữ OK xem tùy chọn · Lên để thao tác thư mục</string>
+    <string name="folder_default_name">Thư mục %1$d</string>
+    <string name="folder_name_hint">Tên thư mục</string>
+    <string name="folder_create">Tạo</string>
+    <string name="folder_save">Lưu</string>
+    <string name="folder_cancel">Hủy</string>
+    <string name="folder_btn_add">+ Thêm</string>
+    <string name="folder_btn_reorder">Sắp xếp</string>
+    <string name="folder_btn_done">Xong</string>
+    <string name="folder_btn_rename">Đổi tên</string>
+    <string name="folder_preset_streaming">Phát trực tuyến</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Thể thao</string>
+    <string name="folder_preset_music">Âm nhạc</string>
+    <string name="folder_preset_games">Trò chơi</string>
+    <string name="folder_preset_tools">Công cụ</string>
+
+    <!-- Trình phát thu nhỏ Đang phát -->
+    <string name="media_now_playing">Đang phát</string>
+    <string name="media_playing">Đang phát</string>
+    <string name="media_paused">Đã tạm dừng</string>
+    <string name="media_live">Trực tiếp</string>
+    <string name="media_prev">Trước</string>
+    <string name="media_play_pause">Phát hoặc tạm dừng</string>
+    <string name="media_next">Tiếp theo</string>
+    <string name="media_open_app">Mở ứng dụng</string>
+    <string name="media_switch_hint">Lên để chuyển ứng dụng · OK tiếp tục phát</string>
+
+    <!-- Trình chuyển ứng dụng gần đây -->
+    <string name="recents_title">Ứng dụng gần đây</string>
+    <string name="recents_hint">OK để chuyển · Nhấn Lên 2 lần để đóng · Giữ OK xem tùy chọn</string>
+    <string name="recents_empty">Không có ứng dụng gần đây nào đang mở</string>
+    <string name="recents_switch">Chuyển sang ứng dụng</string>
+    <string name="recents_close_app">Đóng ứng dụng</string>
+    <string name="recents_close_all">Đóng tất cả</string>
+    <string name="recents_swipe_close">Nhấn Lên lần nữa để đóng</string>
+    <string name="recents_playing_badge">Đang phát</string>
+    <string name="recents_free_ram">RAM trống: %1$d MB</string>
+    <string name="recents_just_now">Vừa xong</string>
+    <string name="recents_minutes_ago">%1$d phút trước</string>
+    <string name="recents_hours_ago">%1$d giờ trước</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Đã đóng %1$d ứng dụng</item>
+        <item quantity="other">Đã đóng %1$d ứng dụng</item>
+    </plurals>
+
+    <!-- Trình bảo vệ màn hình Ambient -->
+    <string name="ambient_controls_hint">◄ ► bài · ▼ phát/tạm dừng · ▲ mở</string>
+    <string name="ambient_action_prev">Bài trước</string>
+    <string name="ambient_action_next">Bài tiếp theo</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Trời quang</string>
+    <string name="weather_partly">Có mây rải rác</string>
+    <string name="weather_cloudy">Nhiều mây</string>
+    <string name="weather_fog">Sương mù</string>
+    <string name="weather_drizzle">Mưa phùn</string>
+    <string name="weather_rain">Mưa</string>
+    <string name="weather_snow">Tuyết</string>
+    <string name="weather_showers">Mưa rào</string>
+    <string name="weather_storm">Dông</string>
+
+    <!-- Trung tâm điều khiển, Âm thanh đêm, Chúc ngủ ngon & Video trên không -->
+    <string name="cc_title">Trung tâm điều khiển</string>
+    <string name="cc_bedtime">Chúc ngủ ngon</string>
+    <string name="cc_bedtime_sub">Hẹn giờ 30p · Giảm sáng · Âm thanh đêm</string>
+    <string name="cc_bedtime_on">Đang bật</string>
+    <string name="cc_night_audio">Âm thanh đêm</string>
+    <string name="cc_night_audio_on">Đã giảm tiếng lớn đột ngột</string>
+    <string name="cc_night_audio_off">Tắt</string>
+    <string name="cc_night_audio_unavailable">Bộ xử lý âm thanh không khả dụng</string>
+    <string name="cc_audio">Âm thanh</string>
+    <string name="cc_audio_tv">Loa TV</string>
+    <string name="cc_sleep_timer">Hẹn giờ ngủ</string>
+    <string name="cc_sleep_timer_sub">Đặt hẹn giờ</string>
+    <string name="cc_brightness">Độ sáng</string>
+    <string name="cc_brightness_sub">Thanh giảm sáng</string>
+    <string name="cc_aerial">Video trên không</string>
+    <string name="cc_aerial_on">Video 1080p</string>
+    <string name="cc_aerial_on_4k">Video 4K HEVC</string>
+    <string name="cc_aerial_off">Hình nền</string>
+    <string name="cc_screensaver">Bảo vệ màn hình</string>
+    <string name="cc_settings">Cài đặt</string>
+    <string name="cc_sleep_tv">Cho TV ngủ</string>
+    <string name="cc_reorder_tiles">Sắp xếp các ô</string>
+    <string name="cc_footer_hint">Giữ OK trên Cho TV ngủ để khởi động lại · Quay lại để đóng</string>
+    <string name="cc_on">Bật</string>
+    <string name="cc_off">Tắt</string>
+    <string name="close">Đóng</string>
+
+    <!-- Thiết lập QR từ điện thoại, Khám phá, Home Assistant, Immich, Watchdog & Cập nhật -->
+    <string name="qr_setup_title">Thiết lập từ điện thoại</string>
+    <string name="qr_setup_subtitle">Quét bằng điện thoại (cùng Wi-Fi) để chỉnh nút điều khiển, hình nền, thành phố hoặc TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">Thiết lập QR</string>
+    <string name="qr_setup_no_wifi">Hãy kết nối TV với Wi-Fi hoặc mạng dây trước</string>
+    <string name="qr_setup_waiting">Đang chờ điện thoại… (có hiệu lực 5 phút)</string>
+    <string name="qr_setup_expired">Phiên QR đã hết hạn — hãy mở lại để tạo mã mới</string>
+
+    <string name="discover_title">Khám phá &amp; Xem tiếp</string>
+    <string name="discover_refresh">Làm mới</string>
+    <string name="discover_continue_watching">Tiếp tục xem</string>
+    <string name="discover_trending">Gợi ý thịnh hành (Không quảng cáo)</string>
+    <string name="discover_tab_all">Tất cả</string>
+    <string name="discover_tab_movies">Phim lẻ</string>
+    <string name="discover_tab_shows">Phim bộ</string>
+    <string name="discover_grant_watchnext_msg">Cấp quyền Danh sách TV để hiển thị Tiếp tục xem trên các ứng dụng</string>
+    <string name="discover_grant_adb_btn">Cấp quyền qua ADB</string>
+    <string name="discover_grant_success">Đã bật Tiếp tục xem</string>
+    <string name="discover_hidden_toast">Đã ẩn khỏi Tiếp tục xem</string>
+    <string name="discover_empty_no_key">Dùng Thiết lập QR để thêm khóa TMDB API miễn phí (hoặc máy chủ Plex) nhận gợi ý không quảng cáo từ các ứng dụng đã cài.</string>
+    <string name="discover_empty_no_matches">Hiện chưa tìm thấy nội dung phù hợp cho các ứng dụng phát trực tuyến đã cài đặt.</string>
+
+    <string name="adb_connecting">Đang kết nối ADB cục bộ…</string>
+    <string name="adb_accept_prompt">Chấp nhận “Luôn cho phép gỡ lỗi USB” trên TV</string>
+
+    <string name="ha_section_title">Nhà thông minh</string>
+    <string name="ha_action_failed">Thao tác Home Assistant thất bại</string>
+    <string name="ha_state_unavailable">Không khả dụng</string>
+    <string name="ha_state_open">Đang mở</string>
+    <string name="ha_state_closed">Đã đóng</string>
+    <string name="ha_state_camera">PiP trực tiếp</string>
+    <string name="ha_camera_title">Camera nhà</string>
+    <string name="ha_camera_connecting">Đang kết nối camera…</string>
+    <string name="ha_camera_unavailable">Camera không khả dụng</string>
+    <string name="ha_camera_hint_pip">OK: Mở rộng · Quay lại: Đóng</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Quay lại: Đóng</string>
+    <string name="ha_camera_hint_pip_multi">OK: Mở rộng · ◀ ▶: Camera · Quay lại: Đóng</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Camera · Quay lại: Đóng</string>
+
+    <string name="aerial_fav_added">Đã lưu vào mục yêu thích</string>
+    <string name="aerial_fav_removed">Đã xóa khỏi mục yêu thích</string>
+
+    <string name="updater_installed">Đã cài đặt bản cập nhật</string>
+    <string name="updater_failed">Cập nhật thất bại</string>
+
+    <!-- Cài đặt tính năng trình khởi chạy & hệ thống chất liệu kính -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Trải nghiệm</string>
+    <string name="fs_liquid_clock">Đồng hồ Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">Liquid Glass quang học trên Màn hình chính</string>
+    <string name="fs_home_backdrop_blur">Làm mờ nền Màn hình chính</string>
+    <string name="fs_glass_material">Kiểu kính</string>
+    <string name="fs_glass_material_title">Chọn kiểu Liquid Glass</string>
+    <string name="glass_style_tonal">Kính mờ theo tông</string>
+    <string name="glass_style_tonal_sub">Kính tối cân bằng với các thẻ bên trong ánh màu hình nền</string>
+    <string name="glass_style_obsidian">Đen thuần (OLED)</string>
+    <string name="glass_style_obsidian_sub">Pha lê đen sâu với viền Fresnel sắc nét cho phòng tối</string>
+    <string name="glass_style_frost">Trắng sương mờ</string>
+    <string name="glass_style_frost_sub">Kính sáng ngọc trai rạng rỡ với chữ và biểu tượng than chì đậm</string>
+    <string name="glass_style_clear">Pha lê trong suốt</string>
+    <string name="glass_style_clear_sub">Kính trong trẻo độ nét cao với khúc xạ viền quang học nổi bật</string>
+    <string name="glass_style_chromatic">Ánh sắc đa màu</string>
+    <string name="glass_style_chromatic_sub">Màu hình nền Material You sống động trên bảng điều khiển và thẻ bên trong</string>
+    <string name="glass_style_auto">Tự động (Ngày / Đêm)</string>
+    <string name="glass_style_auto_sub">Trắng sương mờ ban ngày, Đen thuần sau hoàng hôn</string>
+    <string name="fs_remote_buttons">Nút điều khiển từ xa</string>
+    <string name="fs_ui_sounds">Âm thanh nhấn giao diện dịu nhẹ</string>
+    <string name="fs_oled_drift">Dịch chuyển điểm ảnh bảo vệ màn hình OLED</string>
+    <string name="fs_aerial_quality">Chất lượng video trên không</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Chỉ phát video trên không yêu thích (giữ OK)</string>
+
+    <string name="fs_sec_content">Nội dung &amp; Khám phá</string>
+    <string name="fs_open_discover">Mở Khám phá (Tiếp tục xem &amp; Gợi ý)</string>
+    <string name="fs_watch_next">Tiếp tục xem</string>
+    <string name="fs_open_nuvio">Mở gợi ý trực tiếp trong Nuvio</string>
+    <string name="fs_watch_saver">Mở gợi ý từ trình bảo vệ màn hình (OK)</string>
+    <string name="fs_hide_animation">Ẩn gợi ý hoạt hình &amp; anime</string>
+    <string name="fs_region">Khu vực phát trực tuyến</string>
+    <string name="fs_trakt">Tài khoản Trakt.tv</string>
+    <string name="fs_trakt_code_msg">Truy cập %1$s và nhập mã: %2$s</string>
+    <string name="fs_trakt_signed_in">Đã đăng nhập Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Đã đăng xuất khỏi Trakt</string>
+
+    <string name="fs_sec_smart">Nhà thông minh, Ảnh &amp; Thiết lập điện thoại</string>
+    <string name="fs_qr_setup">Thiết lập khóa, điều khiển &amp; hình nền qua QR điện thoại</string>
+    <string name="fs_ha_toggle">Home Assistant trong Trung tâm điều khiển</string>
+    <string name="fs_immich_toggle">Ảnh Immich trên trình bảo vệ màn hình</string>
+    <string name="fs_immich_sync">Đồng bộ ảnh Immich ngay</string>
+    <string name="fs_immich_album">Album Immich</string>
+    <string name="fs_immich_all_albums">Tất cả ảnh</string>
+
+    <string name="fs_sec_system">An toàn &amp; Khôi phục</string>
+    <string name="fs_watchdog">Giám sát khôi phục vòng lặp lỗi</string>
+    <string name="fs_check_updates">Cập nhật (GitHub Releases)</string>
+    <string name="fs_updates_title">Cập nhật (GitHub)</string>
+    <string name="fs_updates_current">Đã cài đặt: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Kiểm tra cập nhật ngay</string>
+    <string name="fs_updates_checking">Đang kiểm tra GitHub Releases…</string>
+    <string name="fs_updates_downloading">Đang tải xuống &amp; xác minh SHA-256…</string>
+    <string name="fs_updates_install_launcher">Cài đặt Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Cập nhật %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Kiểm tra cập nhật nền hằng tuần</string>
+    <string name="fs_update_uptodate">Trình khởi chạy đã ở phiên bản mới nhất (%1$s)</string>
+    <string name="fs_update_found">Đã có phiên bản mới %1$s</string>
+    <string name="fs_restore_stock">Khôi phục trình khởi chạy Google TV gốc (ADB)</string>
+    <string name="fs_restore_confirm_title">Khôi phục trình khởi chạy gốc?</string>
+    <string name="fs_restore_confirm_msg">Bật lại Google TV Launcher an toàn trước, đặt làm Màn hình chính, sau đó bật lại SetupWraith và đồng bộ vào bộ nhớ.</string>
+    <string name="fs_restore_ok">Khôi phục ngay</string>
+    <string name="fs_cancel">Hủy</string>
+
+    <!-- Học & gán lại nút điều khiển từ xa trong ứng dụng -->
+    <string name="rm_title">Nút điều khiển từ xa</string>
+    <string name="rm_subtitle_ready">Gán thao tác Nhấn nhanh, Nhấn đúp hoặc Nhấn giữ cho bất kỳ nút điều khiển nào</string>
+    <string name="rm_subtitle_need_a11y">Bật Hỗ trợ tiếp cận → Nút Trang chủ trong Cài đặt TV để gán lại nút ở mọi nơi</string>
+    <string name="rm_open_a11y">Mở cài đặt Hỗ trợ tiếp cận TV</string>
+    <string name="rm_open_a11y_sub">Cần thiết để gán lại nút điều khiển toàn hệ thống</string>
+    <string name="rm_learn_btn">Học nút điều khiển</string>
+    <string name="rm_learn_sub">Nhấn bất kỳ nút vật lý nào để nhận diện keycode &amp; scancode</string>
+    <string name="rm_empty">Chưa lưu nút tùy chỉnh nào (áp dụng mặc định của chủ đề)</string>
+    <string name="rm_reset_all">Đặt lại nút tùy chỉnh</string>
+    <string name="rm_reset_all_sub">Khôi phục gán nút theo config.json của chủ đề</string>
+    <string name="rm_reset_done">Đã xóa các gán nút tùy chỉnh</string>
+    <string name="rm_capture_title">Nhấn một nút trên điều khiển</string>
+    <string name="rm_capture_hint">Phím điều hướng, OK, Quay lại và Âm lượng được giữ riêng · Nhấn Quay lại để hủy</string>
+    <string name="rm_capture_waiting">Đang chờ nhấn nút…</string>
+    <string name="rm_edit_subtitle">Mã phím: %1$s</string>
+    <string name="rm_slot_tap">Nhấn nhanh</string>
+    <string name="rm_slot_double">Nhấn đúp</string>
+    <string name="rm_slot_hold">Nhấn giữ (0,5 giây)</string>
+    <string name="rm_short_tap">Nhấn</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Giữ</string>
+    <string name="rm_target_none">Chưa gán</string>
+    <string name="rm_delete_btn">Xóa nút tùy chỉnh</string>
+    <string name="rm_saved">Đã lưu gán nút</string>
+    <string name="rm_action_mute">Tắt tiếng</string>
+    <string name="rm_action_ignore">Bỏ qua nút (vô hiệu hóa)</string>
+</resources>

@@ -392,16 +392,21 @@ final class ClockScene {
         artRim.setBackground(rim);
 
         applyRoundedOutline(mediaAppIcon, dp(4));
+        ExpressiveGlass.markPreserveImage(artImage);
+        ExpressiveGlass.markPreserveImage(artFallback);
+        ExpressiveGlass.markPreserveImage(mediaAppIcon);
         applyRoundedOutline(progressTrack, dp(2));
+        boolean lightGlass = ExpressiveGlass.isLightGlass();
         GradientDrawable trackBg = new GradientDrawable();
-        trackBg.setColor(0x2EFFFFFF);
+        trackBg.setColor(lightGlass ? 0x260F172A : 0x2EFFFFFF);
         trackBg.setCornerRadius(dp(2));
         progressTrack.setBackground(trackBg);
 
         GradientDrawable fillBg = new GradientDrawable();
-        fillBg.setColor(0xF0FFFFFF);
+        fillBg.setColor(lightGlass ? 0xE60F172A : 0xF0FFFFFF);
         fillBg.setCornerRadius(dp(2));
         progressFill.setBackground(fillBg);
+        ExpressiveGlass.applyAdaptiveContentTheme(mediaCard);
 
         GradientDrawable audioBg = new GradientDrawable();
         audioBg.setColor(0x28FFFFFF);
@@ -550,9 +555,9 @@ final class ClockScene {
         } else if (controlsHint != null) {
             controlsHint.setVisibility(View.GONE);
         }
-        latitude = ctx.getString(R.string.latitude);
-        longitude = ctx.getString(R.string.longitude);
-        weatherCity = ctx.getString(R.string.weather_city);
+        latitude = FeaturePrefs.weatherLatitude(ctx);
+        longitude = FeaturePrefs.weatherLongitude(ctx);
+        weatherCity = FeaturePrefs.weatherCity(ctx);
         aerialEnabled = AerialCatalog.isEnabled(ctx);
 
         Config cfg = preloadedConfig;
@@ -1098,7 +1103,7 @@ final class ClockScene {
 
     private void refreshAmbientMeta() {
         if (appCtx == null) return;
-        // 1. Offline sunrise / sunset from configured coordinates (local).
+        // 1. Offline sunrise / sunset from configured coordinates.
         if (!TextUtils.isEmpty(latitude) && !TextUtils.isEmpty(longitude)) {
             LocalDateTime now = LocalDateTime.now();
             int[] sun = WallpaperMood.sun(now.toLocalDate(), latitude, longitude, ZoneId.systemDefault());

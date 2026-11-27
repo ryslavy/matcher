@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Години"</string>
+    <string name="remote_minutes">"Хвилини"</string>
+    <string name="remote_day">"День"</string>
+    <string name="remote_month">"Місяць"</string>
+    <string name="remote_year">"Рік"</string>
+    <string name="remote_hint">"Вліво / Вправо: поле · Вгору / Вниз: значення · OK: далі · Назад: скасувати"</string>
+    <string name="remote_page_hint">"Виберіть рядок стрілками й натисніть OK. Зміни набудуть чинності після збереження."</string>
+    <string name="remote_events">"ЩОТИЖНЕВІ ПОДІЇ"</string>
+    <string name="remote_exclusions">"ПЕРІОДИ БЕЗ АВТОМАТИЧНОГО УВІМКНЕННЯ"</string>
+    <string name="remote_wake_time">"Час увімкнення"</string>
+    <string name="remote_sleep_time">"Час сну"</string>
+</resources>

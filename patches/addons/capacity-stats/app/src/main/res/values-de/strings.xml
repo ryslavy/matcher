@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Speicher &amp; RAM</string>
+    <string name="loading">Werte werden gelesen…</string>
+    <string name="unavailable">Werte nicht verfügbar</string>
+    <string name="back">Zurück</string>
+    <string name="memory">Verfügbarer RAM: %1$s</string>
+    <string name="memory_used">Belegter RAM: %1$s</string>
+    <string name="storage">Verfügbarer Speicher: %1$s</string>
+    <string name="note">Verfügbarer RAM enthält freigebbaren Cache; belegter RAM ist Gesamt minus verfügbar. Speicher bezieht sich auf das Daten-Dateisystem.</string>
+</resources>

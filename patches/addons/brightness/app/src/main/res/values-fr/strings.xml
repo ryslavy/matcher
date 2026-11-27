@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Luminosité</string>
+    <string name="quick_brightness">Luminosité %1$d %%</string>
+    <string name="quick_night_brightness">Luminosité nocturne %1$d %%</string>
+    <string name="quick_hint">◀ ▶ régler · OK fermer</string>
+    <string name="channel_name">Assombrissement de l\'écran</string>
+    <string name="notification_text">Écran assombri. Ouvrez Luminosité pour modifier ou désactiver.</string>
+</resources>

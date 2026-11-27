@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Đồng hồ thế giới</string>
+    <string name="add_city">Thêm thành phố</string>
+    <string name="clock_format">Định dạng đồng hồ</string>
+    <string name="local">Địa phương</string>
+    <string name="search_city">Thành phố hoặc múi giờ</string>
+    <string name="search_hint">Nhấn OK để nhập; Xuống để chọn thành phố</string>
+    <string name="no_cities">Không có thành phố phù hợp</string>
+    <string name="change_city">Đổi thành phố</string>
+    <string name="move_earlier">Chuyển lên trước</string>
+    <string name="move_later">Chuyển ra sau</string>
+    <string name="remove_city">Xóa thành phố</string>
+    <string name="city_limit">Chọn tối đa sáu đồng hồ</string>
+    <string name="already_shown">Đồng hồ này đã được hiển thị</string>
+    <string name="same_day">Cùng ngày với giờ địa phương</string>
+    <string name="tomorrow">Ngày mai tại thành phố này</string>
+    <string name="yesterday">Hôm qua tại thành phố này</string>
+    <plurals name="day_difference">
+        <item quantity="other">%1$+d ngày so với địa phương</item>
+    </plurals>
+    <string name="local_reference">So sánh ngày với %1$s</string>
+    <string name="controls">Phím mũi tên di chuyển · OK tùy chọn thành phố · Quay lại để thoát</string>
+    <string name="format_system">Theo cài đặt TV</string>
+    <string name="format_12">Định dạng 12 giờ</string>
+    <string name="format_24">Định dạng 24 giờ</string>
+    <string name="close">Đóng</string>
+    <string name="screensaver">Trình bảo vệ màn hình</string>
+    <string name="preview">Xem trước · nhấn phím bất kỳ để quay lại</string>
+    <string name="background_option">Nền: %1$s</string>
+    <string name="motion_option">Chuyển động: %1$s</string>
+    <string name="brightness_option">Độ sáng đồng hồ: %1$s</string>
+    <string name="gradient">Chuyển sắc bầu trời</string>
+    <string name="plain">Đen</string>
+    <string name="motion_on">Bật</string>
+    <string name="motion_reduced">Giảm chuyển động (tĩnh)</string>
+    <string name="clock_brightness">Độ sáng đồng hồ</string>
+    <string name="dim">Mờ</string>
+    <string name="medium">Trung bình</string>
+    <string name="bright">Sáng</string>
+    <string name="tv_screensaver_settings">Cài đặt bảo vệ màn hình TV</string>
+    <string name="screensaver_unavailable">TV này không hiển thị cài đặt bảo vệ màn hình. Bạn vẫn có thể dùng chế độ Xem trước.</string>
+    <string name="background">Nền</string>
+    <string name="starfield">Bầu trời sao</string>
+    <string name="world_map">Bản đồ thế giới</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

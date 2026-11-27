@@ -129,11 +129,13 @@ final class RemotePicker extends Dialog {
 
             wheel.setOnFocusChangeListener((v, focused) -> {
                 GlassKit.animateFocus(v, focused, 1.04f, 1.5f, d);
-                int color = focused ? 0xFFA7F3D0 : Color.WHITE;
-                upArrow.setTextColor(focused ? Ui.ACCENT_EMERALD : 0x77FFFFFF);
+                int color = focused ? GlassKit.adaptiveAccentTextColor(0xFFA7F3D0) : GlassKit.adaptivePrimaryTextColor();
+                int arrowFoc = GlassKit.adaptiveAccentTextColor(Ui.ACCENT_EMERALD);
+                int arrowRest = GlassKit.adaptiveHintTextColor();
+                upArrow.setTextColor(focused ? arrowFoc : arrowRest);
                 number.setTextColor(color);
-                downArrow.setTextColor(focused ? Ui.ACCENT_EMERALD : 0x77FFFFFF);
-                caption.setTextColor(focused ? 0xDDFFFFFF : 0x8CFFFFFF);
+                downArrow.setTextColor(focused ? arrowFoc : arrowRest);
+                caption.setTextColor(focused ? GlassKit.adaptivePrimaryTextColor() : GlassKit.adaptiveSecondaryTextColor());
             });
             wheel.setOnClickListener(v -> advance(index));
             wheel.setOnKeyListener((v, key, event) -> {
@@ -203,6 +205,7 @@ final class RemotePicker extends Dialog {
         });
 
         refresh();
+        GlassKit.applyAdaptiveContentTheme(root);
 
         final boolean[] pushedBlur = {false};
         final boolean[] poppedBlur = {false};

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slušalice</string>
+    <string name="plays_through">Trenutni izlaz zvuka: %1$s</string>
+    <string name="output_speakers">zvučnici TV-a</string>
+    <string name="output_fixed">audio-izlaz TV-a (HDMI ARC ili optički)</string>
+    <string name="allow_title">Dozvoli pristup Bluetooth-u</string>
+    <string name="allow_detail">Za prikaz vaših slušalica i otkrivanje kada se prekinu. OK prikazuje zahtev.</string>
+    <string name="not_allowed">Nije dozvoljeno</string>
+    <string name="pair_title">Upari ili poveži slušalice</string>
+    <string name="pair_detail">Otvara Bluetooth podešavanja TV-a. Prvo prebacite slušalice u režim uparivanja.</string>
+    <string name="guard_title">Tišina pri prekidu veze</string>
+    <string name="guard_detail">Pauzira reprodukciju i utišava zvučnike TV-a kada se slušalice odvoje, kako zvuk ne bi prešao u prostoriju. Vraća zvuk kada se ponovo povežu.</string>
+    <string name="guard_detail_fixed">Pauzira reprodukciju kada se slušalice odvoje. Jačina zvuka ovog TV-a je fiksna (ARC ili pojačalo), pa ne može i da utiša zvučnike.</string>
+    <string name="on">Uklj.</string>
+    <string name="off">Isklj.</string>
+    <string name="unmute_title">Uključi zvuk zvučnika</string>
+    <string name="unmute_detail">Utišano kada su se slušalice odvojile.</string>
+    <string name="muted">Utišano</string>
+    <string name="heading_paired">Uparene slušalice i zvučnici</string>
+    <string name="no_bluetooth">Ovaj TV nema Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth je isključen</string>
+    <string name="bluetooth_off_detail">Uključite ga u podešavanjima TV-a.</string>
+    <string name="none_yet">Još nema uređaja</string>
+    <string name="none_yet_detail">Koristite red iznad za uparivanje.</string>
+    <string name="connected">Povezano</string>
+    <string name="connected_battery">Povezano, baterija %1$s</string>
+    <string name="not_connected_detail">Nije povezano. OK otvara Bluetooth podešavanja za povezivanje.</string>
+    <string name="unnamed">Neimenovani uređaj</string>
+    <string name="heading_several">Više slušalica odjednom</string>
+    <string name="sharing_one_pair">Ovaj TV šalje zvuk na jedan par Bluetooth slušalica odjednom. Za dva para koristite dvokanalni Bluetooth predajnik na izlazu za slušalice ili optičkom izlazu TV-a.</string>
+    <string name="sharing_auracast">Ovaj TV može da emituje zvuk na više LE Audio (Auracast) slušalica istovremeno: pokrenite deljenje u Bluetooth podešavanjima TV-a.</string>
+    <string name="sharing_no_broadcast">Ovaj TV šalje zvuk na jedan par Bluetooth slušalica odjednom i ne podržava LE Audio emitovanje. Za dva para koristite dvokanalni Bluetooth predajnik na izlazu za slušalice ili optičkom izlazu TV-a.</string>
+</resources>

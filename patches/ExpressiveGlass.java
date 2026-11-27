@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -24,7 +25,11 @@ import android.graphics.RenderEffect;
 import android.graphics.RenderNode;
 import android.graphics.RuntimeShader;
 import android.graphics.Shader;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,6 +43,7 @@ import android.view.ViewOutlineProvider;
 import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextClock;
@@ -123,6 +129,8 @@ final class ExpressiveGlass {
                     + "uniform float uEdgeClarity;\n"
                     + "uniform float uInteriorFill;\n"
                     + "uniform float uLiquidMode;\n"
+                    + "uniform float uSurfaceLight;\n"
+                    + "uniform float uInteriorDim;\n"
                     + "uniform float3 uRimTint;\n"
                     + "uniform float uWobble;\n"
                     + "uniform float uPhase;\n"
@@ -167,7 +175,10 @@ final class ExpressiveGlass {
                     + "    float2 screenPos = uScreenOrigin + fragCoord * uScreenScale;\n"
                     + "    if (uInteriorFill > 0.5) {\n"
                     + "        half3 baseBlur = sampleBlur(screenPos);\n"
-                    + "        baseBlur = applyVibrancyAndAdapt(baseBlur * half(0.94), half(0.24), dither);\n"
+                    + "        baseBlur = applyVibrancyAndAdapt(baseBlur * half(uInteriorDim), half(0.24), dither);\n"
+                    + "        if (uSurfaceLight > 0.5) {\n"
+                    + "            baseBlur = mix(baseBlur, half3(0.95, 0.97, 1.0), half(0.46));\n"
+                    + "        }\n"
                     + "        return half4(baseBlur * half(mask), half(mask));\n"
                     + "    }\n"
                     + "    float distIn = max(0.0, -d);\n"
@@ -213,13 +224,18 @@ final class ExpressiveGlass {
                     + "        half3 deepBlur = half3(sampleBlur(uvR).r, sampleBlur(uvG).g, sampleBlur(uvB).b);\n"
                     + "        float clarity = clamp(pow(lensCurve, 0.68) * uEdgeClarity, 0.0, 0.92);\n"
                     + "        half3 refracted = mix(deepBlur, lensFrost, half(clarity));\n"
-                    + "        refracted = applyVibrancyAndAdapt(refracted * half(0.94), half(0.46), dither);\n"
+                    + "        float edgeDim = uSurfaceLight > 0.5 ? 1.0 : (uInteriorDim < 0.65 ? 0.78 : 0.94);\n"
+                    + "        refracted = applyVibrancyAndAdapt(refracted * half(edgeDim), half(0.46), dither);\n"
+                    + "        if (uSurfaceLight > 0.5) {\n"
+                    + "            refracted = mix(refracted, half3(0.96, 0.98, 1.0), half(0.22));\n"
+                    + "        }\n"
                     + "        float caustic = smoothstep(uBezel * 0.36, 0.0, abs(distIn - uBezel * 0.30)) * (0.12 * lobeF + 0.06 * lobeB);\n"
                     + "        float rimWeight = smoothstep(1.0, 0.0, t);\n"
-                    + "        float refractAlpha = pow(rimWeight, 1.08) * 0.84;\n"
+                    + "        float refractAlpha = pow(rimWeight, 1.08) * (uSurfaceLight > 0.5 ? 0.78 : 0.84);\n"
                     + "        float specAlpha = clamp(hair * (0.06 + 0.68 * (lobeF + lobeB)) + glowIn * (0.18 * lobeF + 0.06 * lobeB) + caustic, 0.0, 0.94);\n"
+                    + "        half3 rimSpec = uSurfaceLight > 0.5 ? mix(specCol, half3(0.14, 0.20, 0.32), half(hair * 0.44)) : specCol;\n"
                     + "        float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.96);\n"
-                    + "        half3 premul = clamp(specCol * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
+                    + "        half3 premul = clamp(rimSpec * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
                     + "        return half4(premul * half(mask), half(outA * mask));\n"
                     + "    }\n"
                     + "    half3 refracted = half3(sampleBlur(uvR).r, sampleBlur(uvG).g, sampleBlur(uvB).b);\n"
@@ -227,12 +243,17 @@ final class ExpressiveGlass {
                     + "        half3 sharpEdge = half3(sampleSharpSmooth(uvR).r, sampleSharpSmooth(uvG).g, sampleSharpSmooth(uvB).b);\n"
                     + "        refracted = mix(refracted, sharpEdge, half(pow(lensCurve, 1.05) * uEdgeClarity * 0.38));\n"
                     + "    }\n"
-                    + "    refracted = applyVibrancyAndAdapt(refracted * half(0.90), half(0.30), dither);\n"
+                    + "    float smDim = uSurfaceLight > 0.5 ? 0.98 : (uInteriorDim < 0.65 ? 0.72 : 0.90);\n"
+                    + "    refracted = applyVibrancyAndAdapt(refracted * half(smDim), half(0.30), dither);\n"
+                    + "    if (uSurfaceLight > 0.5) {\n"
+                    + "        refracted = mix(refracted, half3(0.95, 0.97, 1.0), half(0.30));\n"
+                    + "    }\n"
                     + "    float rimWeight = smoothstep(1.0, 0.0, t);\n"
                     + "    float refractAlpha = pow(rimWeight, 1.55) * 0.44;\n"
                     + "    float specAlpha = clamp(hair * (0.06 + 0.62 * (lobeF + lobeB)) + glowIn * (0.14 * lobeF + 0.05 * lobeB), 0.0, 0.90);\n"
+                    + "    half3 rimSpec2 = uSurfaceLight > 0.5 ? mix(specCol, half3(0.14, 0.20, 0.32), half(hair * 0.44)) : specCol;\n"
                     + "    float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.92);\n"
-                    + "    half3 premul = clamp(specCol * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
+                    + "    half3 premul = clamp(rimSpec2 * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
                     + "    return half4(premul * half(mask), half(outA * mask));\n"
                     + "}";
 
@@ -289,8 +310,17 @@ final class ExpressiveGlass {
     static final String EXTRA_BACKDROP_JPEG = "com.gathin.tvhome.BACKDROP_JPEG";
     static final String EXTRA_OVER_HOME = "com.gathin.tvhome.OVER_HOME";
     static final String EXTRA_OVER_SHARP_BACKDROP = "com.gathin.tvhome.OVER_SHARP_BACKDROP";
+    static final String EXTRA_GLASS_STYLE = "com.gathin.tvhome.GLASS_STYLE";
+    static final String EXTRA_WALLPAPER_SEED = "com.gathin.tvhome.WALLPAPER_SEED";
     static final String EXTRA_SEAMLESS_HANDOFF = "com.gathin.tvhome.SEAMLESS_HANDOFF";
     static final String ACTION_ADDON_DISMISSING = "com.gathin.tvhome.ACTION_ADDON_DISMISSING";
+
+    /** Unified Glass Material System style IDs (mirrored verbatim in GlassKit for all 8 add-ons). */
+    static final int STYLE_TONAL = 0;
+    static final int STYLE_OBSIDIAN = 1;
+    static final int STYLE_FROST = 2;
+    static final int STYLE_CLEAR = 3;
+    static final int STYLE_CHROMATIC = 4;
 
     static final int HOME_WALLPAPER_SHARP_W = 960;
     static final int HOME_WALLPAPER_SHARP_H = 540;
@@ -301,6 +331,7 @@ final class ExpressiveGlass {
 
     static volatile boolean homeLiquidOpticsEnabled = true;
     static volatile boolean homeBackdropBlurEnabled = true;
+    static volatile int glassStyle = STYLE_TONAL;
 
     static final class RefractionBackdrop {
         final Bitmap sharp;
@@ -375,6 +406,7 @@ final class ExpressiveGlass {
     private static volatile Handler mainHandler;
     private static final java.util.Map<Long, RenderEffect> EFFECT_CACHE = new java.util.HashMap<>();
     private static int effectCacheSeed = -1;
+    private static int effectCacheStyle = -1;
     private static final java.util.ArrayDeque<RuntimeShader> LIQUID_SHADER_POOL = new java.util.ArrayDeque<>();
     private static final Object BLUR_SCRATCH_LOCK = new Object();
     @Nullable
@@ -559,6 +591,56 @@ final class ExpressiveGlass {
 
     static void setHomeBackdropBlurEnabled(boolean enabled) {
         homeBackdropBlurEnabled = enabled;
+    }
+
+    static int glassStyle() {
+        return glassStyle;
+    }
+
+    static void setGlassStyle(int style) {
+        int clamped = (style >= STYLE_TONAL && style <= STYLE_CHROMATIC) ? style : STYLE_TONAL;
+        if (glassStyle == clamped) return;
+        glassStyle = clamped;
+        synchronized (EFFECT_CACHE) {
+            EFFECT_CACHE.clear();
+            effectCacheStyle = -1;
+        }
+    }
+
+    static boolean isLightGlass() {
+        return glassStyle == STYLE_FROST;
+    }
+
+    static boolean isLightGlass(int style) {
+        return style == STYLE_FROST;
+    }
+
+    static int styleFromKey(@Nullable String key) {
+        if (FeaturePrefs.GLASS_OBSIDIAN.equals(key)) return STYLE_OBSIDIAN;
+        if (FeaturePrefs.GLASS_FROST.equals(key)) return STYLE_FROST;
+        if (FeaturePrefs.GLASS_CLEAR.equals(key)) return STYLE_CLEAR;
+        if (FeaturePrefs.GLASS_CHROMATIC.equals(key)) return STYLE_CHROMATIC;
+        return STYLE_TONAL;
+    }
+
+    static int resolveAutoStyle(boolean isDay) {
+        return isDay ? STYLE_FROST : STYLE_OBSIDIAN;
+    }
+
+    static float interiorDimForStyle(int style) {
+        switch (style) {
+            case STYLE_OBSIDIAN:
+                return 0.42f;
+            case STYLE_FROST:
+                return 0.94f;
+            case STYLE_CLEAR:
+                return 0.86f;
+            case STYLE_CHROMATIC:
+                return 0.82f;
+            case STYLE_TONAL:
+            default:
+                return 0.78f;
+        }
     }
 
     static void clearHomeLiveBackdrop() {
@@ -1091,6 +1173,7 @@ final class ExpressiveGlass {
         private final float insetPx;
         private final float density;
         private final int seedRgb;
+        private final int style;
         private final Paint bitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG);
         private final Paint tintVeilPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         private final RectF clipRect = new RectF();
@@ -1104,13 +1187,14 @@ final class ExpressiveGlass {
         private boolean released;
 
         ExpressiveBlurVeilDrawable(Bitmap sharpChildren, @Nullable Bitmap softwareFallback,
-                                   float cornerRadiusPx, float insetPx, float density, int seedRgb) {
+                                   float cornerRadiusPx, float insetPx, float density, int seedRgb, int style) {
             this.sharpChildren = sharpChildren;
             this.softwareFallback = softwareFallback;
             this.cornerRadiusPx = cornerRadiusPx;
             this.insetPx = insetPx;
             this.density = density;
             this.seedRgb = seedRgb;
+            this.style = style;
         }
 
         private void ensureBuilt(int w, int h) {
@@ -1122,9 +1206,23 @@ final class ExpressiveGlass {
             float r = Math.max(0f, Math.min(cornerRadiusPx - insetPx, Math.min(clipRect.width(), clipRect.height()) * 0.5f));
             clipPath.addRoundRect(clipRect, r, r, Path.Direction.CW);
 
-            int accent800 = tonalAccent800(seedRgb);
-            int topTint = (0x20 << 24) | mixRgb(0x101520, accent800, 0.38f);
-            int botTint = (0x34 << 24) | mixRgb(0x080B12, accent800, 0.28f);
+            int topTint;
+            int botTint;
+            if (style == STYLE_FROST) {
+                int lt = tonalLightTint(seedRgb);
+                topTint = (0x3A << 24) | mixRgb(0xF4F7FC, lt, 0.42f);
+                botTint = (0x52 << 24) | mixRgb(0xE2E8F2, lt, 0.34f);
+            } else if (style == STYLE_OBSIDIAN) {
+                topTint = 0x44020306;
+                botTint = 0x5A000002;
+            } else if (style == STYLE_CHROMATIC) {
+                topTint = (0x2E << 24) | tonalAccent700(seedRgb);
+                botTint = (0x44 << 24) | tonalAccent800(seedRgb);
+            } else {
+                int accent800 = tonalAccent800(seedRgb);
+                topTint = (0x20 << 24) | mixRgb(0x101520, accent800, 0.38f);
+                botTint = (0x34 << 24) | mixRgb(0x080B12, accent800, 0.28f);
+            }
             tintVeilPaint.setShader(new LinearGradient(
                     0f, clipRect.top, 0f, clipRect.bottom,
                     topTint, botTint, Shader.TileMode.CLAMP));
@@ -1416,7 +1514,8 @@ final class ExpressiveGlass {
             }
 
             float rad = pd != null ? pd.cornerRadiusPx : 24f * density;
-            return new ExpressiveBlurVeilDrawable(sharpChildren, swFallback, rad, 1.5f * density, density, dynamicSeedRgb);
+            return new ExpressiveBlurVeilDrawable(sharpChildren, swFallback, rad, 1.5f * density, density,
+                    dynamicSeedRgb, glassStyle);
         } catch (RuntimeException | OutOfMemoryError ignored) {
             return null;
         }
@@ -1431,6 +1530,7 @@ final class ExpressiveGlass {
             int screenH = (base != null && base.screenH > 0) ? base.screenH : dm.heightPixels;
             if (screenW <= 0 || screenH <= 0) return;
 
+            final int style = glassStyle;
             boolean sharpHomeOutside = !homeBackdropBlurEnabled
                     && base != null && !base.externalApp
                     && MainActivity.isHomeVisible();
@@ -1444,11 +1544,13 @@ final class ExpressiveGlass {
                     c.drawBitmap(base.sharp, null, new Rect(0, 0, cw, ch), fp);
                 } else {
                     c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
-                    // Match Home/overlay backdropBlurVeil's dark shade so area outside parent panel matches eye perception.
-                    c.drawColor(0x64060A12);
+                    // Match Home/overlay backdropBlurVeil's shade so area outside parent panel matches eye perception.
+                    int outsideTint = style == STYLE_FROST ? 0x26DCE4F2
+                            : (style == STYLE_OBSIDIAN ? 0x7A020306 : 0x64060A12);
+                    c.drawColor(outsideTint);
                 }
             } else {
-                c.drawColor(0xFF10141C);
+                c.drawColor(style == STYLE_FROST ? 0xFFDDE4F0 : (style == STYLE_OBSIDIAN ? 0xFF040508 : 0xFF10141C));
             }
 
             int[] loc = new int[2];
@@ -1468,7 +1570,7 @@ final class ExpressiveGlass {
                 c.restoreToCount(save);
             }
             boolean parentSmoked = pd != null && pd.smoked;
-            int[] cols = panelGlassColors(dynamicSeedRgb, parentSmoked, sharpHomeOutside && !parentSmoked);
+            int[] cols = panelGlassColors(style, dynamicSeedRgb, parentSmoked, sharpHomeOutside && !parentSmoked);
             Paint glassFill = new Paint(Paint.ANTI_ALIAS_FLAG);
             glassFill.setShader(new LinearGradient(
                     dst.left, dst.top, dst.left, dst.bottom,
@@ -1476,9 +1578,11 @@ final class ExpressiveGlass {
                     new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
             c.drawRoundRect(dst, rad, rad, glassFill);
             c.drawBitmap(softChildren, null, dst, fp);
-            // Match BlurVeilDrawable's smoked depth scrim inside the parent panel.
+            // Match BlurVeilDrawable's depth scrim inside the parent panel.
             Paint scrimP = new Paint(Paint.ANTI_ALIAS_FLAG);
-            scrimP.setColor(0x3C080C14);
+            scrimP.setColor(style == STYLE_FROST ? 0x36E8EEF8
+                    : (style == STYLE_OBSIDIAN ? 0x4C020305
+                    : (style == STYLE_CHROMATIC ? ((0x38 << 24) | tonalAccent800(dynamicSeedRgb)) : 0x3C080C14)));
             c.drawRoundRect(dst, rad, rad, scrimP);
 
             Bitmap compBlur = makeFastBlurred(compSharp, 240, 135, false);
@@ -1756,15 +1860,24 @@ final class ExpressiveGlass {
         float d = density > 0f ? density : 2f;
         float top = tv.getPaddingTop();
         float span = Math.max(tv.getTextSize() * 1.15f, 16f * d);
-        int softTint = mixRgb(0xD8E3F6, tonalRimTint(dynamicSeedRgb), 0.42f);
-        int bottomColor = 0xFF000000 | softTint;
         tv.setShadowLayer(0f, 0f, 0f, Color.TRANSPARENT);
         tv.getPaint().clearShadowLayer();
-        tv.getPaint().setShader(new LinearGradient(
-                0f, top, 0f, top + span,
-                new int[]{0xFFFFFFFF, 0xFFF3F7FE, bottomColor},
-                new float[]{0f, 0.48f, 1f},
-                Shader.TileMode.CLAMP));
+        if (!displayHero && isLightGlass()) {
+            int deepTint = mixRgb(0x2B374B, tonalAccent800(dynamicSeedRgb), 0.34f);
+            tv.getPaint().setShader(new LinearGradient(
+                    0f, top, 0f, top + span,
+                    new int[]{0xFF0A101E, 0xFF172235, 0xFF000000 | deepTint},
+                    new float[]{0f, 0.52f, 1f},
+                    Shader.TileMode.CLAMP));
+        } else {
+            int softTint = mixRgb(0xD8E3F6, tonalRimTint(dynamicSeedRgb), 0.42f);
+            int bottomColor = 0xFF000000 | softTint;
+            tv.getPaint().setShader(new LinearGradient(
+                    0f, top, 0f, top + span,
+                    new int[]{0xFFFFFFFF, 0xFFF3F7FE, bottomColor},
+                    new float[]{0f, 0.48f, 1f},
+                    Shader.TileMode.CLAMP));
+        }
         if (tv instanceof LuminousTarget) {
             if (displayHero) {
                 ((LuminousTarget) tv).setSeparateShadow(2.0f * d, 0.8f * d, 0x58000000);
@@ -1808,14 +1921,17 @@ final class ExpressiveGlass {
                                                  Shader.TileMode tileMode) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return null;
         int seed = dynamicSeedRgb;
+        int style = glassStyle;
         float sigma = backdropSigmaPx(density, radiusDp);
-        long key = (((long) Math.round(sigma * 10f)) << 8)
+        long key = (((long) Math.round(sigma * 10f)) << 12)
+                | ((long) style << 6)
                 | ((long) tileMode.ordinal() << 2)
                 | (tintAndDim ? 1L : 0L);
         synchronized (EFFECT_CACHE) {
-            if (effectCacheSeed != seed) {
+            if (effectCacheSeed != seed || effectCacheStyle != style) {
                 EFFECT_CACHE.clear();
                 effectCacheSeed = seed;
+                effectCacheStyle = style;
             }
             RenderEffect cached = EFFECT_CACHE.get(key);
             if (cached != null) return cached;
@@ -1825,15 +1941,62 @@ final class ExpressiveGlass {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             try {
                 RuntimeShader shader = new RuntimeShader(BACKDROP_AGSL);
-                int tint = tonalAccent800(seed);
-                shader.setFloatUniform("uSaturation", tintAndDim ? 1.26f : 1.18f);
-                shader.setFloatUniform("uLift", tintAndDim ? 0.012f : 0.008f);
-                shader.setFloatUniform("uDim", tintAndDim ? 0.86f : 0.92f);
+                int tint;
+                float sat, lift, dim, tintMix;
+                if (tintAndDim) {
+                    switch (style) {
+                        case STYLE_OBSIDIAN:
+                            tint = 0x06080C;
+                            sat = 1.12f;
+                            lift = 0.002f;
+                            dim = 0.66f;
+                            tintMix = 0.22f;
+                            break;
+                        case STYLE_FROST:
+                            tint = tonalLightTint(seed);
+                            sat = 1.16f;
+                            lift = 0.055f;
+                            dim = 0.92f;
+                            tintMix = 0.14f;
+                            break;
+                        case STYLE_CLEAR:
+                            tint = tonalAccent800(seed);
+                            sat = 1.32f;
+                            lift = 0.016f;
+                            dim = 0.90f;
+                            tintMix = 0.08f;
+                            break;
+                        case STYLE_CHROMATIC:
+                            tint = tonalAccent700(seed);
+                            sat = 1.38f;
+                            lift = 0.014f;
+                            dim = 0.86f;
+                            tintMix = 0.26f;
+                            break;
+                        case STYLE_TONAL:
+                        default:
+                            tint = tonalAccent800(seed);
+                            sat = 1.26f;
+                            lift = 0.012f;
+                            dim = 0.86f;
+                            tintMix = 0.14f;
+                            break;
+                    }
+                } else {
+                    tint = tonalAccent800(seed);
+                    sat = 1.18f;
+                    lift = 0.008f;
+                    dim = 0.92f;
+                    tintMix = 0.06f;
+                }
+                shader.setFloatUniform("uSaturation", sat);
+                shader.setFloatUniform("uLift", lift);
+                shader.setFloatUniform("uDim", dim);
                 shader.setFloatUniform("uTint",
                         ((tint >> 16) & 0xFF) / 255f,
                         ((tint >> 8) & 0xFF) / 255f,
                         (tint & 0xFF) / 255f);
-                shader.setFloatUniform("uTintMix", tintAndDim ? 0.14f : 0.06f);
+                shader.setFloatUniform("uTintMix", tintMix);
                 shader.setFloatUniform("uGrain", 0.014f);
                 RenderEffect post = RenderEffect.createRuntimeShaderEffect(shader, "content");
                 built = RenderEffect.createChainEffect(post, blur);
@@ -1848,8 +2011,8 @@ final class ExpressiveGlass {
             built = RenderEffect.createChainEffect(sat, blur);
         }
         synchronized (EFFECT_CACHE) {
-            if (effectCacheSeed == seed) {
-                if (EFFECT_CACHE.size() >= 8) EFFECT_CACHE.clear();
+            if (effectCacheSeed == seed && effectCacheStyle == style) {
+                if (EFFECT_CACHE.size() >= 12) EFFECT_CACHE.clear();
                 EFFECT_CACHE.put(key, built);
             }
         }
@@ -1951,6 +2114,25 @@ final class ExpressiveGlass {
         return hsvToRgb(hsv[0], sat, val);
     }
 
+    /** Richer Material You accent1_700 for Chromatic panels and wallpaper-adaptive inner cards/tiles. */
+    static int tonalAccent700(int seedRgb) {
+        int rgb = seedRgb & 0x00FFFFFF;
+        float[] hsv = new float[3];
+        rgbToHsv((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, hsv);
+        float sat = clampFloat(hsv[1] * 0.86f, 0.28f, 0.62f);
+        float val = clampFloat(0.32f + hsv[2] * 0.14f, 0.30f, 0.44f);
+        return hsvToRgb(hsv[0], sat, val);
+    }
+
+    /** Delicate pearl-tinted highlight hue derived from the wallpaper seed for Frost White glass. */
+    static int tonalLightTint(int seedRgb) {
+        int rgb = seedRgb & 0x00FFFFFF;
+        float[] hsv = new float[3];
+        rgbToHsv((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, hsv);
+        float sat = clampFloat(hsv[1] * 0.16f, 0.03f, 0.11f);
+        return hsvToRgb(hsv[0], sat, 0.96f);
+    }
+
     /** Subtle light-catching specular tint derived from the dynamic wallpaper seed for glass rim bounce. */
     static int tonalRimTint(int seedRgb) {
         int rgb = seedRgb & 0x00FFFFFF;
@@ -1980,69 +2162,557 @@ final class ExpressiveGlass {
     }
 
     /**
-     * Computes AOSP ShadeColors-inspired 3-stop translucent frosted-glass panel gradient colors.
-     * Combines AOSP's neutral #404040 luminous lift, deep lStar=4 neutral base (#0E0F12), and dynamic
-     * wallpaper accent1_800 tinting.
+     * Deep, jewel-toned optical focus ring color for Frost White light-glass surfaces so the active
+     * selection rim pops cleanly over luminous pearl glass (never white-on-white).
      */
-    static int[] panelGlassColors(int seedRgb, boolean smoked) {
-        return panelGlassColors(seedRgb, smoked, false);
+    static int refineLightFocusAccent(int argb) {
+        int rgb = argb & 0x00FFFFFF;
+        if (rgb == 0) return 0x1E293B;
+        float[] hsv = new float[3];
+        rgbToHsv((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, hsv);
+        if (hsv[1] < 0.08f) {
+            return 0x1E293B;
+        }
+        hsv[1] = clampFloat(Math.max(hsv[1] * 0.92f, 0.52f), 0.52f, 0.88f);
+        hsv[2] = clampFloat(0.28f + hsv[2] * 0.22f, 0.28f, 0.48f);
+        return hsvToRgb(hsv[0], hsv[1], hsv[2]);
     }
 
     /**
-     * Computes 3-stop frosted-glass panel gradient colors. When {@code frostedOverSharp} is true
-     * (per-panel frosted glass floating over an unblurred sharp Home screen), deepens the glass body
-     * tint slightly to match the exact readability contrast of full-screen blurred mode.
+     * Computes AOSP ShadeColors-inspired 3-stop translucent frosted-glass panel gradient colors
+     * for the active {@link #glassStyle}.
+     */
+    static int[] panelGlassColors(int seedRgb, boolean smoked) {
+        return panelGlassColors(glassStyle, seedRgb, smoked, false);
+    }
+
+    /**
+     * Computes 3-stop frosted-glass panel gradient colors for the active {@link #glassStyle}.
+     * When {@code frostedOverSharp} is true (per-panel frosted glass floating over an unblurred sharp Home screen),
+     * calibrates body translucency to match the readability contrast of full-screen blurred mode.
      */
     static int[] panelGlassColors(int seedRgb, boolean smoked, boolean frostedOverSharp) {
-        int accent800 = tonalAccent800(seedRgb);
-        int topBase = mixRgb(0x131720, accent800, 0.36f);
-        int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
-        int botBase = mixRgb(0x07090E, accent800, 0.22f);
-        if (smoked) {
-            return new int[]{
-                    (0xA4 << 24) | topBase,
-                    (0xB2 << 24) | midBase,
-                    (0xC0 << 24) | botBase
-            };
-        }
-        if (frostedOverSharp) {
-            return new int[]{
-                    (0x76 << 24) | topBase,
-                    (0x84 << 24) | midBase,
-                    (0x92 << 24) | botBase
-            };
-        }
-        return new int[]{
-                (0x5C << 24) | topBase,
-                (0x6A << 24) | midBase,
-                (0x78 << 24) | botBase
-        };
+        return panelGlassColors(glassStyle, seedRgb, smoked, frostedOverSharp);
     }
 
-    /** Translucent Android 17 smoked-luminous tint layered over the live vibrant blurred Home dock & pills. */
+    /** Explicit-style overload (pure JVM unit-testable across all 5 Glass Material styles × 3 backdrop modes). */
+    static int[] panelGlassColors(int style, int seedRgb, boolean smoked, boolean frostedOverSharp) {
+        switch (style) {
+            case STYLE_OBSIDIAN: {
+                int topBase = 0x07090D;
+                int midBase = 0x020305;
+                int botBase = 0x000002;
+                if (smoked) {
+                    return new int[]{(0xDC << 24) | topBase, (0xE4 << 24) | midBase, (0xEC << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0xC6 << 24) | topBase, (0xD4 << 24) | midBase, (0xE0 << 24) | botBase};
+                }
+                return new int[]{(0xBC << 24) | topBase, (0xCA << 24) | midBase, (0xD6 << 24) | botBase};
+            }
+            case STYLE_FROST: {
+                int lightTint = tonalLightTint(seedRgb);
+                int topBase = mixRgb(0xF8FAFF, lightTint, 0.35f);
+                int midBase = mixRgb(0xEDF1F8, lightTint, 0.35f);
+                int botBase = mixRgb(0xE0E6F2, lightTint, 0.30f);
+                if (smoked) {
+                    return new int[]{(0xE2 << 24) | topBase, (0xE8 << 24) | midBase, (0xEE << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0xC6 << 24) | topBase, (0xD0 << 24) | midBase, (0xDA << 24) | botBase};
+                }
+                return new int[]{(0xCE << 24) | topBase, (0xD6 << 24) | midBase, (0xDE << 24) | botBase};
+            }
+            case STYLE_CLEAR: {
+                int accent800 = tonalAccent800(seedRgb);
+                int topBase = mixRgb(0x181E2B, accent800, 0.22f);
+                int midBase = mixRgb(0x0E131D, accent800, 0.16f);
+                int botBase = mixRgb(0x090C14, accent800, 0.12f);
+                if (smoked) {
+                    return new int[]{(0x8C << 24) | topBase, (0x9A << 24) | midBase, (0xAA << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0x48 << 24) | topBase, (0x54 << 24) | midBase, (0x62 << 24) | botBase};
+                }
+                return new int[]{(0x34 << 24) | topBase, (0x3E << 24) | midBase, (0x4A << 24) | botBase};
+            }
+            case STYLE_CHROMATIC: {
+                int accent700 = tonalAccent700(seedRgb);
+                int accent800 = tonalAccent800(seedRgb);
+                int topBase = mixRgb(0x18202E, accent700, 0.72f);
+                int midBase = mixRgb(0x101622, accent800, 0.76f);
+                int botBase = mixRgb(0x0A0E18, accent800, 0.80f);
+                if (smoked) {
+                    return new int[]{(0xB4 << 24) | topBase, (0xC0 << 24) | midBase, (0xCC << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0x88 << 24) | topBase, (0x94 << 24) | midBase, (0xA2 << 24) | botBase};
+                }
+                return new int[]{(0x78 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase};
+            }
+            case STYLE_TONAL:
+            default: {
+                int accent800 = tonalAccent800(seedRgb);
+                int topBase = mixRgb(0x131720, accent800, 0.36f);
+                int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
+                int botBase = mixRgb(0x07090E, accent800, 0.22f);
+                if (smoked) {
+                    return new int[]{(0xA4 << 24) | topBase, (0xB2 << 24) | midBase, (0xC0 << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0x76 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase};
+                }
+                return new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase};
+            }
+        }
+    }
+
+    /** Translucent Android 17 tint layered over the live vibrant blurred Home dock & top-bar pills. */
     static int[] dockGlassColors(int seedRgb) {
-        int accent800 = tonalAccent800(seedRgb);
-        int top = mixRgb(0x2A303B, accent800, 0.36f);
-        int mid = mixRgb(0x161A22, accent800, 0.28f);
-        int bot = mixRgb(0x0E1218, accent800, 0.30f);
-        return new int[]{
-                (0x4E << 24) | top,
-                (0x3E << 24) | mid,
-                (0x5E << 24) | bot
-        };
+        return dockGlassColors(glassStyle, seedRgb);
     }
 
-    /** Recessed translucent smoked-glass pocket for Home folder tiles so blurred dock glass shines through. */
+    static int[] dockGlassColors(int style, int seedRgb) {
+        switch (style) {
+            case STYLE_OBSIDIAN:
+                return new int[]{0xB4090B10, 0xC0030406, 0xCC000002};
+            case STYLE_FROST: {
+                int lightTint = tonalLightTint(seedRgb);
+                int top = mixRgb(0xF6F8FC, lightTint, 0.32f);
+                int mid = mixRgb(0xEAEFF7, lightTint, 0.32f);
+                int bot = mixRgb(0xDDE4F0, lightTint, 0.28f);
+                return new int[]{(0xA8 << 24) | top, (0xA0 << 24) | mid, (0xB4 << 24) | bot};
+            }
+            case STYLE_CLEAR: {
+                int accent800 = tonalAccent800(seedRgb);
+                int top = mixRgb(0x222A38, accent800, 0.20f);
+                int mid = mixRgb(0x141A24, accent800, 0.16f);
+                int bot = mixRgb(0x0C1018, accent800, 0.16f);
+                return new int[]{(0x2A << 24) | top, (0x20 << 24) | mid, (0x36 << 24) | bot};
+            }
+            case STYLE_CHROMATIC: {
+                int accent700 = tonalAccent700(seedRgb);
+                int accent800 = tonalAccent800(seedRgb);
+                int top = mixRgb(0x283244, accent700, 0.72f);
+                int mid = mixRgb(0x161E2C, accent800, 0.76f);
+                int bot = mixRgb(0x0E1420, accent800, 0.80f);
+                return new int[]{(0x6C << 24) | top, (0x5C << 24) | mid, (0x78 << 24) | bot};
+            }
+            case STYLE_TONAL:
+            default: {
+                int accent800 = tonalAccent800(seedRgb);
+                int top = mixRgb(0x2A303B, accent800, 0.36f);
+                int mid = mixRgb(0x161A22, accent800, 0.28f);
+                int bot = mixRgb(0x0E1218, accent800, 0.30f);
+                return new int[]{(0x4E << 24) | top, (0x3E << 24) | mid, (0x5E << 24) | bot};
+            }
+        }
+    }
+
+    /** Recessed translucent glass pocket for Home folder tiles so blurred dock glass shines through. */
     static int[] folderPocketColors(int seedRgb) {
-        int accent800 = tonalAccent800(seedRgb);
-        int top = mixRgb(0x202633, accent800, 0.30f);
-        int mid = mixRgb(0x131720, accent800, 0.24f);
-        int bot = mixRgb(0x0B0E15, accent800, 0.22f);
-        return new int[]{
-                (0x78 << 24) | top,
-                (0x88 << 24) | mid,
-                (0x9A << 24) | bot
-        };
+        return folderPocketColors(glassStyle, seedRgb);
+    }
+
+    static int[] folderPocketColors(int style, int seedRgb) {
+        switch (style) {
+            case STYLE_OBSIDIAN:
+                return new int[]{0xBA0B0E14, 0xC8040508, 0xD6010103};
+            case STYLE_FROST: {
+                int lightTint = tonalLightTint(seedRgb);
+                int top = mixRgb(0xF2F5FA, lightTint, 0.30f);
+                int mid = mixRgb(0xE4EAF4, lightTint, 0.28f);
+                int bot = mixRgb(0xD8E0EE, lightTint, 0.26f);
+                return new int[]{(0xBA << 24) | top, (0xC6 << 24) | mid, (0xD0 << 24) | bot};
+            }
+            case STYLE_CLEAR: {
+                int accent800 = tonalAccent800(seedRgb);
+                int top = mixRgb(0x202633, accent800, 0.20f);
+                int mid = mixRgb(0x131720, accent800, 0.16f);
+                int bot = mixRgb(0x0B0E15, accent800, 0.14f);
+                return new int[]{(0x52 << 24) | top, (0x60 << 24) | mid, (0x70 << 24) | bot};
+            }
+            case STYLE_CHROMATIC: {
+                int accent700 = tonalAccent700(seedRgb);
+                int accent800 = tonalAccent800(seedRgb);
+                int top = mixRgb(0x202838, accent700, 0.70f);
+                int mid = mixRgb(0x141B28, accent800, 0.74f);
+                int bot = mixRgb(0x0C101A, accent800, 0.78f);
+                return new int[]{(0x8C << 24) | top, (0x9A << 24) | mid, (0xAA << 24) | bot};
+            }
+            case STYLE_TONAL:
+            default: {
+                int accent800 = tonalAccent800(seedRgb);
+                int top = mixRgb(0x202633, accent800, 0.30f);
+                int mid = mixRgb(0x131720, accent800, 0.24f);
+                int bot = mixRgb(0x0B0E15, accent800, 0.22f);
+                return new int[]{(0x78 << 24) | top, (0x88 << 24) | mid, (0x9A << 24) | bot};
+            }
+        }
+    }
+
+    /**
+     * Computes adaptive inner card/row/tile surface colors {@code [fillArgb, strokeArgb]} harmonized
+     * with both the active {@link #glassStyle} and the live wallpaper seed (replaces flat generic grays).
+     * Pure JVM-testable math.
+     */
+    static int[] innerSurfaceColors(int style, int seedRgb, boolean focused) {
+        switch (style) {
+            case STYLE_OBSIDIAN:
+                return focused
+                        ? new int[]{0x841B202C, 0x5AFFFFFF}
+                        : new int[]{0x5611141B, 0x26FFFFFF};
+            case STYLE_FROST: {
+                int tint = focused ? tonalAccent700(seedRgb) : tonalAccent800(seedRgb);
+                int fillRgb = mixRgb(0x0F172A, tint, focused ? 0.36f : 0.28f);
+                int strokeRgb = mixRgb(0x0F172A, tint, focused ? 0.45f : 0.20f);
+                return focused
+                        ? new int[]{(0x26 << 24) | fillRgb, (0x54 << 24) | strokeRgb}
+                        : new int[]{(0x15 << 24) | fillRgb, (0x24 << 24) | strokeRgb};
+            }
+            case STYLE_CLEAR:
+                return focused
+                        ? new int[]{0x32FFFFFF, 0x62FFFFFF}
+                        : new int[]{0x1AFFFFFF, 0x2CFFFFFF};
+            case STYLE_CHROMATIC: {
+                int a700 = tonalAccent700(seedRgb);
+                int rim = tonalRimTint(seedRgb);
+                int fillRgb = mixRgb(focused ? 0x2D3C54 : 0x1E283A, a700, focused ? 0.88f : 0.82f);
+                int strokeRgb = focused ? mixRgb(0xFFFFFF, rim, 0.52f) : rim;
+                return focused
+                        ? new int[]{(0x84 << 24) | fillRgb, (0x88 << 24) | strokeRgb}
+                        : new int[]{(0x5C << 24) | fillRgb, (0x4A << 24) | strokeRgb};
+            }
+            case STYLE_TONAL:
+            default: {
+                int a700 = tonalAccent700(seedRgb);
+                int rim = tonalRimTint(seedRgb);
+                int fillRgb = mixRgb(focused ? 0x2C384E : 0x1E2634, a700, focused ? 0.62f : 0.54f);
+                int strokeRgb = mixRgb(focused ? 0xFFFFFF : 0xDCE6FA, rim, focused ? 0.35f : 0.48f);
+                return focused
+                        ? new int[]{(0x58 << 24) | fillRgb, (0x62 << 24) | strokeRgb}
+                        : new int[]{(0x3A << 24) | fillRgb, (0x30 << 24) | strokeRgb};
+            }
+        }
+    }
+
+    static int adaptiveDividerColor() {
+        switch (glassStyle) {
+            case STYLE_FROST:
+                return 0x240F172A;
+            case STYLE_OBSIDIAN:
+                return 0x1EFFFFFF;
+            case STYLE_CHROMATIC:
+                return (0x34 << 24) | tonalRimTint(dynamicSeedRgb);
+            case STYLE_CLEAR:
+                return 0x26FFFFFF;
+            case STYLE_TONAL:
+            default:
+                return (0x26 << 24) | mixRgb(0xFFFFFF, tonalRimTint(dynamicSeedRgb), 0.35f);
+        }
+    }
+
+    static int adaptivePrimaryTextColor() {
+        return isLightGlass() ? 0xFF0F172A : 0xFFFFFFFF;
+    }
+
+    static int adaptiveSecondaryTextColor() {
+        return isLightGlass() ? 0xC81E293B : 0xB8FFFFFF;
+    }
+
+    static int adaptiveHintTextColor() {
+        return isLightGlass() ? 0x9E334155 : 0x8CFFFFFF;
+    }
+
+    static int adaptiveAccentTextColor(int darkModeArgb) {
+        return isLightGlass() ? adaptColorForLight(darkModeArgb) : darkModeArgb;
+    }
+
+    static ColorStateList adaptivePillTextColors() {
+        int focused = isLightGlass() ? 0xFF0A101E : 0xFFFFFFFF;
+        int rest = isLightGlass() ? 0xDE0F172A : 0xE0FFFFFF;
+        return new ColorStateList(
+                new int[][]{new int[]{android.R.attr.state_focused}, new int[]{}},
+                new int[]{focused, rest});
+    }
+
+    static ColorStateList adaptiveSubTextColors() {
+        int focused = isLightGlass() ? 0xE61E293B : 0xEBFFFFFF;
+        int rest = isLightGlass() ? 0xA8334155 : 0x9EFFFFFF;
+        return new ColorStateList(
+                new int[][]{new int[]{android.R.attr.state_focused}, new int[]{}},
+                new int[]{focused, rest});
+    }
+
+    private static GradientDrawable makeAdaptiveSurfaceBox(float density, float cornerRadiusDp,
+                                                           int fillArgb, int strokeArgb, float strokeDp) {
+        GradientDrawable g = new GradientDrawable();
+        g.setShape(GradientDrawable.RECTANGLE);
+        g.setCornerRadius(cornerRadiusDp * density);
+        g.setColor(fillArgb);
+        if (strokeDp > 0f && ((strokeArgb >>> 24) & 0xFF) > 0) {
+            g.setStroke(Math.max(1, Math.round(strokeDp * density)), strokeArgb);
+        }
+        return g;
+    }
+
+    /**
+     * Adaptive inner tile/button background (Control Center tiles, media buttons, filter pills, action buttons).
+     * When {@code accentColor != 0}, renders a subtle active-state tint harmonized with dark or Frost White glass.
+     */
+    static StateListDrawable makeAdaptiveTileBg(float density, float cornerRadiusDp, int accentColor) {
+        int style = glassStyle;
+        int seed = dynamicSeedRgb;
+        int[] rest = innerSurfaceColors(style, seed, false);
+        int[] foc = innerSurfaceColors(style, seed, true);
+        int restFill = rest[0], restStroke = rest[1];
+        int focFill = foc[0], focStroke = foc[1];
+        if (accentColor != 0) {
+            int rgb = accentColor & 0x00FFFFFF;
+            if (isLightGlass(style)) {
+                int deep = refineLightFocusAccent(rgb);
+                restFill = (0x24 << 24) | deep;
+                restStroke = (0x7C << 24) | deep;
+                focFill = (0x36 << 24) | deep;
+                focStroke = (0xB8 << 24) | deep;
+            } else {
+                int ref = refineFocusAccent(rgb);
+                restFill = (0x3A << 24) | rgb;
+                restStroke = (0x84 << 24) | ref;
+                focFill = (0x54 << 24) | rgb;
+                focStroke = (0xB8 << 24) | ref;
+            }
+        }
+        StateListDrawable sl = new StateListDrawable();
+        sl.addState(new int[]{android.R.attr.state_focused},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, focFill, focStroke, 1.1f));
+        sl.addState(new int[]{},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, restFill, restStroke, 1.0f));
+        return sl;
+    }
+
+    /**
+     * Adaptive Settings choice pill / selectable row background supporting both {@code state_selected}
+     * and {@code state_focused} states cleanly across all 5 Glass Material styles.
+     */
+    static StateListDrawable makeAdaptiveChoiceBg(float density, float cornerRadiusDp, int selectedAccentColor) {
+        int style = glassStyle;
+        int seed = dynamicSeedRgb;
+        int[] rest = innerSurfaceColors(style, seed, false);
+        int[] foc = innerSurfaceColors(style, seed, true);
+        int selRgb = (selectedAccentColor != 0 ? selectedAccentColor : 0x34C759) & 0x00FFFFFF;
+        int selFill, selStroke, selFocFill, selFocStroke;
+        if (isLightGlass(style)) {
+            int deep = refineLightFocusAccent(selRgb);
+            selFill = (0x26 << 24) | deep;
+            selStroke = (0x92 << 24) | deep;
+            selFocFill = (0x38 << 24) | deep;
+            selFocStroke = (0xC6 << 24) | deep;
+        } else {
+            int ref = refineFocusAccent(selRgb);
+            selFill = (0x3A << 24) | selRgb;
+            selStroke = (0xA8 << 24) | ref;
+            selFocFill = (0x52 << 24) | selRgb;
+            selFocStroke = (0xD2 << 24) | ref;
+        }
+        StateListDrawable sl = new StateListDrawable();
+        sl.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, selFocFill, selFocStroke, 1.25f));
+        sl.addState(new int[]{android.R.attr.state_selected},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, selFill, selStroke, 1.2f));
+        sl.addState(new int[]{android.R.attr.state_focused},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, foc[0], foc[1], 1.1f));
+        sl.addState(new int[]{},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, rest[0], rest[1], 1.0f));
+        return sl;
+    }
+
+    /**
+     * Adaptive list / context-menu row background (e.g. {@code item_input}, popups, sub-menus, pickers).
+     * When {@code cardRest} is false, uses a delicate subtle rest fill (~45% of card alpha) so context menus
+     * stay airy while still clearly echoing the active glass material and wallpaper tint.
+     */
+    static StateListDrawable makeAdaptiveRowBg(float density, float cornerRadiusDp, boolean cardRest) {
+        int style = glassStyle;
+        int seed = dynamicSeedRgb;
+        int[] rest = innerSurfaceColors(style, seed, false);
+        int[] foc = innerSurfaceColors(style, seed, true);
+        int restFill;
+        int restStroke;
+        if (cardRest) {
+            restFill = rest[0];
+            restStroke = rest[1];
+        } else {
+            int a = Math.round(((rest[0] >>> 24) & 0xFF) * 0.44f);
+            int sa = Math.round(((rest[1] >>> 24) & 0xFF) * 0.42f);
+            restFill = (a << 24) | (rest[0] & 0x00FFFFFF);
+            restStroke = (sa << 24) | (rest[1] & 0x00FFFFFF);
+        }
+        StateListDrawable sl = new StateListDrawable();
+        sl.addState(new int[]{android.R.attr.state_focused},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, foc[0], foc[1], 1.1f));
+        sl.addState(new int[]{},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, restFill, restStroke, cardRest ? 1.0f : 0.85f));
+        return sl;
+    }
+
+    /** Adaptive static container card background (e.g. info boxes, media strip, empty-state boxes, app cards). */
+    static GradientDrawable makeAdaptiveCardBg(float density, float cornerRadiusDp, boolean elevated) {
+        int[] cols = innerSurfaceColors(glassStyle, dynamicSeedRgb, elevated);
+        return makeAdaptiveSurfaceBox(density, cornerRadiusDp, cols[0], cols[1], 1.0f);
+    }
+
+    /** Adaptive text input field background (Search, Folder name, HA config inputs). */
+    static StateListDrawable makeAdaptiveInputBg(float density, float cornerRadiusDp) {
+        int style = glassStyle;
+        int seed = dynamicSeedRgb;
+        int[] rest = innerSurfaceColors(style, seed, false);
+        int[] foc = innerSurfaceColors(style, seed, true);
+        StateListDrawable sl = new StateListDrawable();
+        sl.addState(new int[]{android.R.attr.state_focused},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, foc[0], foc[1], 1.3f));
+        sl.addState(new int[]{},
+                makeAdaptiveSurfaceBox(density, cornerRadiusDp, rest[0], rest[1], 1.0f));
+        return sl;
+    }
+
+    /**
+     * Pure-JVM color adapter mapping dark-glass ink/accent colors to high-contrast equivalents for Frost White glass.
+     * Preserves alpha structure and hue while transforming bright whites -> deep graphite (#0F172A/#1E293B/#334155)
+     * and bright pastels (#93C5FD, #4ADE80, #FBBF24, #F87171) -> crisp deep jewel tones.
+     */
+    static int adaptColorForLight(int argb) {
+        int a = (argb >>> 24) & 0xFF;
+        if (a == 0) return 0;
+        int r = (argb >> 16) & 0xFF;
+        int g = (argb >> 8) & 0xFF;
+        int b = argb & 0xFF;
+        float luma = (0.2126f * r + 0.7152f * g + 0.0722f * b) / 255f;
+        float[] hsv = new float[3];
+        rgbToHsv(r, g, b, hsv);
+        if (hsv[1] < 0.24f) {
+            if (luma < 0.62f) return argb;
+            if (a >= 215) return (a << 24) | 0x0F172A;
+            if (a >= 145) return (Math.min(255, Math.max(a + 28, 196)) << 24) | 0x1E293B;
+            return (Math.min(255, Math.max(a + 38, 152)) << 24) | 0x334155;
+        }
+        if (luma >= 0.48f || hsv[2] >= 0.62f) {
+            float sat = clampFloat(Math.max(hsv[1], 0.72f), 0.72f, 0.94f);
+            float val = clampFloat(hsv[2] * 0.50f, 0.34f, 0.48f);
+            int deep = hsvToRgb(hsv[0], sat, val);
+            return (Math.max(a, 0xDF) << 24) | deep;
+        }
+        return argb;
+    }
+
+    private static ColorStateList adaptColorStateListForLight(ColorStateList orig) {
+        if (!orig.isStateful()) {
+            return ColorStateList.valueOf(adaptColorForLight(orig.getDefaultColor()));
+        }
+        int def = orig.getDefaultColor();
+        int[] fs = new int[]{android.R.attr.state_focused, android.R.attr.state_selected};
+        int[] sel = new int[]{android.R.attr.state_selected};
+        int[] foc = new int[]{android.R.attr.state_focused};
+        int[] dis = new int[]{-android.R.attr.state_enabled};
+        return new ColorStateList(
+                new int[][]{dis, fs, sel, foc, new int[]{}},
+                new int[]{
+                        adaptColorForLight(orig.getColorForState(dis, def)),
+                        adaptColorForLight(orig.getColorForState(fs, def)),
+                        adaptColorForLight(orig.getColorForState(sel, def)),
+                        adaptColorForLight(orig.getColorForState(foc, def)),
+                        adaptColorForLight(def)
+                });
+    }
+
+    private static final java.util.WeakHashMap<View, Boolean> PRESERVE_IMAGE_VIEWS = new java.util.WeakHashMap<>();
+    private static final java.util.WeakHashMap<View, OrigViewTheme> ORIG_THEMES = new java.util.WeakHashMap<>();
+
+    private static final class OrigViewTheme {
+        @Nullable ColorStateList textColors;
+        @Nullable ColorStateList hintColors;
+        @Nullable ColorStateList imageTint;
+        boolean imageHadExplicitTint;
+        boolean isDivider;
+        int dividerColor;
+    }
+
+    /** Marks a colorful artwork/banner/icon/QR ImageView so Frost White theming never tints it monochrome. */
+    static void markPreserveImage(@Nullable View v) {
+        if (v != null) PRESERVE_IMAGE_VIEWS.put(v, Boolean.TRUE);
+    }
+
+    /**
+     * Losslessly adapts text colors, hint colors, monochrome vector/tinted UI icons, luminous modal titles,
+     * and hairline dividers across a panel hierarchy for the active {@link #glassStyle}.
+     * Safe to invoke repeatedly during live style switching: original dark-mode colors are captured once
+     * and restored verbatim whenever switching back from Frost White to any dark style.
+     */
+    static void applyAdaptiveContentTheme(@Nullable View root) {
+        if (root == null) return;
+        applyAdaptiveContentThemeRec(root, isLightGlass(), adaptiveDividerColor());
+    }
+
+    private static void applyAdaptiveContentThemeRec(View v, boolean light, int dividerColor) {
+        if (v instanceof TextView) {
+            TextView tv = (TextView) v;
+            OrigViewTheme orig = ORIG_THEMES.get(tv);
+            if (orig == null) {
+                orig = new OrigViewTheme();
+                orig.textColors = tv.getTextColors();
+                orig.hintColors = tv.getHintTextColors();
+                ORIG_THEMES.put(tv, orig);
+            }
+            if (tv.getPaint().getShader() instanceof LinearGradient) {
+                applyLuminousTitle(tv, tv.getResources().getDisplayMetrics().density, false);
+            }
+            if (orig.textColors != null) {
+                tv.setTextColor(light ? adaptColorStateListForLight(orig.textColors) : orig.textColors);
+            }
+            if (orig.hintColors != null) {
+                tv.setHintTextColor(light ? adaptColorStateListForLight(orig.hintColors) : orig.hintColors);
+            }
+        } else if (v instanceof ImageView) {
+            if (!Boolean.TRUE.equals(PRESERVE_IMAGE_VIEWS.get(v))) {
+                ImageView iv = (ImageView) v;
+                OrigViewTheme orig = ORIG_THEMES.get(iv);
+                if (orig == null) {
+                    orig = new OrigViewTheme();
+                    orig.imageTint = iv.getImageTintList();
+                    orig.imageHadExplicitTint = orig.imageTint != null;
+                    ORIG_THEMES.put(iv, orig);
+                }
+                if (orig.imageHadExplicitTint && orig.imageTint != null) {
+                    iv.setImageTintList(light ? adaptColorStateListForLight(orig.imageTint) : orig.imageTint);
+                } else if (iv.getDrawable() instanceof VectorDrawable) {
+                    iv.setImageTintList(light ? ColorStateList.valueOf(0xE60F172A) : null);
+                }
+            }
+        } else if (!(v instanceof ViewGroup)) {
+            OrigViewTheme orig = ORIG_THEMES.get(v);
+            if (orig == null) {
+                Drawable bg = v.getBackground();
+                ViewGroup.LayoutParams lp = v.getLayoutParams();
+                int h = lp != null ? lp.height : v.getHeight();
+                int w = lp != null ? lp.width : v.getWidth();
+                boolean thin = (h > 0 && h <= 4) || (w > 0 && w <= 4);
+                if (thin && bg instanceof ColorDrawable) {
+                    orig = new OrigViewTheme();
+                    orig.isDivider = true;
+                    orig.dividerColor = ((ColorDrawable) bg).getColor();
+                    ORIG_THEMES.put(v, orig);
+                }
+            }
+            if (orig != null && orig.isDivider) {
+                v.setBackgroundColor(dividerColor);
+            }
+        }
+        if (v instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) v;
+            for (int i = 0, n = vg.getChildCount(); i < n; i++) {
+                applyAdaptiveContentThemeRec(vg.getChildAt(i), light, dividerColor);
+            }
+        }
     }
 
     /** Shared 128x128 uncorrelated monochrome noise texture (64 KB RAM) for seamless etched-glass micro-grain. */
@@ -2165,9 +2835,10 @@ final class ExpressiveGlass {
         private int lastH = -1;
         private int lastSeed = -1;
         private int lastFillMode = -1;
+        private int lastStyle = -1;
         @Nullable
         private RenderNode panelCacheNode;
-        private int cacheW = -1, cacheH = -1, cacheSeed = -1, cacheBgVer = -1, cacheFillMode = -1;
+        private int cacheW = -1, cacheH = -1, cacheSeed = -1, cacheBgVer = -1, cacheFillMode = -1, cacheStyle = -1;
         private float cacheRad = -1f, cacheOriginX = Float.NaN, cacheOriginY = Float.NaN, cacheScaleX = -1f, cacheScaleY = -1f;
         private boolean cacheNeedInterior, cacheOptical, cacheSmoked;
         boolean useRestingCoords;
@@ -2247,27 +2918,40 @@ final class ExpressiveGlass {
             int w = Math.round(r.width());
             int h = Math.round(r.height());
             int seed = dynamicSeedRgb;
-            if (w == lastW && h == lastH && seed == lastSeed && fillMode == lastFillMode) return;
+            int style = glassStyle;
+            if (w == lastW && h == lastH && seed == lastSeed && fillMode == lastFillMode && style == lastStyle) return;
             lastW = w;
             lastH = h;
             lastSeed = seed;
             lastFillMode = fillMode;
+            lastStyle = style;
 
-            int[] cols = panelGlassColors(seed, fillMode == 2, fillMode == 1);
+            int[] cols = panelGlassColors(style, seed, fillMode == 2, fillMode == 1);
             // Bake the top 18% white specular caustic directly into the panel's single vertical gradient
             // (eliminates a second full-panel clipRect+drawRoundRect pass and 1.54M px invisible micro-noise pass).
-            int topWithCaustic = blendOverWhite(cols[0], 0x12);
+            int causticAlpha = style == STYLE_OBSIDIAN ? 0x0A : (style == STYLE_FROST ? 0x26 : 0x12);
+            int topWithCaustic = blendOverWhite(cols[0], causticAlpha);
             int stop18 = lerpArgb(cols[0], cols[1], 0.18f / 0.48f);
             fillPaint.setShader(new LinearGradient(
                     r.left, r.top, r.left, r.bottom,
                     new int[]{topWithCaustic, stop18, cols[1], cols[2]},
                     new float[]{0f, 0.18f, 0.48f, 1f}, Shader.TileMode.CLAMP));
 
-            int bounce = tonalRimTint(seed);
-            rimPaint.setShader(new LinearGradient(
-                    r.left, r.top, r.right, r.bottom,
-                    new int[]{0x76FFFFFF, 0x22FFFFFF, 0x18FFFFFF, (0x44 << 24) | bounce},
-                    new float[]{0f, 0.34f, 0.68f, 1f}, Shader.TileMode.CLAMP));
+            if (style == STYLE_FROST) {
+                outerShadowBorder.setColor(0x280F172A);
+                rimPaint.setShader(new LinearGradient(
+                        r.left, r.top, r.right, r.bottom,
+                        new int[]{0xE6FFFFFF, 0x52FFFFFF, 0x220F172A, 0x380F172A},
+                        new float[]{0f, 0.34f, 0.72f, 1f}, Shader.TileMode.CLAMP));
+            } else {
+                outerShadowBorder.setColor(0x36000000);
+                int bounce = tonalRimTint(seed);
+                int topSpec = style == STYLE_OBSIDIAN ? 0x62FFFFFF : 0x76FFFFFF;
+                rimPaint.setShader(new LinearGradient(
+                        r.left, r.top, r.right, r.bottom,
+                        new int[]{topSpec, 0x22FFFFFF, 0x18FFFFFF, (0x44 << 24) | bounce},
+                        new float[]{0f, 0.34f, 0.68f, 1f}, Shader.TileMode.CLAMP));
+            }
         }
 
         private static int blendOverWhite(int dstArgb, int whiteAlpha) {
@@ -2443,6 +3127,8 @@ final class ExpressiveGlass {
                     interiorBlurOnly ? 0.0f : (useOpticalLiquid ? 0.88f : 0.0f));
             liquidShader.setFloatUniform("uInteriorFill", interiorBlurOnly ? 1.0f : 0.0f);
             liquidShader.setFloatUniform("uLiquidMode", useOpticalLiquid ? 1.0f : 0.0f);
+            liquidShader.setFloatUniform("uSurfaceLight", isLightGlass() ? 1.0f : 0.0f);
+            liquidShader.setFloatUniform("uInteriorDim", interiorDimForStyle(glassStyle));
             liquidShader.setFloatUniform("uRimTint", cachedRimR, cachedRimG, cachedRimB);
             liquidShader.setFloatUniform("uWobble", 0.0f);
             liquidShader.setFloatUniform("uPhase", 0.0f);
@@ -2521,12 +3207,13 @@ final class ExpressiveGlass {
                     && w > 0 && h > 0 && w <= 4096 && h <= 4096;
             if (canCache) {
                 int seed = dynamicSeedRgb;
+                int style = glassStyle;
                 int bgVer = bg != null ? bg.version : -1;
                 boolean optical = homeLiquidOpticsEnabled && (bg == null || !bg.externalApp || overSharpBackdrop);
                 int expectedFillMode = (smoked || (needInteriorBlur && (bg == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed)))
                         ? 2 : (sharpHomePanel ? 1 : 0);
                 boolean dirty = panelCacheNode == null || !panelCacheNode.hasDisplayList()
-                        || w != cacheW || h != cacheH || seed != cacheSeed || bgVer != cacheBgVer
+                        || w != cacheW || h != cacheH || seed != cacheSeed || style != cacheStyle || bgVer != cacheBgVer
                         || expectedFillMode != cacheFillMode || needInteriorBlur != cacheNeedInterior
                         || optical != cacheOptical || smoked != cacheSmoked
                         || Math.abs(rad - cacheRad) > 0.25f
@@ -2549,6 +3236,7 @@ final class ExpressiveGlass {
                     cacheW = w;
                     cacheH = h;
                     cacheSeed = seed;
+                    cacheStyle = style;
                     cacheBgVer = bgVer;
                     cacheFillMode = expectedFillMode;
                     cacheNeedInterior = needInteriorBlur;

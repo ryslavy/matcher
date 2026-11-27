@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slúchadlá</string>
+    <string name="plays_through">Zvuk teraz hrá cez: %1$s</string>
+    <string name="output_speakers">reproduktory TV</string>
+    <string name="output_fixed">zvukový výstup TV (HDMI ARC alebo optika)</string>
+    <string name="allow_title">Povoliť prístup k Bluetooth</string>
+    <string name="allow_detail">Na zobrazenie slúchadiel a zistenie ich odpojenia. OK zobrazí žiadosť.</string>
+    <string name="not_allowed">Nepovolené</string>
+    <string name="pair_title">Spárovať alebo pripojiť slúchadlá</string>
+    <string name="pair_detail">Otvorí nastavenia Bluetooth v TV. Najprv prepnite slúchadlá do párovacieho režimu.</string>
+    <string name="guard_title">Stíšiť pri odpojení</string>
+    <string name="guard_detail">Pri odpojení slúchadiel pozastaví prehrávanie a stlmí reproduktory TV, aby zvuk nehral do miestnosti. Po pripojení zvuk znova zapne.</string>
+    <string name="guard_detail_fixed">Pri odpojení slúchadiel pozastaví prehrávanie. Hlasitosť tejto TV je pevná (ARC alebo zosilňovač), takže reproduktory nie je možné stlmiť.</string>
+    <string name="on">Zapnuté</string>
+    <string name="off">Vypnuté</string>
+    <string name="unmute_title">Zrušiť stlmenie reproduktorov</string>
+    <string name="unmute_detail">Stlmené po odpojení slúchadiel.</string>
+    <string name="muted">Stlmené</string>
+    <string name="heading_paired">Spárované slúchadlá a reproduktory</string>
+    <string name="no_bluetooth">Táto TV nemá Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth je vypnutý</string>
+    <string name="bluetooth_off_detail">Zapnite ho v nastaveniach TV.</string>
+    <string name="none_yet">Zatiaľ žiadne</string>
+    <string name="none_yet_detail">Spárujte ich pomocou riadka vyššie.</string>
+    <string name="connected">Pripojené</string>
+    <string name="connected_battery">Pripojené, batéria %1$s</string>
+    <string name="not_connected_detail">Nepripojené. OK otvorí nastavenia Bluetooth na pripojenie.</string>
+    <string name="unnamed">Nepomenované zariadenie</string>
+    <string name="heading_several">Viac slúchadiel naraz</string>
+    <string name="sharing_one_pair">Táto TV posiela zvuk do jedných Bluetooth slúchadiel naraz. Pre dvoje použite duálny Bluetooth vysielač na slúchadlovom alebo optickom výstupe TV.</string>
+    <string name="sharing_auracast">Táto TV podporuje vysielanie do viacerých LE Audio (Auracast) slúchadiel naraz: zdieľanie spustite v nastaveniach Bluetooth TV.</string>
+    <string name="sharing_no_broadcast">Táto TV posiela zvuk do jedných Bluetooth slúchadiel naraz a nepodporuje LE Audio vysielanie. Pre dvoje použite duálny Bluetooth vysielač na slúchadlovom alebo optickom výstupe TV.</string>
+</resources>

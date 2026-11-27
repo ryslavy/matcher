@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Mise en veille</string>
+    <string name="hint">Choisissez quand la TV se met en veille. Un avertissement s\'affiche une minute avant.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Annuler le minuteur</string>
+    <string name="state_off">Aucun minuteur défini.</string>
+    <string name="state_on">Mise en veille à %1$s.</string>
+    <string name="no_service">Le service d\'accessibilité de Mise en veille est désactivé (lancez le script d\'installation).</string>
+    <string name="warning_title">La TV va s\'éteindre</string>
+    <string name="warning_seconds">dans %1$d secondes</string>
+    <string name="more">15 minutes de plus</string>
+    <string name="now">Éteindre maintenant</string>
+    <string name="service_label">Mise en veille</string>
+    <string name="quick_hint">◀ ▶ choisir une durée · OK fermer</string>
+    <string name="service_description">Met uniquement la TV en veille à la fin du minuteur. Ne lit pas l\'écran.</string>
+    <string name="schedule_row">Programmation</string>
+</resources>

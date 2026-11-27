@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sleep-Timer</string>
+    <string name="hint">Wähle, wann der Fernseher in den Standby geht. Eine Minute vorher erscheint eine Warnung.</string>
+    <string name="in_minutes">%1$d Min.</string>
+    <string name="cancel">Timer abbrechen</string>
+    <string name="state_off">Kein Timer gestellt.</string>
+    <string name="state_on">Standby um %1$s.</string>
+    <string name="no_service">Der Bedienungshilfe-Dienst für den Sleep-Timer ist aus (Installationsskript ausführen).</string>
+    <string name="warning_title">Der Fernseher schaltet sich aus</string>
+    <string name="warning_seconds">in %1$d Sek.</string>
+    <string name="more">15 Minuten länger</string>
+    <string name="now">Jetzt ausschalten</string>
+    <string name="service_label">Sleep-Timer</string>
+    <string name="quick_hint">◀ ▶ Zeit wählen · OK schließen</string>
+    <string name="service_description">Versetzt den Fernseher nur in den Standby, wenn der Sleep-Timer abläuft. Liest keinen Bildschirminhalt.</string>
+    <string name="schedule_row">Zeitplan</string>
+</resources>

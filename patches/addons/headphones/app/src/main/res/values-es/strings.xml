@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Auriculares</string>
+    <string name="plays_through">El sonido suena ahora por: %1$s</string>
+    <string name="output_speakers">los altavoces de la TV</string>
+    <string name="output_fixed">la salida de audio de la TV (HDMI ARC u óptica)</string>
+    <string name="allow_title">Permitir acceso a Bluetooth</string>
+    <string name="allow_detail">Para mostrar tus auriculares y detectar cuándo se desconectan. OK solicita permiso.</string>
+    <string name="not_allowed">No permitido</string>
+    <string name="pair_title">Emparejar o conectar auriculares</string>
+    <string name="pair_detail">Abre los ajustes de Bluetooth de la TV. Pon primero los auriculares en modo de emparejamiento.</string>
+    <string name="guard_title">Silenciar al desconectarse</string>
+    <string name="guard_detail">Pausa la reproducción y silencia los altavoces de la TV cuando se desconectan los auriculares, para que el sonido no salga a la habitación. Reactiva el sonido al volver a conectarse.</string>
+    <string name="guard_detail_fixed">Pausa la reproducción cuando se desconectan los auriculares. El volumen de esta TV es fijo (ARC o amplificador), así que no puede silenciar los altavoces.</string>
+    <string name="on">Activado</string>
+    <string name="off">Desactivado</string>
+    <string name="unmute_title">Reactivar los altavoces</string>
+    <string name="unmute_detail">Silenciados al desconectarse los auriculares.</string>
+    <string name="muted">Silenciado</string>
+    <string name="heading_paired">Auriculares y altavoces emparejados</string>
+    <string name="no_bluetooth">Esta TV no tiene Bluetooth</string>
+    <string name="bluetooth_off">El Bluetooth está desactivado</string>
+    <string name="bluetooth_off_detail">Actívalo en los ajustes de la TV.</string>
+    <string name="none_yet">Ninguno todavía</string>
+    <string name="none_yet_detail">Usa la fila superior para emparejar alguno.</string>
+    <string name="connected">Conectado</string>
+    <string name="connected_battery">Conectado, batería %1$s</string>
+    <string name="not_connected_detail">No conectado. OK abre los ajustes de Bluetooth para conectarlo.</string>
+    <string name="unnamed">Dispositivo sin nombre</string>
+    <string name="heading_several">Varios auriculares a la vez</string>
+    <string name="sharing_one_pair">Esta TV envía sonido a unos solos auriculares Bluetooth a la vez. Para dos pares, usa un transmisor Bluetooth de doble enlace en la salida óptica o de auriculares de la TV.</string>
+    <string name="sharing_auracast">Esta TV puede transmitir a varios auriculares LE Audio (Auracast) a la vez: inicia la compartición desde los ajustes de Bluetooth de la TV.</string>
+    <string name="sharing_no_broadcast">Esta TV envía sonido a unos solos auriculares Bluetooth a la vez; no admite transmisión LE Audio. Para dos pares, usa un transmisor Bluetooth de doble enlace en la salida óptica o de auriculares de la TV.</string>
+</resources>

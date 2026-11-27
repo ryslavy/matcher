@@ -442,6 +442,14 @@ final class Config {
         return ctx.getExternalFilesDir(null);
     }
 
+    /** Drops the in-memory parsed Config cache so runtime edits (Learn Button, QR web, config.json) reload immediately. */
+    static void invalidateCache() {
+        synchronized (CACHE_LOCK) {
+            cachedConfig = null;
+            cachedConfigKey = null;
+        }
+    }
+
     static Config load(Context ctx) {
         File dir = dir(ctx);
         File file = dir != null ? new File(dir, FILE_NAME) : null;
@@ -450,7 +458,8 @@ final class Config {
         File wpDir = dir != null ? new File(dir, "wallpapers") : null;
         boolean mounted = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
         SharedPreferences choices = ctx.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE);
-        String cacheKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, choices);
+        int featureRev = FeaturePrefs.revision(ctx);
+        String cacheKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, choices, featureRev);
         synchronized (CACHE_LOCK) {
             if (cachedConfig != null && cacheKey.equals(cachedConfigKey)) {
                 return cachedConfig;
@@ -685,6 +694,24 @@ final class Config {
         }
         // A top-bar app is moved there, not copied: it leaves the grid.
         for (String pkg : topBarApps) if (!hidden.contains(pkg)) hidden.add(pkg);
+        // Layer runtime user overrides from FeaturePrefs (Learn Button, Phone QR editor) with precedence over config.json.
+        List<String> userKeyEntries = FeaturePrefs.customAppKeyEntries(ctx);
+        if (!userKeyEntries.isEmpty()) {
+            appKeys = new ArrayList<>(appKeys);
+            appKeys.addAll(userKeyEntries);
+        }
+        Map<String, String> userLabels = FeaturePrefs.customAppLabels(ctx);
+        if (!userLabels.isEmpty()) {
+            appLabels = new ArrayList<>(appLabels);
+            for (Map.Entry<String, String> e : userLabels.entrySet()) {
+                appLabels.add(e.getKey() + ":" + e.getValue());
+            }
+        }
+        List<String> userHidden = FeaturePrefs.customHiddenApps(ctx);
+        if (!userHidden.isEmpty()) {
+            hidden = new ArrayList<>(hidden);
+            for (String pkg : userHidden) if (!hidden.contains(pkg)) hidden.add(pkg);
+        }
         // A theme push or reset invalidates choices made on the TV. On first use, remember the
         // current theme without clearing choices from an older launcher version.
         // Unmounted storage looks like a theme reset; compare only once the file is readable.
@@ -753,7 +780,7 @@ final class Config {
                 dateBelowClock, vpnPill, locale, powerOnHomeAlways, inputsConnectedOnly, inputsCecStateOnly,
                 Math.max(0, Math.min(600, openOnStartNetworkWait)), openOnStartOnWake, iconOnlyVpn, clockFormat, backOpensClock, glowSnap,
                 settingsKeyClearTask);
-        String finalKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, choices);
+        String finalKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, choices, featureRev);
         synchronized (CACHE_LOCK) {
             cachedConfig = built;
             cachedConfigKey = finalKey;
@@ -762,7 +789,7 @@ final class Config {
     }
 
     private static String buildCacheKey(boolean mounted, File dir, File file, File revision,
-                                        File wpSingle, File wpDir, SharedPreferences choices) {
+                                        File wpSingle, File wpDir, SharedPreferences choices, int featureRev) {
         StringBuilder sb = new StringBuilder(160);
         sb.append(mounted ? '1' : '0').append('|')
                 .append(dir != null ? dir.getAbsolutePath() : "").append('|')
@@ -778,7 +805,8 @@ final class Config {
                 .append(choices.getInt(DOCK_OPACITY_KEY, -1)).append('|')
                 .append(choices.getString(CLOCK_FORMAT_KEY, "")).append('|')
                 .append(choices.getString(WALLPAPER_CHOICE_KEY, "")).append('|')
-                .append(choices.getString(THEME_SIGNATURE_KEY, ""));
+                .append(choices.getString(THEME_SIGNATURE_KEY, "")).append('|')
+                .append(featureRev);
         return sb.toString();
     }
 

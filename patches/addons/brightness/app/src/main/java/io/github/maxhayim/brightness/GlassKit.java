@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -32,6 +33,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -91,8 +93,16 @@ final class GlassKit {
     static final String EXTRA_BACKDROP_JPEG = "com.gathin.tvhome.BACKDROP_JPEG";
     static final String EXTRA_OVER_HOME = "com.gathin.tvhome.OVER_HOME";
     static final String EXTRA_OVER_SHARP_BACKDROP = "com.gathin.tvhome.OVER_SHARP_BACKDROP";
+    static final String EXTRA_GLASS_STYLE = "com.gathin.tvhome.GLASS_STYLE";
+    static final String EXTRA_WALLPAPER_SEED = "com.gathin.tvhome.WALLPAPER_SEED";
     static final String EXTRA_INHERIT_BACKDROP = "com.gathin.tvhome.INHERIT_BACKDROP";
     static final String ACTION_ADDON_DISMISSING = "com.gathin.tvhome.ACTION_ADDON_DISMISSING";
+
+    static final int STYLE_TONAL = 0;
+    static final int STYLE_OBSIDIAN = 1;
+    static final int STYLE_FROST = 2;
+    static final int STYLE_CLEAR = 3;
+    static final int STYLE_CHROMATIC = 4;
 
     private static final String BACKDROP_AGSL =
             "uniform shader content;\n"
@@ -128,6 +138,8 @@ final class GlassKit {
                     + "uniform float uEdgeClarity;\n"
                     + "uniform float uInteriorFill;\n"
                     + "uniform float uLiquidMode;\n"
+                    + "uniform float uSurfaceLight;\n"
+                    + "uniform float uInteriorDim;\n"
                     + "uniform float3 uRimTint;\n"
                     + "uniform float uWobble;\n"
                     + "uniform float uPhase;\n"
@@ -172,7 +184,10 @@ final class GlassKit {
                     + "    float2 screenPos = uScreenOrigin + fragCoord * uScreenScale;\n"
                     + "    if (uInteriorFill > 0.5) {\n"
                     + "        half3 baseBlur = sampleBlur(screenPos);\n"
-                    + "        baseBlur = applyVibrancyAndAdapt(baseBlur * half(0.94), half(0.24), dither);\n"
+                    + "        baseBlur = applyVibrancyAndAdapt(baseBlur * half(uInteriorDim), half(0.24), dither);\n"
+                    + "        if (uSurfaceLight > 0.5) {\n"
+                    + "            baseBlur = mix(baseBlur, half3(0.95, 0.97, 1.0), half(0.46));\n"
+                    + "        }\n"
                     + "        return half4(baseBlur * half(mask), half(mask));\n"
                     + "    }\n"
                     + "    float distIn = max(0.0, -d);\n"
@@ -218,13 +233,18 @@ final class GlassKit {
                     + "        half3 deepBlur = half3(sampleBlur(uvR).r, sampleBlur(uvG).g, sampleBlur(uvB).b);\n"
                     + "        float clarity = clamp(pow(lensCurve, 0.68) * uEdgeClarity, 0.0, 0.92);\n"
                     + "        half3 refracted = mix(deepBlur, lensFrost, half(clarity));\n"
-                    + "        refracted = applyVibrancyAndAdapt(refracted * half(0.94), half(0.46), dither);\n"
+                    + "        float edgeDim = uSurfaceLight > 0.5 ? 1.0 : (uInteriorDim < 0.65 ? 0.78 : 0.94);\n"
+                    + "        refracted = applyVibrancyAndAdapt(refracted * half(edgeDim), half(0.46), dither);\n"
+                    + "        if (uSurfaceLight > 0.5) {\n"
+                    + "            refracted = mix(refracted, half3(0.96, 0.98, 1.0), half(0.22));\n"
+                    + "        }\n"
                     + "        float caustic = smoothstep(uBezel * 0.36, 0.0, abs(distIn - uBezel * 0.30)) * (0.12 * lobeF + 0.06 * lobeB);\n"
                     + "        float rimWeight = smoothstep(1.0, 0.0, t);\n"
-                    + "        float refractAlpha = pow(rimWeight, 1.08) * 0.84;\n"
+                    + "        float refractAlpha = pow(rimWeight, 1.08) * (uSurfaceLight > 0.5 ? 0.78 : 0.84);\n"
                     + "        float specAlpha = clamp(hair * (0.06 + 0.68 * (lobeF + lobeB)) + glowIn * (0.18 * lobeF + 0.06 * lobeB) + caustic, 0.0, 0.94);\n"
+                    + "        half3 rimSpec = uSurfaceLight > 0.5 ? mix(specCol, half3(0.14, 0.20, 0.32), half(hair * 0.44)) : specCol;\n"
                     + "        float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.96);\n"
-                    + "        half3 premul = clamp(specCol * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
+                    + "        half3 premul = clamp(rimSpec * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
                     + "        return half4(premul * half(mask), half(outA * mask));\n"
                     + "    }\n"
                     + "    half3 refracted = half3(sampleBlur(uvR).r, sampleBlur(uvG).g, sampleBlur(uvB).b);\n"
@@ -232,12 +252,17 @@ final class GlassKit {
                     + "        half3 sharpEdge = half3(sampleSharpSmooth(uvR).r, sampleSharpSmooth(uvG).g, sampleSharpSmooth(uvB).b);\n"
                     + "        refracted = mix(refracted, sharpEdge, half(pow(lensCurve, 1.05) * uEdgeClarity * 0.38));\n"
                     + "    }\n"
-                    + "    refracted = applyVibrancyAndAdapt(refracted * half(0.90), half(0.30), dither);\n"
+                    + "    float smDim = uSurfaceLight > 0.5 ? 0.98 : (uInteriorDim < 0.65 ? 0.72 : 0.90);\n"
+                    + "    refracted = applyVibrancyAndAdapt(refracted * half(smDim), half(0.30), dither);\n"
+                    + "    if (uSurfaceLight > 0.5) {\n"
+                    + "        refracted = mix(refracted, half3(0.95, 0.97, 1.0), half(0.30));\n"
+                    + "    }\n"
                     + "    float rimWeight = smoothstep(1.0, 0.0, t);\n"
                     + "    float refractAlpha = pow(rimWeight, 1.55) * 0.44;\n"
                     + "    float specAlpha = clamp(hair * (0.06 + 0.62 * (lobeF + lobeB)) + glowIn * (0.14 * lobeF + 0.05 * lobeB), 0.0, 0.90);\n"
+                    + "    half3 rimSpec2 = uSurfaceLight > 0.5 ? mix(specCol, half3(0.14, 0.20, 0.32), half(hair * 0.44)) : specCol;\n"
                     + "    float outA = clamp(specAlpha + refractAlpha * (1.0 - specAlpha), 0.0, 0.92);\n"
-                    + "    half3 premul = clamp(specCol * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
+                    + "    half3 premul = clamp(rimSpec2 * half(specAlpha) + refracted * half(refractAlpha * (1.0 - specAlpha)), half3(0.0), half3(outA));\n"
                     + "    return half4(premul * half(mask), half(outA * mask));\n"
                     + "}";
 
@@ -285,6 +310,9 @@ final class GlassKit {
     private static volatile WeakReference<ViewGroup> nestedSourcePanel;
     private static volatile Bitmap activeSharpOnly;
     private static volatile int backdropVersionCounter = 1;
+    private static volatile int activeGlassStyle = STYLE_TONAL;
+    private static volatile int activeWallpaperSeed;
+    private static int backdropEffectCacheStyle = -1;
     private static volatile ExecutorService backdropExec;
     private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
     private static final ArrayDeque<RuntimeShader> LIQUID_SHADER_POOL = new ArrayDeque<>();
@@ -299,9 +327,82 @@ final class GlassKit {
     private static final WeakHashMap<Dialog, Runnable> DIALOG_CLOSE_RUNNERS = new WeakHashMap<>();
     private static final WeakHashMap<View, Boolean> CLOSING_VIEWS = new WeakHashMap<>();
     private static final WeakHashMap<View, ValueAnimator> PANEL_ANIMS = new WeakHashMap<>();
+    private static final WeakHashMap<View, Boolean> PRESERVE_IMAGE_VIEWS = new WeakHashMap<>();
+    private static final WeakHashMap<View, Boolean> PRESERVE_TEXT_VIEWS = new WeakHashMap<>();
+    private static final WeakHashMap<View, OrigViewTheme> ORIG_THEMES = new WeakHashMap<>();
     private static final Spec DEFAULT_SPEC = new Spec(1.0f, 0f, RADIUS_AUTO, 0);
     private static final Spec EDIT_TEXT_SPEC = new Spec(1.0f, 0f, 14f, 0);
     private static BitmapShader sharedNoiseShader;
+
+    private static final class OrigViewTheme {
+        ColorStateList textColors;
+        ColorStateList hintColors;
+        ColorStateList imageTint;
+        boolean imageHadExplicitTint;
+        boolean isDivider;
+        boolean appliedLight;
+        int appliedStyle = -1;
+    }
+
+    static int glassStyle() {
+        return activeGlassStyle;
+    }
+
+    static boolean isLightGlass() {
+        return activeGlassStyle == STYLE_FROST;
+    }
+
+    static boolean isLightGlass(int style) {
+        return style == STYLE_FROST;
+    }
+
+    static float interiorDimForStyle(int style) {
+        switch (style) {
+            case STYLE_OBSIDIAN:
+                return 0.42f;
+            case STYLE_FROST:
+                return 0.94f;
+            case STYLE_CLEAR:
+                return 0.86f;
+            case STYLE_CHROMATIC:
+                return 0.82f;
+            case STYLE_TONAL:
+            default:
+                return 0.78f;
+        }
+    }
+
+    private static int effectivePanelSeed(int fallbackSeed) {
+        int wp = activeWallpaperSeed & 0x00FFFFFF;
+        int fb = fallbackSeed & 0x00FFFFFF;
+        if (wp != 0 && activeGlassStyle == STYLE_CHROMATIC) return wp;
+        if (fb != 0) return fb;
+        return wp != 0 ? wp : DEFAULT_SEED_RGB;
+    }
+
+    private static int innerSeed() {
+        int wp = activeWallpaperSeed & 0x00FFFFFF;
+        return wp != 0 ? wp : DEFAULT_SEED_RGB;
+    }
+
+    private static void readGlassStyleFromIntent(Intent intent) {
+        if (intent == null) return;
+        if (intent.hasExtra(EXTRA_GLASS_STYLE)) {
+            int raw = intent.getIntExtra(EXTRA_GLASS_STYLE, STYLE_TONAL);
+            int clamped = (raw >= STYLE_TONAL && raw <= STYLE_CHROMATIC) ? raw : STYLE_TONAL;
+            if (activeGlassStyle != clamped) {
+                activeGlassStyle = clamped;
+                synchronized (BACKDROP_EFFECT_CACHE) {
+                    BACKDROP_EFFECT_CACHE.clear();
+                    backdropEffectCacheStyle = -1;
+                }
+            }
+        }
+        if (intent.hasExtra(EXTRA_WALLPAPER_SEED)) {
+            int seed = intent.getIntExtra(EXTRA_WALLPAPER_SEED, 0) & 0x00FFFFFF;
+            if (seed != 0) activeWallpaperSeed = seed;
+        }
+    }
 
     private GlassKit() { }
 
@@ -380,16 +481,21 @@ final class GlassKit {
     static void forwardBackdropExtras(Activity from, Intent to) {
         if (from == null || to == null) return;
         Intent src = from.getIntent();
-        if (src == null) return;
-        if (src.hasExtra(EXTRA_OVER_HOME)) {
-            to.putExtra(EXTRA_OVER_HOME, src.getBooleanExtra(EXTRA_OVER_HOME, false));
+        if (src != null) {
+            if (src.hasExtra(EXTRA_OVER_HOME)) {
+                to.putExtra(EXTRA_OVER_HOME, src.getBooleanExtra(EXTRA_OVER_HOME, false));
+            }
+            if (src.hasExtra(EXTRA_OVER_SHARP_BACKDROP)) {
+                to.putExtra(EXTRA_OVER_SHARP_BACKDROP, src.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false));
+            }
+            byte[] jpeg = src.getByteArrayExtra(EXTRA_BACKDROP_JPEG);
+            if (jpeg != null && jpeg.length > 0) {
+                to.putExtra(EXTRA_BACKDROP_JPEG, jpeg);
+            }
         }
-        if (src.hasExtra(EXTRA_OVER_SHARP_BACKDROP)) {
-            to.putExtra(EXTRA_OVER_SHARP_BACKDROP, src.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false));
-        }
-        byte[] jpeg = src.getByteArrayExtra(EXTRA_BACKDROP_JPEG);
-        if (jpeg != null && jpeg.length > 0) {
-            to.putExtra(EXTRA_BACKDROP_JPEG, jpeg);
+        to.putExtra(EXTRA_GLASS_STYLE, activeGlassStyle);
+        if (activeWallpaperSeed != 0) {
+            to.putExtra(EXTRA_WALLPAPER_SEED, activeWallpaperSeed);
         }
     }
 
@@ -400,6 +506,7 @@ final class GlassKit {
      * glass inside the panel immediately with zero smoked-to-frosted flash.
      */
     static boolean installBackdropFromIntent(Activity activity, Intent intent) {
+        readGlassStyleFromIntent(intent);
         final boolean overHome = intent != null && intent.getBooleanExtra(EXTRA_OVER_HOME, false);
         final boolean overSharp = overHome && intent != null && intent.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false);
         byte[] jpeg = intent != null ? intent.getByteArrayExtra(EXTRA_BACKDROP_JPEG) : null;
@@ -449,6 +556,7 @@ final class GlassKit {
 
     /** Synchronously decodes + blurs a tiny 240x135 backdrop (~3ms) for QuickBars so Frame 0 never snaps unblurred. */
     static boolean installQuickBarBackdropFromIntent(Activity activity, Intent intent) {
+        readGlassStyleFromIntent(intent);
         final boolean overHome = intent != null && intent.getBooleanExtra(EXTRA_OVER_HOME, false);
         byte[] jpeg = intent != null ? intent.getByteArrayExtra(EXTRA_BACKDROP_JPEG) : null;
         if (jpeg != null && jpeg.length > 0) {
@@ -562,10 +670,15 @@ final class GlassKit {
 
     private static RenderEffect createBackdropBlurEffect(float density, float radiusDp, int seedRgb, Shader.TileMode tileMode) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return null;
-        int seed = seedRgb == 0 ? DEFAULT_SEED_RGB : (seedRgb & 0x00FFFFFF);
+        int seed = effectivePanelSeed(seedRgb);
+        int style = activeGlassStyle;
         float sigma = Math.min(38f, Math.max(12f, radiusDp * density * 0.57735f));
-        long key = (((long) seed) << 16) | (((long) Math.round(sigma * 10f)) << 3) | tileMode.ordinal();
+        long key = (((long) seed) << 20) | (((long) Math.round(sigma * 10f)) << 7) | (((long) style) << 3) | tileMode.ordinal();
         synchronized (BACKDROP_EFFECT_CACHE) {
+            if (backdropEffectCacheStyle != style) {
+                BACKDROP_EFFECT_CACHE.clear();
+                backdropEffectCacheStyle = style;
+            }
             RenderEffect cached = BACKDROP_EFFECT_CACHE.get(key);
             if (cached != null) return cached;
         }
@@ -574,15 +687,54 @@ final class GlassKit {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             try {
                 RuntimeShader shader = new RuntimeShader(BACKDROP_AGSL);
-                int tint = tonalAccent800(seed);
-                shader.setFloatUniform("uSaturation", 1.26f);
-                shader.setFloatUniform("uLift", 0.012f);
-                shader.setFloatUniform("uDim", 0.86f);
+                int tint;
+                float sat, lift, dim, tintMix;
+                switch (style) {
+                    case STYLE_OBSIDIAN:
+                        tint = 0x06080C;
+                        sat = 1.12f;
+                        lift = 0.002f;
+                        dim = 0.66f;
+                        tintMix = 0.22f;
+                        break;
+                    case STYLE_FROST:
+                        tint = tonalLightTint(seed);
+                        sat = 1.16f;
+                        lift = 0.055f;
+                        dim = 0.92f;
+                        tintMix = 0.14f;
+                        break;
+                    case STYLE_CLEAR:
+                        tint = tonalAccent800(seed);
+                        sat = 1.32f;
+                        lift = 0.016f;
+                        dim = 0.90f;
+                        tintMix = 0.08f;
+                        break;
+                    case STYLE_CHROMATIC:
+                        tint = tonalAccent700(seed);
+                        sat = 1.38f;
+                        lift = 0.014f;
+                        dim = 0.86f;
+                        tintMix = 0.26f;
+                        break;
+                    case STYLE_TONAL:
+                    default:
+                        tint = tonalAccent800(seed);
+                        sat = 1.26f;
+                        lift = 0.012f;
+                        dim = 0.86f;
+                        tintMix = 0.14f;
+                        break;
+                }
+                shader.setFloatUniform("uSaturation", sat);
+                shader.setFloatUniform("uLift", lift);
+                shader.setFloatUniform("uDim", dim);
                 shader.setFloatUniform("uTint",
                         ((tint >> 16) & 0xFF) / 255f,
                         ((tint >> 8) & 0xFF) / 255f,
                         (tint & 0xFF) / 255f);
-                shader.setFloatUniform("uTintMix", 0.14f);
+                shader.setFloatUniform("uTintMix", tintMix);
                 shader.setFloatUniform("uGrain", 0.014f);
                 effect = RenderEffect.createChainEffect(
                         RenderEffect.createRuntimeShaderEffect(shader, "content"), blur);
@@ -590,8 +742,10 @@ final class GlassKit {
             }
         }
         synchronized (BACKDROP_EFFECT_CACHE) {
-            if (BACKDROP_EFFECT_CACHE.size() >= 8) BACKDROP_EFFECT_CACHE.clear();
-            BACKDROP_EFFECT_CACHE.put(key, effect);
+            if (backdropEffectCacheStyle == style) {
+                if (BACKDROP_EFFECT_CACHE.size() >= 8) BACKDROP_EFFECT_CACHE.clear();
+                BACKDROP_EFFECT_CACHE.put(key, effect);
+            }
         }
         return effect;
     }
@@ -793,74 +947,203 @@ final class GlassKit {
         }
     }
 
+    static int adaptiveDividerColor() {
+        switch (activeGlassStyle) {
+            case STYLE_FROST:
+                return 0x240F172A;
+            case STYLE_OBSIDIAN:
+                return 0x1EFFFFFF;
+            case STYLE_CHROMATIC:
+                return (0x34 << 24) | tonalRimTint(innerSeed());
+            case STYLE_CLEAR:
+                return 0x26FFFFFF;
+            case STYLE_TONAL:
+            default:
+                return (0x26 << 24) | mixRgb(0xFFFFFF, tonalRimTint(innerSeed()), 0.35f);
+        }
+    }
+
+    static int adaptivePrimaryTextColor() {
+        return isLightGlass() ? 0xFF0F172A : 0xFFFFFFFF;
+    }
+
+    static int adaptiveSecondaryTextColor() {
+        return isLightGlass() ? 0xC81E293B : 0xB8FFFFFF;
+    }
+
+    static int adaptiveHintTextColor() {
+        return isLightGlass() ? 0x9E334155 : 0x8CFFFFFF;
+    }
+
+    static int adaptiveAccentTextColor(int darkModeArgb) {
+        return isLightGlass() ? adaptColorForLight(darkModeArgb) : darkModeArgb;
+    }
+
+    static void markPreserveImage(View v) {
+        if (v != null) PRESERVE_IMAGE_VIEWS.put(v, Boolean.TRUE);
+    }
+
+    static void markPreserveTextColor(View v) {
+        if (v != null) PRESERVE_TEXT_VIEWS.put(v, Boolean.TRUE);
+    }
+
+    static void applyAdaptiveContentTheme(View root) {
+        if (root == null) return;
+        applyAdaptiveContentThemeRec(root, isLightGlass(), activeGlassStyle, adaptiveDividerColor());
+    }
+
+    private static void applyAdaptiveContentThemeRec(View v, boolean light, int style, int dividerColor) {
+        if (v instanceof TextView) {
+            if (!Boolean.TRUE.equals(PRESERVE_TEXT_VIEWS.get(v))) {
+                TextView tv = (TextView) v;
+                OrigViewTheme orig = ORIG_THEMES.get(tv);
+                boolean first = orig == null;
+                if (first) {
+                    orig = new OrigViewTheme();
+                    orig.textColors = tv.getTextColors();
+                    orig.hintColors = tv.getHintTextColors();
+                    orig.appliedLight = false;
+                    ORIG_THEMES.put(tv, orig);
+                }
+                if (orig.appliedLight != light) {
+                    orig.appliedLight = light;
+                    if (orig.textColors != null) {
+                        tv.setTextColor(light ? adaptColorStateListForLight(orig.textColors) : orig.textColors);
+                    }
+                    if (orig.hintColors != null) {
+                        tv.setHintTextColor(light ? adaptColorStateListForLight(orig.hintColors) : orig.hintColors);
+                    }
+                }
+            }
+        } else if (v instanceof ImageView) {
+            if (!Boolean.TRUE.equals(PRESERVE_IMAGE_VIEWS.get(v))) {
+                ImageView iv = (ImageView) v;
+                OrigViewTheme orig = ORIG_THEMES.get(iv);
+                if (orig == null) {
+                    orig = new OrigViewTheme();
+                    orig.imageTint = iv.getImageTintList();
+                    orig.imageHadExplicitTint = orig.imageTint != null;
+                    orig.appliedLight = false;
+                    ORIG_THEMES.put(iv, orig);
+                }
+                if (orig.appliedLight != light) {
+                    orig.appliedLight = light;
+                    if (orig.imageHadExplicitTint && orig.imageTint != null) {
+                        iv.setImageTintList(light ? adaptColorStateListForLight(orig.imageTint) : orig.imageTint);
+                    } else if (iv.getDrawable() instanceof VectorDrawable) {
+                        iv.setImageTintList(light ? ColorStateList.valueOf(0xE60F172A) : null);
+                    }
+                }
+            }
+        } else if (!(v instanceof ViewGroup)) {
+            OrigViewTheme orig = ORIG_THEMES.get(v);
+            if (orig == null) {
+                Drawable bg = v.getBackground();
+                ViewGroup.LayoutParams lp = v.getLayoutParams();
+                int h = lp != null ? lp.height : v.getHeight();
+                int w = lp != null ? lp.width : v.getWidth();
+                boolean thin = (h > 0 && h <= 4) || (w > 0 && w <= 4);
+                if (thin && bg instanceof ColorDrawable) {
+                    orig = new OrigViewTheme();
+                    orig.isDivider = true;
+                    ORIG_THEMES.put(v, orig);
+                }
+            }
+            if (orig != null && orig.isDivider && orig.appliedStyle != style) {
+                orig.appliedStyle = style;
+                v.setBackgroundColor(dividerColor);
+            }
+        }
+        if (v instanceof ViewGroup) {
+            ViewGroup vg = (ViewGroup) v;
+            for (int i = 0, n = vg.getChildCount(); i < n; i++) {
+                applyAdaptiveContentThemeRec(vg.getChildAt(i), light, style, dividerColor);
+            }
+        }
+    }
+
+    private static GradientDrawable makeAdaptiveSurfaceBox(float density, float radiusDp,
+                                                           int fillArgb, int strokeArgb, float strokeDp) {
+        GradientDrawable g = new GradientDrawable();
+        g.setShape(GradientDrawable.RECTANGLE);
+        g.setCornerRadius(radiusDp * density);
+        g.setColor(fillArgb);
+        if (strokeDp > 0f && ((strokeArgb >>> 24) & 0xFF) > 0) {
+            g.setStroke(Math.max(1, Math.round(strokeDp * density)), strokeArgb);
+        }
+        return g;
+    }
+
     static StateListDrawable makeRowBg(float density, float radiusDp) {
         return makeChoiceBg(density, radiusDp, 0xFF4ADE80);
     }
 
     static StateListDrawable makePillBg(float density, float radiusDp) {
+        int style = activeGlassStyle;
+        int seed = innerSeed();
+        int[] rest = innerSurfaceColors(style, seed, false);
+        int[] foc = innerSurfaceColors(style, seed, true);
         StateListDrawable bg = new StateListDrawable();
-        GradientDrawable focused = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x34FFFFFF, 0x1BFFFFFF});
-        focused.setCornerRadius(radiusDp * density);
-        bg.addState(new int[]{android.R.attr.state_focused}, focused);
-
-        GradientDrawable rest = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x22FFFFFF, 0x11FFFFFF});
-        rest.setCornerRadius(radiusDp * density);
-        rest.setStroke(Math.max(1, Math.round(1.0f * density)), 0x36FFFFFF);
-        bg.addState(new int[0], rest);
+        bg.addState(new int[]{android.R.attr.state_focused},
+                makeAdaptiveSurfaceBox(density, radiusDp, foc[0], foc[1], 1.1f));
+        bg.addState(new int[0],
+                makeAdaptiveSurfaceBox(density, radiusDp, rest[0], rest[1], 1.0f));
         return bg;
     }
 
     static StateListDrawable makeChoiceBg(float density, float radiusDp, int accentArgb) {
-        int rgb = accentArgb & 0x00FFFFFF;
+        int style = activeGlassStyle;
+        int seed = innerSeed();
+        int[] rest = innerSurfaceColors(style, seed, false);
+        int[] foc = innerSurfaceColors(style, seed, true);
+        int rgb = (accentArgb != 0 ? accentArgb : 0xFF4ADE80) & 0x00FFFFFF;
+        int selFill, selStroke, selFocFill, selFocStroke;
+        if (isLightGlass(style)) {
+            int deep = refineLightFocusAccent(rgb);
+            selFill = (0x26 << 24) | deep;
+            selStroke = (0x92 << 24) | deep;
+            selFocFill = (0x38 << 24) | deep;
+            selFocStroke = (0xC6 << 24) | deep;
+        } else {
+            int ref = refineFocusAccent(rgb);
+            selFill = (0x3A << 24) | rgb;
+            selStroke = (0xA8 << 24) | ref;
+            selFocFill = (0x52 << 24) | rgb;
+            selFocStroke = (0xD2 << 24) | ref;
+        }
         StateListDrawable bg = new StateListDrawable();
-
-        GradientDrawable focusedSel = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x48000000 | rgb, 0x26000000 | rgb});
-        focusedSel.setCornerRadius(radiusDp * density);
-        bg.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected}, focusedSel);
-
-        GradientDrawable focused = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x2CFFFFFF, 0x18FFFFFF});
-        focused.setCornerRadius(radiusDp * density);
-        bg.addState(new int[]{android.R.attr.state_focused}, focused);
-
-        GradientDrawable selected = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x38000000 | rgb, 0x1C000000 | rgb});
-        selected.setCornerRadius(radiusDp * density);
-        selected.setStroke(Math.max(1, Math.round(1.2f * density)), 0xA8000000 | rgb);
-        bg.addState(new int[]{android.R.attr.state_selected}, selected);
-
-        GradientDrawable rest = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x18FFFFFF, 0x0CFFFFFF});
-        rest.setCornerRadius(radiusDp * density);
-        rest.setStroke(Math.max(1, Math.round(1.0f * density)), 0x2AFFFFFF);
-        bg.addState(new int[0], rest);
+        bg.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected},
+                makeAdaptiveSurfaceBox(density, radiusDp, selFocFill, selFocStroke, 1.25f));
+        bg.addState(new int[]{android.R.attr.state_selected},
+                makeAdaptiveSurfaceBox(density, radiusDp, selFill, selStroke, 1.2f));
+        bg.addState(new int[]{android.R.attr.state_focused},
+                makeAdaptiveSurfaceBox(density, radiusDp, foc[0], foc[1], 1.1f));
+        bg.addState(new int[0],
+                makeAdaptiveSurfaceBox(density, radiusDp, rest[0], rest[1], 1.0f));
         return bg;
     }
 
     static StateListDrawable makeCardBg(float density, float radiusDp) {
+        int style = activeGlassStyle;
+        int seed = innerSeed();
+        int[] rest = innerSurfaceColors(style, seed, false);
+        int[] foc = innerSurfaceColors(style, seed, true);
         StateListDrawable bg = new StateListDrawable();
-        GradientDrawable focused = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x2CFFFFFF, 0x16FFFFFF});
-        focused.setCornerRadius(radiusDp * density);
-        bg.addState(new int[]{android.R.attr.state_focused}, focused);
-
-        GradientDrawable rest = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x1AFFFFFF, 0x0DFFFFFF});
-        rest.setCornerRadius(radiusDp * density);
-        rest.setStroke(Math.max(1, Math.round(1.0f * density)), 0x2CFFFFFF);
-        bg.addState(new int[0], rest);
+        bg.addState(new int[]{android.R.attr.state_focused},
+                makeAdaptiveSurfaceBox(density, radiusDp, foc[0], foc[1], 1.1f));
+        bg.addState(new int[0],
+                makeAdaptiveSurfaceBox(density, radiusDp, rest[0], rest[1], 1.0f));
         return bg;
     }
 
+    static GradientDrawable makeStaticCardBg(float density, float radiusDp) {
+        int[] rest = innerSurfaceColors(activeGlassStyle, innerSeed(), false);
+        return makeAdaptiveSurfaceBox(density, radiusDp, rest[0], rest[1], 1.0f);
+    }
+
     static GradientDrawable makeInputBg(float density, boolean focused) {
-        GradientDrawable d = new GradientDrawable();
-        d.setColor(focused ? 0x30FFFFFF : 0x1EFFFFFF);
-        d.setCornerRadius(14f * density);
-        d.setStroke(Math.max(1, Math.round(1.2f * density)), focused ? 0x55FFFFFF : 0x3DFFFFFF);
-        return d;
+        int[] cols = innerSurfaceColors(activeGlassStyle, innerSeed(), focused);
+        return makeAdaptiveSurfaceBox(density, 14f, cols[0], cols[1], focused ? 1.3f : 1.0f);
     }
 
     static void animateFocus(View v, boolean focused, float focusScale, float liftDp, float density) {
@@ -1066,7 +1349,7 @@ final class GlassKit {
 
     static View makeDivider(Context ctx, int topMarginDp, int bottomMarginDp) {
         View line = new View(ctx);
-        line.setBackgroundColor(0x22FFFFFF);
+        line.setBackgroundColor(adaptiveDividerColor());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, Math.max(1, dp(ctx, 1)));
         lp.topMargin = dp(ctx, topMarginDp);
@@ -1149,6 +1432,7 @@ final class GlassKit {
         private final float insetPx;
         private final float density;
         private final int seedRgb;
+        private final int style;
         private final Paint bitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG);
         private final Paint tintVeilPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         private final RectF clipRect = new RectF();
@@ -1160,13 +1444,14 @@ final class GlassKit {
         private boolean released;
 
         ExpressiveBlurVeilDrawable(Bitmap sharpChildren, Bitmap softwareFallback,
-                                   float cornerRadiusPx, float insetPx, float density, int seedRgb) {
+                                   float cornerRadiusPx, float insetPx, float density, int seedRgb, int style) {
             this.sharpChildren = sharpChildren;
             this.softwareFallback = softwareFallback;
             this.cornerRadiusPx = cornerRadiusPx;
             this.insetPx = insetPx;
             this.density = density;
             this.seedRgb = seedRgb;
+            this.style = style;
         }
 
         private void ensureBuilt(int w, int h) {
@@ -1178,9 +1463,23 @@ final class GlassKit {
             float r = Math.max(0f, Math.min(cornerRadiusPx - insetPx, Math.min(clipRect.width(), clipRect.height()) * 0.5f));
             clipPath.addRoundRect(clipRect, r, r, Path.Direction.CW);
 
-            int accent800 = tonalAccent800(seedRgb);
-            int topTint = (0x20 << 24) | mixRgb(0x101520, accent800, 0.38f);
-            int botTint = (0x34 << 24) | mixRgb(0x080B12, accent800, 0.28f);
+            int topTint;
+            int botTint;
+            if (style == STYLE_FROST) {
+                int lt = tonalLightTint(seedRgb);
+                topTint = (0x3A << 24) | mixRgb(0xF4F7FC, lt, 0.42f);
+                botTint = (0x52 << 24) | mixRgb(0xE2E8F2, lt, 0.34f);
+            } else if (style == STYLE_OBSIDIAN) {
+                topTint = 0x44020306;
+                botTint = 0x5A000002;
+            } else if (style == STYLE_CHROMATIC) {
+                topTint = (0x2E << 24) | tonalAccent700(seedRgb);
+                botTint = (0x44 << 24) | tonalAccent800(seedRgb);
+            } else {
+                int accent800 = tonalAccent800(seedRgb);
+                topTint = (0x20 << 24) | mixRgb(0x101520, accent800, 0.38f);
+                botTint = (0x34 << 24) | mixRgb(0x080B12, accent800, 0.28f);
+            }
             tintVeilPaint.setShader(new LinearGradient(
                     0f, clipRect.top, 0f, clipRect.bottom,
                     topTint, botTint, Shader.TileMode.CLAMP));
@@ -1456,8 +1755,8 @@ final class GlassKit {
             }
 
             float rad = pd != null ? pd.cornerRadiusPx : 24f * density;
-            int seed = pd != null ? pd.seedRgb : DEFAULT_SEED_RGB;
-            return new ExpressiveBlurVeilDrawable(sharpChildren, swFallback, rad, 1.5f * density, density, seed);
+            int seed = effectivePanelSeed(pd != null ? pd.seedRgb : DEFAULT_SEED_RGB);
+            return new ExpressiveBlurVeilDrawable(sharpChildren, swFallback, rad, 1.5f * density, density, seed, activeGlassStyle);
         } catch (RuntimeException | OutOfMemoryError ignored) {
             return null;
         }
@@ -1472,6 +1771,7 @@ final class GlassKit {
             int screenH = (base != null && base.screenH > 0) ? base.screenH : dm.heightPixels;
             if (screenW <= 0 || screenH <= 0) return;
 
+            final int style = activeGlassStyle;
             int cw = 480, ch = 270;
             Bitmap compSharp = Bitmap.createBitmap(cw, ch, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(compSharp);
@@ -1482,10 +1782,12 @@ final class GlassKit {
                     c.drawBitmap(base.sharp, null, new Rect(0, 0, cw, ch), fp);
                 } else {
                     c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
-                    c.drawColor(0x64060A12);
+                    int outsideTint = style == STYLE_FROST ? 0x26DCE4F2
+                            : (style == STYLE_OBSIDIAN ? 0x7A020306 : 0x64060A12);
+                    c.drawColor(outsideTint);
                 }
             } else {
-                c.drawColor(0xFF10141C);
+                c.drawColor(style == STYLE_FROST ? 0xFFDDE4F0 : (style == STYLE_OBSIDIAN ? 0xFF040508 : 0xFF10141C));
             }
             int[] loc = new int[2];
             panel.getLocationOnScreen(loc);
@@ -1503,14 +1805,9 @@ final class GlassKit {
                 c.drawBitmap(base.blur, null, new Rect(0, 0, cw, ch), fp);
                 c.restoreToCount(save);
             }
-            int seed = pd != null ? pd.seedRgb : DEFAULT_SEED_RGB;
-            int accent800 = tonalAccent800(seed);
-            int topBase = mixRgb(0x131720, accent800, 0.36f);
-            int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
-            int botBase = mixRgb(0x07090E, accent800, 0.22f);
-            int[] glassCols = sharpHomeOutside
-                    ? new int[]{(0x76 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase}
-                    : new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase};
+            int seed = effectivePanelSeed(pd != null ? pd.seedRgb : DEFAULT_SEED_RGB);
+            boolean parentSmoked = pd != null && pd.smoked;
+            int[] glassCols = panelGlassColors(style, seed, parentSmoked, sharpHomeOutside && !parentSmoked);
             Paint glassFill = new Paint(Paint.ANTI_ALIAS_FLAG);
             glassFill.setShader(new LinearGradient(
                     dst.left, dst.top, dst.left, dst.bottom,
@@ -1519,7 +1816,9 @@ final class GlassKit {
             c.drawRoundRect(dst, rad, rad, glassFill);
             c.drawBitmap(softChildren, null, dst, fp);
             Paint scrimP = new Paint(Paint.ANTI_ALIAS_FLAG);
-            scrimP.setColor(0x3C080C14);
+            scrimP.setColor(style == STYLE_FROST ? 0x36E8EEF8
+                    : (style == STYLE_OBSIDIAN ? 0x4C020305
+                    : (style == STYLE_CHROMATIC ? ((0x38 << 24) | tonalAccent800(seed)) : 0x3C080C14)));
             c.drawRoundRect(dst, rad, rad, scrimP);
 
             Bitmap compBlur = makeFastBlurred(compSharp, 240, 135);
@@ -1732,6 +2031,8 @@ final class GlassKit {
             boolean smoked = !overHome && !inheritBackdrop && backdropView == null;
             applyWindowGlass(activity.getWindow(), density, smoked ? 0.36f : 0f, smoked);
             applyPanelSurface(panel, density, 26f, smoked, false, seedRgb, overSharpHome, overSharpHome);
+            applyAdaptiveContentTheme(panel);
+            focusRing.refreshStyle();
             if (closing) {
                 closing = false;
                 setClosing(panelStage, false);
@@ -1747,6 +2048,8 @@ final class GlassKit {
         void reveal() {
             closing = false;
             clipScrollContainers(panel);
+            applyAdaptiveContentTheme(panel);
+            focusRing.refreshStyle();
             setClosing(panelStage, false);
             if (backdropView != null) {
                 backdropView.animate().cancel();
@@ -1834,6 +2137,7 @@ final class GlassKit {
 
         void refreshFocus() {
             clipScrollContainers(panel);
+            applyAdaptiveContentTheme(panel);
             focusRing.refresh();
         }
     }
@@ -2001,6 +2305,10 @@ final class GlassKit {
             applyWindowGlass(w, d, 0f, false);
             w.setWindowAnimations(0);
         }
+        dialog.setOnShowListener(d2 -> {
+            applyAdaptiveContentTheme(panel);
+            ring.refreshStyle();
+        });
         dialog.setOnDismissListener(dd -> {
             cancelPanelAnim(host);
             DIALOG_CLOSE_RUNNERS.remove(dialog);
@@ -2085,7 +2393,7 @@ final class GlassKit {
                 View dot = new View(activity);
                 GradientDrawable dotBg = new GradientDrawable();
                 dotBg.setShape(GradientDrawable.OVAL);
-                dotBg.setColor(accent != 0 ? accent : 0xFF4ADE80);
+                dotBg.setColor(adaptiveAccentTextColor(accent != 0 ? accent : 0xFF4ADE80));
                 dot.setBackground(dotBg);
                 LinearLayout.LayoutParams dlp = new LinearLayout.LayoutParams(dp(activity, 8), dp(activity, 8));
                 dlp.leftMargin = dp(activity, 10);
@@ -2195,7 +2503,7 @@ final class GlassKit {
 
             TextView mark = new TextView(activity);
             mark.setText(state[idx] ? "\u2713" : "");
-            mark.setTextColor(useAccent);
+            mark.setTextColor(adaptiveAccentTextColor(useAccent));
             mark.setTextSize(16f);
             mark.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
             row.addView(mark, new LinearLayout.LayoutParams(-2, -2));
@@ -2274,9 +2582,12 @@ final class GlassKit {
         private boolean liquidShaderFailed;
         private int boundBackdropVersion = -1;
         private float rimR, rimG, rimB;
+        private int lastRimSeed = -1;
         private int liquidAlpha = 255;
         private int lastW = -1, lastH = -1;
         private int lastFillMode = -1;
+        private int lastStyle = -1;
+        private int lastEffSeed = -1;
         boolean useRestingCoords;
         boolean suppressDraw;
 
@@ -2323,7 +2634,10 @@ final class GlassKit {
         }
 
         private void updateRimRgb() {
-            int rimTint = tonalRimTint(this.seedRgb);
+            int eff = effectivePanelSeed(this.seedRgb);
+            if (eff == lastRimSeed) return;
+            lastRimSeed = eff;
+            int rimTint = tonalRimTint(eff);
             this.rimR = ((rimTint >> 16) & 0xFF) / 255f;
             this.rimG = ((rimTint >> 8) & 0xFF) / 255f;
             this.rimB = (rimTint & 0xFF) / 255f;
@@ -2342,6 +2656,7 @@ final class GlassKit {
             this.seedRgb = seedRgb & 0x00FFFFFF;
             this.overSharpBackdrop = overSharpBackdrop;
             this.richInteriorTint = richInteriorTint;
+            this.lastRimSeed = -1;
             updateRimRgb();
             this.lastW = -1;
             invalidateSelf();
@@ -2350,35 +2665,39 @@ final class GlassKit {
         private void ensureShaders(RectF r, int fillMode) {
             int w = Math.round(r.width());
             int h = Math.round(r.height());
-            if (w == lastW && h == lastH && fillMode == lastFillMode) return;
+            int style = activeGlassStyle;
+            int effSeed = effectivePanelSeed(seedRgb);
+            if (w == lastW && h == lastH && fillMode == lastFillMode && style == lastStyle && effSeed == lastEffSeed) return;
             lastW = w;
             lastH = h;
             lastFillMode = fillMode;
+            lastStyle = style;
+            lastEffSeed = effSeed;
 
-            int accent800 = tonalAccent800(seedRgb);
-            int topBase = mixRgb(0x131720, accent800, 0.36f);
-            int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
-            int botBase = mixRgb(0x07090E, accent800, 0.22f);
-            int[] cols;
-            if (fillMode == 2) {
-                cols = new int[]{(0xA4 << 24) | topBase, (0xB2 << 24) | midBase, (0xC0 << 24) | botBase};
-            } else if (fillMode == 1) {
-                cols = new int[]{(0x76 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase};
-            } else {
-                cols = new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase};
-            }
-            int topWithCaustic = blendOverWhite(cols[0], 0x12);
+            int[] cols = panelGlassColors(style, effSeed, fillMode == 2, fillMode == 1);
+            int causticAlpha = style == STYLE_OBSIDIAN ? 0x0A : (style == STYLE_FROST ? 0x26 : 0x12);
+            int topWithCaustic = blendOverWhite(cols[0], causticAlpha);
             int stop18 = lerpArgb(cols[0], cols[1], 0.18f / 0.48f);
             fillPaint.setShader(new LinearGradient(
                     r.left, r.top, r.left, r.bottom,
                     new int[]{topWithCaustic, stop18, cols[1], cols[2]},
                     new float[]{0f, 0.18f, 0.48f, 1f}, Shader.TileMode.CLAMP));
 
-            int bounce = tonalRimTint(seedRgb);
-            rimPaint.setShader(new LinearGradient(
-                    r.left, r.top, r.right, r.bottom,
-                    new int[]{0x76FFFFFF, 0x22FFFFFF, 0x18FFFFFF, (0x44 << 24) | bounce},
-                    new float[]{0f, 0.34f, 0.68f, 1f}, Shader.TileMode.CLAMP));
+            if (style == STYLE_FROST) {
+                outerShadowBorder.setColor(0x280F172A);
+                rimPaint.setShader(new LinearGradient(
+                        r.left, r.top, r.right, r.bottom,
+                        new int[]{0xE6FFFFFF, 0x52FFFFFF, 0x220F172A, 0x380F172A},
+                        new float[]{0f, 0.34f, 0.72f, 1f}, Shader.TileMode.CLAMP));
+            } else {
+                outerShadowBorder.setColor(0x36000000);
+                int bounce = tonalRimTint(effSeed);
+                int topSpec = style == STYLE_OBSIDIAN ? 0x62FFFFFF : 0x76FFFFFF;
+                rimPaint.setShader(new LinearGradient(
+                        r.left, r.top, r.right, r.bottom,
+                        new int[]{topSpec, 0x22FFFFFF, 0x18FFFFFF, (0x44 << 24) | bounce},
+                        new float[]{0f, 0.34f, 0.68f, 1f}, Shader.TileMode.CLAMP));
+            }
         }
 
         private static int blendOverWhite(int dstArgb, int whiteAlpha) {
@@ -2496,6 +2815,7 @@ final class GlassKit {
             float refract = Math.min((optical ? 46f : 28f) * density, bezel * 1.95f);
             float chromatic = (optical ? 4.4f : 2.4f) * density;
 
+            updateRimRgb();
             if (boundBackdropVersion != bg.version) {
                 liquidShader.setInputShader("uSharp", bg.sharpShader);
                 liquidShader.setInputShader("uBlur", bg.blurShader);
@@ -2512,6 +2832,8 @@ final class GlassKit {
                     interiorBlurOnly ? 0.0f : (optical ? 0.88f : 0.0f));
             liquidShader.setFloatUniform("uInteriorFill", interiorBlurOnly ? 1.0f : 0.0f);
             liquidShader.setFloatUniform("uLiquidMode", optical ? 1.0f : 0.0f);
+            liquidShader.setFloatUniform("uSurfaceLight", isLightGlass() ? 1.0f : 0.0f);
+            liquidShader.setFloatUniform("uInteriorDim", interiorDimForStyle(activeGlassStyle));
             liquidShader.setFloatUniform("uRimTint", rimR, rimG, rimB);
             liquidShader.setFloatUniform("uWobble", 0.0f);
             liquidShader.setFloatUniform("uPhase", 0.0f);
@@ -2602,6 +2924,7 @@ final class GlassKit {
             clipScrollContainers(scope);
 
             glass = new WobblyRingView(host.getContext());
+            glass.setLightSurface(isLightGlass());
             glass.setAlpha(0f);
             glass.setFocusable(false);
             glass.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -2675,7 +2998,13 @@ final class GlassKit {
             }
         }
 
+        void refreshStyle() {
+            glass.setLightSurface(isLightGlass());
+            glass.invalidate();
+        }
+
         void refresh() {
+            glass.setLightSurface(isLightGlass());
             View f = scope.findFocus();
             if (f != null && f != glass && isDescendantOf(f, scope)) {
                 moveTo(f, false);
@@ -2718,6 +3047,7 @@ final class GlassKit {
                 lp.height = gh;
                 glass.setLayoutParams(lp);
             }
+            glass.setLightSurface(isLightGlass());
             glass.setRadius(radiusPx);
             glass.setAccent(spec.accent);
 
@@ -2895,7 +3225,9 @@ final class GlassKit {
         private float radius;
         private int primaryRgb = 0xEAF0FA;
         private int secondaryRgb = 0xDCE6F7;
+        private int rawAccentArgb;
         private boolean accented;
+        private boolean lightSurface;
         private int auraBaseAlpha = 0x5A;
         private int haloBaseAlpha = 0x42;
         private boolean shadersDirty = true;
@@ -2975,23 +3307,51 @@ final class GlassKit {
             }
         }
 
+        void setLightSurface(boolean light) {
+            if (lightSurface == light) return;
+            lightSurface = light;
+            recomputeAccentColors(true);
+        }
+
         void setAccent(int argb) {
+            rawAccentArgb = argb;
+            recomputeAccentColors(false);
+        }
+
+        private void recomputeAccentColors(boolean forceDirty) {
             int nextP, nextS, nextA, nextH;
             boolean nextAcc;
-            if (argb == 0) {
-                nextP = 0xEAF0FA;
-                nextS = 0xDCE6F7;
-                nextAcc = false;
-                nextA = 0x5A;
-                nextH = 0x42;
+            if (lightSurface) {
+                if (rawAccentArgb == 0) {
+                    nextP = 0x1E293B;
+                    nextS = 0x334155;
+                    nextAcc = false;
+                    nextA = 0x48;
+                    nextH = 0x40;
+                } else {
+                    nextP = refineLightFocusAccent(rawAccentArgb);
+                    nextS = mixRgb(nextP, 0x0F172A, 0.22f);
+                    nextAcc = true;
+                    nextA = 0x64;
+                    nextH = 0x50;
+                }
             } else {
-                nextP = refineFocusAccent(argb);
-                nextS = mixRgb(nextP, 0xFFFFFF, 0.20f);
-                nextAcc = true;
-                nextA = 0xA2;
-                nextH = 0x6E;
+                if (rawAccentArgb == 0) {
+                    nextP = 0xEAF0FA;
+                    nextS = 0xDCE6F7;
+                    nextAcc = false;
+                    nextA = 0x5A;
+                    nextH = 0x42;
+                } else {
+                    nextP = refineFocusAccent(rawAccentArgb);
+                    nextS = mixRgb(nextP, 0xFFFFFF, 0.20f);
+                    nextAcc = true;
+                    nextA = 0xA2;
+                    nextH = 0x6E;
+                }
             }
-            if (nextP == primaryRgb && nextS == secondaryRgb && nextAcc == accented) return;
+            if (!forceDirty && nextP == primaryRgb && nextS == secondaryRgb
+                    && nextAcc == accented && nextA == auraBaseAlpha && nextH == haloBaseAlpha) return;
             primaryRgb = nextP;
             secondaryRgb = nextS;
             accented = nextAcc;
@@ -3015,6 +3375,26 @@ final class GlassKit {
 
         private void rebuildShaders(RectF r) {
             shadersDirty = false;
+            if (lightSurface) {
+                contrastRim.setColor(0x52FFFFFF);
+                int c0 = accented ? (0xF2000000 | primaryRgb) : 0xF00F172A;
+                int c1 = 0xDC000000 | primaryRgb;
+                int c2 = accented ? (0x92000000 | primaryRgb) : 0x8A1E293B;
+                int c3 = 0xCE000000 | secondaryRgb;
+                int c4 = 0xEC000000 | secondaryRgb;
+                rim.setShader(new LinearGradient(r.left, r.top, r.right, r.bottom,
+                        new int[]{c0, c1, c2, c3, c4}, new float[]{0f, 0.24f, 0.52f, 0.78f, 1f}, Shader.TileMode.CLAMP));
+                innerCaustic.setShader(new LinearGradient(r.left, r.top, r.left, r.top + Math.max(1f, r.height() * 0.25f),
+                        0x92FFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP));
+                LinearGradient glowGrad = new LinearGradient(r.left, r.top, r.right, r.bottom,
+                        new int[]{0xFF000000 | primaryRgb, 0xFF000000 | secondaryRgb}, new float[]{0f, 1f}, Shader.TileMode.CLAMP);
+                auraPaint.setShader(glowGrad);
+                haloPaint.setShader(glowGrad);
+                flightFill.setShader(new LinearGradient(r.left, r.top, r.right, r.bottom,
+                        new int[]{0x180F172A, 0x060F172A, 0x12000000 | secondaryRgb}, new float[]{0f, 0.55f, 1f}, Shader.TileMode.CLAMP));
+                return;
+            }
+            contrastRim.setColor(0x2E000000);
             int c0 = 0xFCFFFFFF;
             int c1 = accented ? (0xC6000000 | primaryRgb) : 0xACFFFFFF;
             int c2 = 0x52FFFFFF;
@@ -3190,7 +3570,7 @@ final class GlassKit {
 
             float fineSettle = settle * settle;
             if (fineSettle > 0.02f) {
-                contrastRim.setAlpha(Math.round(0x2E * fineSettle));
+                contrastRim.setAlpha(Math.round((lightSurface ? 0x52 : 0x2E) * fineSettle));
                 float outerOffset = rim.getStrokeWidth() * 0.5f + contrastRim.getStrokeWidth() * 0.5f;
                 canvas.drawRoundRect(rect.left - outerOffset, rect.top - outerOffset,
                         rect.right + outerOffset, rect.bottom + outerOffset,
@@ -3228,6 +3608,21 @@ final class GlassKit {
         return hsvToRgb(hsv[0], sat, val);
     }
 
+    private static int tonalAccent700(int seedRgb) {
+        float[] hsv = new float[3];
+        rgbToHsv((seedRgb >> 16) & 0xFF, (seedRgb >> 8) & 0xFF, seedRgb & 0xFF, hsv);
+        float sat = clamp(hsv[1] * 0.86f, 0.28f, 0.62f);
+        float val = clamp(0.32f + hsv[2] * 0.14f, 0.30f, 0.44f);
+        return hsvToRgb(hsv[0], sat, val);
+    }
+
+    private static int tonalLightTint(int seedRgb) {
+        float[] hsv = new float[3];
+        rgbToHsv((seedRgb >> 16) & 0xFF, (seedRgb >> 8) & 0xFF, seedRgb & 0xFF, hsv);
+        float sat = clamp(hsv[1] * 0.16f, 0.03f, 0.11f);
+        return hsvToRgb(hsv[0], sat, 0.96f);
+    }
+
     private static int tonalRimTint(int seedRgb) {
         float[] hsv = new float[3];
         rgbToHsv((seedRgb >> 16) & 0xFF, (seedRgb >> 8) & 0xFF, seedRgb & 0xFF, hsv);
@@ -3243,6 +3638,172 @@ final class GlassKit {
         hsv[1] = clamp(hsv[1] * 0.74f, 0.18f, 0.62f);
         hsv[2] = clamp(0.68f + hsv[2] * 0.24f, 0.68f, 0.94f);
         return mixRgb(hsvToRgb(hsv[0], hsv[1], hsv[2]), 0xF0F5FF, 0.24f);
+    }
+
+    private static int refineLightFocusAccent(int argb) {
+        int rgb = argb & 0x00FFFFFF;
+        if (rgb == 0) return 0x1E293B;
+        float[] hsv = new float[3];
+        rgbToHsv((rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF, hsv);
+        if (hsv[1] < 0.08f) return 0x1E293B;
+        hsv[1] = clamp(Math.max(hsv[1] * 0.92f, 0.52f), 0.52f, 0.88f);
+        hsv[2] = clamp(0.28f + hsv[2] * 0.22f, 0.28f, 0.48f);
+        return hsvToRgb(hsv[0], hsv[1], hsv[2]);
+    }
+
+    private static int[] panelGlassColors(int style, int seedRgb, boolean smoked, boolean frostedOverSharp) {
+        switch (style) {
+            case STYLE_OBSIDIAN: {
+                int topBase = 0x07090D;
+                int midBase = 0x020305;
+                int botBase = 0x000002;
+                if (smoked) {
+                    return new int[]{(0xDC << 24) | topBase, (0xE4 << 24) | midBase, (0xEC << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0xC6 << 24) | topBase, (0xD4 << 24) | midBase, (0xE0 << 24) | botBase};
+                }
+                return new int[]{(0xBC << 24) | topBase, (0xCA << 24) | midBase, (0xD6 << 24) | botBase};
+            }
+            case STYLE_FROST: {
+                int lightTint = tonalLightTint(seedRgb);
+                int topBase = mixRgb(0xF8FAFF, lightTint, 0.35f);
+                int midBase = mixRgb(0xEDF1F8, lightTint, 0.35f);
+                int botBase = mixRgb(0xE0E6F2, lightTint, 0.30f);
+                if (smoked) {
+                    return new int[]{(0xE2 << 24) | topBase, (0xE8 << 24) | midBase, (0xEE << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0xC6 << 24) | topBase, (0xD0 << 24) | midBase, (0xDA << 24) | botBase};
+                }
+                return new int[]{(0xCE << 24) | topBase, (0xD6 << 24) | midBase, (0xDE << 24) | botBase};
+            }
+            case STYLE_CLEAR: {
+                int accent800 = tonalAccent800(seedRgb);
+                int topBase = mixRgb(0x181E2B, accent800, 0.22f);
+                int midBase = mixRgb(0x0E131D, accent800, 0.16f);
+                int botBase = mixRgb(0x090C14, accent800, 0.12f);
+                if (smoked) {
+                    return new int[]{(0x8C << 24) | topBase, (0x9A << 24) | midBase, (0xAA << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0x48 << 24) | topBase, (0x54 << 24) | midBase, (0x62 << 24) | botBase};
+                }
+                return new int[]{(0x34 << 24) | topBase, (0x3E << 24) | midBase, (0x4A << 24) | botBase};
+            }
+            case STYLE_CHROMATIC: {
+                int accent700 = tonalAccent700(seedRgb);
+                int accent800 = tonalAccent800(seedRgb);
+                int topBase = mixRgb(0x18202E, accent700, 0.72f);
+                int midBase = mixRgb(0x101622, accent800, 0.76f);
+                int botBase = mixRgb(0x0A0E18, accent800, 0.80f);
+                if (smoked) {
+                    return new int[]{(0xB4 << 24) | topBase, (0xC0 << 24) | midBase, (0xCC << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0x88 << 24) | topBase, (0x94 << 24) | midBase, (0xA2 << 24) | botBase};
+                }
+                return new int[]{(0x78 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase};
+            }
+            case STYLE_TONAL:
+            default: {
+                int accent800 = tonalAccent800(seedRgb);
+                int topBase = mixRgb(0x131720, accent800, 0.36f);
+                int midBase = mixRgb(0x0B0E15, accent800, 0.28f);
+                int botBase = mixRgb(0x07090E, accent800, 0.22f);
+                if (smoked) {
+                    return new int[]{(0xA4 << 24) | topBase, (0xB2 << 24) | midBase, (0xC0 << 24) | botBase};
+                }
+                if (frostedOverSharp) {
+                    return new int[]{(0x76 << 24) | topBase, (0x84 << 24) | midBase, (0x92 << 24) | botBase};
+                }
+                return new int[]{(0x5C << 24) | topBase, (0x6A << 24) | midBase, (0x78 << 24) | botBase};
+            }
+        }
+    }
+
+    private static int[] innerSurfaceColors(int style, int seedRgb, boolean focused) {
+        switch (style) {
+            case STYLE_OBSIDIAN:
+                return focused
+                        ? new int[]{0x841B202C, 0x5AFFFFFF}
+                        : new int[]{0x5611141B, 0x26FFFFFF};
+            case STYLE_FROST: {
+                int tint = focused ? tonalAccent700(seedRgb) : tonalAccent800(seedRgb);
+                int fillRgb = mixRgb(0x0F172A, tint, focused ? 0.36f : 0.28f);
+                int strokeRgb = mixRgb(0x0F172A, tint, focused ? 0.45f : 0.20f);
+                return focused
+                        ? new int[]{(0x26 << 24) | fillRgb, (0x54 << 24) | strokeRgb}
+                        : new int[]{(0x15 << 24) | fillRgb, (0x24 << 24) | strokeRgb};
+            }
+            case STYLE_CLEAR:
+                return focused
+                        ? new int[]{0x32FFFFFF, 0x62FFFFFF}
+                        : new int[]{0x1AFFFFFF, 0x2CFFFFFF};
+            case STYLE_CHROMATIC: {
+                int a700 = tonalAccent700(seedRgb);
+                int rim = tonalRimTint(seedRgb);
+                int fillRgb = mixRgb(focused ? 0x2D3C54 : 0x1E283A, a700, focused ? 0.88f : 0.82f);
+                int strokeRgb = focused ? mixRgb(0xFFFFFF, rim, 0.52f) : rim;
+                return focused
+                        ? new int[]{(0x84 << 24) | fillRgb, (0x88 << 24) | strokeRgb}
+                        : new int[]{(0x5C << 24) | fillRgb, (0x4A << 24) | strokeRgb};
+            }
+            case STYLE_TONAL:
+            default: {
+                int a700 = tonalAccent700(seedRgb);
+                int rim = tonalRimTint(seedRgb);
+                int fillRgb = mixRgb(focused ? 0x2C384E : 0x1E2634, a700, focused ? 0.62f : 0.54f);
+                int strokeRgb = mixRgb(focused ? 0xFFFFFF : 0xDCE6FA, rim, focused ? 0.35f : 0.48f);
+                return focused
+                        ? new int[]{(0x58 << 24) | fillRgb, (0x62 << 24) | strokeRgb}
+                        : new int[]{(0x3A << 24) | fillRgb, (0x30 << 24) | strokeRgb};
+            }
+        }
+    }
+
+    static int adaptColorForLight(int argb) {
+        int a = (argb >>> 24) & 0xFF;
+        if (a == 0) return 0;
+        int r = (argb >> 16) & 0xFF;
+        int g = (argb >> 8) & 0xFF;
+        int b = argb & 0xFF;
+        float luma = (0.2126f * r + 0.7152f * g + 0.0722f * b) / 255f;
+        float[] hsv = new float[3];
+        rgbToHsv(r, g, b, hsv);
+        if (hsv[1] < 0.24f) {
+            if (luma < 0.62f) return argb;
+            if (a >= 215) return (a << 24) | 0x0F172A;
+            if (a >= 145) return (Math.min(255, Math.max(a + 28, 196)) << 24) | 0x1E293B;
+            return (Math.min(255, Math.max(a + 38, 152)) << 24) | 0x334155;
+        }
+        if (luma >= 0.48f || hsv[2] >= 0.62f) {
+            float sat = clamp(Math.max(hsv[1], 0.72f), 0.72f, 0.94f);
+            float val = clamp(hsv[2] * 0.50f, 0.34f, 0.48f);
+            int deep = hsvToRgb(hsv[0], sat, val);
+            return (Math.max(a, 0xDF) << 24) | deep;
+        }
+        return argb;
+    }
+
+    private static ColorStateList adaptColorStateListForLight(ColorStateList orig) {
+        if (!orig.isStateful()) {
+            return ColorStateList.valueOf(adaptColorForLight(orig.getDefaultColor()));
+        }
+        int def = orig.getDefaultColor();
+        int[] fs = new int[]{android.R.attr.state_focused, android.R.attr.state_selected};
+        int[] sel = new int[]{android.R.attr.state_selected};
+        int[] foc = new int[]{android.R.attr.state_focused};
+        int[] dis = new int[]{-android.R.attr.state_enabled};
+        return new ColorStateList(
+                new int[][]{dis, fs, sel, foc, new int[]{}},
+                new int[]{
+                        adaptColorForLight(orig.getColorForState(dis, def)),
+                        adaptColorForLight(orig.getColorForState(fs, def)),
+                        adaptColorForLight(orig.getColorForState(sel, def)),
+                        adaptColorForLight(orig.getColorForState(foc, def)),
+                        adaptColorForLight(def)
+                });
     }
 
     private static int mixRgb(int a, int b, float t) {

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fones de ouvido</string>
+    <string name="plays_through">O som agora sai por: %1$s</string>
+    <string name="output_speakers">os alto-falantes da TV</string>
+    <string name="output_fixed">a saída de áudio da TV (HDMI ARC ou óptica)</string>
+    <string name="allow_title">Permitir acesso ao Bluetooth</string>
+    <string name="allow_detail">Para listar seus fones de ouvido e detectar quando desconectam. OK solicita permissão.</string>
+    <string name="not_allowed">Não permitido</string>
+    <string name="pair_title">Parear ou conectar fones de ouvido</string>
+    <string name="pair_detail">Abre as configurações de Bluetooth da TV. Primeiro coloque os fones no modo de pareamento.</string>
+    <string name="guard_title">Silenciar ao desconectar</string>
+    <string name="guard_detail">Pausa a reprodução e silencia os alto-falantes da TV quando os fones desconectam, para o som não ir para o ambiente. Reativa o som quando voltarem.</string>
+    <string name="guard_detail_fixed">Pausa a reprodução quando os fones desconectam. O volume desta TV é fixo (ARC ou amplificador), então não pode silenciar os alto-falantes.</string>
+    <string name="on">Ativado</string>
+    <string name="off">Desativado</string>
+    <string name="unmute_title">Reativar som dos alto-falantes</string>
+    <string name="unmute_detail">Silenciados quando os fones desconectaram.</string>
+    <string name="muted">Silenciado</string>
+    <string name="heading_paired">Fones e alto-falantes pareados</string>
+    <string name="no_bluetooth">Esta TV não tem Bluetooth</string>
+    <string name="bluetooth_off">O Bluetooth está desativado</string>
+    <string name="bluetooth_off_detail">Ative nas configurações da TV.</string>
+    <string name="none_yet">Nenhum ainda</string>
+    <string name="none_yet_detail">Use a linha acima para parear algum.</string>
+    <string name="connected">Conectado</string>
+    <string name="connected_battery">Conectado, bateria %1$s</string>
+    <string name="not_connected_detail">Não conectado. OK abre as configurações de Bluetooth para conectar.</string>
+    <string name="unnamed">Dispositivo sem nome</string>
+    <string name="heading_several">Vários fones ao mesmo tempo</string>
+    <string name="sharing_one_pair">Esta TV envia som para um par de fones Bluetooth por vez. Para dois pares, use um transmissor Bluetooth de conexão dupla na saída óptica ou de fones da TV.</string>
+    <string name="sharing_auracast">Esta TV pode transmitir para vários fones LE Audio (Auracast) ao mesmo tempo: inicie o compartilhamento nas configurações de Bluetooth da TV.</string>
+    <string name="sharing_no_broadcast">Esta TV envia som para um par de fones Bluetooth por vez e não possui transmissão LE Audio. Para dois pares, use um transmissor Bluetooth de conexão dupla na saída óptica ou de fones da TV.</string>
+</resources>

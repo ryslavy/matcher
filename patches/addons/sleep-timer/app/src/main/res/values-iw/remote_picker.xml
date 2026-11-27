@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"שעות"</string>
+    <string name="remote_minutes">"דקות"</string>
+    <string name="remote_day">"יום"</string>
+    <string name="remote_month">"חודש"</string>
+    <string name="remote_year">"שנה"</string>
+    <string name="remote_hint">"ימין / שמאל: שדה · למעלה / למטה: ערך · OK: הבא · חזרה: ביטול"</string>
+    <string name="remote_page_hint">"בחרו שורה בעזרת החצים ולחצו OK. השינויים יחולו לאחר שמירה."</string>
+    <string name="remote_events">"אירועים שבועיים"</string>
+    <string name="remote_exclusions">"תקופות ללא התעוררות אוטומטית"</string>
+    <string name="remote_wake_time">"שעת התעוררות"</string>
+    <string name="remote_sleep_time">"שעת שינה"</string>
+</resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">天氣</string>
+
+    <string name="feels_like">體感 %1$d°</string>
+    <string name="humidity">濕度 %1$d%%</string>
+    <string name="wind">風速 %1$d km/h</string>
+    <string name="wind_mph">風速 %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">空氣品質 %1$d · %2$s</string>
+    <string name="updated">更新於 %1$s · Open-Meteo</string>
+    <string name="change_city">變更城市</string>
+    <string name="weather_settings">天氣設定</string>
+    <string name="settings_done">完成</string>
+    <string name="setting_units">溫度單位</string>
+    <string name="unit_c">攝氏 (°C)</string>
+    <string name="unit_f">華氏 (°F)</string>
+    <string name="setting_both_units">同時顯示兩種單位</string>
+    <string name="setting_days">預報天數</string>
+    <plurals name="day_count">
+        <item quantity="other">%1$d 天</item>
+    </plurals>
+    <string name="setting_humidity">顯示濕度</string>
+    <string name="setting_wind">顯示風速</string>
+    <string name="setting_reset">重設天氣設定</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">開啟</string>
+    <string name="option_off">關閉</string>
+    <string name="loading">正在載入天氣…</string>
+    <string name="offline">無法連線至 Open-Meteo。請檢查電視的網路連線，系統將於 5 分鐘後重試。</string>
+
+    <string name="pick_title">選擇哪個城市？</string>
+    <string name="pick_hint">城市名稱，例如 台北</string>
+    <string name="pick_search">搜尋</string>
+    <string name="pick_none">找不到名為「%1$s」的地點</string>
+    <string name="pick_first">選擇一個城市以查看當地天氣。</string>
+
+    <string name="aqi_good">良好</string>
+    <string name="aqi_moderate">普通</string>
+    <string name="aqi_sensitive">對敏感族群不健康</string>
+    <string name="aqi_unhealthy">對所有族群不健康</string>
+    <string name="aqi_very_unhealthy">非常不健康</string>
+    <string name="aqi_hazardous">危害</string>
+
+    <string name="sky_clear">晴朗</string>
+    <string name="sky_sunny">晴天</string>
+    <string name="sky_mostly_clear">大致晴朗</string>
+    <string name="sky_mostly_sunny">多為晴天</string>
+    <string name="sky_partly_cloudy">局部多雲</string>
+    <string name="sky_cloudy">陰天</string>
+    <string name="sky_fog">起霧</string>
+    <string name="sky_drizzle">毛毛雨</string>
+    <string name="sky_freezing_drizzle">凍毛毛雨</string>
+    <string name="sky_light_rain">小雨</string>
+    <string name="sky_rain">下雨</string>
+    <string name="sky_heavy_rain">大雨</string>
+    <string name="sky_freezing_rain">凍雨</string>
+    <string name="sky_light_snow">小雪</string>
+    <string name="sky_snow">下雪</string>
+    <string name="sky_heavy_snow">大雪</string>
+    <string name="sky_snow_grains">米雪</string>
+    <string name="sky_showers">陣雨</string>
+    <string name="sky_snow_showers">陣雪</string>
+    <string name="sky_thunderstorm">雷雨</string>
+</resources>

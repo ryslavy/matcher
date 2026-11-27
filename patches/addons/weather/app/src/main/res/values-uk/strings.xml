@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода</string>
+
+    <string name="feels_like">Відчувається як %1$d°</string>
+    <string name="humidity">Вологість %1$d%%</string>
+    <string name="wind">Вітер %1$d км/год</string>
+    <string name="wind_mph">Вітер %1$d миль/год</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Якість повітря %1$d · %2$s</string>
+    <string name="updated">Оновлено %1$s · Open-Meteo</string>
+    <string name="change_city">Змінити місто</string>
+    <string name="weather_settings">Налаштування погоди</string>
+    <string name="settings_done">Готово</string>
+    <string name="setting_units">Одиниці температури</string>
+    <string name="unit_c">Цельсій (°C)</string>
+    <string name="unit_f">Фаренгейт (°F)</string>
+    <string name="setting_both_units">Показувати обидві одиниці</string>
+    <string name="setting_days">Тривалість прогнозу</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d день</item>
+        <item quantity="few">%1$d дні</item>
+        <item quantity="many">%1$d днів</item>
+        <item quantity="other">%1$d днів</item>
+    </plurals>
+    <string name="setting_humidity">Показувати вологість</string>
+    <string name="setting_wind">Показувати вітер</string>
+    <string name="setting_reset">Скинути налаштування погоди</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Увімк.</string>
+    <string name="option_off">Вимк.</string>
+    <string name="loading">Завантаження погоди…</string>
+    <string name="offline">Не вдається з’єднатися з Open-Meteo. Перевірте інтернет-підключення ТБ; повторна спроба через 5 хвилин.</string>
+
+    <string name="pick_title">Яке місто?</string>
+    <string name="pick_hint">Назва міста, напр. Київ</string>
+    <string name="pick_search">Пошук</string>
+    <string name="pick_none">Місце «%1$s» не знайдено</string>
+    <string name="pick_first">Виберіть місто, щоб побачити погоду.</string>
+
+    <string name="aqi_good">Добра</string>
+    <string name="aqi_moderate">Помірна</string>
+    <string name="aqi_sensitive">Шкідлива для чутливих груп</string>
+    <string name="aqi_unhealthy">Шкідлива</string>
+    <string name="aqi_very_unhealthy">Дуже шкідлива</string>
+    <string name="aqi_hazardous">Небезпечна</string>
+
+    <string name="sky_clear">Ясно</string>
+    <string name="sky_sunny">Сонячно</string>
+    <string name="sky_mostly_clear">Переважно ясно</string>
+    <string name="sky_mostly_sunny">Переважно сонячно</string>
+    <string name="sky_partly_cloudy">Мінлива хмарність</string>
+    <string name="sky_cloudy">Хмарно</string>
+    <string name="sky_fog">Туман</string>
+    <string name="sky_drizzle">Мряка</string>
+    <string name="sky_freezing_drizzle">Крижана мряка</string>
+    <string name="sky_light_rain">Невеликий дощ</string>
+    <string name="sky_rain">Дощ</string>
+    <string name="sky_heavy_rain">Сильний дощ</string>
+    <string name="sky_freezing_rain">Крижаний дощ</string>
+    <string name="sky_light_snow">Невеликий сніг</string>
+    <string name="sky_snow">Сніг</string>
+    <string name="sky_heavy_snow">Сильний сніг</string>
+    <string name="sky_snow_grains">Снігові зерна</string>
+    <string name="sky_showers">Зливи</string>
+    <string name="sky_snow_showers">Снігові зливи</string>
+    <string name="sky_thunderstorm">Гроза</string>
+</resources>

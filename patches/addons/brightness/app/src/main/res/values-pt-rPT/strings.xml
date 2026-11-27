@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Brilho</string>
+    <string name="quick_brightness">Brilho %1$d%%</string>
+    <string name="quick_night_brightness">Brilho noturno %1$d%%</string>
+    <string name="quick_hint">◀ ▶ ajustar · OK fechar</string>
+    <string name="channel_name">Escurecimento do ecrã</string>
+    <string name="notification_text">A escurecer o ecrã. Abra Brilho para alterar ou desativar.</string>
+</resources>

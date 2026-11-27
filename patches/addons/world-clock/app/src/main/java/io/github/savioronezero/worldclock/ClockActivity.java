@@ -275,7 +275,10 @@ public final class ClockActivity extends Activity {
                     : reading.dayDifference == -1 ? getString(R.string.yesterday)
                     : getResources().getQuantityString(R.plurals.day_difference,
                             Math.abs(reading.dayDifference), reading.dayDifference));
-            views.day.setTextColor(reading.dayDifference == 0 ? MUTED : 0xFF7DD3FC);
+            GlassKit.markPreserveTextColor(views.day);
+            views.day.setTextColor(reading.dayDifference == 0
+                    ? GlassKit.adaptiveSecondaryTextColor()
+                    : GlassKit.adaptiveAccentTextColor(0xFF7DD3FC));
         }
     }
 
@@ -460,7 +463,7 @@ public final class ClockActivity extends Activity {
                 final String id = matches.get(i);
                 TextView row = new TextView(this);
                 row.setText(cityLabel(id) + "  ·  " + ClockModel.area(id));
-                row.setTextColor(INK);
+                row.setTextColor(GlassKit.adaptivePrimaryTextColor());
                 row.setTextSize(15f);
                 row.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
                 row.setSingleLine(true);

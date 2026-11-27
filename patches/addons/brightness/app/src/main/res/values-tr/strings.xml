@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Parlaklık</string>
+    <string name="quick_brightness">Parlaklık %1$d%%</string>
+    <string name="quick_night_brightness">Gece parlaklığı %1$d%%</string>
+    <string name="quick_hint">◀ ▶ ayarla · OK kapat</string>
+    <string name="channel_name">Ekran karartma</string>
+    <string name="notification_text">Ekran karartılıyor. Değiştirmek veya kapatmak için Parlaklık uygulamasını açın.</string>
+</resources>

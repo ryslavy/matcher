@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">밝기</string>
+    <string name="quick_brightness">밝기 %1$d%%</string>
+    <string name="quick_night_brightness">야간 밝기 %1$d%%</string>
+    <string name="quick_hint">◀ ▶ 조절 · OK 닫기</string>
+    <string name="channel_name">화면 어둡게 하기</string>
+    <string name="notification_text">화면을 어둡게 표시 중입니다. 변경하거나 끄려면 밝기 앱을 여세요.</string>
+</resources>

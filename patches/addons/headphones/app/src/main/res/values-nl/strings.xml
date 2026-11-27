@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Koptelefoon</string>
+    <string name="plays_through">Geluid speelt nu af via: %1$s</string>
+    <string name="output_speakers">de tv-luidsprekers</string>
+    <string name="output_fixed">de audio-uitgang van de tv (HDMI ARC of optisch)</string>
+    <string name="allow_title">Bluetooth-toegang toestaan</string>
+    <string name="allow_detail">Om je koptelefoons weer te geven en te merken wanneer de verbinding wegvalt. Druk op OK om te vragen.</string>
+    <string name="not_allowed">Niet toegestaan</string>
+    <string name="pair_title">Koptelefoon koppelen of verbinden</string>
+    <string name="pair_detail">Opent de Bluetooth-instellingen van de tv. Zet de koptelefoon eerst in de koppelingsmodus.</string>
+    <string name="guard_title">Stil bij verbreken</string>
+    <string name="guard_detail">Pauzeert het afspelen en dempt de tv-luidsprekers wanneer de koptelefoon loskoppelt, zodat het geluid niet door de kamer klinkt. Schakelt het geluid weer in zodra deze terug is.</string>
+    <string name="guard_detail_fixed">Pauzeert het afspelen wanneer de koptelefoon loskoppelt. Het volume van deze tv staat vast (ARC of een versterker), dus de luidsprekers kunnen niet ook worden gedempt.</string>
+    <string name="on">Aan</string>
+    <string name="off">Uit</string>
+    <string name="unmute_title">Dempen van luidsprekers opheffen</string>
+    <string name="unmute_detail">Gedempt toen de koptelefoon wegviel.</string>
+    <string name="muted">Gedempt</string>
+    <string name="heading_paired">Gekoppelde koptelefoons en luidsprekers</string>
+    <string name="no_bluetooth">Geen Bluetooth op deze tv</string>
+    <string name="bluetooth_off">Bluetooth staat uit</string>
+    <string name="bluetooth_off_detail">Schakel het in via de tv-instellingen.</string>
+    <string name="none_yet">Nog geen</string>
+    <string name="none_yet_detail">Gebruik de rij hierboven om er een te koppelen.</string>
+    <string name="connected">Verbonden</string>
+    <string name="connected_battery">Verbonden, batterij %1$s</string>
+    <string name="not_connected_detail">Niet verbonden. OK opent de Bluetooth-instellingen om te verbinden.</string>
+    <string name="unnamed">Naamloos apparaat</string>
+    <string name="heading_several">Meerdere koptelefoons tegelijk</string>
+    <string name="sharing_one_pair">Deze tv stuurt geluid naar één Bluetooth-koptelefoon tegelijk. Gebruik voor twee koptelefoons een dual-link Bluetooth-zender op de koptelefoon- of optische uitgang van de tv.</string>
+    <string name="sharing_auracast">Deze tv kan tegelijk uitzenden naar meerdere LE Audio-koptelefoons (Auracast): start het delen vanuit de Bluetooth-instellingen van de tv.</string>
+    <string name="sharing_no_broadcast">Deze tv stuurt geluid naar één Bluetooth-koptelefoon tegelijk en ondersteunt geen LE Audio-uitzending. Gebruik voor twee koptelefoons een dual-link Bluetooth-zender op de koptelefoon- of optische uitgang van de tv.</string>
+</resources>

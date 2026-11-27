@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Độ sáng</string>
+    <string name="quick_brightness">Độ sáng %1$d%%</string>
+    <string name="quick_night_brightness">Độ sáng ban đêm %1$d%%</string>
+    <string name="quick_hint">◀ ▶ điều chỉnh · OK đóng</string>
+    <string name="channel_name">Giảm độ sáng màn hình</string>
+    <string name="notification_text">Đang giảm độ sáng màn hình. Mở Độ sáng để thay đổi hoặc tắt.</string>
+</resources>

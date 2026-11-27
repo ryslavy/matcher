@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Appmapper -->
+    <string name="folder_add_to">Legg til i mappe…</string>
+    <string name="folder_new">+ Ny mappe</string>
+    <string name="folder_new_title">Ny mappe</string>
+    <string name="folder_rename">Gi nytt navn til mappe…</string>
+    <string name="folder_rename_title">Gi nytt navn til mappe</string>
+    <string name="folder_open">Åpne mappe</string>
+    <string name="folder_add_apps">Legg til apper…</string>
+    <string name="folder_add_apps_title">Legg til apper i %1$s</string>
+    <string name="folder_add_apps_empty">Alle startskjermapper ligger allerede i mapper</string>
+    <string name="folder_dissolve">Oppløs mappe</string>
+    <string name="folder_remove_app">Fjern fra mappe</string>
+    <string name="folder_move_to">Flytt til mappe…</string>
+    <string name="folder_hint">OK åpner · Hold inne OK for valg · Opp for mappehandlinger</string>
+    <string name="folder_default_name">Mappe %1$d</string>
+    <string name="folder_name_hint">Mappenavn</string>
+    <string name="folder_create">Opprett</string>
+    <string name="folder_save">Lagre</string>
+    <string name="folder_cancel">Avbryt</string>
+    <string name="folder_btn_add">+ Legg til</string>
+    <string name="folder_btn_reorder">Endre rekkefølge</string>
+    <string name="folder_btn_done">Ferdig</string>
+    <string name="folder_btn_rename">Gi nytt navn</string>
+    <string name="folder_preset_streaming">Strømming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Sport</string>
+    <string name="folder_preset_music">Musikk</string>
+    <string name="folder_preset_games">Spill</string>
+    <string name="folder_preset_tools">Verktøy</string>
+
+    <!-- Spilles nå mini-mediespiller -->
+    <string name="media_now_playing">Spilles nå</string>
+    <string name="media_playing">Spiller av</string>
+    <string name="media_paused">Satt på pause</string>
+    <string name="media_live">Direkte</string>
+    <string name="media_prev">Forrige</string>
+    <string name="media_play_pause">Spill av eller sett på pause</string>
+    <string name="media_next">Neste</string>
+    <string name="media_open_app">Åpne app</string>
+    <string name="media_switch_hint">Opp for å bytte app · OK gjenopptar avspilling</string>
+
+    <!-- Nylige apper -->
+    <string name="recents_title">Nylige apper</string>
+    <string name="recents_hint">OK bytter · 2× Opp lukker · Hold inne OK for valg</string>
+    <string name="recents_empty">Ingen nylige apper åpne</string>
+    <string name="recents_switch">Bytt til app</string>
+    <string name="recents_close_app">Lukk app</string>
+    <string name="recents_close_all">Lukk alle</string>
+    <string name="recents_swipe_close">Trykk Opp igjen for å lukke</string>
+    <string name="recents_playing_badge">Spiller</string>
+    <string name="recents_free_ram">Ledig RAM: %1$d MB</string>
+    <string name="recents_just_now">Akkurat nå</string>
+    <string name="recents_minutes_ago">%1$d min siden</string>
+    <string name="recents_hours_ago">%1$d t siden</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Lukket %1$d app</item>
+        <item quantity="other">Lukket %1$d apper</item>
+    </plurals>
+
+    <!-- Ambient-skjermsparer -->
+    <string name="ambient_controls_hint">◄ ► spor · ▼ spill/pause · ▲ åpne</string>
+    <string name="ambient_action_prev">Forrige spor</string>
+    <string name="ambient_action_next">Neste spor</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Klart</string>
+    <string name="weather_partly">Delvis skyet</string>
+    <string name="weather_cloudy">Overskyet</string>
+    <string name="weather_fog">Tåke</string>
+    <string name="weather_drizzle">Yr</string>
+    <string name="weather_rain">Regn</string>
+    <string name="weather_snow">Snø</string>
+    <string name="weather_showers">Byger</string>
+    <string name="weather_storm">Tordenvær</string>
+
+    <!-- Kontrollsenter, Nattlyd, God natt & Aerial-videoer -->
+    <string name="cc_title">Kontrollsenter</string>
+    <string name="cc_bedtime">God natt</string>
+    <string name="cc_bedtime_sub">30 min · Demp · Nattlyd</string>
+    <string name="cc_bedtime_on">Aktiv</string>
+    <string name="cc_night_audio">Nattlyd</string>
+    <string name="cc_night_audio_on">Høye lyder dempes</string>
+    <string name="cc_night_audio_off">Av</string>
+    <string name="cc_night_audio_unavailable">Lydprosessor ikke tilgjengelig</string>
+    <string name="cc_audio">Lyd</string>
+    <string name="cc_audio_tv">TV-høyttalere</string>
+    <string name="cc_sleep_timer">Søvntimer</string>
+    <string name="cc_sleep_timer_sub">Still inn timer</string>
+    <string name="cc_brightness">Lysstyrke</string>
+    <string name="cc_brightness_sub">Dimmerlinje</string>
+    <string name="cc_aerial">Aerial-videoer</string>
+    <string name="cc_aerial_on">1080p-video</string>
+    <string name="cc_aerial_on_4k">4K HEVC-video</string>
+    <string name="cc_aerial_off">Bakgrunnsbilder</string>
+    <string name="cc_screensaver">Skjermsparer</string>
+    <string name="cc_settings">Innstillinger</string>
+    <string name="cc_sleep_tv">Hvilemodus for TV</string>
+    <string name="cc_reorder_tiles">Endre flisrekkefølge</string>
+    <string name="cc_footer_hint">Hold inne OK på Hvilemodus for omstart · Tilbake lukker</string>
+    <string name="cc_on">På</string>
+    <string name="cc_off">Av</string>
+    <string name="close">Lukk</string>
+
+    <!-- QR-oppsett fra mobil, Utforsk, Home Assistant, Immich, Watchdog & Oppdateringer -->
+    <string name="qr_setup_title">Konfigurer fra mobil</string>
+    <string name="qr_setup_subtitle">Skann på mobilen (samme Wi-Fi) for å endre knapper, bakgrunn, by eller TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">QR-oppsett</string>
+    <string name="qr_setup_no_wifi">Koble TV-en til Wi-Fi eller Ethernet først</string>
+    <string name="qr_setup_waiting">Venter på mobil… (gyldig i 5 min)</string>
+    <string name="qr_setup_expired">QR-økten er utløpt — åpne på nytt for en ny kode</string>
+
+    <string name="discover_title">Utforsk &amp; Fortsett å se</string>
+    <string name="discover_refresh">Oppdater</string>
+    <string name="discover_continue_watching">Fortsett å se</string>
+    <string name="discover_trending">Populære tips (reklamefri)</string>
+    <string name="discover_tab_all">Alle</string>
+    <string name="discover_tab_movies">Filmer</string>
+    <string name="discover_tab_shows">Serier</string>
+    <string name="discover_grant_watchnext_msg">Gi tilgang til TV-oversikter for å vise Fortsett å se på tvers av apper</string>
+    <string name="discover_grant_adb_btn">Tillat via ADB</string>
+    <string name="discover_grant_success">Fortsett å se aktivert</string>
+    <string name="discover_hidden_toast">Skjult fra Fortsett å se</string>
+    <string name="discover_empty_no_key">Bruk QR-oppsett for å legge til en gratis TMDB API-nøkkel (eller Plex-server) for reklamefrie tips fra appene dine.</string>
+    <string name="discover_empty_no_matches">Fant ingen passende titler for de installerte strømmeappene dine akkurat nå.</string>
+
+    <string name="adb_connecting">Kobler til lokal ADB…</string>
+    <string name="adb_accept_prompt">Godta «Tillat alltid USB-feilsøking» på TV-en</string>
+
+    <string name="ha_section_title">Smarthus</string>
+    <string name="ha_action_failed">Home Assistant-handlingen mislyktes</string>
+    <string name="ha_state_unavailable">Utilgjengelig</string>
+    <string name="ha_state_open">Åpen</string>
+    <string name="ha_state_closed">Lukket</string>
+    <string name="ha_state_camera">Live PiP</string>
+    <string name="ha_camera_title">Hjemmekamera</string>
+    <string name="ha_camera_connecting">Kobler til kamera…</string>
+    <string name="ha_camera_unavailable">Kamera ikke tilgjengelig</string>
+    <string name="ha_camera_hint_pip">OK: Utvid · Tilbake: Lukk</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Tilbake: Lukk</string>
+    <string name="ha_camera_hint_pip_multi">OK: Utvid · ◀ ▶: Kamera · Tilbake: Lukk</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Tilbake: Lukk</string>
+
+    <string name="aerial_fav_added">Lagret i favoritter</string>
+    <string name="aerial_fav_removed">Fjernet fra favoritter</string>
+
+    <string name="updater_installed">Oppdatering installert</string>
+    <string name="updater_failed">Oppdatering mislyktes</string>
+
+    <!-- Startskjermfunksjoner & Liquid Glass-stiler -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Opplevelse</string>
+    <string name="fs_liquid_clock">Liquid Glass-klokke (iOS 26)</string>
+    <string name="fs_home_liquid">Optisk Liquid Glass på startskjermen</string>
+    <string name="fs_home_backdrop_blur">Bakgrunnsuskarphet på startskjermen</string>
+    <string name="fs_glass_material">Glasstil</string>
+    <string name="fs_glass_material_title">Velg Liquid Glass-stil</string>
+    <string name="glass_style_tonal">Frostet tonet</string>
+    <string name="glass_style_tonal_sub">Balansert mørkt glass med bakgrunnstonede indre kort</string>
+    <string name="glass_style_obsidian">Helt svart (OLED)</string>
+    <string name="glass_style_obsidian_sub">Dypt obsidiankrystall med skarp Fresnel-kant for mørke rom</string>
+    <string name="glass_style_frost">Frosthvit</string>
+    <string name="glass_style_frost_sub">Lyst perlemorglass med mørk grafitt-tekst og mørke ikoner</string>
+    <string name="glass_style_clear">Klart krystall</string>
+    <string name="glass_style_clear_sub">Luftig, krystallklart glass med tydelig optisk kantbrytning</string>
+    <string name="glass_style_chromatic">Kromatisk tone</string>
+    <string name="glass_style_chromatic_sub">Fyldig Material You-bakgrunnsfarge på paneler og indre kort</string>
+    <string name="glass_style_auto">Auto (Dag / Natt)</string>
+    <string name="glass_style_auto_sub">Frosthvit om dagen, Helt svart etter solnedgang</string>
+    <string name="fs_remote_buttons">Fjernkontrollknapper</string>
+    <string name="fs_ui_sounds">Myke klikkelyder i grensesnittet</string>
+    <string name="fs_oled_drift">OLED-skjermsparer pikselforskyvning</string>
+    <string name="fs_aerial_quality">Kvalitet på Aerial-videoer</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Kun favoritt-Aerials (hold inne OK)</string>
+
+    <string name="fs_sec_content">Innhold &amp; Utforsk</string>
+    <string name="fs_open_discover">Åpne Utforsk (Fortsett å se &amp; Tips)</string>
+    <string name="fs_watch_next">Fortsett å se</string>
+    <string name="fs_open_nuvio">Åpne tips direkte i Nuvio</string>
+    <string name="fs_watch_saver">Start tips fra skjermsparer (OK)</string>
+    <string name="fs_hide_animation">Skjul animasjon &amp; anime-tips</string>
+    <string name="fs_region">Strømmeregion</string>
+    <string name="fs_trakt">Trakt.tv-konto</string>
+    <string name="fs_trakt_code_msg">Gå til %1$s og skriv inn koden: %2$s</string>
+    <string name="fs_trakt_signed_in">Logget på Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Logget av Trakt</string>
+
+    <string name="fs_sec_smart">Smarthus, Bilder &amp; Mobiloppsett</string>
+    <string name="fs_qr_setup">Konfigurer nøkler, knapper &amp; bakgrunn via QR</string>
+    <string name="fs_ha_toggle">Home Assistant i Kontrollsenter</string>
+    <string name="fs_immich_toggle">Immich-bilder på skjermsparer</string>
+    <string name="fs_immich_sync">Synkroniser Immich-bilder nå</string>
+    <string name="fs_immich_album">Immich-album</string>
+    <string name="fs_immich_all_albums">Alle bilder</string>
+
+    <string name="fs_sec_system">Sikkerhet &amp; Gjenoppretting</string>
+    <string name="fs_watchdog">Beskyttelse mot krasjløkke</string>
+    <string name="fs_check_updates">Oppdateringer (GitHub Releases)</string>
+    <string name="fs_updates_title">Oppdateringer (GitHub)</string>
+    <string name="fs_updates_current">Installert: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Se etter oppdateringer nå</string>
+    <string name="fs_updates_checking">Sjekker GitHub Releases…</string>
+    <string name="fs_updates_downloading">Laster ned &amp; verifiserer SHA-256…</string>
+    <string name="fs_updates_install_launcher">Installer Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Oppdater %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Ukentlig oppdateringssjekk i bakgrunnen</string>
+    <string name="fs_update_uptodate">Startskjermen er oppdatert (%1$s)</string>
+    <string name="fs_update_found">Ny versjon %1$s tilgjengelig</string>
+    <string name="fs_restore_stock">Gjenopprett standard Google TV-startskjerm (ADB)</string>
+    <string name="fs_restore_confirm_title">Gjenopprette standard startskjerm?</string>
+    <string name="fs_restore_confirm_msg">Aktiverer trygt Google TV Launcher først, angir den som Hjem, aktiverer deretter SetupWraith og synkroniserer disken.</string>
+    <string name="fs_restore_ok">Gjenopprett nå</string>
+    <string name="fs_cancel">Avbryt</string>
+
+    <!-- Knapptilpasning i appen -->
+    <string name="rm_title">Fjernkontrollknapper</string>
+    <string name="rm_subtitle_ready">Tilordne Trykk, Dobbelttrykk eller Hold til hvilken som helst knapp</string>
+    <string name="rm_subtitle_need_a11y">Aktiver Tilgjengelighet → Hjem-knapp i TV-innstillingene for å tilordne knapper overalt</string>
+    <string name="rm_open_a11y">Åpne TV-innstillinger for Tilgjengelighet</string>
+    <string name="rm_open_a11y_sub">Påkrevd for global knapptilpasning</string>
+    <string name="rm_learn_btn">Lær inn fjernkontrollknapp</string>
+    <string name="rm_learn_sub">Trykk på en fysisk knapp for å lese av keycode &amp; scancode</string>
+    <string name="rm_empty">Ingen egendefinerte knapper lagret ennå (temastandard gjelder)</string>
+    <string name="rm_reset_all">Tilbakestill egendefinerte knapper</string>
+    <string name="rm_reset_all_sub">Gå tilbake til temaets config.json-tilordninger</string>
+    <string name="rm_reset_done">Egendefinerte knapptilordninger slettet</string>
+    <string name="rm_capture_title">Trykk på en knapp på fjernkontrollen</string>
+    <string name="rm_capture_hint">Piltaster, OK, Tilbake og Volum er reservert · Tilbake avbryter</string>
+    <string name="rm_capture_waiting">Venter på knappetrykk…</string>
+    <string name="rm_edit_subtitle">Knappkode: %1$s</string>
+    <string name="rm_slot_tap">Kort trykk (Trykk)</string>
+    <string name="rm_slot_double">Dobbelttrykk</string>
+    <string name="rm_slot_hold">Langt trykk (Hold 0,5 s)</string>
+    <string name="rm_short_tap">Trykk</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Hold</string>
+    <string name="rm_target_none">Ikke tilordnet</string>
+    <string name="rm_delete_btn">Fjern egendefinert knapp</string>
+    <string name="rm_saved">Knapptilordning lagret</string>
+    <string name="rm_action_mute">Demp lyd</string>
+    <string name="rm_action_ignore">Ignorer knapp (deaktiver)</string>
+</resources>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fascikle aplikacija -->
+    <string name="folder_add_to">Dodaj u fasciklu…</string>
+    <string name="folder_new">+ Nova fascikla</string>
+    <string name="folder_new_title">Nova fascikla</string>
+    <string name="folder_rename">Preimenuj fasciklu…</string>
+    <string name="folder_rename_title">Preimenuj fasciklu</string>
+    <string name="folder_open">Otvori fasciklu</string>
+    <string name="folder_add_apps">Dodaj aplikacije…</string>
+    <string name="folder_add_apps_title">Dodaj aplikacije u %1$s</string>
+    <string name="folder_add_apps_empty">Sve aplikacije sa početnog ekrana su već u fasciklama</string>
+    <string name="folder_dissolve">Razgrupiši fasciklu</string>
+    <string name="folder_remove_app">Ukloni iz fascikle</string>
+    <string name="folder_move_to">Premesti u fasciklu…</string>
+    <string name="folder_hint">OK otvara · Zadrži OK za opcije · Gore za radnje fascikle</string>
+    <string name="folder_default_name">Fascikla %1$d</string>
+    <string name="folder_name_hint">Naziv fascikle</string>
+    <string name="folder_create">Napravi</string>
+    <string name="folder_save">Sačuvaj</string>
+    <string name="folder_cancel">Otkaži</string>
+    <string name="folder_btn_add">+ Dodaj</string>
+    <string name="folder_btn_reorder">Redosled</string>
+    <string name="folder_btn_done">Gotovo</string>
+    <string name="folder_btn_rename">Preimenuj</string>
+    <string name="folder_preset_streaming">Striming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Sport</string>
+    <string name="folder_preset_music">Muzika</string>
+    <string name="folder_preset_games">Igre</string>
+    <string name="folder_preset_tools">Alati</string>
+
+    <!-- Mini-plejer medija -->
+    <string name="media_now_playing">Trenutno svira</string>
+    <string name="media_playing">Reprodukuje se</string>
+    <string name="media_paused">Pauzirano</string>
+    <string name="media_live">Uživo</string>
+    <string name="media_prev">Prethodna</string>
+    <string name="media_play_pause">Pusti ili pauziraj</string>
+    <string name="media_next">Sledeća</string>
+    <string name="media_open_app">Otvori aplikaciju</string>
+    <string name="media_switch_hint">Gore za promenu aplikacije · OK nastavlja reprodukciju</string>
+
+    <!-- Nedavne aplikacije -->
+    <string name="recents_title">Nedavne aplikacije</string>
+    <string name="recents_hint">OK prebacuje · 2× gore zatvara · Zadrži OK za opcije</string>
+    <string name="recents_empty">Nema otvorenih nedavnih aplikacija</string>
+    <string name="recents_switch">Prebaci na aplikaciju</string>
+    <string name="recents_close_app">Zatvori aplikaciju</string>
+    <string name="recents_close_all">Zatvori sve</string>
+    <string name="recents_swipe_close">Pritisnite gore ponovo za zatvaranje</string>
+    <string name="recents_playing_badge">Svira</string>
+    <string name="recents_free_ram">Slobodan RAM: %1$d MB</string>
+    <string name="recents_just_now">Upravo sada</string>
+    <string name="recents_minutes_ago">Pre %1$d min</string>
+    <string name="recents_hours_ago">Pre %1$d č</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Zatvorena %1$d aplikacija</item>
+        <item quantity="few">Zatvorene %1$d aplikacije</item>
+        <item quantity="other">Zatvoreno %1$d aplikacija</item>
+    </plurals>
+
+    <!-- Ambijentalni čuvar ekrana -->
+    <string name="ambient_controls_hint">◄ ► numera · ▼ pauza · ▲ otvori</string>
+    <string name="ambient_action_prev">Prethodna numera</string>
+    <string name="ambient_action_next">Sledeća numera</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Vedro</string>
+    <string name="weather_partly">Delimično oblačno</string>
+    <string name="weather_cloudy">Oblačno</string>
+    <string name="weather_fog">Magla</string>
+    <string name="weather_drizzle">Rosulja</string>
+    <string name="weather_rain">Kiša</string>
+    <string name="weather_snow">Sneg</string>
+    <string name="weather_showers">Pljuskovi</string>
+    <string name="weather_storm">Grmljavina</string>
+
+    <!-- Kontrolni centar, Noćni zvuk, Laku noć i Aerial video -->
+    <string name="cc_title">Kontrolni centar</string>
+    <string name="cc_bedtime">Laku noć</string>
+    <string name="cc_bedtime_sub">30 min · Zatamni · Noćni zvuk</string>
+    <string name="cc_bedtime_on">Aktivno</string>
+    <string name="cc_night_audio">Noćni zvuk</string>
+    <string name="cc_night_audio_on">Utišava glasne zvuke</string>
+    <string name="cc_night_audio_off">Isklj.</string>
+    <string name="cc_night_audio_unavailable">Audio procesor nije dostupan</string>
+    <string name="cc_audio">Zvuk</string>
+    <string name="cc_audio_tv">Zvučnici TV-a</string>
+    <string name="cc_sleep_timer">Tajmer za spavanje</string>
+    <string name="cc_sleep_timer_sub">Podesi tajmer</string>
+    <string name="cc_brightness">Osvetljenost</string>
+    <string name="cc_brightness_sub">Traka zatamnjivanja</string>
+    <string name="cc_aerial">Aerial video</string>
+    <string name="cc_aerial_on">1080p video</string>
+    <string name="cc_aerial_on_4k">4K HEVC video</string>
+    <string name="cc_aerial_off">Pozadine</string>
+    <string name="cc_screensaver">Čuvar ekrana</string>
+    <string name="cc_settings">Podešavanja</string>
+    <string name="cc_sleep_tv">Uspavaj TV</string>
+    <string name="cc_reorder_tiles">Redosled pločica</string>
+    <string name="cc_footer_hint">Zadrži OK na „Uspavaj TV“ za ponovno pokretanje · Nazad zatvara</string>
+    <string name="cc_on">Uklj.</string>
+    <string name="cc_off">Isklj.</string>
+    <string name="close">Zatvori</string>
+
+    <!-- QR podešavanje telefonom, Otkrij, Home Assistant, Immich i ažuriranja -->
+    <string name="qr_setup_title">Podešavanje sa telefona</string>
+    <string name="qr_setup_subtitle">Skenirajte telefonom (isti Wi-Fi) za izmenu dugmadi daljinskog, pozadine, grada ili TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">QR podešavanje</string>
+    <string name="qr_setup_no_wifi">Prvo povežite TV na Wi-Fi ili Ethernet</string>
+    <string name="qr_setup_waiting">Čeka se telefon… (važi 5 min)</string>
+    <string name="qr_setup_expired">QR sesija je istekla — otvorite ponovo za novi kod</string>
+
+    <string name="discover_title">Otkrij i Nastavi gledanje</string>
+    <string name="discover_refresh">Osveži</string>
+    <string name="discover_continue_watching">Nastavi gledanje</string>
+    <string name="discover_trending">Popularni predlozi (bez reklama)</string>
+    <string name="discover_tab_all">Sve</string>
+    <string name="discover_tab_movies">Filmovi</string>
+    <string name="discover_tab_shows">Serije</string>
+    <string name="discover_grant_watchnext_msg">Dozvolite pristup TV listama za prikaz „Nastavi gledanje“ iz svih aplikacija</string>
+    <string name="discover_grant_adb_btn">Dozvoli putem ADB</string>
+    <string name="discover_grant_success">„Nastavi gledanje“ je omogućeno</string>
+    <string name="discover_hidden_toast">Sakriveno iz „Nastavi gledanje“</string>
+    <string name="discover_empty_no_key">Kroz „QR podešavanje“ dodajte besplatan TMDB API ključ (ili Plex server) za predloge bez reklama iz vaših aplikacija.</string>
+    <string name="discover_empty_no_matches">Trenutno nema odgovarajućih naslova za instalirane striming aplikacije.</string>
+
+    <string name="adb_connecting">Povezivanje na lokalni ADB…</string>
+    <string name="adb_accept_prompt">Potvrdite na TV-u „Uvek dozvoli USB otklanjanje grešaka“</string>
+
+    <string name="ha_section_title">Pametni dom</string>
+    <string name="ha_action_failed">Home Assistant radnja nije uspela</string>
+    <string name="ha_state_unavailable">Nedostupno</string>
+    <string name="ha_state_open">Otvoreno</string>
+    <string name="ha_state_closed">Zatvoreno</string>
+    <string name="ha_state_camera">Uživo PiP</string>
+    <string name="ha_camera_title">Kućna kamera</string>
+    <string name="ha_camera_connecting">Povezivanje sa kamerom…</string>
+    <string name="ha_camera_unavailable">Kamera nije dostupna</string>
+    <string name="ha_camera_hint_pip">OK: Uvećaj · Nazad: Zatvori</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Nazad: Zatvori</string>
+    <string name="ha_camera_hint_pip_multi">OK: Uvećaj · ◀ ▶: Kamera · Nazad: Zatvori</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Nazad: Zatvori</string>
+
+    <string name="aerial_fav_added">Sačuvano u omiljene</string>
+    <string name="aerial_fav_removed">Uklonjeno iz omiljenih</string>
+
+    <string name="updater_installed">Ažuriranje je instalirano</string>
+    <string name="updater_failed">Ažuriranje nije uspelo</string>
+
+    <!-- Podešavanja funkcija i stilovi Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass i izgled</string>
+    <string name="fs_liquid_clock">Liquid Glass sat (iOS 26)</string>
+    <string name="fs_home_liquid">Optički Liquid Glass na početnom ekranu</string>
+    <string name="fs_home_backdrop_blur">Zamućenje pozadine početnog ekrana</string>
+    <string name="fs_glass_material">Stil stakla</string>
+    <string name="fs_glass_material_title">Izaberite stil Liquid Glass</string>
+    <string name="glass_style_tonal">Matirano tonirano</string>
+    <string name="glass_style_tonal_sub">Uravnoteženo tamno staklo sa karticama u tonu pozadine</string>
+    <string name="glass_style_obsidian">Čisto crno (OLED)</string>
+    <string name="glass_style_obsidian_sub">Duboki opsidijan sa oštrim rubom za tamne prostorije</string>
+    <string name="glass_style_frost">Ledeno belo</string>
+    <string name="glass_style_frost_sub">Svetlo biserno staklo sa tamnim grafitnim tekstom i ikonama</string>
+    <string name="glass_style_clear">Čist kristal</string>
+    <string name="glass_style_clear_sub">Prozračno staklo sa izraženim optičkim prelamanjem na ivicama</string>
+    <string name="glass_style_chromatic">Obojeno (Material You)</string>
+    <string name="glass_style_chromatic_sub">Bogate boje pozadine Material You na panelima i karticama</string>
+    <string name="glass_style_auto">Automatski (Dan / Noć)</string>
+    <string name="glass_style_auto_sub">Ledeno belo danju, Čisto crno posle zalaska sunca</string>
+    <string name="fs_remote_buttons">Dugmad daljinskog</string>
+    <string name="fs_ui_sounds">Tihi zvuci interfejsa</string>
+    <string name="fs_oled_drift">OLED zaštita čuvara ekrana (pomeranje piksela)</string>
+    <string name="fs_aerial_quality">Kvalitet Aerial videa</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Samo omiljeni Aerial (zadrži OK)</string>
+
+    <string name="fs_sec_content">Sadržaj i predlozi</string>
+    <string name="fs_open_discover">Otvori Otkrij (Nastavi gledanje i predlozi)</string>
+    <string name="fs_watch_next">Nastavi gledanje</string>
+    <string name="fs_open_nuvio">Otvaraj predloge direktno u Nuvio</string>
+    <string name="fs_watch_saver">Pokreći predloge sa čuvara ekrana (OK)</string>
+    <string name="fs_hide_animation">Sakrij animirane i anime predloge</string>
+    <string name="fs_region">Region striminga</string>
+    <string name="fs_trakt">Trakt.tv nalog</string>
+    <string name="fs_trakt_code_msg">Idite na %1$s i unesite kod: %2$s</string>
+    <string name="fs_trakt_signed_in">Prijavljeni ste na Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Odjavljeni ste sa Trakt naloga</string>
+
+    <string name="fs_sec_smart">Pametni dom, Fotografije i Telefon</string>
+    <string name="fs_qr_setup">Podesi ključeve, daljinski i pozadinu preko QR</string>
+    <string name="fs_ha_toggle">Home Assistant u Kontrolnom centru</string>
+    <string name="fs_immich_toggle">Immich fotografije na čuvaru ekrana</string>
+    <string name="fs_immich_sync">Sinhronizuj Immich fotografije sada</string>
+    <string name="fs_immich_album">Immich album</string>
+    <string name="fs_immich_all_albums">Sve fotografije</string>
+
+    <string name="fs_sec_system">Bezbednost i oporavak</string>
+    <string name="fs_watchdog">Zaštita od petlje padova</string>
+    <string name="fs_check_updates">Ažuriranja (GitHub Releases)</string>
+    <string name="fs_updates_title">Ažuriranja (GitHub)</string>
+    <string name="fs_updates_current">Instalirano: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Proveri ažuriranja sada</string>
+    <string name="fs_updates_checking">Provera GitHub Releases…</string>
+    <string name="fs_updates_downloading">Preuzimanje i provera SHA-256…</string>
+    <string name="fs_updates_install_launcher">Instaliraj Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Ažuriraj %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Nedeljna provera ažuriranja u pozadini</string>
+    <string name="fs_update_uptodate">Pokretač je ažuran (%1$s)</string>
+    <string name="fs_update_found">Dostupna je nova verzija %1$s</string>
+    <string name="fs_restore_stock">Vrati fabrički Google TV pokretač (ADB)</string>
+    <string name="fs_restore_confirm_title">Vratiti fabrički pokretač?</string>
+    <string name="fs_restore_confirm_msg">Prvo bezbedno uključuje Google TV Launcher, postavlja ga kao početni ekran, zatim uključuje SetupWraith i sinhronizuje disk.</string>
+    <string name="fs_restore_ok">Vrati sada</string>
+    <string name="fs_cancel">Otkaži</string>
+
+    <!-- Mapiranje dugmadi daljinskog -->
+    <string name="rm_title">Dugmad daljinskog</string>
+    <string name="rm_subtitle_ready">Dodelite bilo kom dugmetu pritisak, dvostruki pritisak ili zadržavanje</string>
+    <string name="rm_subtitle_need_a11y">Uključite Pristupačnost → Dugme Home u podešavanjima TV-a za globalno mapiranje</string>
+    <string name="rm_open_a11y">Otvori podešavanja Pristupačnosti TV-a</string>
+    <string name="rm_open_a11y_sub">Potrebno za globalno mapiranje dugmadi daljinskog</string>
+    <string name="rm_learn_btn">Nauči dugme daljinskog</string>
+    <string name="rm_learn_sub">Pritisnite bilo koje fizičko dugme da otkrijete keycode i scancode</string>
+    <string name="rm_empty">Još nema sačuvane prilagođene dugmadi (važe podrazumevana podešavanja teme)</string>
+    <string name="rm_reset_all">Resetuj prilagođenu dugmad</string>
+    <string name="rm_reset_all_sub">Vrati mapiranja iz fajla config.json teme</string>
+    <string name="rm_reset_done">Prilagođena mapiranja dugmadi su obrisana</string>
+    <string name="rm_capture_title">Pritisnite dugme na daljinskom</string>
+    <string name="rm_capture_hint">Strelice, OK, Nazad i jačina zvuka su rezervisani · Nazad otkazuje</string>
+    <string name="rm_capture_waiting">Čeka se pritisak dugmeta…</string>
+    <string name="rm_edit_subtitle">Kod dugmeta: %1$s</string>
+    <string name="rm_slot_tap">Kratak pritisak</string>
+    <string name="rm_slot_double">Dvostruki pritisak</string>
+    <string name="rm_slot_hold">Dug pritisak (Zadrži 0,5 s)</string>
+    <string name="rm_short_tap">Kratak</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Zadrži</string>
+    <string name="rm_target_none">Nije dodeljeno</string>
+    <string name="rm_delete_btn">Ukloni prilagođeno dugme</string>
+    <string name="rm_saved">Mapiranje dugmeta je sačuvano</string>
+    <string name="rm_action_mute">Utišaj zvuk</string>
+    <string name="rm_action_ignore">Ignoriši dugme (isključi)</string>
+</resources>

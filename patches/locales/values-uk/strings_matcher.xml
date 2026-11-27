@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Папки застосунків -->
+    <string name="folder_add_to">Додати в папку…</string>
+    <string name="folder_new">+ Нова папка</string>
+    <string name="folder_new_title">Нова папка</string>
+    <string name="folder_rename">Перейменувати папку…</string>
+    <string name="folder_rename_title">Перейменувати папку</string>
+    <string name="folder_open">Відкрити папку</string>
+    <string name="folder_add_apps">Додати застосунки…</string>
+    <string name="folder_add_apps_title">Додати в папку «%1$s»</string>
+    <string name="folder_add_apps_empty">Усі застосунки головного екрана вже в папках</string>
+    <string name="folder_dissolve">Розгрупувати папку</string>
+    <string name="folder_remove_app">Прибрати з папки</string>
+    <string name="folder_move_to">Перемістити в папку…</string>
+    <string name="folder_hint">OK — відкрити · Утримати OK — опції · Вгору — дії папки</string>
+    <string name="folder_default_name">Папка %1$d</string>
+    <string name="folder_name_hint">Назва папки</string>
+    <string name="folder_create">Створити</string>
+    <string name="folder_save">Зберегти</string>
+    <string name="folder_cancel">Скасувати</string>
+    <string name="folder_btn_add">+ Додати</string>
+    <string name="folder_btn_reorder">Порядок</string>
+    <string name="folder_btn_done">Готово</string>
+    <string name="folder_btn_rename">Перейменувати</string>
+    <string name="folder_preset_streaming">Стримінг</string>
+    <string name="folder_preset_tv">ТБ</string>
+    <string name="folder_preset_sport">Спорт</string>
+    <string name="folder_preset_music">Музика</string>
+    <string name="folder_preset_games">Ігри</string>
+    <string name="folder_preset_tools">Інструменти</string>
+
+    <!-- Мініплеєр -->
+    <string name="media_now_playing">Зараз грає</string>
+    <string name="media_playing">Відтворення</string>
+    <string name="media_paused">Пауза</string>
+    <string name="media_live">Наживо</string>
+    <string name="media_prev">Попередній</string>
+    <string name="media_play_pause">Відтворити або призупинити</string>
+    <string name="media_next">Наступний</string>
+    <string name="media_open_app">Відкрити застосунок</string>
+    <string name="media_switch_hint">Вгору — змінити застосунок · OK відновлює відтворення</string>
+
+    <!-- Недавні застосунки -->
+    <string name="recents_title">Недавні застосунки</string>
+    <string name="recents_hint">OK — перемкнути · 2× вгору — закрити · Утримати OK — опції</string>
+    <string name="recents_empty">Немає відкритих недавніх застосунків</string>
+    <string name="recents_switch">Перемкнутися</string>
+    <string name="recents_close_app">Закрити застосунок</string>
+    <string name="recents_close_all">Закрити всі</string>
+    <string name="recents_swipe_close">Натисніть вгору ще раз, щоб закрити</string>
+    <string name="recents_playing_badge">Грає</string>
+    <string name="recents_free_ram">Вільно RAM: %1$d MB</string>
+    <string name="recents_just_now">Щойно</string>
+    <string name="recents_minutes_ago">%1$d хв тому</string>
+    <string name="recents_hours_ago">%1$d год тому</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Закрито %1$d застосунок</item>
+        <item quantity="few">Закрито %1$d застосунки</item>
+        <item quantity="many">Закрито %1$d застосунків</item>
+        <item quantity="other">Закрито %1$d застосунка</item>
+    </plurals>
+
+    <!-- Заставка Ambient -->
+    <string name="ambient_controls_hint">◄ ► трек · ▼ пауза · ▲ відкрити</string>
+    <string name="ambient_action_prev">Попередній трек</string>
+    <string name="ambient_action_next">Наступний трек</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Ясно</string>
+    <string name="weather_partly">Мінлива хмарність</string>
+    <string name="weather_cloudy">Хмарно</string>
+    <string name="weather_fog">Туман</string>
+    <string name="weather_drizzle">Мряка</string>
+    <string name="weather_rain">Дощ</string>
+    <string name="weather_snow">Сніг</string>
+    <string name="weather_showers">Зливи</string>
+    <string name="weather_storm">Гроза</string>
+
+    <!-- Центр керування, Нічний звук, На добраніч і відео Aerial -->
+    <string name="cc_title">Центр керування</string>
+    <string name="cc_bedtime">На добраніч</string>
+    <string name="cc_bedtime_sub">30 хв · Затемнення · Нічний звук</string>
+    <string name="cc_bedtime_on">Активно</string>
+    <string name="cc_night_audio">Нічний звук</string>
+    <string name="cc_night_audio_on">Приглушує гучні звуки</string>
+    <string name="cc_night_audio_off">Вимк.</string>
+    <string name="cc_night_audio_unavailable">Аудіопроцесор недоступний</string>
+    <string name="cc_audio">Звук</string>
+    <string name="cc_audio_tv">Динаміки ТБ</string>
+    <string name="cc_sleep_timer">Таймер сну</string>
+    <string name="cc_sleep_timer_sub">Встановити таймер</string>
+    <string name="cc_brightness">Яскравість</string>
+    <string name="cc_brightness_sub">Панель затемнення</string>
+    <string name="cc_aerial">Відео Aerial</string>
+    <string name="cc_aerial_on">Відео 1080p</string>
+    <string name="cc_aerial_on_4k">Відео 4K HEVC</string>
+    <string name="cc_aerial_off">Шпалери</string>
+    <string name="cc_screensaver">Заставка</string>
+    <string name="cc_settings">Налаштування</string>
+    <string name="cc_sleep_tv">Режим сну</string>
+    <string name="cc_reorder_tiles">Порядок плиток</string>
+    <string name="cc_footer_hint">Утримуйте OK на «Режим сну» для перезапуску · «Назад» закриває</string>
+    <string name="cc_on">Увімк.</string>
+    <string name="cc_off">Вимк.</string>
+    <string name="close">Закрити</string>
+
+    <!-- Налаштування через QR, Огляд, Home Assistant, Immich та оновлення -->
+    <string name="qr_setup_title">Налаштування з телефону</string>
+    <string name="qr_setup_subtitle">Відскануйте телефоном (та сама мережа Wi-Fi), щоб налаштувати кнопки пульта, шпалери, місто або TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">Налаштування QR</string>
+    <string name="qr_setup_no_wifi">Спершу під’єднайте ТБ до Wi-Fi або Ethernet</string>
+    <string name="qr_setup_waiting">Очікування телефону… (діє 5 хв)</string>
+    <string name="qr_setup_expired">QR-сесія завершилася — відкрийте знову для нового коду</string>
+
+    <string name="discover_title">Огляд і Продовжити перегляд</string>
+    <string name="discover_refresh">Оновити</string>
+    <string name="discover_continue_watching">Продовжити перегляд</string>
+    <string name="discover_trending">Популярне (без реклами)</string>
+    <string name="discover_tab_all">Усе</string>
+    <string name="discover_tab_movies">Фільми</string>
+    <string name="discover_tab_shows">Серіали</string>
+    <string name="discover_grant_watchnext_msg">Надайте доступ до списків ТБ для показу «Продовжити перегляд» із усіх застосунків</string>
+    <string name="discover_grant_adb_btn">Дозволити через ADB</string>
+    <string name="discover_grant_success">«Продовжити перегляд» увімкнено</string>
+    <string name="discover_hidden_toast">Приховано з «Продовжити перегляд»</string>
+    <string name="discover_empty_no_key">Через «Налаштування QR» додайте безкоштовний API-ключ TMDB (або сервер Plex) для добірок без реклами з ваших застосунків.</string>
+    <string name="discover_empty_no_matches">Наразі не знайдено відповідних фільмів і серіалів для встановлених застосунків.</string>
+
+    <string name="adb_connecting">Під’єднання до локального ADB…</string>
+    <string name="adb_accept_prompt">Підтвердіть на ТБ «Завжди дозволяти налагодження через USB»</string>
+
+    <string name="ha_section_title">Розумний дім</string>
+    <string name="ha_action_failed">Помилка дії Home Assistant</string>
+    <string name="ha_state_unavailable">Недоступно</string>
+    <string name="ha_state_open">Відчинено</string>
+    <string name="ha_state_closed">Зачинено</string>
+    <string name="ha_state_camera">Живий PiP</string>
+    <string name="ha_camera_title">Домашня камера</string>
+    <string name="ha_camera_connecting">Під’єднання до камери…</string>
+    <string name="ha_camera_unavailable">Камера недоступна</string>
+    <string name="ha_camera_hint_pip">OK: Розгорнути · Назад: Закрити</string>
+    <string name="ha_camera_hint_expanded">OK: Міні PiP · Назад: Закрити</string>
+    <string name="ha_camera_hint_pip_multi">OK: Розгорнути · ◀ ▶: Камера · Назад: Закрити</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Міні PiP · ◀ ▶: Камера · Назад: Закрити</string>
+
+    <string name="aerial_fav_added">Додано до обраного</string>
+    <string name="aerial_fav_removed">Видалено з обраного</string>
+
+    <string name="updater_installed">Оновлення встановлено</string>
+    <string name="updater_failed">Помилка оновлення</string>
+
+    <!-- Налаштування функцій і стилі Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass та інтерфейс</string>
+    <string name="fs_liquid_clock">Годинник Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">Оптичний Liquid Glass на головному екрані</string>
+    <string name="fs_home_backdrop_blur">Розмиття фону на головному екрані</string>
+    <string name="fs_glass_material">Стиль скла</string>
+    <string name="fs_glass_material_title">Виберіть стиль Liquid Glass</string>
+    <string name="glass_style_tonal">Матове тоноване</string>
+    <string name="glass_style_tonal_sub">Збалансоване темне скло з картками в тон шпалер</string>
+    <string name="glass_style_obsidian">Чисто чорне (OLED)</string>
+    <string name="glass_style_obsidian_sub">Глибокий обсидіан із чіткою гранню для темних кімнат</string>
+    <string name="glass_style_frost">Морозно-біле</string>
+    <string name="glass_style_frost_sub">Світле перламутрове скло з темним графітовим текстом і значками</string>
+    <string name="glass_style_clear">Чистий кришталь</string>
+    <string name="glass_style_clear_sub">Прозоре скло з виразним оптичним заломленням на краях</string>
+    <string name="glass_style_chromatic">Кольорове (Material You)</string>
+    <string name="glass_style_chromatic_sub">Насичені кольори шпалер Material You на панелях і картках</string>
+    <string name="glass_style_auto">Авто (День / Ніч)</string>
+    <string name="glass_style_auto_sub">Удень Морозно-біле, після заходу сонця Чисто чорне</string>
+    <string name="fs_remote_buttons">Кнопки пульта</string>
+    <string name="fs_ui_sounds">М’які звуки інтерфейсу</string>
+    <string name="fs_oled_drift">Захист OLED на заставці (зсув пікселів)</string>
+    <string name="fs_aerial_quality">Якість відео Aerial</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Лише обрані Aerial (утримувати OK)</string>
+
+    <string name="fs_sec_content">Контент і рекомендації</string>
+    <string name="fs_open_discover">Відкрити Огляд (Продовжити й добірки)</string>
+    <string name="fs_watch_next">Продовжити перегляд</string>
+    <string name="fs_open_nuvio">Відкривати добірки одразу в Nuvio</string>
+    <string name="fs_watch_saver">Запускати добірки із заставки (OK)</string>
+    <string name="fs_hide_animation">Приховувати анімацію та аніме</string>
+    <string name="fs_region">Регіон стримінгу</string>
+    <string name="fs_trakt">Обліковий запис Trakt.tv</string>
+    <string name="fs_trakt_code_msg">Перейдіть на %1$s і введіть код: %2$s</string>
+    <string name="fs_trakt_signed_in">Увійшли в Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Вийшли з Trakt</string>
+
+    <string name="fs_sec_smart">Розумний дім, Фото й Телефон</string>
+    <string name="fs_qr_setup">Налаштувати ключі, пульт і шпалери через QR</string>
+    <string name="fs_ha_toggle">Home Assistant у Центрі керування</string>
+    <string name="fs_immich_toggle">Фото Immich на заставці</string>
+    <string name="fs_immich_sync">Синхронізувати фото Immich зараз</string>
+    <string name="fs_immich_album">Альбом Immich</string>
+    <string name="fs_immich_all_albums">Усі фото</string>
+
+    <string name="fs_sec_system">Безпека й відновлення</string>
+    <string name="fs_watchdog">Захист від циклічних збоїв</string>
+    <string name="fs_check_updates">Оновлення (GitHub Releases)</string>
+    <string name="fs_updates_title">Оновлення (GitHub)</string>
+    <string name="fs_updates_current">Встановлено: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Перевірити оновлення зараз</string>
+    <string name="fs_updates_checking">Перевірка GitHub Releases…</string>
+    <string name="fs_updates_downloading">Завантаження й перевірка SHA-256…</string>
+    <string name="fs_updates_install_launcher">Встановити Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Оновити %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Щотижнева перевірка у фоні</string>
+    <string name="fs_update_uptodate">Лаунчер актуальний (%1$s)</string>
+    <string name="fs_update_found">Доступна нова версія %1$s</string>
+    <string name="fs_restore_stock">Відновити стандартний лаунчер Google TV (ADB)</string>
+    <string name="fs_restore_confirm_title">Відновити стандартний лаунчер?</string>
+    <string name="fs_restore_confirm_msg">Спершу безпечно увімкне Google TV Launcher, зробить його головним екраном, потім увімкне SetupWraith і синхронізує диск.</string>
+    <string name="fs_restore_ok">Відновити</string>
+    <string name="fs_cancel">Скасувати</string>
+
+    <!-- Перепризначення кнопок пульта -->
+    <string name="rm_title">Кнопки пульта</string>
+    <string name="rm_subtitle_ready">Призначте будь-якій кнопці натискання, подвійне натискання або утримання</string>
+    <string name="rm_subtitle_need_a11y">Увімкніть Спеціальні можливості → Кнопка Home в налаштуваннях ТБ для роботи всюди</string>
+    <string name="rm_open_a11y">Відкрити Спеціальні можливості ТБ</string>
+    <string name="rm_open_a11y_sub">Потрібно для глобального перепризначення кнопок пульта</string>
+    <string name="rm_learn_btn">Навчити кнопку пульта</string>
+    <string name="rm_learn_sub">Натисніть будь-яку фізичну кнопку, щоб визначити її keycode та scancode</string>
+    <string name="rm_empty">Власні кнопки ще не збережені (діють налаштування теми)</string>
+    <string name="rm_reset_all">Скинути власні кнопки</string>
+    <string name="rm_reset_all_sub">Повернути призначення з config.json теми</string>
+    <string name="rm_reset_done">Власні призначення кнопок очищено</string>
+    <string name="rm_capture_title">Натисніть кнопку на пульті</string>
+    <string name="rm_capture_hint">Стрілки, OK, Назад і гучність зарезервовані · Назад — скасувати</string>
+    <string name="rm_capture_waiting">Очікування натискання кнопки…</string>
+    <string name="rm_edit_subtitle">Код кнопки: %1$s</string>
+    <string name="rm_slot_tap">Коротке натискання</string>
+    <string name="rm_slot_double">Подвійне натискання</string>
+    <string name="rm_slot_hold">Утримання (0,5 с)</string>
+    <string name="rm_short_tap">Натиск</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Утрим.</string>
+    <string name="rm_target_none">Не призначено</string>
+    <string name="rm_delete_btn">Видалити власну кнопку</string>
+    <string name="rm_saved">Призначення кнопки збережено</string>
+    <string name="rm_action_mute">Вимкнути звук</string>
+    <string name="rm_action_ignore">Ігнорувати кнопку (вимк.)</string>
+</resources>

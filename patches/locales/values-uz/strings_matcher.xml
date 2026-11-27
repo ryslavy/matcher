@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ilova jildlari -->
+    <string name="folder_add_to">Jildga qoʻshish…</string>
+    <string name="folder_new">+ Yangi jild</string>
+    <string name="folder_new_title">Yangi jild</string>
+    <string name="folder_rename">Jild nomini oʻzgartirish…</string>
+    <string name="folder_rename_title">Jild nomini oʻzgartirish</string>
+    <string name="folder_open">Jildni ochish</string>
+    <string name="folder_add_apps">Ilovalar qoʻshish…</string>
+    <string name="folder_add_apps_title">%1$s jildiga ilova qoʻshish</string>
+    <string name="folder_add_apps_empty">Bosh ekrandagi barcha ilovalar allaqachon jildlarda</string>
+    <string name="folder_dissolve">Jildni tarqatish</string>
+    <string name="folder_remove_app">Jilddan olib tashlash</string>
+    <string name="folder_move_to">Jildga koʻchirish…</string>
+    <string name="folder_hint">OK ochadi · Parametrlar uchun OK ni bosib turing · Jild amallari uchun Yuqoriga</string>
+    <string name="folder_default_name">Jild %1$d</string>
+    <string name="folder_name_hint">Jild nomi</string>
+    <string name="folder_create">Yaratish</string>
+    <string name="folder_save">Saqlash</string>
+    <string name="folder_cancel">Bekor qilish</string>
+    <string name="folder_btn_add">+ Qoʻshish</string>
+    <string name="folder_btn_reorder">Tartiblash</string>
+    <string name="folder_btn_done">Tayyor</string>
+    <string name="folder_btn_rename">Nomlash</string>
+    <string name="folder_preset_streaming">Striming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Sport</string>
+    <string name="folder_preset_music">Musiqa</string>
+    <string name="folder_preset_games">Oʻyinlar</string>
+    <string name="folder_preset_tools">Vositalar</string>
+
+    <!-- Hozir ijro etilmoqda mini-pleyeri -->
+    <string name="media_now_playing">Hozir ijro etilmoqda</string>
+    <string name="media_playing">Ijro etilmoqda</string>
+    <string name="media_paused">Toʻxtatib turildi</string>
+    <string name="media_live">Jonli</string>
+    <string name="media_prev">Oldingi</string>
+    <string name="media_play_pause">Ijro etish yoki pauza</string>
+    <string name="media_next">Keyingi</string>
+    <string name="media_open_app">Ilovani ochish</string>
+    <string name="media_switch_hint">Ilova almashtirish uchun Yuqoriga · OK ijroni davom ettiradi</string>
+
+    <!-- Soʻnggi ilovalar almashtirgichi -->
+    <string name="recents_title">Soʻnggi ilovalar</string>
+    <string name="recents_hint">OK almashtiradi · Yopish uchun 2× Yuqoriga · Parametrlar uchun OK ni bosib turing</string>
+    <string name="recents_empty">Ochiq soʻnggi ilovalar yoʻq</string>
+    <string name="recents_switch">Ilovaga oʻtish</string>
+    <string name="recents_close_app">Ilovani yopish</string>
+    <string name="recents_close_all">Barchasini yopish</string>
+    <string name="recents_swipe_close">Yopish uchun yana Yuqoriga bosing</string>
+    <string name="recents_playing_badge">Ijro etilmoqda</string>
+    <string name="recents_free_ram">Boʻsh RAM: %1$d MB</string>
+    <string name="recents_just_now">Hozirgina</string>
+    <string name="recents_minutes_ago">%1$d daq oldin</string>
+    <string name="recents_hours_ago">%1$d soat oldin</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">%1$d ta ilova yopildi</item>
+        <item quantity="other">%1$d ta ilova yopildi</item>
+    </plurals>
+
+    <!-- Ekran lavhasi -->
+    <string name="ambient_controls_hint">◄ ► trek · ▼ ijro/pauza · ▲ ochish</string>
+    <string name="ambient_action_prev">Oldingi trek</string>
+    <string name="ambient_action_next">Keyingi trek</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Ochiq</string>
+    <string name="weather_partly">Qisman bulutli</string>
+    <string name="weather_cloudy">Bulutli</string>
+    <string name="weather_fog">Tuman</string>
+    <string name="weather_drizzle">Mayda yomgʻir</string>
+    <string name="weather_rain">Yomgʻir</string>
+    <string name="weather_snow">Qor</string>
+    <string name="weather_showers">Jala</string>
+    <string name="weather_storm">Momaqaldiroq</string>
+
+    <!-- Boshqaruv markazi, Tungi ovoz, Xayrli tun va Aerial videolar -->
+    <string name="cc_title">Boshqaruv markazi</string>
+    <string name="cc_bedtime">Xayrli tun</string>
+    <string name="cc_bedtime_sub">30 daq taymer · Xiralashtirish · Tungi ovoz</string>
+    <string name="cc_bedtime_on">Faol</string>
+    <string name="cc_night_audio">Tungi ovoz</string>
+    <string name="cc_night_audio_on">Baland tovushlar pasaytirildi</string>
+    <string name="cc_night_audio_off">Oʻchiq</string>
+    <string name="cc_night_audio_unavailable">Ovoz protsessori mavjud emas</string>
+    <string name="cc_audio">Ovoz</string>
+    <string name="cc_audio_tv">TV karnaylari</string>
+    <string name="cc_sleep_timer">Uyqu taymeri</string>
+    <string name="cc_sleep_timer_sub">Taymerni sozlash</string>
+    <string name="cc_brightness">Yorqinlik</string>
+    <string name="cc_brightness_sub">Xiralashtirish paneli</string>
+    <string name="cc_aerial">Aerial videolar</string>
+    <string name="cc_aerial_on">1080p video</string>
+    <string name="cc_aerial_on_4k">4K HEVC video</string>
+    <string name="cc_aerial_off">Fon rasmlari</string>
+    <string name="cc_screensaver">Ekran lavhasi</string>
+    <string name="cc_settings">Sozlamalar</string>
+    <string name="cc_sleep_tv">TV ni uxlatish</string>
+    <string name="cc_reorder_tiles">Plitkalarni tartiblash</string>
+    <string name="cc_footer_hint">Qayta ishga tushirish uchun “TV ni uxlatish”da OK ni bosib turing · Orqaga yopadi</string>
+    <string name="cc_on">Yoqiq</string>
+    <string name="cc_off">Oʻchiq</string>
+    <string name="close">Yopish</string>
+
+    <!-- QR telefondan sozlash, Kashf etish, Home Assistant, Immich, Himoya va Yangilash -->
+    <string name="qr_setup_title">Telefondan sozlash</string>
+    <string name="qr_setup_subtitle">Pult tugmalari, fon rasmi, shahar yoki TMDB / Trakt / Plex / HA / Immich uchun telefonda skanerlang (bir xil Wi-Fi)</string>
+    <string name="qr_setup_short">QR sozlash</string>
+    <string name="qr_setup_no_wifi">Avval TV ni Wi-Fi yoki Ethernetga ulang</string>
+    <string name="qr_setup_waiting">Telefon kutilmoqda… (5 daqiqa amal qiladi)</string>
+    <string name="qr_setup_expired">QR seansi tugadi — yangi kod yaratish uchun qayta oching</string>
+
+    <string name="discover_title">Kashf etish va davom ettirish</string>
+    <string name="discover_refresh">Yangilash</string>
+    <string name="discover_continue_watching">Tomoshani davom ettirish</string>
+    <string name="discover_trending">Ommabop tavsiyalar (Reklamasiz)</string>
+    <string name="discover_tab_all">Barchasi</string>
+    <string name="discover_tab_movies">Filmlar</string>
+    <string name="discover_tab_shows">Seriallar</string>
+    <string name="discover_grant_watchnext_msg">Ilovalar boʻylab Tomoshani davom ettirishni koʻrsatish uchun TV roʻyxatlari ruxsatini bering</string>
+    <string name="discover_grant_adb_btn">ADB orqali ruxsat berish</string>
+    <string name="discover_grant_success">Tomoshani davom ettirish yoqildi</string>
+    <string name="discover_hidden_toast">Tomoshani davom ettirishdan yashirildi</string>
+    <string name="discover_empty_no_key">Oʻrnatilgan ilovalaringizdan reklamasiz tavsiyalar uchun QR sozlash orqali bepul TMDB API kaliti (yoki Plex serveri) qoʻshing.</string>
+    <string name="discover_empty_no_matches">Hozircha oʻrnatilgan striming ilovalaringizga mos kontent topilmadi.</string>
+
+    <string name="adb_connecting">Mahalliy ADB ga ulanilmoqda…</string>
+    <string name="adb_accept_prompt">TV da “USB orqali nosozliklarni tuzatishga doim ruxsat berish”ni tasdiqlang</string>
+
+    <string name="ha_section_title">Aqlli uy</string>
+    <string name="ha_action_failed">Home Assistant amali bajarilmadi</string>
+    <string name="ha_state_unavailable">Mavjud emas</string>
+    <string name="ha_state_open">Ochiq</string>
+    <string name="ha_state_closed">Yopiq</string>
+    <string name="ha_state_camera">Jonli PiP</string>
+    <string name="ha_camera_title">Uy kamerasi</string>
+    <string name="ha_camera_connecting">Kameraga ulanilmoqda…</string>
+    <string name="ha_camera_unavailable">Kamera mavjud emas</string>
+    <string name="ha_camera_hint_pip">OK: Kattalashtirish · Orqaga: Yopish</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Orqaga: Yopish</string>
+    <string name="ha_camera_hint_pip_multi">OK: Kattalashtirish · ◀ ▶: Kamera · Orqaga: Yopish</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Orqaga: Yopish</string>
+
+    <string name="aerial_fav_added">Saralanganlarga saqlandi</string>
+    <string name="aerial_fav_removed">Saralanganlardan olib tashlandi</string>
+
+    <string name="updater_installed">Yangilanish oʻrnatildi</string>
+    <string name="updater_failed">Yangilash amalga oshmadi</string>
+
+    <!-- Launcher funksiyalari va Liquid Glass tizimi -->
+    <string name="fs_sec_glass">Liquid Glass va taassurot</string>
+    <string name="fs_liquid_clock">Liquid Glass soati (iOS 26)</string>
+    <string name="fs_home_liquid">Bosh ekranda optik Liquid Glass</string>
+    <string name="fs_home_backdrop_blur">Bosh ekran fonini xiralashtirish</string>
+    <string name="fs_glass_material">Shisha uslubi</string>
+    <string name="fs_glass_material_title">Liquid Glass uslubini tanlang</string>
+    <string name="glass_style_tonal">Xira tonal</string>
+    <string name="glass_style_tonal_sub">Fon rasmi tusidagi ichki kartali muvozanatli qorongʻi shisha</string>
+    <string name="glass_style_obsidian">Sof qora (OLED)</string>
+    <string name="glass_style_obsidian_sub">Qorongʻi xonalar uchun aniq Fresnel hoshiyali chuqur obsidian kristall</string>
+    <string name="glass_style_frost">Muzdek oq</string>
+    <string name="glass_style_frost_sub">Toʻq grafit matn va belgilarga ega yorqin marvarid shisha</string>
+    <string name="glass_style_clear">Tiniq kristall</string>
+    <string name="glass_style_clear_sub">Chetlarida yaqqol optik sinishga ega yengil va oʻta shaffof shisha</string>
+    <string name="glass_style_chromatic">Xromatik tus</string>
+    <string name="glass_style_chromatic_sub">Panel va ichki kartalarda boy Material You fon rasmi ranglari</string>
+    <string name="glass_style_auto">Avto (Kunduz / Tun)</string>
+    <string name="glass_style_auto_sub">Kunduzi Muzdek oq, quyosh botgach Sof qora</string>
+    <string name="fs_remote_buttons">Pult tugmalari</string>
+    <string name="fs_ui_sounds">Mayin interfeys tovushlari</string>
+    <string name="fs_oled_drift">OLED ekran lavhasi piksel siljishi</string>
+    <string name="fs_aerial_quality">Aerial video sifati</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Faqat saralangan Aerial videolar (OK ni bosib turing)</string>
+
+    <string name="fs_sec_content">Kontent va kashfiyot</string>
+    <string name="fs_open_discover">Kashf etishni ochish (Davom ettirish va tavsiyalar)</string>
+    <string name="fs_watch_next">Tomoshani davom ettirish</string>
+    <string name="fs_open_nuvio">Tavsiyalarni bevosita Nuvio da ochish</string>
+    <string name="fs_watch_saver">Tavsiyalarni ekran lavhasidan ochish (OK)</string>
+    <string name="fs_hide_animation">Animatsiya va anime tavsiyalarini yashirish</string>
+    <string name="fs_region">Striming hududi</string>
+    <string name="fs_trakt">Trakt.tv hisobi</string>
+    <string name="fs_trakt_code_msg">%1$s manziliga oʻting va kodni kiriting: %2$s</string>
+    <string name="fs_trakt_signed_in">Trakt hisobiga kirildi (%1$s)</string>
+    <string name="fs_trakt_signed_out">Trakt hisobidan chiqildi</string>
+
+    <string name="fs_sec_smart">Aqlli uy, rasmlar va telefondan sozlash</string>
+    <string name="fs_qr_setup">Telefon QR orqali kalitlar, pult va fon rasmini sozlash</string>
+    <string name="fs_ha_toggle">Boshqaruv markazida Home Assistant</string>
+    <string name="fs_immich_toggle">Ekran lavhasida Immich rasmlari</string>
+    <string name="fs_immich_sync">Immich rasmlarini hozir sinxronlash</string>
+    <string name="fs_immich_album">Immich albomi</string>
+    <string name="fs_immich_all_albums">Barcha rasmlar</string>
+
+    <string name="fs_sec_system">Xavfsizlik va tiklash</string>
+    <string name="fs_watchdog">Qayta ishdan chiqishdan himoya (Watchdog)</string>
+    <string name="fs_check_updates">Yangilanishlar (GitHub Releases)</string>
+    <string name="fs_updates_title">Yangilanishlar (GitHub)</string>
+    <string name="fs_updates_current">Oʻrnatilgan: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Yangilanishlarni hozir tekshirish</string>
+    <string name="fs_updates_checking">GitHub Releases tekshirilmoqda…</string>
+    <string name="fs_updates_downloading">Yuklab olinmoqda va SHA-256 tekshirilmoqda…</string>
+    <string name="fs_updates_install_launcher">Matcher %1$s ni oʻrnatish</string>
+    <string name="fs_updates_install_addon">%1$s ni yangilash (%2$s)</string>
+    <string name="fs_updates_weekly">Haftalik fon yangilanish tekshiruvi</string>
+    <string name="fs_update_uptodate">Launcher eng soʻnggi versiyada (%1$s)</string>
+    <string name="fs_update_found">Yangi %1$s versiyasi mavjud</string>
+    <string name="fs_restore_stock">Asl Google TV launcherini tiklash (ADB)</string>
+    <string name="fs_restore_confirm_title">Asl launcher tiklansinmi?</string>
+    <string name="fs_restore_confirm_msg">Avval Google TV launcherini xavfsiz qayta yoqadi, uni Bosh ekran qilib belgilaydi, soʻngra SetupWraith ni qayta yoqib diskni sinxronlaydi.</string>
+    <string name="fs_restore_ok">Hozir tiklash</string>
+    <string name="fs_cancel">Bekor qilish</string>
+
+    <!-- Ilova ichida pult tugmalarini qayta tayinlash -->
+    <string name="rm_title">Pult tugmalari</string>
+    <string name="rm_subtitle_ready">Istalgan pult tugmasiga Qisqa bosish, Ikki marta bosish yoki Bosib turish amallarini tayinlang</string>
+    <string name="rm_subtitle_need_a11y">Tugmalarni hamma joyda qayta tayinlash uchun TV sozlamalari → Maxsus imkoniyatlar → Bosh ekran tugmasini yoqing</string>
+    <string name="rm_open_a11y">TV Maxsus imkoniyatlar sozlamalarini ochish</string>
+    <string name="rm_open_a11y_sub">Pult tugmalarini global qayta tayinlash uchun zarur</string>
+    <string name="rm_learn_btn">Pult tugmasini oʻrgatish</string>
+    <string name="rm_learn_sub">Keycode va scancode ni aniqlash uchun istalgan jismoniy tugmani bosing</string>
+    <string name="rm_empty">Hali maxsus tugmalar saqlanmagan (mavzu standartlari amal qiladi)</string>
+    <string name="rm_reset_all">Maxsus tugmalarni tiklash</string>
+    <string name="rm_reset_all_sub">Mavzuning config.json tayinlashlariga qaytish</string>
+    <string name="rm_reset_done">Maxsus tugma tayinlashlari tozalandi</string>
+    <string name="rm_capture_title">Pult tugmasini bosing</string>
+    <string name="rm_capture_hint">Yoʻnalish, OK, Orqaga va Ovoz tugmalari band · Bekor qilish uchun Orqaga bosing</string>
+    <string name="rm_capture_waiting">Tugma bosilishi kutilmoqda…</string>
+    <string name="rm_edit_subtitle">Tugma kodi: %1$s</string>
+    <string name="rm_slot_tap">Qisqa bosish</string>
+    <string name="rm_slot_double">Ikki marta bosish</string>
+    <string name="rm_slot_hold">Uzoq bosish (0,5 soniya)</string>
+    <string name="rm_short_tap">Bosish</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Bosib turish</string>
+    <string name="rm_target_none">Tayinlanmagan</string>
+    <string name="rm_delete_btn">Maxsus tugmani olib tashlash</string>
+    <string name="rm_saved">Tugma tayinlash saqlandi</string>
+    <string name="rm_action_mute">Ovozni oʻchirish</string>
+    <string name="rm_action_ignore">Tugmani eʼtiborsiz qoldirish (oʻchirish)</string>
+</resources>

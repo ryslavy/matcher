@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Headphone</string>
+    <string name="plays_through">Suara kini diputar melalui: %1$s</string>
+    <string name="output_speakers">speaker TV</string>
+    <string name="output_fixed">output audio TV (HDMI ARC atau optik)</string>
+    <string name="allow_title">Izinkan akses Bluetooth</string>
+    <string name="allow_detail">Untuk menampilkan daftar headphone Anda dan mendeteksi saat terputus. OK untuk meminta izin.</string>
+    <string name="not_allowed">Tidak diizinkan</string>
+    <string name="pair_title">Pasangkan atau hubungkan headphone</string>
+    <string name="pair_detail">Membuka setelan Bluetooth TV. Aktifkan mode penyandingan pada headphone terlebih dahulu.</string>
+    <string name="guard_title">Senyap saat terputus</string>
+    <string name="guard_detail">Menjeda tayangan yang diputar dan membisukan speaker TV saat headphone terputus agar suara tidak terdengar ke ruangan. Suara kembali aktif saat tersambung lagi.</string>
+    <string name="guard_detail_fixed">Menjeda tayangan yang diputar saat headphone terputus. Volume TV ini tetap (ARC atau amplifier), sehingga tidak dapat membisukan speaker.</string>
+    <string name="on">Aktif</string>
+    <string name="off">Nonaktif</string>
+    <string name="unmute_title">Bunyikan speaker</string>
+    <string name="unmute_detail">Dibisukan saat headphone terputus.</string>
+    <string name="muted">Dibisukan</string>
+    <string name="heading_paired">Headphone dan speaker tersanding</string>
+    <string name="no_bluetooth">Tidak ada Bluetooth di TV ini</string>
+    <string name="bluetooth_off">Bluetooth nonaktif</string>
+    <string name="bluetooth_off_detail">Aktifkan di setelan TV.</string>
+    <string name="none_yet">Belum ada</string>
+    <string name="none_yet_detail">Gunakan baris di atas untuk menyandingkan perangkat.</string>
+    <string name="connected">Terhubung</string>
+    <string name="connected_battery">Terhubung, baterai %1$s</string>
+    <string name="not_connected_detail">Tidak terhubung. OK membuka setelan Bluetooth untuk menghubungkan.</string>
+    <string name="unnamed">Perangkat tanpa nama</string>
+    <string name="heading_several">Beberapa headphone sekaligus</string>
+    <string name="sharing_one_pair">TV ini hanya mengirim suara ke satu pasang headphone Bluetooth sekaligus. Untuk dua pasang, gunakan pemancar Bluetooth dual-link pada port headphone atau output optik TV.</string>
+    <string name="sharing_auracast">TV ini dapat menyiarkan audio ke banyak headphone LE Audio (Auracast) sekaligus: mulai berbagi dari setelan Bluetooth TV.</string>
+    <string name="sharing_no_broadcast">TV ini hanya mengirim suara ke satu pasang headphone Bluetooth sekaligus dan tidak mendukung siaran LE Audio. Untuk dua pasang, gunakan pemancar Bluetooth dual-link pada port headphone atau output optik TV.</string>
+</resources>

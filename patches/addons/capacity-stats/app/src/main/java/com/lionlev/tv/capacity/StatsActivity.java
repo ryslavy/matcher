@@ -132,11 +132,7 @@ public final class StatsActivity extends Activity {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
         card.setPadding(dp(18), dp(14), dp(18), dp(14));
-        GradientDrawable bg = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x1DFFFFFF, 0x0FFFFFFF});
-        bg.setCornerRadius(16f * d);
-        bg.setStroke(Math.max(1, Math.round(1.0f * d)), 0x2EFFFFFF);
-        card.setBackground(bg);
+        card.setBackground(GlassKit.makeStaticCardBg(d, 16f));
         return card;
     }
 
@@ -162,7 +158,7 @@ public final class StatsActivity extends Activity {
         LinearLayout track = new LinearLayout(this);
         track.setOrientation(LinearLayout.HORIZONTAL);
         GradientDrawable trackBg = new GradientDrawable();
-        trackBg.setColor(0x24FFFFFF);
+        trackBg.setColor(GlassKit.isLightGlass() ? 0x240F172A : 0x24FFFFFF);
         trackBg.setCornerRadius(5f * d);
         track.setBackground(trackBg);
 
@@ -204,7 +200,8 @@ public final class StatsActivity extends Activity {
             endColor = 0xFF38BDF8;
             textColor = 0xFFA7F3D0;
         }
-        percentLabel.setTextColor(textColor);
+        GlassKit.markPreserveTextColor(percentLabel);
+        percentLabel.setTextColor(GlassKit.adaptiveAccentTextColor(textColor));
 
         float d = modal.density;
         GradientDrawable bar = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,

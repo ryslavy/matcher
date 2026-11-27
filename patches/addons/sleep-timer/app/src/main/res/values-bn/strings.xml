@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">স্লিপ টাইমার</string>
+    <string name="hint">টিভি কখন স্ট্যান্ডবাই মোডে যাবে তা বেছে নিন। এক মিনিট আগে একটি সতর্কবার্তা দেখানো হবে।</string>
+    <string name="in_minutes">%1$d মিনিট</string>
+    <string name="cancel">টাইমার বাতিল করুন</string>
+    <string name="state_off">কোনো টাইমার সেট করা নেই।</string>
+    <string name="state_on">%1$s-এ স্ট্যান্ডবাই।</string>
+    <string name="no_service">স্লিপ টাইমারের অ্যাক্সেসিবিলিটি সার্ভিস বন্ধ আছে (ইনস্টল স্ক্রিপ্ট চালান)।</string>
+    <string name="warning_title">টিভি বন্ধ হচ্ছে</string>
+    <string name="warning_seconds">%1$d সেকেন্ডের মধ্যে</string>
+    <string name="more">আরও ১৫ মিনিট</string>
+    <string name="now">এখনই বন্ধ করুন</string>
+    <string name="service_label">স্লিপ টাইমার</string>
+    <string name="quick_hint">◀ ▶ সময় বেছে নিন · OK বন্ধ</string>
+    <string name="service_description">স্লিপ টাইমার শেষ হলে কেবল টিভিকে স্ট্যান্ডবাই মোডে পাঠায়। এটি স্ক্রিন পড়ে না।</string>
+    <string name="schedule_row">সময়সূচী</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ตั้งเวลาปิด</string>
+    <string name="hint">เลือกเวลาที่ให้ทีวีเข้าสู่โหมดสแตนด์บาย จะมีข้อความเตือนล่วงหน้า 1 นาที</string>
+    <string name="in_minutes">%1$d นาที</string>
+    <string name="cancel">ยกเลิกการตั้งเวลา</string>
+    <string name="state_off">ไม่ได้ตั้งเวลาไว้</string>
+    <string name="state_on">เข้าสู่โหมดสแตนด์บายเวลา %1$s</string>
+    <string name="no_service">บริการการเข้าถึงของตั้งเวลาปิดถูกปิดอยู่ (โปรดรันสคริปต์ติดตั้ง)</string>
+    <string name="warning_title">ทีวีกำลังจะปิด</string>
+    <string name="warning_seconds">ในอีก %1$d วินาที</string>
+    <string name="more">เพิ่มอีก 15 นาที</string>
+    <string name="now">ปิดเลยตอนนี้</string>
+    <string name="service_label">ตั้งเวลาปิด</string>
+    <string name="quick_hint">◀ ▶ เลือกเวลา · OK ปิด</string>
+    <string name="service_description">ทำหน้าที่นำทีวีเข้าสู่โหมดสแตนด์บายเมื่อหมดเวลาตั้งปิดเท่านั้น ไม่มีการอ่านข้อมูลบนหน้าจอ</string>
+    <string name="schedule_row">ตารางเวลา</string>
+</resources>

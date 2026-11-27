@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Folder aplikasi -->
+    <string name="folder_add_to">Tambahkan ke folder…</string>
+    <string name="folder_new">+ Folder baru</string>
+    <string name="folder_new_title">Folder baru</string>
+    <string name="folder_rename">Ganti nama folder…</string>
+    <string name="folder_rename_title">Ganti nama folder</string>
+    <string name="folder_open">Buka folder</string>
+    <string name="folder_add_apps">Tambah aplikasi…</string>
+    <string name="folder_add_apps_title">Tambah aplikasi ke %1$s</string>
+    <string name="folder_add_apps_empty">Semua aplikasi Beranda sudah ada di dalam folder</string>
+    <string name="folder_dissolve">Bubarkan folder</string>
+    <string name="folder_remove_app">Hapus dari folder</string>
+    <string name="folder_move_to">Pindahkan ke folder…</string>
+    <string name="folder_hint">OK membuka · Tahan OK untuk opsi · Atas untuk aksi folder</string>
+    <string name="folder_default_name">Folder %1$d</string>
+    <string name="folder_name_hint">Nama folder</string>
+    <string name="folder_create">Buat</string>
+    <string name="folder_save">Simpan</string>
+    <string name="folder_cancel">Batal</string>
+    <string name="folder_btn_add">+ Tambah</string>
+    <string name="folder_btn_reorder">Urutkan</string>
+    <string name="folder_btn_done">Selesai</string>
+    <string name="folder_btn_rename">Ganti nama</string>
+    <string name="folder_preset_streaming">Streaming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Olahraga</string>
+    <string name="folder_preset_music">Musik</string>
+    <string name="folder_preset_games">Game</string>
+    <string name="folder_preset_tools">Alat</string>
+
+    <!-- Pemutar mini Sedang Diputar -->
+    <string name="media_now_playing">Sedang Diputar</string>
+    <string name="media_playing">Diputar</string>
+    <string name="media_paused">Dijeda</string>
+    <string name="media_live">Langsung</string>
+    <string name="media_prev">Sebelumnya</string>
+    <string name="media_play_pause">Putar atau jeda</string>
+    <string name="media_next">Berikutnya</string>
+    <string name="media_open_app">Buka aplikasi</string>
+    <string name="media_switch_hint">Atas untuk ganti aplikasi · OK lanjutkan pemutaran</string>
+
+    <!-- Pengalih Aplikasi Terbaru -->
+    <string name="recents_title">Aplikasi terbaru</string>
+    <string name="recents_hint">OK beralih · Tekan Atas 2× untuk menutup · Tahan OK untuk opsi</string>
+    <string name="recents_empty">Tidak ada aplikasi terbaru yang terbuka</string>
+    <string name="recents_switch">Beralih ke aplikasi</string>
+    <string name="recents_close_app">Tutup aplikasi</string>
+    <string name="recents_close_all">Tutup semua</string>
+    <string name="recents_swipe_close">Tekan Atas lagi untuk menutup</string>
+    <string name="recents_playing_badge">Diputar</string>
+    <string name="recents_free_ram">RAM tersisa: %1$d MB</string>
+    <string name="recents_just_now">Baru saja</string>
+    <string name="recents_minutes_ago">%1$d mnt lalu</string>
+    <string name="recents_hours_ago">%1$d jam lalu</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">%1$d aplikasi ditutup</item>
+        <item quantity="other">%1$d aplikasi ditutup</item>
+    </plurals>
+
+    <!-- Screensaver Ambient -->
+    <string name="ambient_controls_hint">◄ ► trek · ▼ putar/jeda · ▲ buka</string>
+    <string name="ambient_action_prev">Trek sebelumnya</string>
+    <string name="ambient_action_next">Trek berikutnya</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Cerah</string>
+    <string name="weather_partly">Cerah berawan</string>
+    <string name="weather_cloudy">Mendung</string>
+    <string name="weather_fog">Kabut</string>
+    <string name="weather_drizzle">Gerimis</string>
+    <string name="weather_rain">Hujan</string>
+    <string name="weather_snow">Salju</string>
+    <string name="weather_showers">Hujan ringan</string>
+    <string name="weather_storm">Badai petir</string>
+
+    <!-- Pusat Kontrol, Suara Malam, Mode Tidur & Video Udara -->
+    <string name="cc_title">Pusat Kontrol</string>
+    <string name="cc_bedtime">Selamat Malam</string>
+    <string name="cc_bedtime_sub">Timer 30 mnt · Redup · Suara malam</string>
+    <string name="cc_bedtime_on">Aktif</string>
+    <string name="cc_night_audio">Suara malam</string>
+    <string name="cc_night_audio_on">Suara keras diredam</string>
+    <string name="cc_night_audio_off">Nonaktif</string>
+    <string name="cc_night_audio_unavailable">Prosesor audio tidak tersedia</string>
+    <string name="cc_audio">Audio</string>
+    <string name="cc_audio_tv">Speaker TV</string>
+    <string name="cc_sleep_timer">Timer tidur</string>
+    <string name="cc_sleep_timer_sub">Atur timer</string>
+    <string name="cc_brightness">Kecerahan</string>
+    <string name="cc_brightness_sub">Bilah peredup</string>
+    <string name="cc_aerial">Video udara</string>
+    <string name="cc_aerial_on">Video 1080p</string>
+    <string name="cc_aerial_on_4k">Video 4K HEVC</string>
+    <string name="cc_aerial_off">Wallpaper</string>
+    <string name="cc_screensaver">Screensaver</string>
+    <string name="cc_settings">Setelan</string>
+    <string name="cc_sleep_tv">Tidurkan TV</string>
+    <string name="cc_reorder_tiles">Urutkan ubin</string>
+    <string name="cc_footer_hint">Tahan OK di Tidurkan TV untuk mulai ulang · Kembali menutup</string>
+    <string name="cc_on">Aktif</string>
+    <string name="cc_off">Nonaktif</string>
+    <string name="close">Tutup</string>
+
+    <!-- Pengaturan QR Ponsel, Jelajahi, Home Assistant, Immich, Watchdog & Pembaruan -->
+    <string name="qr_setup_title">Atur dari Ponsel</string>
+    <string name="qr_setup_subtitle">Pindai dengan ponsel (Wi-Fi yang sama) untuk ubah tombol remote, wallpaper, kota, atau TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">Pengaturan QR</string>
+    <string name="qr_setup_no_wifi">Hubungkan TV ke Wi-Fi atau Ethernet terlebih dahulu</string>
+    <string name="qr_setup_waiting">Menunggu ponsel… (berlaku 5 mnt)</string>
+    <string name="qr_setup_expired">Sesi QR kedaluwarsa — buka ulang untuk buat kode baru</string>
+
+    <string name="discover_title">Jelajahi &amp; Tonton Berikutnya</string>
+    <string name="discover_refresh">Segarkan</string>
+    <string name="discover_continue_watching">Lanjutkan Menonton</string>
+    <string name="discover_trending">Pilihan Populer (Bebas Iklan)</string>
+    <string name="discover_tab_all">Semua</string>
+    <string name="discover_tab_movies">Film</string>
+    <string name="discover_tab_shows">Serial</string>
+    <string name="discover_grant_watchnext_msg">Izinkan akses Daftar TV untuk menampilkan Lanjutkan Menonton di berbagai aplikasi</string>
+    <string name="discover_grant_adb_btn">Izinkan via ADB</string>
+    <string name="discover_grant_success">Lanjutkan Menonton diaktifkan</string>
+    <string name="discover_hidden_toast">Disembunyikan dari Lanjutkan Menonton</string>
+    <string name="discover_empty_no_key">Gunakan Pengaturan QR untuk menambahkan kunci TMDB API gratis (atau server Plex) demi pilihan bebas iklan dari aplikasi terpasang.</string>
+    <string name="discover_empty_no_matches">Belum ada tayangan yang cocok untuk aplikasi streaming terpasang Anda saat ini.</string>
+
+    <string name="adb_connecting">Menghubungkan ke ADB lokal…</string>
+    <string name="adb_accept_prompt">Setujui “Selalu izinkan debugging USB” di TV</string>
+
+    <string name="ha_section_title">Rumah Pintar</string>
+    <string name="ha_action_failed">Tindakan Home Assistant gagal</string>
+    <string name="ha_state_unavailable">Tidak tersedia</string>
+    <string name="ha_state_open">Terbuka</string>
+    <string name="ha_state_closed">Tertutup</string>
+    <string name="ha_state_camera">PiP Langsung</string>
+    <string name="ha_camera_title">Kamera Rumah</string>
+    <string name="ha_camera_connecting">Menghubungkan ke kamera…</string>
+    <string name="ha_camera_unavailable">Kamera tidak tersedia</string>
+    <string name="ha_camera_hint_pip">OK: Perbesar · Kembali: Tutup</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Kembali: Tutup</string>
+    <string name="ha_camera_hint_pip_multi">OK: Perbesar · ◀ ▶: Kamera · Kembali: Tutup</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Kembali: Tutup</string>
+
+    <string name="aerial_fav_added">Disimpan ke favorit</string>
+    <string name="aerial_fav_removed">Dihapus dari favorit</string>
+
+    <string name="updater_installed">Pembaruan terpasang</string>
+    <string name="updater_failed">Pembaruan gagal</string>
+
+    <!-- Setelan Fitur Peluncur & Sistem Material Kaca -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Pengalaman</string>
+    <string name="fs_liquid_clock">Jam Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">Liquid Glass optik di Beranda</string>
+    <string name="fs_home_backdrop_blur">Blur latar belakang Beranda</string>
+    <string name="fs_glass_material">Gaya kaca</string>
+    <string name="fs_glass_material_title">Pilih gaya Liquid Glass</string>
+    <string name="glass_style_tonal">Kaca Buram Tonal</string>
+    <string name="glass_style_tonal_sub">Kaca gelap seimbang dengan kartu dalam bernuansa warna wallpaper</string>
+    <string name="glass_style_obsidian">Hitam Pekat (OLED)</string>
+    <string name="glass_style_obsidian_sub">Kristal obsidian gelap dengan tepi Fresnel tajam untuk ruangan gelap</string>
+    <string name="glass_style_frost">Putih Embun</string>
+    <string name="glass_style_frost_sub">Kaca terang mutiara berkilau dengan teks dan ikon grafit gelap</string>
+    <string name="glass_style_clear">Kristal Bening</string>
+    <string name="glass_style_clear_sub">Kaca jernih ringan dengan refraksi tepi optik yang tegas</string>
+    <string name="glass_style_chromatic">Nuansa Kromatik</string>
+    <string name="glass_style_chromatic_sub">Warna wallpaper Material You yang kaya pada panel dan kartu dalam</string>
+    <string name="glass_style_auto">Otomatis (Siang / Malam)</string>
+    <string name="glass_style_auto_sub">Putih Embun di siang hari, Hitam Pekat setelah matahari terbenam</string>
+    <string name="fs_remote_buttons">Tombol remote</string>
+    <string name="fs_ui_sounds">Suara klik UI lembut</string>
+    <string name="fs_oled_drift">Pergeseran piksel screensaver OLED</string>
+    <string name="fs_aerial_quality">Kualitas video udara</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Hanya video udara favorit (tahan OK)</string>
+
+    <string name="fs_sec_content">Konten &amp; Jelajahi</string>
+    <string name="fs_open_discover">Buka Jelajahi (Lanjutkan Menonton &amp; Pilihan)</string>
+    <string name="fs_watch_next">Lanjutkan Menonton</string>
+    <string name="fs_open_nuvio">Buka pilihan langsung di Nuvio</string>
+    <string name="fs_watch_saver">Buka pilihan dari screensaver (OK)</string>
+    <string name="fs_hide_animation">Sembunyikan pilihan animasi &amp; anime</string>
+    <string name="fs_region">Wilayah streaming</string>
+    <string name="fs_trakt">Akun Trakt.tv</string>
+    <string name="fs_trakt_code_msg">Buka %1$s lalu masukkan kode: %2$s</string>
+    <string name="fs_trakt_signed_in">Masuk ke Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Keluar dari Trakt</string>
+
+    <string name="fs_sec_smart">Rumah Pintar, Foto &amp; Pengaturan Ponsel</string>
+    <string name="fs_qr_setup">Atur kunci, remote &amp; wallpaper via QR Ponsel</string>
+    <string name="fs_ha_toggle">Home Assistant di Pusat Kontrol</string>
+    <string name="fs_immich_toggle">Foto Immich di screensaver</string>
+    <string name="fs_immich_sync">Sinkronkan foto Immich sekarang</string>
+    <string name="fs_immich_album">Album Immich</string>
+    <string name="fs_immich_all_albums">Semua foto</string>
+
+    <string name="fs_sec_system">Keamanan &amp; Pemulihan</string>
+    <string name="fs_watchdog">Watchdog pemulihan crash-loop</string>
+    <string name="fs_check_updates">Pembaruan (GitHub Releases)</string>
+    <string name="fs_updates_title">Pembaruan (GitHub)</string>
+    <string name="fs_updates_current">Terpasang: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Periksa pembaruan sekarang</string>
+    <string name="fs_updates_checking">Memeriksa GitHub Releases…</string>
+    <string name="fs_updates_downloading">Mengunduh &amp; memverifikasi SHA-256…</string>
+    <string name="fs_updates_install_launcher">Pasang Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Perbarui %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Pemeriksaan pembaruan latar mingguan</string>
+    <string name="fs_update_uptodate">Peluncur sudah versi terbaru (%1$s)</string>
+    <string name="fs_update_found">Versi baru %1$s tersedia</string>
+    <string name="fs_restore_stock">Pulihkan peluncur Google TV bawaan (ADB)</string>
+    <string name="fs_restore_confirm_title">Pulihkan Peluncur Bawaan?</string>
+    <string name="fs_restore_confirm_msg">Mengaktifkan kembali Google TV Launcher secara aman dulu, menjadikannya Beranda, lalu mengaktifkan SetupWraith dan menyinkronkan disk.</string>
+    <string name="fs_restore_ok">Pulihkan sekarang</string>
+    <string name="fs_cancel">Batal</string>
+
+    <!-- Pemetaan Ulang & Pembelajaran Tombol Remote di Aplikasi -->
+    <string name="rm_title">Tombol remote</string>
+    <string name="rm_subtitle_ready">Petakan tombol remote mana pun ke aksi Ketuk, Ketuk dua kali, atau Tahan</string>
+    <string name="rm_subtitle_need_a11y">Aktifkan Aksesibilitas → Tombol Beranda di Setelan TV untuk memetakan tombol di mana saja</string>
+    <string name="rm_open_a11y">Buka setelan Aksesibilitas TV</string>
+    <string name="rm_open_a11y_sub">Diperlukan untuk pemetaan tombol remote secara global</string>
+    <string name="rm_learn_btn">Pelajari tombol remote</string>
+    <string name="rm_learn_sub">Tekan tombol fisik mana pun untuk mendeteksi keycode &amp; scancode</string>
+    <string name="rm_empty">Belum ada tombol khusus tersimpan (aturan tema berlaku)</string>
+    <string name="rm_reset_all">Atur ulang tombol khusus</string>
+    <string name="rm_reset_all_sub">Kembalikan ke pemetaan config.json tema</string>
+    <string name="rm_reset_done">Pemetaan tombol khusus dihapus</string>
+    <string name="rm_capture_title">Tekan tombol remote</string>
+    <string name="rm_capture_hint">Tombol arah, OK, Kembali, dan Volume dicadangkan · Tekan Kembali untuk batal</string>
+    <string name="rm_capture_waiting">Menunggu penekanan tombol…</string>
+    <string name="rm_edit_subtitle">Token tombol: %1$s</string>
+    <string name="rm_slot_tap">Tekan singkat (Ketuk)</string>
+    <string name="rm_slot_double">Ketuk dua kali</string>
+    <string name="rm_slot_hold">Tekan lama (Tahan 0,5 dtk)</string>
+    <string name="rm_short_tap">Ketuk</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Tahan</string>
+    <string name="rm_target_none">Belum ditetapkan</string>
+    <string name="rm_delete_btn">Hapus tombol khusus</string>
+    <string name="rm_saved">Pemetaan tombol disimpan</string>
+    <string name="rm_action_mute">Bisukan audio</string>
+    <string name="rm_action_ignore">Abaikan tombol (nonaktifkan)</string>
+</resources>

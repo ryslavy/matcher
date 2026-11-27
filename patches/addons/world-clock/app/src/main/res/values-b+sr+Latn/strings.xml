@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Svetski sat</string>
+    <string name="add_city">Dodaj grad</string>
+    <string name="clock_format">Format sata</string>
+    <string name="local">Lokalno</string>
+    <string name="search_city">Grad ili vremenska zona</string>
+    <string name="search_hint">Pritisnite OK za unos · Dole za izbor grada</string>
+    <string name="no_cities">Nema odgovarajućih gradova</string>
+    <string name="change_city">Promeni grad</string>
+    <string name="move_earlier">Pomeri ranije</string>
+    <string name="move_later">Pomeri kasnije</string>
+    <string name="remove_city">Ukloni grad</string>
+    <string name="city_limit">Izaberite do šest satova</string>
+    <string name="already_shown">Ovaj sat je već prikazan</string>
+    <string name="same_day">Isti dan kao lokalno</string>
+    <string name="tomorrow">U ovom gradu je sutra</string>
+    <string name="yesterday">U ovom gradu je juče</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d dan od lokalnog vremena</item>
+        <item quantity="few">%1$+d dana od lokalnog vremena</item>
+        <item quantity="other">%1$+d dana od lokalnog vremena</item>
+    </plurals>
+    <string name="local_reference">Datumi upoređeni sa %1$s</string>
+    <string name="controls">Strelice: kretanje · OK: opcije grada · Nazad: povratak</string>
+    <string name="format_system">Koristi podešavanje TV-a</string>
+    <string name="format_12">12-časovno vreme</string>
+    <string name="format_24">24-časovno vreme</string>
+    <string name="close">Zatvori</string>
+    <string name="screensaver">Čuvar ekrana</string>
+    <string name="preview">Pregled · bilo koje dugme vraća</string>
+    <string name="background_option">Pozadina: %1$s</string>
+    <string name="motion_option">Kretanje: %1$s</string>
+    <string name="brightness_option">Osvetljenost sata: %1$s</string>
+    <string name="gradient">Preliv neba</string>
+    <string name="plain">Crna</string>
+    <string name="motion_on">Uklj.</string>
+    <string name="motion_reduced">Smanjeno (statično)</string>
+    <string name="clock_brightness">Osvetljenost sata</string>
+    <string name="dim">Prigušena</string>
+    <string name="medium">Srednja</string>
+    <string name="bright">Svetla</string>
+    <string name="tv_screensaver_settings">Podešavanja čuvara ekrana TV-a</string>
+    <string name="screensaver_unavailable">Ovaj TV ne nudi podešavanja čuvara ekrana. Pregled je i dalje dostupan.</string>
+    <string name="background">Pozadina</string>
+    <string name="starfield">Zvezdano nebo</string>
+    <string name="world_map">Mapa sveta</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

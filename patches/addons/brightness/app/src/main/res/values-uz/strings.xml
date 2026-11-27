@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yorqinlik</string>
+    <string name="quick_brightness">Yorqinlik %1$d%%</string>
+    <string name="quick_night_brightness">Tungi yorqinlik %1$d%%</string>
+    <string name="quick_hint">◀ ▶ sozlash · OK yopish</string>
+    <string name="channel_name">Ekranni xiralashtirish</string>
+    <string name="notification_text">Ekran xiralashtirilmoqda. Oʻzgartirish yoki oʻchirish uchun Yorqinlik ilovasini oching.</string>
+</resources>

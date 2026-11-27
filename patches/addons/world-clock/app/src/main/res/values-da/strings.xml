@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Verdensur</string>
+    <string name="add_city">Tilføj by</string>
+    <string name="clock_format">Urformat</string>
+    <string name="local">Lokal</string>
+    <string name="search_city">By eller tidszone</string>
+    <string name="search_hint">Tryk OK for at skrive · Ned for at vælge en by</string>
+    <string name="no_cities">Ingen matchende byer</string>
+    <string name="change_city">Skift by</string>
+    <string name="move_earlier">Flyt frem</string>
+    <string name="move_later">Flyt tilbage</string>
+    <string name="remove_city">Fjern by</string>
+    <string name="city_limit">Vælg op til seks ure</string>
+    <string name="already_shown">Det ur vises allerede</string>
+    <string name="same_day">Samme dag som lokal tid</string>
+    <string name="tomorrow">I morgen i denne by</string>
+    <string name="yesterday">I går i denne by</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d dag fra lokal tid</item>
+        <item quantity="other">%1$+d dage fra lokal tid</item>
+    </plurals>
+    <string name="local_reference">Datoer sammenlignet med %1$s</string>
+    <string name="controls">Pile for at flytte · OK for byindstillinger · Tilbage for at gå tilbage</string>
+    <string name="format_system">Brug TV-indstilling</string>
+    <string name="format_12">12-timers ur</string>
+    <string name="format_24">24-timers ur</string>
+    <string name="close">Luk</string>
+    <string name="screensaver">Pauseskærm</string>
+    <string name="preview">Forhåndsvisning · enhver knap vender tilbage</string>
+    <string name="background_option">Baggrund: %1$s</string>
+    <string name="motion_option">Bevægelse: %1$s</string>
+    <string name="brightness_option">Ur-lysstyrke: %1$s</string>
+    <string name="gradient">Himmelforløb</string>
+    <string name="plain">Sort</string>
+    <string name="motion_on">Til</string>
+    <string name="motion_reduced">Reduceret (statisk)</string>
+    <string name="clock_brightness">Ur-lysstyrke</string>
+    <string name="dim">Dæmpet</string>
+    <string name="medium">Mellem</string>
+    <string name="bright">Lys</string>
+    <string name="tv_screensaver_settings">TV\'ets pauseskærmindstillinger</string>
+    <string name="screensaver_unavailable">Dette TV giver ikke adgang til pauseskærmindstillinger. Forhåndsvisning er stadig tilgængelig.</string>
+    <string name="background">Baggrund</string>
+    <string name="starfield">Stjernehimmel</string>
+    <string name="world_map">Verdenskort</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

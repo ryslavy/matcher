@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">בהירות</string>
+    <string name="quick_brightness">בהירות %1$d%%</string>
+    <string name="quick_night_brightness">בהירות לילה %1$d%%</string>
+    <string name="quick_hint">◀ ▶ כוונון · OK סגירה</string>
+    <string name="channel_name">עמעום מסך</string>
+    <string name="notification_text">המסך מעומעם. פתחו את ״בהירות״ כדי לשנות או לכבות.</string>
+</resources>

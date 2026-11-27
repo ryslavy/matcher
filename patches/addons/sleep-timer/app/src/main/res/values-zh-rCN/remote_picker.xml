@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"小时"</string>
+    <string name="remote_minutes">"分钟"</string>
+    <string name="remote_day">"日"</string>
+    <string name="remote_month">"月"</string>
+    <string name="remote_year">"年"</string>
+    <string name="remote_hint">"左 / 右：切换栏目 · 上 / 下：调整数值 · OK：下一步 · 返回：取消"</string>
+    <string name="remote_page_hint">"使用方向键选择项目并按 OK。点击“保存”后生效。"</string>
+    <string name="remote_events">"每周计划"</string>
+    <string name="remote_exclusions">"不自动唤醒的时段"</string>
+    <string name="remote_wake_time">"唤醒时间"</string>
+    <string name="remote_sleep_time">"休眠时间"</string>
+</resources>

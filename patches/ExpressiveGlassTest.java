@@ -99,8 +99,104 @@ public class ExpressiveGlassTest {
         String agsl = ExpressiveGlass.LIQUID_GLASS_PANEL_AGSL;
         assertTrue("Shader declares uWobble", agsl.contains("uniform float uWobble;"));
         assertTrue("Shader declares uPhase", agsl.contains("uniform float uPhase;"));
+        assertTrue("Shader declares uSurfaceLight", agsl.contains("uniform float uSurfaceLight;"));
+        assertTrue("Shader declares uInteriorDim", agsl.contains("uniform float uInteriorDim;"));
         assertTrue("Shader includes non-linear vibrancy", agsl.contains("applyVibrancyAndAdapt"));
         assertTrue("Shader clamps premul RGB <= outA", agsl.contains("half3(outA))"));
+    }
+
+    @Test
+    public void glassMaterialStylesResolveAndProduceDistinctSurfacePalettes() {
+        assertEquals(ExpressiveGlass.STYLE_TONAL, ExpressiveGlass.styleFromKey(FeaturePrefs.GLASS_TONAL));
+        assertEquals(ExpressiveGlass.STYLE_OBSIDIAN, ExpressiveGlass.styleFromKey(FeaturePrefs.GLASS_OBSIDIAN));
+        assertEquals(ExpressiveGlass.STYLE_FROST, ExpressiveGlass.styleFromKey(FeaturePrefs.GLASS_FROST));
+        assertEquals(ExpressiveGlass.STYLE_CLEAR, ExpressiveGlass.styleFromKey(FeaturePrefs.GLASS_CLEAR));
+        assertEquals(ExpressiveGlass.STYLE_CHROMATIC, ExpressiveGlass.styleFromKey(FeaturePrefs.GLASS_CHROMATIC));
+        assertEquals(ExpressiveGlass.STYLE_TONAL, ExpressiveGlass.styleFromKey("unknown"));
+        assertEquals(ExpressiveGlass.STYLE_FROST, ExpressiveGlass.resolveAutoStyle(true));
+        assertEquals(ExpressiveGlass.STYLE_OBSIDIAN, ExpressiveGlass.resolveAutoStyle(false));
+        assertTrue(ExpressiveGlass.isLightGlass(ExpressiveGlass.STYLE_FROST));
+        assertTrue(!ExpressiveGlass.isLightGlass(ExpressiveGlass.STYLE_OBSIDIAN));
+        assertTrue("Obsidian interior dim must be darkest",
+                ExpressiveGlass.interiorDimForStyle(ExpressiveGlass.STYLE_OBSIDIAN)
+                        < ExpressiveGlass.interiorDimForStyle(ExpressiveGlass.STYLE_TONAL));
+        assertTrue("Frost interior dim must be brightest",
+                ExpressiveGlass.interiorDimForStyle(ExpressiveGlass.STYLE_FROST)
+                        > ExpressiveGlass.interiorDimForStyle(ExpressiveGlass.STYLE_TONAL));
+
+        int warmSeed = 0xD97228;
+        // Obsidian: true OLED near-black RGB and strong alpha
+        int[] obsBlur = ExpressiveGlass.panelGlassColors(ExpressiveGlass.STYLE_OBSIDIAN, warmSeed, false, false);
+        int[] obsSharp = ExpressiveGlass.panelGlassColors(ExpressiveGlass.STYLE_OBSIDIAN, warmSeed, false, true);
+        int[] obsSmoked = ExpressiveGlass.panelGlassColors(ExpressiveGlass.STYLE_OBSIDIAN, warmSeed, true, false);
+        assertTrue("Obsidian panel must stay near-black", ((obsBlur[1] >> 16) & 0xFF) <= 12 && (obsBlur[1] & 0xFF) <= 12);
+        assertTrue("Obsidian smoked >= sharp >= blurred",
+                ((obsSmoked[0] >>> 24) & 0xFF) > ((obsSharp[0] >>> 24) & 0xFF)
+                        && ((obsSharp[0] >>> 24) & 0xFF) > ((obsBlur[0] >>> 24) & 0xFF));
+
+        // Frost White: luminous pearl light glass
+        int[] frost = ExpressiveGlass.panelGlassColors(ExpressiveGlass.STYLE_FROST, warmSeed, false, false);
+        int[] frostDock = ExpressiveGlass.dockGlassColors(ExpressiveGlass.STYLE_FROST, warmSeed);
+        assertTrue("Frost panel must be luminous light pearl", ((frost[0] >> 16) & 0xFF) >= 225 && (frost[0] & 0xFF) >= 210);
+        assertTrue("Frost dock must be luminous light pearl", ((frostDock[0] >> 16) & 0xFF) >= 220);
+
+        // Clear Crystal: ultra-airy over Home, safe smoked boost over external apps
+        int[] clearHome = ExpressiveGlass.panelGlassColors(ExpressiveGlass.STYLE_CLEAR, warmSeed, false, false);
+        int[] clearSmoked = ExpressiveGlass.panelGlassColors(ExpressiveGlass.STYLE_CLEAR, warmSeed, true, false);
+        assertTrue("Clear over Home must be ultra-airy", ((clearHome[0] >>> 24) & 0xFF) <= 0x40);
+        assertTrue("Clear smoked must protect legibility over external apps", ((clearSmoked[0] >>> 24) & 0xFF) >= 0x80);
+
+        // Chromatic vs Tonal: Chromatic panels & inner cards carry distinctly richer wallpaper color
+        int[] tonalInner = ExpressiveGlass.innerSurfaceColors(ExpressiveGlass.STYLE_TONAL, warmSeed, false);
+        int[] chromInner = ExpressiveGlass.innerSurfaceColors(ExpressiveGlass.STYLE_CHROMATIC, warmSeed, false);
+        int tr = (tonalInner[0] >> 16) & 0xFF, tb = tonalInner[0] & 0xFF;
+        int cr = (chromInner[0] >> 16) & 0xFF, cb = chromInner[0] & 0xFF;
+        assertTrue("Tonal inner cards must adapt to warm wallpaper hue instead of flat gray", tr > tb);
+        assertTrue("Chromatic inner cards must be richer than tonal", (cr - cb) > (tr - tb));
+
+        // All 5 styles: focused inner surface has stronger alpha than rest; Frost uses dark slate tint
+        for (int s = ExpressiveGlass.STYLE_TONAL; s <= ExpressiveGlass.STYLE_CHROMATIC; s++) {
+            int[] r = ExpressiveGlass.innerSurfaceColors(s, warmSeed, false);
+            int[] f = ExpressiveGlass.innerSurfaceColors(s, warmSeed, true);
+            assertTrue("Focused inner fill alpha > rest for style " + s,
+                    ((f[0] >>> 24) & 0xFF) > ((r[0] >>> 24) & 0xFF));
+            assertEquals(3, ExpressiveGlass.dockGlassColors(s, warmSeed).length);
+            assertEquals(3, ExpressiveGlass.folderPocketColors(s, warmSeed).length);
+        }
+        int[] frostInner = ExpressiveGlass.innerSurfaceColors(ExpressiveGlass.STYLE_FROST, warmSeed, false);
+        assertTrue("Frost inner card must use dark ink tint (not invisible white-on-white)",
+                ((frostInner[0] >> 16) & 0xFF) < 90 && ((frostInner[0] >> 8) & 0xFF) < 90);
+    }
+
+    @Test
+    public void adaptColorForLightProducesHighContrastDarkInkAndJewelAccents() {
+        // Pure white -> deep graphite #0F172A, idempotent on re-application
+        int primary = ExpressiveGlass.adaptColorForLight(0xFFFFFFFF);
+        assertEquals(0xFF0F172A, primary);
+        assertEquals(primary, ExpressiveGlass.adaptColorForLight(primary));
+
+        // Muted white -> readable dark slate with lifted alpha
+        int secondary = ExpressiveGlass.adaptColorForLight(0xA6FFFFFF);
+        assertEquals(0x1E293B, secondary & 0x00FFFFFF);
+        assertTrue("Secondary alpha lifted for light glass readability", ((secondary >>> 24) & 0xFF) >= 190);
+
+        // Bright pastel accents (sky, emerald, amber, coral) -> crisp deep jewel tones
+        int[] pastels = {0xFF93C5FD, 0xFF4ADE80, 0xFFFBBF24, 0xFFF87171};
+        for (int p : pastels) {
+            int adapted = ExpressiveGlass.adaptColorForLight(p);
+            int r = (adapted >> 16) & 0xFF, g = (adapted >> 8) & 0xFF, b = adapted & 0xFF;
+            float luma = (0.2126f * r + 0.7152f * g + 0.0722f * b) / 255f;
+            assertTrue("Adapted jewel accent must be dark enough on Frost White (luma=" + luma + ")", luma < 0.52f);
+        }
+
+        // Light focus ring accent is deep jewel / slate (never bright white)
+        int lightFocusNeutral = ExpressiveGlass.refineLightFocusAccent(0);
+        assertEquals(0x1E293B, lightFocusNeutral);
+        int lightFocusGreen = ExpressiveGlass.refineLightFocusAccent(0xFF53FC18);
+        float[] hsv = new float[3];
+        ExpressiveGlass.rgbToHsv((lightFocusGreen >> 16) & 0xFF, (lightFocusGreen >> 8) & 0xFF, lightFocusGreen & 0xFF, hsv);
+        assertTrue("Light focus accent preserves green hue", hsv[0] >= 80f && hsv[0] <= 155f);
+        assertTrue("Light focus accent stays deep for Frost contrast", hsv[2] <= 0.50f);
     }
 
     @Test

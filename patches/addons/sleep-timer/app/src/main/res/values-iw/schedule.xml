@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"לוח זמנים לטלוויזיה"</string>
+    <string name="sched_1">"השעות משויכות ליום הנבחר בלוח השנה. תקופות חריגה חוסמות רק התעוררות אוטומטית. חזרה מבטלת שינויים שלא נשמרו."</string>
+    <string name="sched_2">"לוח זמנים: פעיל"</string>
+    <string name="sched_3">"לוח זמנים: כבוי"</string>
+    <string name="sched_4">"+ הוספת שעת התעוררות / שינה"</string>
+    <string name="sched_5">"ללא התעוררות: "</string>
+    <string name="sched_6">"תקופה ללא התעוררות"</string>
+    <string name="sched_7">"עריכת תאריכים"</string>
+    <string name="sched_8">"מחיקה"</string>
+    <string name="sched_9">"+ הוספת תקופת חריגה"</string>
+    <string name="sched_10">"שמירה"</string>
+    <string name="sched_11">"התעוררות  "</string>
+    <string name="sched_12">"שינה  "</string>
+    <string name="sched_13">"הוספת אירוע"</string>
+    <string name="sched_14">"התעוררות"</string>
+    <string name="sched_15">"שינה"</string>
+    <string name="sched_16">"ימי השבוע"</string>
+    <string name="sched_17">"ביטול"</string>
+    <string name="sched_18">"שעה"</string>
+    <string name="sched_19">"יש לבחור לפחות יום אחד"</string>
+    <string name="sched_20">"תאריך הסיום חייב להיות בתאריך ההתחלה או אחריו"</string>
+    <string name="sched_21">"יום אחרון (כולל)"</string>
+    <string name="sched_22">"יום ראשון לתקופה (כולל)"</string>
+    <string name="sched_23">"יום שני"</string>
+    <string name="sched_24">"יום שלישי"</string>
+    <string name="sched_25">"יום רביעי"</string>
+    <string name="sched_26">"יום חמישי"</string>
+    <string name="sched_27">"יום שישי"</string>
+    <string name="sched_28">"שבת"</string>
+    <string name="sched_29">"יום ראשון"</string>
+</resources>

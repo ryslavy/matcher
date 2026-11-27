@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">สถิติความจุ</string>
+    <string name="loading">กำลังอ่านข้อมูล…</string>
+    <string name="unavailable">ไม่สามารถอ่านข้อมูลได้</string>
+    <string name="back">กลับ</string>
+    <string name="memory">RAM ที่ใช้ได้: %1$s</string>
+    <string name="memory_used">RAM ที่ใช้ไป: %1$s</string>
+    <string name="storage">พื้นที่เก็บข้อมูลที่ใช้ได้: %1$s</string>
+    <string name="note">RAM ที่ใช้ได้รวมแคชที่เรียกคืนได้ ส่วน RAM ที่ใช้ไปคือทั้งหมดลบด้วยที่ใช้ได้ พื้นที่เก็บข้อมูลหมายถึงระบบไฟล์ข้อมูล</string>
+</resources>

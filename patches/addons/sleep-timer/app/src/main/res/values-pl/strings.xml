@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wyłącznik czasowy</string>
+    <string name="hint">Wybierz, kiedy TV przejdzie w stan czuwania. Minutę wcześniej pojawi się ostrzeżenie.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Anuluj wyłącznik</string>
+    <string name="state_off">Brak ustawionego wyłącznika.</string>
+    <string name="state_on">Uśpienie o %1$s.</string>
+    <string name="no_service">Usługa ułatwień dostępu Wyłącznika czasowego jest wyłączona (uruchom skrypt instalacyjny).</string>
+    <string name="warning_title">Telewizor zaraz się wyłączy</string>
+    <string name="warning_seconds">za %1$d s</string>
+    <string name="more">Dodaj 15 minut</string>
+    <string name="now">Wyłącz teraz</string>
+    <string name="service_label">Wyłącznik czasowy</string>
+    <string name="quick_hint">◀ ▶ wybierz czas · OK zamknij</string>
+    <string name="service_description">Przełącza TV w stan czuwania dopiero po zakończeniu odliczania. Nie odczytuje zawartości ekranu.</string>
+    <string name="schedule_row">Harmonogram</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cisza nocna</string>
+    <string name="channel_name">Limit głośności</string>
+    <string name="notification_text">Głośność jest utrzymywana poniżej limitu. Otwórz aplikację Cisza nocna, aby to zmienić.</string>
+</resources>

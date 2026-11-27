@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Timer"</string>
+    <string name="remote_minutes">"Minutter"</string>
+    <string name="remote_day">"Dag"</string>
+    <string name="remote_month">"Måned"</string>
+    <string name="remote_year">"År"</string>
+    <string name="remote_hint">"Venstre / Høyre: felt · Opp / Ned: verdi · OK: neste · Tilbake: avbryt"</string>
+    <string name="remote_page_hint">"Velg en rad med pilene og trykk OK. Endringer trer i kraft etter Lagre."</string>
+    <string name="remote_events">"UKENTLIGE HENDELSER"</string>
+    <string name="remote_exclusions">"PERIODER UTEN AUTOMATISK VEKKING"</string>
+    <string name="remote_wake_time">"Vekketid"</string>
+    <string name="remote_sleep_time">"Hviletid"</string>
+</resources>

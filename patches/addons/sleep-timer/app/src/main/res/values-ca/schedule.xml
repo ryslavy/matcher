@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Programació del TV"</string>
+    <string name="sched_1">"Les hores corresponen al dia del calendari seleccionat. Els períodes d'exclusió només bloquegen l'activació automàtica. Enrere descarta els canvis no desats."</string>
+    <string name="sched_2">"Programació: ACTIVADA"</string>
+    <string name="sched_3">"Programació: DESACTIVADA"</string>
+    <string name="sched_4">"+ Afegeix hora d'activació / repòs"</string>
+    <string name="sched_5">"Sense activació: "</string>
+    <string name="sched_6">"Període d'exclusió d'activació"</string>
+    <string name="sched_7">"Edita les dates"</string>
+    <string name="sched_8">"Suprimeix"</string>
+    <string name="sched_9">"+ Afegeix període d'exclusió"</string>
+    <string name="sched_10">"Desa"</string>
+    <string name="sched_11">"Activació  "</string>
+    <string name="sched_12">"Repòs  "</string>
+    <string name="sched_13">"Afegeix esdeveniment"</string>
+    <string name="sched_14">"Activació"</string>
+    <string name="sched_15">"Repòs"</string>
+    <string name="sched_16">"Dies de la setmana"</string>
+    <string name="sched_17">"Cancel·la"</string>
+    <string name="sched_18">"Hora"</string>
+    <string name="sched_19">"Selecciona com a mínim un dia"</string>
+    <string name="sched_20">"El final ha de ser igual o posterior a l'inici"</string>
+    <string name="sched_21">"Últim dia (inclòs)"</string>
+    <string name="sched_22">"Primer dia (inclòs)"</string>
+    <string name="sched_23">"Dilluns"</string>
+    <string name="sched_24">"Dimarts"</string>
+    <string name="sched_25">"Dimecres"</string>
+    <string name="sched_26">"Dijous"</string>
+    <string name="sched_27">"Divendres"</string>
+    <string name="sched_28">"Dissabte"</string>
+    <string name="sched_29">"Diumenge"</string>
+</resources>

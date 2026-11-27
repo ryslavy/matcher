@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sovtimer</string>
+    <string name="hint">Välj när TV:n ska gå i viloläge. En varning visas en minut innan.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Avbryt timern</string>
+    <string name="state_off">Ingen timer inställd.</string>
+    <string name="state_on">Viloläge kl. %1$s.</string>
+    <string name="no_service">Tillgänglighetstjänsten för Sovtimer är avstängd (kör installationsskriptet).</string>
+    <string name="warning_title">TV:n stängs av snart</string>
+    <string name="warning_seconds">om %1$d sekunder</string>
+    <string name="more">15 minuter till</string>
+    <string name="now">Stäng av nu</string>
+    <string name="service_label">Sovtimer</string>
+    <string name="quick_hint">◀ ▶ välj tid · OK stäng</string>
+    <string name="service_description">Sätter bara TV:n i viloläge när Sovtimer löper ut. Läser inte skärmen.</string>
+    <string name="schedule_row">Schema</string>
+</resources>

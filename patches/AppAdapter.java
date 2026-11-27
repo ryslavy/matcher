@@ -466,24 +466,39 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return out;
     }
 
+    /** Regenerates frosted folder pocket previews in-place when Glass Material style or wallpaper seed changes. */
+    void refreshFolderBanners() {
+        for (int i = 0, n = items.size(); i < n; i++) {
+            Entry e = items.get(i);
+            if (e.kind == Entry.FOLDER) {
+                Drawable preview = folderBanner(e.folderMembers);
+                items.set(i, new Entry(Entry.FOLDER, e.label, e.component, preview, null, null,
+                        e.ambient, e.ambientSecondary, e.folderId, e.folderMembers));
+                notifyItemChanged(i);
+            }
+        }
+    }
+
     /** Android 17 frosted-glass folder pocket with adaptive balanced member previews and subtle recessed shadows. */
     private Drawable folderBanner(List<Entry> members) {
         int w = 360, h = 202;
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
+        boolean lightGlass = ExpressiveGlass.isLightGlass();
 
-        // Translucent recessed smoked-glass pocket so the real vibrant blurred dock shines subtly through.
+        // Translucent recessed glass pocket so the real vibrant blurred dock shines subtly through.
         int[] pocket = ExpressiveGlass.folderPocketColors(ExpressiveGlass.dynamicSeedRgb());
         p.setShader(new LinearGradient(0, 0, 0, h, pocket, new float[]{0f, 0.50f, 1f}, Shader.TileMode.CLAMP));
         c.drawRect(0, 0, w, h, p);
         p.setShader(null);
 
         // Subtle physical etched-glass micro-grain matching the dock and modal panels.
-        c.drawRect(0, 0, w, h, ExpressiveGlass.createNoisePaint(7));
+        c.drawRect(0, 0, w, h, ExpressiveGlass.createNoisePaint(lightGlass ? 5 : 7));
 
         // Delicate top edge optical reflection lip only (never milky across the folder interior).
-        p.setShader(new LinearGradient(0, 0, 0, h * 0.22f, 0x1AFFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP));
+        p.setShader(new LinearGradient(0, 0, 0, h * 0.22f,
+                lightGlass ? 0x52FFFFFF : 0x1AFFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP));
         c.drawRect(0, 0, w, h * 0.22f, p);
         p.setShader(null);
 
@@ -494,11 +509,11 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         RectF cellRect = new RectF();
         RectF shadowRect = new RectF();
         Paint cellShadow = new Paint(Paint.ANTI_ALIAS_FLAG);
-        cellShadow.setColor(0x46000000);
+        cellShadow.setColor(lightGlass ? 0x260F172A : 0x46000000);
         Paint cellBorder = new Paint(Paint.ANTI_ALIAS_FLAG);
         cellBorder.setStyle(Paint.Style.STROKE);
         cellBorder.setStrokeWidth(1.5f);
-        cellBorder.setColor(0x36FFFFFF);
+        cellBorder.setColor(lightGlass ? 0x2A0F172A : 0x36FFFFFF);
 
         for (int i = 0; i < count; i++) {
             Entry m = members.get(i);
@@ -548,7 +563,8 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         rim.setStyle(Paint.Style.STROKE);
         rim.setStrokeWidth(2.4f);
         rim.setShader(new LinearGradient(0, 0, w, h,
-                new int[]{0x5CFFFFFF, 0x1EFFFFFF, 0x36FFFFFF},
+                lightGlass ? new int[]{0xD8FFFFFF, 0x240F172A, 0x3C0F172A}
+                        : new int[]{0x5CFFFFFF, 0x1EFFFFFF, 0x36FFFFFF},
                 new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
         c.drawRoundRect(new RectF(1.2f, 1.2f, w - 1.2f, h - 1.2f), 34f, 34f, rim);
         return new BitmapDrawable(ctx.getResources(), bmp);

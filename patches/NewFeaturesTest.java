@@ -210,5 +210,93 @@ public class NewFeaturesTest {
         assertEquals("home_backdrop_blur", FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
         assertNotEquals(FeaturePrefs.KEY_HOME_LIQUID_OPTICS, FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
         assertNotEquals(FeaturePrefs.KEY_LIQUID_CLOCK, FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
+        assertEquals("glass_material", FeaturePrefs.KEY_GLASS_MATERIAL);
+        Set<String> styles = new HashSet<>(Arrays.asList(
+                FeaturePrefs.GLASS_TONAL, FeaturePrefs.GLASS_OBSIDIAN, FeaturePrefs.GLASS_FROST,
+                FeaturePrefs.GLASS_CLEAR, FeaturePrefs.GLASS_CHROMATIC, FeaturePrefs.GLASS_AUTO));
+        assertEquals("All 6 glass material keys must be distinct", 6, styles.size());
+    }
+
+    @Test
+    public void remoteMappingsRoundTripAndExpandWithPrecedence() {
+        List<FeaturePrefs.RemoteMapping> list = Arrays.asList(
+                new FeaturePrefs.RemoteMapping("scan:240", "Netflix\tBtn", "com.nuvio.tv", "discover", "com.netflix.ninja"),
+                new FeaturePrefs.RemoteMapping("KEYCODE_BUTTON_3", "YouTube", "io.gh.reisxd.tizentube.cobalt", "", "com.spotify.tv.android"),
+                new FeaturePrefs.RemoteMapping("scan:999", "Empty", "", "", "")
+        );
+        String raw = FeaturePrefs.serializeRemoteMappings(list);
+        List<FeaturePrefs.RemoteMapping> parsed = FeaturePrefs.parseRemoteMappings(raw);
+        assertEquals(2, parsed.size());
+        assertEquals("scan:240", parsed.get(0).keyToken);
+        assertEquals("Netflix\tBtn", parsed.get(0).label);
+        assertEquals("com.nuvio.tv", parsed.get(0).tap);
+        assertEquals("discover", parsed.get(0).dbl);
+        assertEquals("com.netflix.ninja", parsed.get(0).hold);
+
+        List<String> expanded = FeaturePrefs.expandRemoteMappings(parsed);
+        assertTrue(expanded.contains("scan:240:com.nuvio.tv"));
+        assertTrue(expanded.contains("double:scan:240:discover"));
+        assertTrue(expanded.contains("hold:scan:240:com.netflix.ninja"));
+        assertTrue(expanded.contains("KEYCODE_BUTTON_3:io.gh.reisxd.tizentube.cobalt"));
+        assertTrue(expanded.contains("hold:KEYCODE_BUTTON_3:com.spotify.tv.android"));
+        assertEquals(5, expanded.size());
+
+        // Verify RemoteKeys accepts new overlay action words
+        assertTrue(RemoteKeys.isAction("discover"));
+        assertTrue(RemoteKeys.isAction("recents_overlay"));
+        assertTrue(RemoteKeys.isAction("control_center"));
+    }
+
+    @Test
+    public void qrPhoneEditorParsesLabelsHiddenAppsCoordinatesAndImageMagic() {
+        Map<String, String> labels = QrConfigServer.parseAppLabelsText(
+                "# comment\ncom.netflix.ninja=Netflix 4K\nnet.cme.voyo.cz.tvapp:Oneplay\ninvalidline\n");
+        assertEquals(2, labels.size());
+        assertEquals("Netflix 4K", labels.get("com.netflix.ninja"));
+        assertEquals("Oneplay", labels.get("net.cme.voyo.cz.tvapp"));
+
+        String serMap = FeaturePrefs.serializeStringMap(labels);
+        assertEquals(labels, FeaturePrefs.parseStringMap(serMap));
+
+        List<String> hidden = QrConfigServer.parseHiddenAppsText(
+                "com.foo.bar, com.baz.qux\ncom.foo.bar\nnodots\n");
+        assertEquals(Arrays.asList("com.foo.bar", "com.baz.qux"), hidden);
+        assertEquals(hidden, FeaturePrefs.parseStringList(FeaturePrefs.serializeStringList(hidden)));
+
+        assertTrue(FeaturePrefs.isValidCoordinate("50.0755", -90.0, 90.0));
+        assertTrue(FeaturePrefs.isValidCoordinate("-122.4194", -180.0, 180.0));
+        assertFalse(FeaturePrefs.isValidCoordinate("95.0", -90.0, 90.0));
+        assertFalse(FeaturePrefs.isValidCoordinate("abc", -90.0, 90.0));
+
+        byte[] jpg = new byte[]{(byte) 0xFF, (byte) 0xD8, (byte) 0xFF, (byte) 0xE0, 0, 0, 0, 0, 0, 0, 0, 0};
+        byte[] png = new byte[]{(byte) 0x89, 'P', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A, 0, 0, 0, 0};
+        byte[] webp = new byte[]{'R', 'I', 'F', 'F', 0, 0, 0, 0, 'W', 'E', 'B', 'P'};
+        byte[] junk = new byte[]{'H', 'E', 'L', 'L', 'O', 0, 0, 0, 0, 0, 0, 0};
+        assertTrue(QrConfigServer.isValidImageMagic(jpg));
+        assertTrue(QrConfigServer.isValidImageMagic(png));
+        assertTrue(QrConfigServer.isValidImageMagic(webp));
+        assertFalse(QrConfigServer.isValidImageMagic(junk));
+        assertFalse(QrConfigServer.isValidImageMagic(new byte[]{1, 2}));
+
+        assertTrue(QrConfigServer.isValidJsonObjectSyntax(" {\"dock_glass\": true} "));
+        assertFalse(QrConfigServer.isValidJsonObjectSyntax("[1, 2, 3]"));
+        assertFalse(QrConfigServer.isValidJsonObjectSyntax(""));
+    }
+
+    @Test
+    public void selfUpdaterManifestUrlAndLauncherAssetSelection() {
+        String repo = "ryslavy/matcher";
+        assertTrue(SelfUpdater.isValidReleaseAssetUrl(repo,
+                "https://github.com/ryslavy/matcher/releases/download/v1.2.0/manifest.json", ".json"));
+        assertFalse(SelfUpdater.isValidReleaseAssetUrl(repo,
+                "https://evil.example/ryslavy/matcher/releases/download/v1.2.0/manifest.json", ".json"));
+
+        assertTrue(SelfUpdater.isPreferredLauncherAsset("matcher-launcher-v1.2.0.apk"));
+        assertTrue(SelfUpdater.isPreferredLauncherAsset("tvhome-release.apk"));
+        assertFalse(SelfUpdater.isPreferredLauncherAsset("matcher-addon-brightness-v1.2.0.apk"));
+        assertFalse(SelfUpdater.isPreferredLauncherAsset("manifest.json"));
+
+        assertEquals("hello", SelfUpdater.truncateNotes("  hello  ", 20));
+        assertTrue(SelfUpdater.truncateNotes("0123456789abcdef", 10).endsWith("\u2026"));
     }
 }

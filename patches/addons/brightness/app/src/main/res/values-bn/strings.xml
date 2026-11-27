@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">উজ্জ্বলতা</string>
+    <string name="quick_brightness">উজ্জ্বলতা %1$d%%</string>
+    <string name="quick_night_brightness">রাতের উজ্জ্বলতা %1$d%%</string>
+    <string name="quick_hint">◀ ▶ সমন্বয় · OK বন্ধ</string>
+    <string name="channel_name">স্ক্রিন ডিম করা</string>
+    <string name="notification_text">স্ক্রিনের আলো কমানো হচ্ছে। পরিবর্তন করতে বা বন্ধ করতে উজ্জ্বলতা খুলুন।</string>
+</resources>

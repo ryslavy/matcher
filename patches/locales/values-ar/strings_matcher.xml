@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- مجلدات التطبيقات -->
+    <string name="folder_add_to">إضافة إلى مجلد…</string>
+    <string name="folder_new">+ مجلد جديد</string>
+    <string name="folder_new_title">مجلد جديد</string>
+    <string name="folder_rename">إعادة تسمية المجلد…</string>
+    <string name="folder_rename_title">إعادة تسمية المجلد</string>
+    <string name="folder_open">فتح المجلد</string>
+    <string name="folder_add_apps">إضافة تطبيقات…</string>
+    <string name="folder_add_apps_title">إضافة تطبيقات إلى %1$s</string>
+    <string name="folder_add_apps_empty">جميع تطبيقات الشاشة الرئيسية موجودة بالفعل في مجلدات</string>
+    <string name="folder_dissolve">فك تجميع المجلد</string>
+    <string name="folder_remove_app">إزالة من المجلد</string>
+    <string name="folder_move_to">نقل إلى مجلد…</string>
+    <string name="folder_hint">OK للفتح · اضغط مطولًا على OK للخيارات · للأعلى لإجراءات المجلد</string>
+    <string name="folder_default_name">مجلد %1$d</string>
+    <string name="folder_name_hint">اسم المجلد</string>
+    <string name="folder_create">إنشاء</string>
+    <string name="folder_save">حفظ</string>
+    <string name="folder_cancel">إلغاء</string>
+    <string name="folder_btn_add">+ إضافة</string>
+    <string name="folder_btn_reorder">إعادة ترتيب</string>
+    <string name="folder_btn_done">تم</string>
+    <string name="folder_btn_rename">إعادة تسمية</string>
+    <string name="folder_preset_streaming">البث</string>
+    <string name="folder_preset_tv">التلفاز</string>
+    <string name="folder_preset_sport">الرياضة</string>
+    <string name="folder_preset_music">الموسيقى</string>
+    <string name="folder_preset_games">الألعاب</string>
+    <string name="folder_preset_tools">الأدوات</string>
+
+    <!-- مشغّل الوسائط المصغّر (قيد التشغيل الآن) -->
+    <string name="media_now_playing">قيد التشغيل الآن</string>
+    <string name="media_playing">قيد التشغيل</string>
+    <string name="media_paused">متوقف مؤقتًا</string>
+    <string name="media_live">مباشر</string>
+    <string name="media_prev">السابق</string>
+    <string name="media_play_pause">تشغيل أو إيقاف مؤقت</string>
+    <string name="media_next">التالي</string>
+    <string name="media_open_app">فتح التطبيق</string>
+    <string name="media_switch_hint">للأعلى لتبديل التطبيق · OK لاستئناف التشغيل</string>
+
+    <!-- مبدّل التطبيقات الأخيرة -->
+    <string name="recents_title">التطبيقات الأخيرة</string>
+    <string name="recents_hint">OK للتبديل · اضغط للأعلى مرتين للإغلاق · اضغط مطولًا على OK للخيارات</string>
+    <string name="recents_empty">لا توجد تطبيقات أخيرة مفتوحة</string>
+    <string name="recents_switch">التبديل إلى التطبيق</string>
+    <string name="recents_close_app">إغلاق التطبيق</string>
+    <string name="recents_close_all">إغلاق الكل</string>
+    <string name="recents_swipe_close">اضغط للأعلى مجددًا للإغلاق</string>
+    <string name="recents_playing_badge">قيد التشغيل</string>
+    <string name="recents_free_ram">ذاكرة RAM المتاحة: %1$d MB</string>
+    <string name="recents_just_now">الآن</string>
+    <string name="recents_minutes_ago">منذ %1$d د</string>
+    <string name="recents_hours_ago">منذ %1$d س</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="zero">تم إغلاق %1$d تطبيق</item>
+        <item quantity="one">تم إغلاق تطبيق واحد (%1$d)</item>
+        <item quantity="two">تم إغلاق تطبيقين (%1$d)</item>
+        <item quantity="few">تم إغلاق %1$d تطبيقات</item>
+        <item quantity="many">تم إغلاق %1$d تطبيقًا</item>
+        <item quantity="other">تم إغلاق %1$d تطبيق</item>
+    </plurals>
+
+    <!-- شاشة التوقف المحيطة -->
+    <string name="ambient_controls_hint">◄ ► المقطع · ▼ تشغيل/إيقاف · ▲ فتح</string>
+    <string name="ambient_action_prev">المقطع السابق</string>
+    <string name="ambient_action_next">المقطع التالي</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">صافٍ</string>
+    <string name="weather_partly">غائم جزئيًا</string>
+    <string name="weather_cloudy">غائم</string>
+    <string name="weather_fog">ضباب</string>
+    <string name="weather_drizzle">رذاذ</string>
+    <string name="weather_rain">مطر</string>
+    <string name="weather_snow">ثلج</string>
+    <string name="weather_showers">زخات مطر</string>
+    <string name="weather_storm">عاصفة رعدية</string>
+
+    <!-- مركز التحكم، الصوت الليلي، وقت النوم وفيديوهات Aerial -->
+    <string name="cc_title">مركز التحكم</string>
+    <string name="cc_bedtime">تصبح على خير</string>
+    <string name="cc_bedtime_sub">مؤقت 30 د · تعتيم · صوت ليلي</string>
+    <string name="cc_bedtime_on">مفعّل</string>
+    <string name="cc_night_audio">الصوت الليلي</string>
+    <string name="cc_night_audio_on">تقليل الأصوات العالية</string>
+    <string name="cc_night_audio_off">متوقف</string>
+    <string name="cc_night_audio_unavailable">معالج الصوت غير متاح</string>
+    <string name="cc_audio">الصوت</string>
+    <string name="cc_audio_tv">سماعات التلفاز</string>
+    <string name="cc_sleep_timer">مؤقت النوم</string>
+    <string name="cc_sleep_timer_sub">ضبط المؤقت</string>
+    <string name="cc_brightness">السطوع</string>
+    <string name="cc_brightness_sub">شريط التعتيم</string>
+    <string name="cc_aerial">فيديوهات Aerial</string>
+    <string name="cc_aerial_on">فيديو 1080p</string>
+    <string name="cc_aerial_on_4k">فيديو 4K HEVC</string>
+    <string name="cc_aerial_off">خلفيات</string>
+    <string name="cc_screensaver">شاشة التوقف</string>
+    <string name="cc_settings">الإعدادات</string>
+    <string name="cc_sleep_tv">سكون التلفاز</string>
+    <string name="cc_reorder_tiles">إعادة ترتيب البطاقات</string>
+    <string name="cc_footer_hint">اضغط مطولًا على «سكون التلفاز» لإعادة التشغيل · رجوع للإغلاق</string>
+    <string name="cc_on">مفعّل</string>
+    <string name="cc_off">متوقف</string>
+    <string name="close">إغلاق</string>
+
+    <!-- إعداد الهاتف عبر QR، الاستكشاف، Home Assistant، Immich، الحماية والتحديثات -->
+    <string name="qr_setup_title">الإعداد من الهاتف</string>
+    <string name="qr_setup_subtitle">امسح الرمز بهاتفك (على نفس شبكة Wi-Fi) لتعديل أزرار الريموت، الخلفية، المدينة، أو TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">إعداد QR</string>
+    <string name="qr_setup_no_wifi">وصّل التلفاز بشبكة Wi-Fi أو Ethernet أولًا</string>
+    <string name="qr_setup_waiting">بانتظار الهاتف… (صالح لمدة 5 دقائق)</string>
+    <string name="qr_setup_expired">انتهت صلاحية جلسة QR — أعد الفتح لإنشاء رمز جديد</string>
+
+    <string name="discover_title">استكشف وتابع المشاهدة</string>
+    <string name="discover_refresh">تحديث</string>
+    <string name="discover_continue_watching">متابعة المشاهدة</string>
+    <string name="discover_trending">مختارات رائجة (بلا إعلانات)</string>
+    <string name="discover_tab_all">الكل</string>
+    <string name="discover_tab_movies">أفلام</string>
+    <string name="discover_tab_shows">مسلسلات</string>
+    <string name="discover_grant_watchnext_msg">اسمح بإذن قوائم التلفاز لعرض متابعة المشاهدة عبر التطبيقات</string>
+    <string name="discover_grant_adb_btn">السماح عبر ADB</string>
+    <string name="discover_grant_success">تم تفعيل متابعة المشاهدة</string>
+    <string name="discover_hidden_toast">تم الإخفاء من متابعة المشاهدة</string>
+    <string name="discover_empty_no_key">استخدم إعداد QR لإضافة مفتاح TMDB API مجاني (أو خادم Plex) للحصول على مختارات بلا إعلانات من تطبيقاتك المثبتة.</string>
+    <string name="discover_empty_no_matches">لم يتم العثور على عناوين مطابقة لتطبيقات البث المثبتة حاليًا.</string>
+
+    <string name="adb_connecting">جارٍ الاتصال بـ ADB المحلي…</string>
+    <string name="adb_accept_prompt">وافق على «السماح دائمًا بتصحيح أخطاء USB» على التلفاز</string>
+
+    <string name="ha_section_title">المنزل الذكي</string>
+    <string name="ha_action_failed">فشل إجراء Home Assistant</string>
+    <string name="ha_state_unavailable">غير متاح</string>
+    <string name="ha_state_open">مفتوح</string>
+    <string name="ha_state_closed">مغلق</string>
+    <string name="ha_state_camera">بث PiP مباشر</string>
+    <string name="ha_camera_title">كاميرا المنزل</string>
+    <string name="ha_camera_connecting">جارٍ الاتصال بالكاميرا…</string>
+    <string name="ha_camera_unavailable">الكاميرا غير متاحة</string>
+    <string name="ha_camera_hint_pip">OK: تكبير · رجوع: إغلاق</string>
+    <string name="ha_camera_hint_expanded">OK: تصغير PiP · رجوع: إغلاق</string>
+    <string name="ha_camera_hint_pip_multi">OK: تكبير · ◀ ▶: الكاميرا · رجوع: إغلاق</string>
+    <string name="ha_camera_hint_expanded_multi">OK: تصغير PiP · ◀ ▶: الكاميرا · رجوع: إغلاق</string>
+
+    <string name="aerial_fav_added">تم الحفظ في المفضلة</string>
+    <string name="aerial_fav_removed">تمت الإزالة من المفضلة</string>
+
+    <string name="updater_installed">تم تثبيت التحديث</string>
+    <string name="updater_failed">فشل التحديث</string>
+
+    <!-- إعدادات ميزات المشغّل ونظام Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass وتجربة الاستخدام</string>
+    <string name="fs_liquid_clock">ساعة Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">تأثير Liquid Glass البصري في الرئيسية</string>
+    <string name="fs_home_backdrop_blur">تمويه خلفية الشاشة الرئيسية</string>
+    <string name="fs_glass_material">نمط الزجاج</string>
+    <string name="fs_glass_material_title">اختر نمط Liquid Glass</string>
+    <string name="glass_style_tonal">زجاج ضبابي متوازن</string>
+    <string name="glass_style_tonal_sub">زجاج داكن متوازن ببطاقات داخلية بلون الخلفية</string>
+    <string name="glass_style_obsidian">أسود نقي (OLED)</string>
+    <string name="glass_style_obsidian_sub">كريستال أسود عميق بحافة ضوئية واضحة للغرف المظلمة</string>
+    <string name="glass_style_frost">أبيض جليدي</string>
+    <string name="glass_style_frost_sub">زجاج لؤلؤي فاتح ومضيء بنصوص وأيقونات داكنة</string>
+    <string name="glass_style_clear">كريستال شفاف</string>
+    <string name="glass_style_clear_sub">زجاج فائق الوضوح بانكسار بصري بارز عند الحواف</string>
+    <string name="glass_style_chromatic">ألوان متناغمة</string>
+    <string name="glass_style_chromatic_sub">ألوان Material You الغنية من الخلفية عبر اللوحات والبطاقات</string>
+    <string name="glass_style_auto">تلقائي (نهار / ليل)</string>
+    <string name="glass_style_auto_sub">أبيض جليدي نهارًا، وأسود نقي بعد الغروب</string>
+    <string name="fs_remote_buttons">أزرار جهاز التحكم</string>
+    <string name="fs_ui_sounds">أصوات نقر ناعمة للواجهة</string>
+    <string name="fs_oled_drift">حماية شاشة OLED (إزاحة البكسلات)</string>
+    <string name="fs_aerial_quality">جودة فيديوهات Aerial</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">فيديوهات Aerial المفضلة فقط (اضغط مطولًا على OK)</string>
+
+    <string name="fs_sec_content">المحتوى والاستكشاف</string>
+    <string name="fs_open_discover">فتح الاستكشاف (متابعة المشاهدة والمختارات)</string>
+    <string name="fs_watch_next">متابعة المشاهدة</string>
+    <string name="fs_open_nuvio">فتح المختارات مباشرة في Nuvio</string>
+    <string name="fs_watch_saver">تشغيل المختارات من شاشة التوقف (OK)</string>
+    <string name="fs_hide_animation">إخفاء مختارات الرسوم المتحركة والأنمي</string>
+    <string name="fs_region">منطقة خدمات البث</string>
+    <string name="fs_trakt">حساب Trakt.tv</string>
+    <string name="fs_trakt_code_msg">انتقل إلى %1$s وأدخل الرمز: %2$s</string>
+    <string name="fs_trakt_signed_in">تم تسجيل الدخول إلى Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">تم تسجيل الخروج من Trakt</string>
+
+    <string name="fs_sec_smart">المنزل الذكي، الصور وإعداد الهاتف</string>
+    <string name="fs_qr_setup">ضبط المفاتيح والريموت والخلفية عبر رمز QR من الهاتف</string>
+    <string name="fs_ha_toggle">Home Assistant في مركز التحكم</string>
+    <string name="fs_immich_toggle">صور Immich في شاشة التوقف</string>
+    <string name="fs_immich_sync">مزامنة صور Immich الآن</string>
+    <string name="fs_immich_album">ألبوم Immich</string>
+    <string name="fs_immich_all_albums">كل الصور</string>
+
+    <string name="fs_sec_system">الأمان والاسترداد</string>
+    <string name="fs_watchdog">حماية التعافي من الأعطال المتكررة</string>
+    <string name="fs_check_updates">التحديثات (GitHub Releases)</string>
+    <string name="fs_updates_title">التحديثات (GitHub)</string>
+    <string name="fs_updates_current">المثبّت: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">التحقق من التحديثات الآن</string>
+    <string name="fs_updates_checking">جارٍ التحقق من GitHub Releases…</string>
+    <string name="fs_updates_downloading">جارٍ التنزيل والتحقق من SHA-256…</string>
+    <string name="fs_updates_install_launcher">تثبيت Matcher %1$s</string>
+    <string name="fs_updates_install_addon">تحديث %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">فحص أسبوعي للتحديثات في الخلفية</string>
+    <string name="fs_update_uptodate">المشغّل محدّث لآخر إصدار (%1$s)</string>
+    <string name="fs_update_found">يتوفر إصدار جديد %1$s</string>
+    <string name="fs_restore_stock">استعادة مشغّل Google TV الأصلي (ADB)</string>
+    <string name="fs_restore_confirm_title">استعادة المشغّل الأصلي؟</string>
+    <string name="fs_restore_confirm_msg">يعيد تفعيل مشغّل Google TV بأمان أولًا، ويعيّنه كشاشة رئيسية، ثم يعيد تفعيل SetupWraith ويزامن القرص.</string>
+    <string name="fs_restore_ok">استعادة الآن</string>
+    <string name="fs_cancel">إلغاء</string>
+
+    <!-- تخصيص أزرار جهاز التحكم داخل التطبيق -->
+    <string name="rm_title">أزرار جهاز التحكم</string>
+    <string name="rm_subtitle_ready">عيّن لأي زر إجراء للضغط القصير أو المزدوج أو المطوّل</string>
+    <string name="rm_subtitle_need_a11y">فعّل إمكانية الوصول ← زر الشاشة الرئيسية في إعدادات التلفاز لتخصيص الأزرار في كل مكان</string>
+    <string name="rm_open_a11y">فتح إعدادات إمكانية الوصول</string>
+    <string name="rm_open_a11y_sub">مطلوب لتخصيص أزرار الريموت على مستوى النظام</string>
+    <string name="rm_learn_btn">تعلّم زرًا جديدًا</string>
+    <string name="rm_learn_sub">اضغط على أي زر فعلي للتعرّف على رمز المفتاح والمسح</string>
+    <string name="rm_empty">لم يتم حفظ أزرار مخصصة بعد (تُطبّق إعدادات السمة الافتراضية)</string>
+    <string name="rm_reset_all">إعادة تعيين الأزرار المخصصة</string>
+    <string name="rm_reset_all_sub">العودة إلى تعيينات config.json الخاصة بالسمة</string>
+    <string name="rm_reset_done">تم مسح تعيينات الأزرار المخصصة</string>
+    <string name="rm_capture_title">اضغط على زر في جهاز التحكم</string>
+    <string name="rm_capture_hint">الأسهم وOK والرجوع والصوت محجوزة · اضغط رجوع للإلغاء</string>
+    <string name="rm_capture_waiting">بانتظار الضغط على زر…</string>
+    <string name="rm_edit_subtitle">رمز الزر: %1$s</string>
+    <string name="rm_slot_tap">ضغط قصير</string>
+    <string name="rm_slot_double">ضغط مزدوج</string>
+    <string name="rm_slot_hold">ضغط مطوّل (0.5 ث)</string>
+    <string name="rm_short_tap">ضغط</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">مطوّل</string>
+    <string name="rm_target_none">غير معيّن</string>
+    <string name="rm_delete_btn">إزالة الزر المخصص</string>
+    <string name="rm_saved">تم حفظ تعيين الزر</string>
+    <string name="rm_action_mute">كتم الصوت</string>
+    <string name="rm_action_ignore">تجاهل الزر (تعطيل)</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lysstyrke</string>
+    <string name="quick_brightness">Lysstyrke %1$d%%</string>
+    <string name="quick_night_brightness">Natlysstyrke %1$d%%</string>
+    <string name="quick_hint">◀ ▶ justér · OK luk</string>
+    <string name="channel_name">Skærmdæmpning</string>
+    <string name="notification_text">Dæmper skærmen. Åbn Lysstyrke for at ændre eller slå fra.</string>
+</resources>

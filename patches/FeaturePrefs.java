@@ -5,9 +5,13 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -24,7 +28,15 @@ final class FeaturePrefs {
     static final String KEY_LIQUID_CLOCK = "liquid_glass_clock";
     static final String KEY_HOME_LIQUID_OPTICS = "home_liquid_optics";
     static final String KEY_HOME_BACKDROP_BLUR = "home_backdrop_blur";
+    static final String KEY_GLASS_MATERIAL = "glass_material";
     static final String KEY_UI_SOUNDS = "ui_click_sounds";
+
+    static final String GLASS_TONAL = "tonal";
+    static final String GLASS_OBSIDIAN = "obsidian";
+    static final String GLASS_FROST = "frost";
+    static final String GLASS_CLEAR = "clear";
+    static final String GLASS_CHROMATIC = "chromatic";
+    static final String GLASS_AUTO = "auto";
     static final String KEY_OLED_DRIFT = "oled_screensaver_drift";
     static final String KEY_AERIAL_4K = "aerial_4k_enabled";
     static final String KEY_AERIAL_FAVORITES = "aerial_favorite_urls";
@@ -56,6 +68,12 @@ final class FeaturePrefs {
     static final String KEY_IMMICH_ALBUM_NAME = "immich_album_name";
     static final String KEY_UPDATER_AUTO = "updater_auto_check";
     static final String KEY_UPDATER_REPO = "updater_github_repo";
+    static final String KEY_CUSTOM_REMOTE_KEYS = "custom_remote_keys_v1";
+    static final String KEY_CUSTOM_APP_LABELS = "custom_app_labels_v1";
+    static final String KEY_CUSTOM_HIDDEN_APPS = "custom_hidden_apps_v1";
+    static final String KEY_WEATHER_CITY = "weather_city_override";
+    static final String KEY_WEATHER_LAT = "weather_lat_override";
+    static final String KEY_WEATHER_LON = "weather_lon_override";
     static final String KEY_REVISION = "feature_prefs_rev";
 
     static final String DEFAULT_UPDATER_REPO = "ryslavy/matcher";
@@ -102,6 +120,38 @@ final class FeaturePrefs {
     static void setHomeBackdropBlurEnabled(Context ctx, boolean on) {
         prefs(ctx).edit().putBoolean(KEY_HOME_BACKDROP_BLUR, on).apply();
         bumpRevision(ctx);
+    }
+
+    static String glassMaterial(Context ctx) {
+        String raw = prefs(ctx).getString(KEY_GLASS_MATERIAL, GLASS_TONAL);
+        return raw == null || raw.isEmpty() ? GLASS_TONAL : raw.toLowerCase(Locale.US);
+    }
+
+    static void setGlassMaterial(Context ctx, String material) {
+        String clean = (material == null || material.isEmpty()) ? GLASS_TONAL : material.toLowerCase(Locale.US);
+        prefs(ctx).edit().putString(KEY_GLASS_MATERIAL, clean).apply();
+        bumpRevision(ctx);
+    }
+
+    /** Resolves stored glass material (including Auto Day/Night via configured sunrise/sunset coordinates) to a concrete style ID. */
+    static int resolveGlassStyle(Context ctx) {
+        String key = glassMaterial(ctx);
+        if (!GLASS_AUTO.equals(key)) {
+            return ExpressiveGlass.styleFromKey(key);
+        }
+        boolean isDay = true;
+        try {
+            java.time.LocalDateTime now = java.time.LocalDateTime.now();
+            String lat = weatherLatitude(ctx);
+            String lon = weatherLongitude(ctx);
+            int[] sun = WallpaperMood.sun(now.toLocalDate(), lat, lon, java.time.ZoneId.systemDefault());
+            int min = now.getHour() * 60 + now.getMinute();
+            isDay = min >= sun[0] && min < sun[1];
+        } catch (RuntimeException ignored) {
+            int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
+            isDay = hour >= 7 && hour < 19;
+        }
+        return ExpressiveGlass.resolveAutoStyle(isDay);
     }
 
     static boolean isUiSoundsEnabled(Context ctx) {
@@ -493,6 +543,274 @@ final class FeaturePrefs {
     static void setUpdaterRepo(Context ctx, @Nullable String repo) {
         String r = repo == null ? "" : repo.trim();
         prefs(ctx).edit().putString(KEY_UPDATER_REPO, r.isEmpty() ? DEFAULT_UPDATER_REPO : r).apply();
+    }
+
+    // ---- Custom Remote Button Mappings (In-App Learn Button & Phone QR) ------------------------
+
+    static final class RemoteMapping {
+        /** Key token: "scan:<int>" or "KEYCODE_..." or numeric keycode string. */
+        final String keyToken;
+        /** Human-readable label shown in settings UI (e.g. "Button 6 (scan 240)"). */
+        final String label;
+        /** Single-tap target (package, package/.Activity, action word, inputs, or empty). */
+        final String tap;
+        /** Double-tap target (or empty). */
+        final String dbl;
+        /** Hold (0.5 s) target (or empty). */
+        final String hold;
+
+        RemoteMapping(String keyToken, @Nullable String label, @Nullable String tap,
+                      @Nullable String dbl, @Nullable String hold) {
+            this.keyToken = keyToken == null ? "" : keyToken.trim();
+            this.label = label == null ? "" : label.trim();
+            this.tap = tap == null ? "" : tap.trim();
+            this.dbl = dbl == null ? "" : dbl.trim();
+            this.hold = hold == null ? "" : hold.trim();
+        }
+
+        boolean isEmpty() {
+            return keyToken.isEmpty() || (tap.isEmpty() && dbl.isEmpty() && hold.isEmpty());
+        }
+    }
+
+    static List<RemoteMapping> customRemoteMappings(Context ctx) {
+        return parseRemoteMappings(prefs(ctx).getString(KEY_CUSTOM_REMOTE_KEYS, ""));
+    }
+
+    static void saveCustomRemoteMappings(Context ctx, List<RemoteMapping> list) {
+        prefs(ctx).edit().putString(KEY_CUSTOM_REMOTE_KEYS, serializeRemoteMappings(list)).apply();
+        bumpRevision(ctx);
+        Config.invalidateCache();
+    }
+
+    static void putCustomRemoteMapping(Context ctx, RemoteMapping mapping) {
+        if (mapping == null || mapping.keyToken.isEmpty()) return;
+        List<RemoteMapping> list = new ArrayList<>(customRemoteMappings(ctx));
+        int idx = -1;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).keyToken.equalsIgnoreCase(mapping.keyToken)) {
+                idx = i;
+                break;
+            }
+        }
+        if (mapping.isEmpty()) {
+            if (idx >= 0) list.remove(idx);
+        } else if (idx >= 0) {
+            list.set(idx, mapping);
+        } else {
+            list.add(mapping);
+        }
+        saveCustomRemoteMappings(ctx, list);
+    }
+
+    static void removeCustomRemoteMapping(Context ctx, String keyToken) {
+        if (keyToken == null || keyToken.trim().isEmpty()) return;
+        List<RemoteMapping> list = new ArrayList<>(customRemoteMappings(ctx));
+        boolean changed = false;
+        for (int i = list.size() - 1; i >= 0; i--) {
+            if (list.get(i).keyToken.equalsIgnoreCase(keyToken.trim())) {
+                list.remove(i);
+                changed = true;
+            }
+        }
+        if (changed) saveCustomRemoteMappings(ctx, list);
+    }
+
+    static void clearCustomRemoteMappings(Context ctx) {
+        prefs(ctx).edit().remove(KEY_CUSTOM_REMOTE_KEYS).apply();
+        bumpRevision(ctx);
+        Config.invalidateCache();
+    }
+
+    static List<String> customAppKeyEntries(Context ctx) {
+        return expandRemoteMappings(customRemoteMappings(ctx));
+    }
+
+    /** Pure-JVM expansion into RemoteKeys app_keys syntax ("key:target", "double:key:target", "hold:key:target"). */
+    static List<String> expandRemoteMappings(List<RemoteMapping> mappings) {
+        List<String> out = new ArrayList<>();
+        if (mappings == null) return out;
+        for (RemoteMapping m : mappings) {
+            if (m == null || m.keyToken.isEmpty()) continue;
+            if (!m.tap.isEmpty()) out.add(m.keyToken + ":" + m.tap);
+            if (!m.dbl.isEmpty()) out.add("double:" + m.keyToken + ":" + m.dbl);
+            if (!m.hold.isEmpty()) out.add("hold:" + m.keyToken + ":" + m.hold);
+        }
+        return out;
+    }
+
+    static String serializeRemoteMappings(@Nullable List<RemoteMapping> mappings) {
+        if (mappings == null || mappings.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (RemoteMapping m : mappings) {
+            if (m == null || m.isEmpty()) continue;
+            if (sb.length() > 0) sb.append('\n');
+            sb.append(escField(m.keyToken)).append('\t')
+                    .append(escField(m.label)).append('\t')
+                    .append(escField(m.tap)).append('\t')
+                    .append(escField(m.dbl)).append('\t')
+                    .append(escField(m.hold));
+        }
+        return sb.toString();
+    }
+
+    static List<RemoteMapping> parseRemoteMappings(@Nullable String raw) {
+        List<RemoteMapping> out = new ArrayList<>();
+        if (raw == null || raw.isEmpty()) return out;
+        for (String line : raw.split("\n")) {
+            if (line.isEmpty()) continue;
+            String[] p = line.split("\t", -1);
+            if (p.length < 5) continue;
+            RemoteMapping m = new RemoteMapping(
+                    unescField(p[0]), unescField(p[1]), unescField(p[2]), unescField(p[3]), unescField(p[4]));
+            if (!m.isEmpty()) out.add(m);
+        }
+        return out;
+    }
+
+    // ---- Custom Runtime App Labels, Hidden Apps & Weather City (No Rebuild Needed) -------------
+
+    static Map<String, String> customAppLabels(Context ctx) {
+        return parseStringMap(prefs(ctx).getString(KEY_CUSTOM_APP_LABELS, ""));
+    }
+
+    static void saveCustomAppLabels(Context ctx, Map<String, String> labels) {
+        prefs(ctx).edit().putString(KEY_CUSTOM_APP_LABELS, serializeStringMap(labels)).apply();
+        bumpRevision(ctx);
+        Config.invalidateCache();
+    }
+
+    static List<String> customHiddenApps(Context ctx) {
+        return parseStringList(prefs(ctx).getString(KEY_CUSTOM_HIDDEN_APPS, ""));
+    }
+
+    static void saveCustomHiddenApps(Context ctx, List<String> packages) {
+        prefs(ctx).edit().putString(KEY_CUSTOM_HIDDEN_APPS, serializeStringList(packages)).apply();
+        bumpRevision(ctx);
+        Config.invalidateCache();
+    }
+
+    static String weatherCityOverride(Context ctx) {
+        return prefs(ctx).getString(KEY_WEATHER_CITY, "").trim();
+    }
+
+    static String weatherLatOverride(Context ctx) {
+        return prefs(ctx).getString(KEY_WEATHER_LAT, "").trim();
+    }
+
+    static String weatherLonOverride(Context ctx) {
+        return prefs(ctx).getString(KEY_WEATHER_LON, "").trim();
+    }
+
+    static String weatherCity(Context ctx) {
+        String custom = weatherCityOverride(ctx);
+        if (!custom.isEmpty()) return custom;
+        try { return ctx.getString(R.string.weather_city).trim(); } catch (RuntimeException ignored) { return ""; }
+    }
+
+    static String weatherLatitude(Context ctx) {
+        String custom = weatherLatOverride(ctx);
+        if (!custom.isEmpty()) return custom;
+        try { return ctx.getString(R.string.latitude).trim(); } catch (RuntimeException ignored) { return ""; }
+    }
+
+    static String weatherLongitude(Context ctx) {
+        String custom = weatherLonOverride(ctx);
+        if (!custom.isEmpty()) return custom;
+        try { return ctx.getString(R.string.longitude).trim(); } catch (RuntimeException ignored) { return ""; }
+    }
+
+    static void setWeatherLocation(Context ctx, @Nullable String city, @Nullable String lat, @Nullable String lon) {
+        prefs(ctx).edit()
+                .putString(KEY_WEATHER_CITY, city == null ? "" : city.trim())
+                .putString(KEY_WEATHER_LAT, lat == null ? "" : lat.trim())
+                .putString(KEY_WEATHER_LON, lon == null ? "" : lon.trim())
+                .apply();
+        bumpRevision(ctx);
+    }
+
+    static boolean isValidCoordinate(@Nullable String raw, double min, double max) {
+        if (raw == null) return false;
+        String s = raw.trim();
+        if (s.isEmpty()) return false;
+        try {
+            double v = Double.parseDouble(s);
+            return !Double.isNaN(v) && !Double.isInfinite(v) && v >= min && v <= max;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
+    static String serializeStringMap(@Nullable Map<String, String> map) {
+        if (map == null || map.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> e : map.entrySet()) {
+            String k = e.getKey() == null ? "" : e.getKey().trim();
+            String v = e.getValue() == null ? "" : e.getValue().trim();
+            if (k.isEmpty() || v.isEmpty()) continue;
+            if (sb.length() > 0) sb.append('\n');
+            sb.append(escField(k)).append('\t').append(escField(v));
+        }
+        return sb.toString();
+    }
+
+    static Map<String, String> parseStringMap(@Nullable String raw) {
+        Map<String, String> out = new LinkedHashMap<>();
+        if (raw == null || raw.isEmpty()) return out;
+        for (String line : raw.split("\n")) {
+            if (line.isEmpty()) continue;
+            int tab = line.indexOf('\t');
+            if (tab <= 0) continue;
+            String k = unescField(line.substring(0, tab)).trim();
+            String v = unescField(line.substring(tab + 1)).trim();
+            if (!k.isEmpty() && !v.isEmpty()) out.put(k, v);
+        }
+        return out;
+    }
+
+    static String serializeStringList(@Nullable List<String> list) {
+        if (list == null || list.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder();
+        Set<String> seen = new HashSet<>();
+        for (String item : list) {
+            String s = item == null ? "" : item.trim();
+            if (s.isEmpty() || !seen.add(s)) continue;
+            if (sb.length() > 0) sb.append('\n');
+            sb.append(escField(s));
+        }
+        return sb.toString();
+    }
+
+    static List<String> parseStringList(@Nullable String raw) {
+        List<String> out = new ArrayList<>();
+        if (raw == null || raw.isEmpty()) return out;
+        for (String line : raw.split("\n")) {
+            String s = unescField(line).trim();
+            if (!s.isEmpty() && !out.contains(s)) out.add(s);
+        }
+        return out;
+    }
+
+    private static String escField(@Nullable String s) {
+        if (s == null || s.isEmpty()) return "";
+        return s.replace("\\", "\\\\").replace("\t", "\\t").replace("\n", "\\n").replace("\r", "");
+    }
+
+    private static String unescField(@Nullable String s) {
+        if (s == null || s.isEmpty()) return "";
+        StringBuilder out = new StringBuilder(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '\\' && i + 1 < s.length()) {
+                char n = s.charAt(++i);
+                if (n == 't') out.append('\t');
+                else if (n == 'n') out.append('\n');
+                else out.append(n);
+            } else {
+                out.append(c);
+            }
+        }
+        return out.toString();
     }
 
     /** Pure JVM URL validator: allows plain http:// ONLY on private LAN hosts; public hosts require https://. */

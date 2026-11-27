@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">الساعة العالمية</string>
+    <string name="add_city">إضافة مدينة</string>
+    <string name="clock_format">تنسيق الساعة</string>
+    <string name="local">محلي</string>
+    <string name="search_city">المدينة أو المنطقة الزمنية</string>
+    <string name="search_hint">اضغط OK للكتابة · للأسفل لاختيار مدينة</string>
+    <string name="no_cities">لا توجد مدن مطابقة</string>
+    <string name="change_city">تغيير المدينة</string>
+    <string name="move_earlier">تحريك للأول</string>
+    <string name="move_later">تحريك للآخر</string>
+    <string name="remove_city">إزالة المدينة</string>
+    <string name="city_limit">يمكن اختيار ما يصل إلى ست ساعات</string>
+    <string name="already_shown">هذه الساعة معروضة بالفعل</string>
+    <string name="same_day">نفس اليوم المحلي</string>
+    <string name="tomorrow">غدًا في هذه المدينة</string>
+    <string name="yesterday">أمس في هذه المدينة</string>
+    <plurals name="day_difference">
+        <item quantity="zero">%1$+d يوم عن التوقيت المحلي</item>
+        <item quantity="one">%1$+d يوم عن التوقيت المحلي</item>
+        <item quantity="two">%1$+d يومان عن التوقيت المحلي</item>
+        <item quantity="few">%1$+d أيام عن التوقيت المحلي</item>
+        <item quantity="many">%1$+d يومًا عن التوقيت المحلي</item>
+        <item quantity="other">%1$+d يوم عن التوقيت المحلي</item>
+    </plurals>
+    <string name="local_reference">التواريخ مقارنةً بـ %1$s</string>
+    <string name="controls">الأسهم للتنقل · OK لخيارات المدينة · رجوع للعودة</string>
+    <string name="format_system">استخدام إعداد التلفاز</string>
+    <string name="format_12">تنسيق 12 ساعة</string>
+    <string name="format_24">تنسيق 24 ساعة</string>
+    <string name="close">إغلاق</string>
+    <string name="screensaver">شاشة التوقف</string>
+    <string name="preview">معاينة · أي زر للعودة</string>
+    <string name="background_option">الخلفية: %1$s</string>
+    <string name="motion_option">الحركة: %1$s</string>
+    <string name="brightness_option">سطوع الساعة: %1$s</string>
+    <string name="gradient">تدرّج السماء</string>
+    <string name="plain">أسود</string>
+    <string name="motion_on">تشغيل</string>
+    <string name="motion_reduced">محدودة (ثابتة)</string>
+    <string name="clock_brightness">سطوع الساعة</string>
+    <string name="dim">خافت</string>
+    <string name="medium">متوسط</string>
+    <string name="bright">ساطع</string>
+    <string name="tv_screensaver_settings">إعدادات شاشة توقف التلفاز</string>
+    <string name="screensaver_unavailable">لا يتيح هذا التلفاز إعدادات شاشة التوقف. المعاينة لا تزال متاحة.</string>
+    <string name="background">الخلفية</string>
+    <string name="starfield">حقل النجوم</string>
+    <string name="world_map">خريطة العالم</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

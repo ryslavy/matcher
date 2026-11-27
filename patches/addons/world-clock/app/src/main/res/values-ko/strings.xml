@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">세계 시계</string>
+    <string name="add_city">도시 추가</string>
+    <string name="clock_format">시간 형식</string>
+    <string name="local">현지</string>
+    <string name="search_city">도시 또는 시간대</string>
+    <string name="search_hint">OK로 입력 · 아래로 눌러 도시 선택</string>
+    <string name="no_cities">일치하는 도시 없음</string>
+    <string name="change_city">도시 변경</string>
+    <string name="move_earlier">앞으로 이동</string>
+    <string name="move_later">뒤로 이동</string>
+    <string name="remove_city">도시 제거</string>
+    <string name="city_limit">시계는 최대 6개까지 선택할 수 있습니다</string>
+    <string name="already_shown">이미 표시 중인 시계입니다</string>
+    <string name="same_day">현지와 같은 날</string>
+    <string name="tomorrow">이 도시는 내일</string>
+    <string name="yesterday">이 도시는 어제</string>
+    <plurals name="day_difference">
+        <item quantity="other">현지 대비 %1$+d일</item>
+    </plurals>
+    <string name="local_reference">날짜 기준: %1$s</string>
+    <string name="controls">방향키로 이동 · OK로 도시 옵션 · 뒤로로 돌아가기</string>
+    <string name="format_system">TV 설정 사용</string>
+    <string name="format_12">12시간제</string>
+    <string name="format_24">24시간제</string>
+    <string name="close">닫기</string>
+    <string name="screensaver">화면 보호기</string>
+    <string name="preview">미리보기 · 아무 버튼이나 눌러 돌아가기</string>
+    <string name="background_option">배경: %1$s</string>
+    <string name="motion_option">움직임: %1$s</string>
+    <string name="brightness_option">시계 밝기: %1$s</string>
+    <string name="gradient">하늘 그라데이션</string>
+    <string name="plain">검정</string>
+    <string name="motion_on">켜짐</string>
+    <string name="motion_reduced">줄임(고정)</string>
+    <string name="clock_brightness">시계 밝기</string>
+    <string name="dim">어둡게</string>
+    <string name="medium">보통</string>
+    <string name="bright">밝게</string>
+    <string name="tv_screensaver_settings">TV 화면 보호기 설정</string>
+    <string name="screensaver_unavailable">이 TV에서는 화면 보호기 설정을 열 수 없습니다. 미리보기는 계속 사용할 수 있습니다.</string>
+    <string name="background">배경</string>
+    <string name="starfield">밤하늘 별빛</string>
+    <string name="world_map">세계 지도</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

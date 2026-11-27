@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Навушники</string>
+    <string name="plays_through">Звук зараз відтворюється через: %1$s</string>
+    <string name="output_speakers">динаміки ТБ</string>
+    <string name="output_fixed">аудіовихід ТБ (HDMI ARC або оптичний)</string>
+    <string name="allow_title">Дозволити доступ до Bluetooth</string>
+    <string name="allow_detail">Щоб показувати ваші навушники й помічати їх від’єднання. OK відкриє запит.</string>
+    <string name="not_allowed">Не дозволено</string>
+    <string name="pair_title">Створити пару або під’єднати навушники</string>
+    <string name="pair_detail">Відкриває налаштування Bluetooth на ТБ. Спершу переведіть навушники в режим сполучення.</string>
+    <string name="guard_title">Тиша при від’єднанні</string>
+    <string name="guard_detail">Призупиняє відтворення й вимикає звук динаміків ТБ при від’єднанні навушників, щоб звук не пішов у кімнату. Повертає звук після повторного під’єднання.</string>
+    <string name="guard_detail_fixed">Призупиняє відтворення при від’єднанні навушників. Гучність цього ТБ фіксована (ARC або підсилювач), тому динаміки не можна вимкнути.</string>
+    <string name="on">Увімк.</string>
+    <string name="off">Вимк.</string>
+    <string name="unmute_title">Увімкнути звук динаміків</string>
+    <string name="unmute_detail">Звук вимкнено після від’єднання навушників.</string>
+    <string name="muted">Без звуку</string>
+    <string name="heading_paired">Сполучені навушники та колонки</string>
+    <string name="no_bluetooth">Цей ТБ не має Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth вимкнено</string>
+    <string name="bluetooth_off_detail">Увімкніть його в налаштуваннях ТБ.</string>
+    <string name="none_yet">Поки що немає</string>
+    <string name="none_yet_detail">Скористайтеся рядком вище для сполучення.</string>
+    <string name="connected">Під’єднано</string>
+    <string name="connected_battery">Під’єднано, батарея %1$s</string>
+    <string name="not_connected_detail">Не під’єднано. OK відкриє налаштування Bluetooth для під’єднання.</string>
+    <string name="unnamed">Пристрій без назви</string>
+    <string name="heading_several">Кілька навушників одночасно</string>
+    <string name="sharing_one_pair">Цей ТБ передає звук лише на одну пару Bluetooth-навушників одночасно. Для двох пар скористайтеся двоканальним Bluetooth-передавачем на виході для навушників або оптичному виході ТБ.</string>
+    <string name="sharing_auracast">Цей ТБ може транслювати звук на кілька навушників LE Audio (Auracast) одночасно: запустіть трансляцію в налаштуваннях Bluetooth ТБ.</string>
+    <string name="sharing_no_broadcast">Цей ТБ передає звук лише на одну пару Bluetooth-навушників одночасно й не підтримує трансляцію LE Audio. Для двох пар скористайтеся двоканальним Bluetooth-передавачем на виході для навушників або оптичному виході ТБ.</string>
+</resources>

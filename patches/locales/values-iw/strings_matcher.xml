@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- תיקיות אפליקציות -->
+    <string name="folder_add_to">הוספה לתיקייה…</string>
+    <string name="folder_new">+ תיקייה חדשה</string>
+    <string name="folder_new_title">תיקייה חדשה</string>
+    <string name="folder_rename">שינוי שם תיקייה…</string>
+    <string name="folder_rename_title">שינוי שם תיקייה</string>
+    <string name="folder_open">פתיחת תיקייה</string>
+    <string name="folder_add_apps">הוספת אפליקציות…</string>
+    <string name="folder_add_apps_title">הוספת אפליקציות אל %1$s</string>
+    <string name="folder_add_apps_empty">כל האפליקציות במסך הבית כבר נמצאות בתיקיות</string>
+    <string name="folder_dissolve">פירוק תיקייה</string>
+    <string name="folder_remove_app">הסרה מהתיקייה</string>
+    <string name="folder_move_to">העברה לתיקייה…</string>
+    <string name="folder_hint">OK פותח · לחיצה ארוכה על OK לאפשרויות · למעלה לפעולות תיקייה</string>
+    <string name="folder_default_name">תיקייה %1$d</string>
+    <string name="folder_name_hint">שם התיקייה</string>
+    <string name="folder_create">יצירה</string>
+    <string name="folder_save">שמירה</string>
+    <string name="folder_cancel">ביטול</string>
+    <string name="folder_btn_add">+ הוספה</string>
+    <string name="folder_btn_reorder">סידור</string>
+    <string name="folder_btn_done">סיום</string>
+    <string name="folder_btn_rename">שינוי שם</string>
+    <string name="folder_preset_streaming">סטרימינג</string>
+    <string name="folder_preset_tv">טלוויזיה</string>
+    <string name="folder_preset_sport">ספורט</string>
+    <string name="folder_preset_music">מוזיקה</string>
+    <string name="folder_preset_games">משחקים</string>
+    <string name="folder_preset_tools">כלים</string>
+
+    <!-- מיני-נגן מדיה (מנגן כעת) -->
+    <string name="media_now_playing">מנגן כעת</string>
+    <string name="media_playing">מתנגן</string>
+    <string name="media_paused">מושהה</string>
+    <string name="media_live">שידור חי</string>
+    <string name="media_prev">הקודם</string>
+    <string name="media_play_pause">ניגון או השהיה</string>
+    <string name="media_next">הבא</string>
+    <string name="media_open_app">פתיחת אפליקציה</string>
+    <string name="media_switch_hint">למעלה להחלפת אפליקציה · OK ממשיך ניגון</string>
+
+    <!-- מחליף אפליקציות אחרונות -->
+    <string name="recents_title">אפליקציות אחרונות</string>
+    <string name="recents_hint">OK מעביר · פעמיים למעלה לסגירה · לחיצה ארוכה על OK לאפשרויות</string>
+    <string name="recents_empty">אין אפליקציות אחרונות פתוחות</string>
+    <string name="recents_switch">מעבר לאפליקציה</string>
+    <string name="recents_close_app">סגירת אפליקציה</string>
+    <string name="recents_close_all">סגירת הכול</string>
+    <string name="recents_swipe_close">לחץ שוב למעלה לסגירה</string>
+    <string name="recents_playing_badge">מתנגן</string>
+    <string name="recents_free_ram">זיכרון RAM פנוי: %1$d MB</string>
+    <string name="recents_just_now">ממש עכשיו</string>
+    <string name="recents_minutes_ago">לפני %1$d דק׳</string>
+    <string name="recents_hours_ago">לפני %1$d שע׳</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">נסגרה %1$d אפליקציה</item>
+        <item quantity="two">נסגרו %1$d אפליקציות</item>
+        <item quantity="many">נסגרו %1$d אפליקציות</item>
+        <item quantity="other">נסגרו %1$d אפליקציות</item>
+    </plurals>
+
+    <!-- שומר מסך אווירה -->
+    <string name="ambient_controls_hint">◄ ► רצועה · ▼ ניגון/השהיה · ▲ פתיחה</string>
+    <string name="ambient_action_prev">רצועה קודמת</string>
+    <string name="ambient_action_next">רצועה הבאה</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">בהיר</string>
+    <string name="weather_partly">מעונן חלקית</string>
+    <string name="weather_cloudy">מעונן</string>
+    <string name="weather_fog">ערפל</string>
+    <string name="weather_drizzle">טפטוף</string>
+    <string name="weather_rain">גשם</string>
+    <string name="weather_snow">שלג</string>
+    <string name="weather_showers">ממטרים</string>
+    <string name="weather_storm">סופת רעמים</string>
+
+    <!-- מרכז הבקרה, שמע לילה, לילה טוב וסרטוני Aerial -->
+    <string name="cc_title">מרכז הבקרה</string>
+    <string name="cc_bedtime">לילה טוב</string>
+    <string name="cc_bedtime_sub">טיימר 30 דק׳ · עמעום · שמע לילה</string>
+    <string name="cc_bedtime_on">פעיל</string>
+    <string name="cc_night_audio">שמע לילה</string>
+    <string name="cc_night_audio_on">החלשת צלילים חזקים</string>
+    <string name="cc_night_audio_off">כבוי</string>
+    <string name="cc_night_audio_unavailable">מעבד השמע אינו זמין</string>
+    <string name="cc_audio">שמע</string>
+    <string name="cc_audio_tv">רמקולי הטלוויזיה</string>
+    <string name="cc_sleep_timer">טיימר שינה</string>
+    <string name="cc_sleep_timer_sub">הגדרת טיימר</string>
+    <string name="cc_brightness">בהירות</string>
+    <string name="cc_brightness_sub">סרגל עמעום</string>
+    <string name="cc_aerial">סרטוני Aerial</string>
+    <string name="cc_aerial_on">וידאו 1080p</string>
+    <string name="cc_aerial_on_4k">וידאו 4K HEVC</string>
+    <string name="cc_aerial_off">רקעים</string>
+    <string name="cc_screensaver">שומר מסך</string>
+    <string name="cc_settings">הגדרות</string>
+    <string name="cc_sleep_tv">מצב שינה</string>
+    <string name="cc_reorder_tiles">סידור אריחים</string>
+    <string name="cc_footer_hint">לחיצה ארוכה על ״מצב שינה״ להפעלה מחדש · חזרה לסגירה</string>
+    <string name="cc_on">פעיל</string>
+    <string name="cc_off">כבוי</string>
+    <string name="close">סגירה</string>
+
+    <!-- הגדרה מהטלפון ב-QR, גילוי, Home Assistant, Immich, הגנה ועדכונים -->
+    <string name="qr_setup_title">הגדרה מהטלפון</string>
+    <string name="qr_setup_subtitle">סרוק בטלפון (באותה רשת Wi-Fi) לעריכת כפתורי השלט, רקע, עיר או TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">הגדרת QR</string>
+    <string name="qr_setup_no_wifi">חבר תחילה את הטלוויזיה ל-Wi-Fi או לרשת קווית</string>
+    <string name="qr_setup_waiting">ממתין לטלפון… (תקף ל-5 דקות)</string>
+    <string name="qr_setup_expired">פג תוקף קוד ה-QR — פתח מחדש ליצירת קוד חדש</string>
+
+    <string name="discover_title">גילוי והמשך צפייה</string>
+    <string name="discover_refresh">רענון</string>
+    <string name="discover_continue_watching">המשך צפייה</string>
+    <string name="discover_trending">המלצות חמות (ללא פרסומות)</string>
+    <string name="discover_tab_all">הכול</string>
+    <string name="discover_tab_movies">סרטים</string>
+    <string name="discover_tab_shows">סדרות</string>
+    <string name="discover_grant_watchnext_msg">אפשר הרשאת רשימות טלוויזיה כדי להציג המשך צפייה מכל האפליקציות</string>
+    <string name="discover_grant_adb_btn">אפשר דרך ADB</string>
+    <string name="discover_grant_success">המשך צפייה הופעל</string>
+    <string name="discover_hidden_toast">הוסתר מהמשך צפייה</string>
+    <string name="discover_empty_no_key">השתמש בהגדרת QR כדי להוסיף מפתח TMDB API חינמי (או שרת Plex) להמלצות ללא פרסומות מהאפליקציות המותקנות שלך.</string>
+    <string name="discover_empty_no_matches">לא נמצאו כרגע כותרים תואמים לאפליקציות הסטרימינג המותקנות שלך.</string>
+
+    <string name="adb_connecting">מתחבר ל-ADB המקומי…</string>
+    <string name="adb_accept_prompt">אשר ״אפשר תמיד ניפוי באגים ב-USB״ בטלוויזיה</string>
+
+    <string name="ha_section_title">בית חכם</string>
+    <string name="ha_action_failed">פעולת Home Assistant נכשלה</string>
+    <string name="ha_state_unavailable">לא זמין</string>
+    <string name="ha_state_open">פתוח</string>
+    <string name="ha_state_closed">סגור</string>
+    <string name="ha_state_camera">PiP חי</string>
+    <string name="ha_camera_title">מצלמה ביתית</string>
+    <string name="ha_camera_connecting">מתחבר למצלמה…</string>
+    <string name="ha_camera_unavailable">המצלמה אינה זמינה</string>
+    <string name="ha_camera_hint_pip">OK: הגדלה · חזרה: סגירה</string>
+    <string name="ha_camera_hint_expanded">OK: מיני PiP · חזרה: סגירה</string>
+    <string name="ha_camera_hint_pip_multi">OK: הגדלה · ◀ ▶: מצלמה · חזרה: סגירה</string>
+    <string name="ha_camera_hint_expanded_multi">OK: מיני PiP · ◀ ▶: מצלמה · חזרה: סגירה</string>
+
+    <string name="aerial_fav_added">נשמר במועדפים</string>
+    <string name="aerial_fav_removed">הוסר מהמועדפים</string>
+
+    <string name="updater_installed">העדכון הותקן</string>
+    <string name="updater_failed">העדכון נכשל</string>
+
+    <!-- הגדרות תכונות ומערכת Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass וחוויית שימוש</string>
+    <string name="fs_liquid_clock">שעון Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">אפקט Liquid Glass אופטי במסך הבית</string>
+    <string name="fs_home_backdrop_blur">טשטוש רקע במסך הבית</string>
+    <string name="fs_glass_material">סגנון זכוכית</string>
+    <string name="fs_glass_material_title">בחירת סגנון Liquid Glass</string>
+    <string name="glass_style_tonal">זכוכית חלבית מאוזנת</string>
+    <string name="glass_style_tonal_sub">זכוכית כהה מאוזנת עם כרטיסים בגוון הרקע</string>
+    <string name="glass_style_obsidian">שחור מוחלט (OLED)</string>
+    <string name="glass_style_obsidian_sub">קריסטל אובסידיאן עמוק עם שוליים חדים לחדרים חשוכים</string>
+    <string name="glass_style_frost">לבן כפור</string>
+    <string name="glass_style_frost_sub">זכוכית פנינה בהירה ומוארת עם טקסט וסמלים כהים</string>
+    <string name="glass_style_clear">קריסטל שקוף</string>
+    <string name="glass_style_clear_sub">זכוכית אוורירית ושקופה במיוחד עם שבירת אור מודגשת בקצוות</string>
+    <string name="glass_style_chromatic">גוון כרומטי</string>
+    <string name="glass_style_chromatic_sub">צבעי Material You עשירים מהרקע בלוחות ובכרטיסים</string>
+    <string name="glass_style_auto">אוטומטי (יום / לילה)</string>
+    <string name="glass_style_auto_sub">לבן כפור ביום, שחור מוחלט אחרי השקיעה</string>
+    <string name="fs_remote_buttons">כפתורי השלט</string>
+    <string name="fs_ui_sounds">צלילי ממשק עדינים</string>
+    <string name="fs_oled_drift">הגנת צריבה למסך OLED (הזזת פיקסלים)</string>
+    <string name="fs_aerial_quality">איכות סרטוני Aerial</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">רק סרטוני Aerial מועדפים (לחיצה ארוכה על OK)</string>
+
+    <string name="fs_sec_content">תוכן וגילוי</string>
+    <string name="fs_open_discover">פתיחת גילוי (המשך צפייה והמלצות)</string>
+    <string name="fs_watch_next">המשך צפייה</string>
+    <string name="fs_open_nuvio">פתיחת המלצות ישירות ב-Nuvio</string>
+    <string name="fs_watch_saver">הפעלת המלצות משומר המסך (OK)</string>
+    <string name="fs_hide_animation">הסתרת המלצות אנימציה ואנימה</string>
+    <string name="fs_region">אזור שירותי הסטרימינג</string>
+    <string name="fs_trakt">חשבון Trakt.tv</string>
+    <string name="fs_trakt_code_msg">כנס אל %1$s והזן את הקוד: %2$s</string>
+    <string name="fs_trakt_signed_in">מחובר ל-Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">מנותק מ-Trakt</string>
+
+    <string name="fs_sec_smart">בית חכם, תמונות והגדרה מהטלפון</string>
+    <string name="fs_qr_setup">הגדרת מפתחות, שלט ורקע דרך QR מהטלפון</string>
+    <string name="fs_ha_toggle">Home Assistant במרכז הבקרה</string>
+    <string name="fs_immich_toggle">תמונות Immich בשומר המסך</string>
+    <string name="fs_immich_sync">סנכרון תמונות Immich כעת</string>
+    <string name="fs_immich_album">אלבום Immich</string>
+    <string name="fs_immich_all_albums">כל התמונות</string>
+
+    <string name="fs_sec_system">בטיחות ושחזור</string>
+    <string name="fs_watchdog">מנגנון התאוששות מקריסות חוזרות</string>
+    <string name="fs_check_updates">עדכונים (GitHub Releases)</string>
+    <string name="fs_updates_title">עדכונים (GitHub)</string>
+    <string name="fs_updates_current">מותקן: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">בדיקת עדכונים כעת</string>
+    <string name="fs_updates_checking">בודק ב-GitHub Releases…</string>
+    <string name="fs_updates_downloading">מוריד ומאמת SHA-256…</string>
+    <string name="fs_updates_install_launcher">התקנת Matcher %1$s</string>
+    <string name="fs_updates_install_addon">עדכון %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">בדיקת עדכונים שבועית ברקע</string>
+    <string name="fs_update_uptodate">הלאנצ׳ר מעודכן (%1$s)</string>
+    <string name="fs_update_found">זמינה גרסה חדשה %1$s</string>
+    <string name="fs_restore_stock">שחזור משגר Google TV המקורי (ADB)</string>
+    <string name="fs_restore_confirm_title">לשחזר את המשגר המקורי?</string>
+    <string name="fs_restore_confirm_msg">מפעיל בבטחה תחילה את Google TV Launcher, מגדיר אותו כמסך הבית, ואז מפעיל מחדש את SetupWraith ומסנכרן לדיסק.</string>
+    <string name="fs_restore_ok">שחזר כעת</string>
+    <string name="fs_cancel">ביטול</string>
+
+    <!-- מיפוי כפתורי שלט מתוך האפליקציה -->
+    <string name="rm_title">כפתורי השלט</string>
+    <string name="rm_subtitle_ready">התאם כל כפתור בשלט ללחיצה קצרה, כפולה או ארוכה</string>
+    <string name="rm_subtitle_need_a11y">הפעל נגישות ← כפתור הבית בהגדרות הטלוויזיה כדי למפות כפתורים בכל המערכת</string>
+    <string name="rm_open_a11y">פתיחת הגדרות נגישות בטלוויזיה</string>
+    <string name="rm_open_a11y_sub">נדרש למיפוי גלובלי של כפתורי השלט</string>
+    <string name="rm_learn_btn">לימוד כפתור שלט</string>
+    <string name="rm_learn_sub">לחץ על כל כפתור פיזי כדי לזהות את קוד המקש והסריקה שלו</string>
+    <string name="rm_empty">עדיין לא נשמרו כפתורים מותאמים (ברירות המחדל של הערכה פעילות)</string>
+    <string name="rm_reset_all">איפוס כפתורים מותאמים</string>
+    <string name="rm_reset_all_sub">חזרה למיפוי ברירת המחדל של config.json</string>
+    <string name="rm_reset_done">מיפויי הכפתורים המותאמים נמחקו</string>
+    <string name="rm_capture_title">לחץ על כפתור בשלט</string>
+    <string name="rm_capture_hint">חצים, OK, חזרה ועוצמת שמע שמורים · חזרה לביטול</string>
+    <string name="rm_capture_waiting">ממתין ללחיצת כפתור…</string>
+    <string name="rm_edit_subtitle">קוד כפתור: %1$s</string>
+    <string name="rm_slot_tap">לחיצה קצרה</string>
+    <string name="rm_slot_double">לחיצה כפולה</string>
+    <string name="rm_slot_hold">לחיצה ארוכה (0.5 שנ׳)</string>
+    <string name="rm_short_tap">לחיצה</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">ארוכה</string>
+    <string name="rm_target_none">לא הוקצה</string>
+    <string name="rm_delete_btn">הסרת כפתור מותאם</string>
+    <string name="rm_saved">מיפוי הכפתור נשמר</string>
+    <string name="rm_action_mute">השתקת שמע</string>
+    <string name="rm_action_ignore">התעלם מכפתור (השבתה)</string>
+</resources>

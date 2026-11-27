@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Słuchawki</string>
+    <string name="plays_through">Dźwięk odtwarzany przez: %1$s</string>
+    <string name="output_speakers">głośniki TV</string>
+    <string name="output_fixed">wyjście audio TV (HDMI ARC lub optyczne)</string>
+    <string name="allow_title">Zezwól na dostęp do Bluetooth</string>
+    <string name="allow_detail">Aby wyświetlać słuchawki i wykrywać ich rozłączenie. OK wyświetla prośbę.</string>
+    <string name="not_allowed">Brak zgody</string>
+    <string name="pair_title">Sparuj lub połącz słuchawki</string>
+    <string name="pair_detail">Otwiera ustawienia Bluetooth TV. Najpierw przełącz słuchawki w tryb parowania.</string>
+    <string name="guard_title">Wycisz po rozłączeniu</string>
+    <string name="guard_detail">Wstrzymuje odtwarzanie i wycisza głośniki TV po rozłączeniu słuchawek, aby dźwięk nie popłynął do pokoju. Przywraca dźwięk po ponownym połączeniu.</string>
+    <string name="guard_detail_fixed">Wstrzymuje odtwarzanie po rozłączeniu słuchawek. Głośność tego TV jest stała (ARC lub wzmacniacz), więc nie można dodatkowo wyciszyć głośników.</string>
+    <string name="on">Wł.</string>
+    <string name="off">Wył.</string>
+    <string name="unmute_title">Wyłącz wyciszenie głośników</string>
+    <string name="unmute_detail">Wyciszono po rozłączeniu słuchawek.</string>
+    <string name="muted">Wyciszono</string>
+    <string name="heading_paired">Sparowane słuchawki i głośniki</string>
+    <string name="no_bluetooth">Ten TV nie ma Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth jest wyłączony</string>
+    <string name="bluetooth_off_detail">Włącz go w ustawieniach TV.</string>
+    <string name="none_yet">Brak urządzeń</string>
+    <string name="none_yet_detail">Użyj wiersza powyżej, aby sparować urządzenie.</string>
+    <string name="connected">Połączono</string>
+    <string name="connected_battery">Połączono, bateria %1$s</string>
+    <string name="not_connected_detail">Niepołączono. OK otwiera ustawienia Bluetooth, aby połączyć.</string>
+    <string name="unnamed">Urządzenie bez nazwy</string>
+    <string name="heading_several">Kilka par słuchawek naraz</string>
+    <string name="sharing_one_pair">Ten TV przesyła dźwięk do jednej pary słuchawek Bluetooth naraz. Dla dwóch par użyj dwukanałowego nadajnika Bluetooth podłączonego do wyjścia słuchawkowego lub optycznego TV.</string>
+    <string name="sharing_auracast">Ten TV obsługuje transmisję do wielu słuchawek LE Audio (Auracast) jednocześnie: uruchom udostępnianie w ustawieniach Bluetooth TV.</string>
+    <string name="sharing_no_broadcast">Ten TV przesyła dźwięk do jednej pary słuchawek Bluetooth naraz i nie obsługuje transmisji LE Audio. Dla dwóch par użyj dwukanałowego nadajnika Bluetooth na wyjściu słuchawkowym lub optycznym TV.</string>
+</resources>

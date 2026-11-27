@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Weltuhr</string>
+    <string name="add_city">Stadt hinzufügen</string>
+    <string name="clock_format">Zeitformat</string>
+    <string name="local">Lokal</string>
+    <string name="search_city">Stadt oder Zeitzone</string>
+    <string name="search_hint">OK zum Eingeben · Runter zum Auswählen einer Stadt</string>
+    <string name="no_cities">Keine passenden Städte</string>
+    <string name="change_city">Stadt ändern</string>
+    <string name="move_earlier">Nach vorn verschieben</string>
+    <string name="move_later">Nach hinten verschieben</string>
+    <string name="remove_city">Stadt entfernen</string>
+    <string name="city_limit">Wähle bis zu sechs Uhren</string>
+    <string name="already_shown">Diese Uhr wird bereits angezeigt</string>
+    <string name="same_day">Gleicher Tag wie lokal</string>
+    <string name="tomorrow">In dieser Stadt ist morgen</string>
+    <string name="yesterday">In dieser Stadt ist gestern</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d Tag zur Ortszeit</item>
+        <item quantity="other">%1$+d Tage zur Ortszeit</item>
+    </plurals>
+    <string name="local_reference">Datum im Vergleich zu %1$s</string>
+    <string name="controls">Pfeile: bewegen · OK: Stadtoptionen · Zurück: verlassen</string>
+    <string name="format_system">TV-Einstellung verwenden</string>
+    <string name="format_12">12-Stunden-Format</string>
+    <string name="format_24">24-Stunden-Format</string>
+    <string name="close">Schließen</string>
+    <string name="screensaver">Bildschirmschoner</string>
+    <string name="preview">Vorschau · beliebige Taste beendet</string>
+    <string name="background_option">Hintergrund: %1$s</string>
+    <string name="motion_option">Bewegung: %1$s</string>
+    <string name="brightness_option">Uhrhelligkeit: %1$s</string>
+    <string name="gradient">Himmelsverlauf</string>
+    <string name="plain">Schwarz</string>
+    <string name="motion_on">Ein</string>
+    <string name="motion_reduced">Reduziert (statisch)</string>
+    <string name="clock_brightness">Uhrhelligkeit</string>
+    <string name="dim">Dunkel</string>
+    <string name="medium">Mittel</string>
+    <string name="bright">Hell</string>
+    <string name="tv_screensaver_settings">TV-Bildschirmschoner-Einstellungen</string>
+    <string name="screensaver_unavailable">Dieser Fernseher bietet keine Bildschirmschoner-Einstellungen. Die Vorschau ist weiterhin verfügbar.</string>
+    <string name="background">Hintergrund</string>
+    <string name="starfield">Sternenhimmel</string>
+    <string name="world_map">Weltkarte</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

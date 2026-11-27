@@ -183,8 +183,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private boolean heroDotsShown = true;
     /** The artwork's opacity behind the cinematic shelf (config.xml cinematic_art); 0 leaves it out. */
     private float heroArtAlpha = 0.5f;
-    /** Softened artwork per app (HeroArt, about 5 KB each), made the first time its dock tile is focused. */
+    /** Softened artwork per app (HeroArt, about 5 KB each), made off the UI thread the first time its dock tile is focused. */
     private final Map<String, Bitmap> heroArtCache = new HashMap<>();
+    private final Set<String> heroArtInFlight = new HashSet<>();
+    private int heroArtGeneration;
+    private static volatile java.util.concurrent.ExecutorService heroArtWorker;
     /** The app whose artwork heroArt shows, so focusing it again only fades it back in. */
     private String heroArtKey;
     /** The focus glow's colour while the cinematic shelf tints it, 0 for plain white glass. */
@@ -489,6 +492,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             // The pill follows the network callbacks and each return to Home; only the festive light follows the
             // signal level, so only it needs this minute's binder calls (about 7 ms on the UI thread).
             if (festive) updateWifiLabel();
+            refreshAutoGlassStyleIfNeeded();
             sky.update();
             wallpaperPlayer.update();
             handler.postDelayed(this, MINUTE_MS);
@@ -561,7 +565,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // black under it is a second full-screen fill on every frame for nothing. The starting window still uses
         // the theme's background, so launch looks the same.
         getWindow().setBackgroundDrawable(null);
-        // Sync glass optics & sharp-Home preference BEFORE WallpaperPlayer decodes the first wallpaper!
+        // Sync glass optics, material style & sharp-Home preference BEFORE WallpaperPlayer decodes the first wallpaper!
+        ExpressiveGlass.setGlassStyle(FeaturePrefs.resolveGlassStyle(this));
         ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
         homeBackdropBlurEnabled = FeaturePrefs.isHomeBackdropBlurEnabled(this);
         ExpressiveGlass.setHomeBackdropBlurEnabled(homeBackdropBlurEnabled);
@@ -1036,6 +1041,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             vpnPlainInk = btnVpn.getCompoundDrawableTintList();
             makeIconOnly(btnVpn);
         }
+        updateTopBarTintForGlassStyle();
         btnSettings.setOnLongClickListener(v -> {
             showSettingsMenu();
             return true;
@@ -1378,6 +1384,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
         homeBackdropBlurEnabled = FeaturePrefs.isHomeBackdropBlurEnabled(this);
         ExpressiveGlass.setHomeBackdropBlurEnabled(homeBackdropBlurEnabled);
+        refreshAutoGlassStyleIfNeeded();
         if (wallpaperPlayer != null) wallpaperPlayer.refreshSharpnessIfNeeded(!homeBackdropBlurEnabled);
         applyHomeTypography();
         if (!OverlayActivity.isLive() && !OverlayActivity.isLaunchInFlight()) overlayOpen = false;
@@ -1514,7 +1521,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         final int returnSlot = lastFocused;
         final List<Cards.Card> none = Collections.emptyList();
         // An updated app may bring new artwork; the backdrop is cheap to make again.
+        heroArtGeneration++;
         heroArtCache.clear();
+        heroArtInFlight.clear();
         heroArtKey = null;
         // One LEANBACK query for both the tiles and the card checks.
         final List<ResolveInfo> leanback = getPackageManager().queryIntentActivities(
@@ -1669,7 +1678,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // they hold) would stay attached until Home comes back. setAdapter(null) recycles them now.
         grid.setAdapter(null);
         grid.getRecycledViewPool().clear();
+        heroArtGeneration++;
         heroArtCache.clear();
+        heroArtInFlight.clear();
         heroArtKey = null;
         if (heroArt != null) heroArt.setImageDrawable(null);
         if (vinylDisc != null) vinylDisc.setAccentAndArt(0, null);
@@ -1698,7 +1709,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     /** Glides the shared living liquid-glass ring onto top-bar pills and footer controls when focus leaves tiles. */
     private final ViewTreeObserver.OnGlobalFocusChangeListener glassFocusListener = (oldF, newF) -> {
         if (newF != null && newF.getId() == R.id.card) return;
-        if (newF != null && newF != glass && FocusRingController.isDescendantOf(newF, root)) {
+        if (newF == null || newF == glass || newF == root || newF == grid
+                || newF == homeBackdropLayer || newF instanceof RecyclerView) {
+            hideGlass();
+            return;
+        }
+        if (FocusRingController.isDescendantOf(newF, root)) {
             focusGlassOnControl(newF);
         } else {
             hideGlass();
@@ -1727,6 +1743,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         boolean inGrid = FocusRingController.isDescendantOf(target, grid);
         glassOnTopBar = !inGrid;
+        glass.setLightSurface(ExpressiveGlass.isLightGlass() && !inGrid);
         boolean round = target == btnMedia || target == btnRecents || target == btnReorder
                 || target == btnLibraryTop || iconOnlyButtons || topAppButtons.contains(target);
         float scale = (!animations || !advancedEffects || inGrid) ? 1f : (round ? 1.10f : 1.06f);
@@ -2322,16 +2339,105 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         });
     }
 
-    /** Attaches the matching JPEG backdrop + over-home flag to glass add-on launch Intents (zero cross-contamination). */
+    /** Attaches the matching JPEG backdrop, glass material style, seed & over-home flag to glass add-on launch Intents. */
     static void attachAddonBackdropExtras(Intent intent, boolean overHome) {
         if (intent == null) return;
         intent.putExtra(ExpressiveGlass.EXTRA_OVER_HOME, overHome);
         intent.putExtra(ExpressiveGlass.EXTRA_OVER_SHARP_BACKDROP,
                 overHome && !ExpressiveGlass.isHomeBackdropBlurEnabled());
+        intent.putExtra(ExpressiveGlass.EXTRA_GLASS_STYLE, ExpressiveGlass.glassStyle());
+        intent.putExtra(ExpressiveGlass.EXTRA_WALLPAPER_SEED, ExpressiveGlass.dynamicSeedRgb());
         byte[] jpeg = ExpressiveGlass.encodeActiveBackdropJpeg(overHome);
         if (jpeg != null && jpeg.length > 0) {
             intent.putExtra(ExpressiveGlass.EXTRA_BACKDROP_JPEG, jpeg);
         }
+    }
+
+    /** Live Glass Material style switch from LauncherSettingsActivity: re-themes Home, Dock, pills & open Settings immediately. */
+    static void applyGlassMaterialPreference(String key) {
+        MainActivity inst = currentInstance;
+        if (inst == null || inst.isDestroyed()) {
+            ExpressiveGlass.setGlassStyle(ExpressiveGlass.styleFromKey(key));
+            return;
+        }
+        inst.runOnUiThread(() -> {
+            if (inst.isDestroyed()) return;
+            FeaturePrefs.setGlassMaterial(inst, key);
+            int nextStyle = FeaturePrefs.resolveGlassStyle(inst);
+            ExpressiveGlass.setGlassStyle(nextStyle);
+            inst.onGlassStyleChangedLive();
+        });
+    }
+
+    private void refreshAutoGlassStyleIfNeeded() {
+        int resolved = FeaturePrefs.resolveGlassStyle(this);
+        if (resolved != ExpressiveGlass.glassStyle()) {
+            ExpressiveGlass.setGlassStyle(resolved);
+            onGlassStyleChangedLive();
+        }
+    }
+
+    private void onGlassStyleChangedLive() {
+        cachedBackdropBlur = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                && backdropBlurVeilHost != null && backdropBlurVeilHost.getVisibility() == View.VISIBLE
+                && backdropBlurVeil != null && homeBackdropBlurEnabled) {
+            cachedBackdropBlur = ExpressiveGlass.createBackdropBlurEffect(
+                    density, ExpressiveGlass.SHADE_BLUR_RADIUS_DP, true, Shader.TileMode.CLAMP);
+            backdropBlurVeil.setRenderEffect(cachedBackdropBlur);
+        }
+        if (dockDecoration != null) dockDecoration.invalidateBackdrop();
+        if (grid != null) grid.invalidate();
+        if (adapter != null) adapter.refreshFolderBanners();
+        updateTopBarTintForGlassStyle();
+        updateWifiLabel();
+        if (vpnPill) {
+            boolean vpnUp = vpnPillState == VpnBadge.PILL_UP;
+            vpnPillState = Integer.MIN_VALUE;
+            updateVpnPill(vpnUp);
+        }
+        if (glass != null) {
+            boolean onLightHomeChrome = ExpressiveGlass.isLightGlass()
+                    && (glassOnTopBar
+                    || (dockRow && (singleRow || lastFocused < COLUMNS))
+                    || (adapter != null && lastFocused >= 0 && adapter.isFolderAt(lastFocused)));
+            glass.setLightSurface(onLightHomeChrome);
+        }
+        applyHomeTypography();
+        LauncherSettingsActivity.refreshGlassStyleIfOpen();
+        refreshLiveLiquidPanels();
+        if (!homeBackdropBlurEnabled && backdropBlurred && root != null) {
+            root.post(() -> {
+                if (!isDestroyed() && backdropBlurred && !homeBackdropBlurEnabled) {
+                    ExpressiveGlass.captureHomeWindowForRefraction(getWindow(), MainActivity::refreshLiveLiquidPanels);
+                }
+            });
+        }
+    }
+
+    private void updateTopBarTintForGlassStyle() {
+        LinearLayout topButtonsBar = findViewById(R.id.topButtons);
+        if (topButtonsBar == null) return;
+        ColorStateList pillInk = ExpressiveGlass.adaptivePillTextColors();
+        for (int i = 0, n = topButtonsBar.getChildCount(); i < n; i++) {
+            View child = topButtonsBar.getChildAt(i);
+            if (child == btnMedia || child == btnVpn || topAppButtons.contains(child)) continue;
+            if (child == btnWifi) {
+                btnWifi.setTextColor(pillInk);
+                if (!festive && wifiOnlineTint == null) {
+                    btnWifi.setCompoundDrawableTintList(pillInk);
+                }
+                continue;
+            }
+            if (child instanceof TextView) {
+                TextView tv = (TextView) child;
+                tv.setTextColor(pillInk);
+                if (!festive || (child != btnInputs && child.getId() != R.id.btnSettings)) {
+                    tv.setCompoundDrawableTintList(pillInk);
+                }
+            }
+        }
+        invalidateTopButtons();
     }
 
     static void refreshLiveLiquidPanels() {
@@ -2966,6 +3072,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         glassOnTopBar = false;
         lastFocused = position;
         lastFocusedKey = adapter.keyAt(position);
+        glass.setLightSurface(ExpressiveGlass.isLightGlass()
+                && ((dockRow && (singleRow || position < COLUMNS)) || adapter.isFolderAt(position)));
         // Focus restored before the first layout (cold start): the tile has no size yet, and the glass
         // would be sized to 2*pad. Run again once the tile is laid out.
         if (card.getWidth() == 0) {
@@ -3028,9 +3136,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             glass.onJump(x - glass.getTranslationX(), y - glass.getTranslationY());
             springX.animateToFinalPosition(x - glassScrollShiftX);
             springY.animateToFinalPosition(y - glassScrollShift);
-            if (dockDecoration != null && dockRow && (singleRow || position < COLUMNS)) {
-                dockDecoration.triggerRipple(reducedMotion);
-            }
         }
         View item = (View) card.getParent();
         if (dockRow && (singleRow || position < COLUMNS)) {
@@ -3234,22 +3339,64 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         return scrim;
     }
 
+    private static java.util.concurrent.ExecutorService heroArtExecutor() {
+        java.util.concurrent.ExecutorService e = heroArtWorker;
+        if (e == null) {
+            synchronized (MainActivity.class) {
+                e = heroArtWorker;
+                if (e == null) {
+                    e = java.util.concurrent.Executors.newSingleThreadExecutor(r -> {
+                        Thread t = new Thread(r, "hero-art");
+                        t.setDaemon(true);
+                        return t;
+                    });
+                    heroArtWorker = e;
+                }
+            }
+        }
+        return e;
+    }
+
     /** Swaps the backdrop to this app's artwork: fade out, swap, fade in, the way the shelf's name changes. */
     private void showHeroArt(int position) {
         String key = adapter.keyAt(position);
         if (key == null) return;
         heroArt.animate().cancel();
-        if (key.equals(heroArtKey)) {
+        if (key.equals(heroArtKey) && heroArtCache.containsKey(key)) {
             fadeHeroArt(420);
             return;
         }
-        Bitmap art = heroArtCache.get(key);
-        if (art == null) {
-            art = HeroArt.from(adapter.artworkAt(position));
-            if (art != null) heroArtCache.put(key, art);
-        }
         heroArtKey = key;
-        final Bitmap next = art;
+        Bitmap art = heroArtCache.get(key);
+        if (art != null) {
+            applyHeroArtBitmap(art);
+            return;
+        }
+        if (heroArtInFlight.contains(key)) return;
+        Bitmap big = HeroArt.rasterize(adapter.artworkAt(position));
+        if (big == null) {
+            applyHeroArtBitmap(null);
+            return;
+        }
+        heroArtInFlight.add(key);
+        final int gen = heroArtGeneration;
+        heroArtExecutor().execute(() -> {
+            Bitmap processed = HeroArt.processRasterized(big);
+            handler.post(() -> {
+                heroArtInFlight.remove(key);
+                if (gen != heroArtGeneration || isDestroyed()) {
+                    if (processed != null && !processed.isRecycled()) processed.recycle();
+                    return;
+                }
+                if (processed != null) heroArtCache.put(key, processed);
+                if (key.equals(heroArtKey) && heroShown) {
+                    applyHeroArtBitmap(processed);
+                }
+            });
+        });
+    }
+
+    private void applyHeroArtBitmap(Bitmap next) {
         if (!animations || reducedMotion || heroArt.getAlpha() == 0f) {
             heroArt.setImageBitmap(next);
             fadeHeroArt(240);
@@ -3284,8 +3431,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // Use grid.invalidate() (paint only), NEVER invalidateItemDecorations() which calls requestLayout()
         // and re-measures every tile mid-scroll! Also skip when grid is already scrolling (draws every frame).
         if (dockBackdrop && grid != null && grid.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
-            if (dockDecoration != null) dockDecoration.invalidateBackdrop();
-            grid.invalidate();
+            if (dockDecoration == null || !dockDecoration.invalidateBackdrop()) {
+                grid.invalidate();
+            }
         }
     }
 
@@ -3433,6 +3581,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
      * so changing apps neither repaints it on the CPU (about 11 ms) nor uploads it again.
      */
     private void setAmbient(int color) {
+        setAmbient(color, true);
+    }
+
+    private void setAmbient(int color, boolean syncGlass) {
         if (color == ambientColor && ambient.getBackground() != null) return;
         ambientColor = color;
         BitmapDrawable glow = (BitmapDrawable) ambient.getBackground();
@@ -3480,7 +3632,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         // The default tint mode, SRC_IN, keeps the mask's alpha and takes the colour from the tint.
         glow.setTint(0xFF000000 | color);
-        invalidateGlassBackdrops();
+        if (syncGlass) invalidateGlassBackdrops();
     }
 
     private int pillAmbientColor() {
@@ -3512,7 +3664,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         ambientAnimator = ValueAnimator.ofObject(ARGB_EVALUATOR, ambientColor, color);
         ambientAnimator.setDuration(260L);
         ambientAnimator.setInterpolator(Motion.easeOutExpo());
-        ambientAnimator.addUpdateListener(animation -> setAmbient((int) animation.getAnimatedValue()));
+        ambientAnimator.addUpdateListener(animation -> setAmbient((int) animation.getAnimatedValue(), false));
         ambientAnimator.addListener(new android.animation.AnimatorListenerAdapter() {
             private boolean canceled;
             @Override
@@ -3599,7 +3751,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             if (ambientGlow) ambient.animate().alpha(0f).setDuration(300).start();
             heroArt.animate().alpha(0f).setDuration(300L)
                     .setInterpolator(Motion.easeOutExpo())
-                    .setUpdateListener(a -> invalidateGlassBackdrops())
                     .withEndAction(this::invalidateGlassBackdrops).start();
         } else {
             hero.setAlpha(0f);
@@ -4396,13 +4547,24 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 wifiIcon = icon;
                 btnWifi.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
             }
-            ColorStateList tint = online ? wifiOnlineTint : wifiPlainTint;
-            // wifi_status_warnings: orange while connected but not validated (a captive portal), red while offline.
-            if (wifiNoInternetTint != null) tint = !online ? wifiOfflineTint : validated ? wifiOnlineTint : wifiNoInternetTint;
+            ColorStateList tint;
+            if (ExpressiveGlass.isLightGlass()) {
+                if (wifiOnlineTint == null) {
+                    tint = ExpressiveGlass.adaptivePillTextColors();
+                } else if (wifiNoInternetTint != null) {
+                    tint = ColorStateList.valueOf(!online ? 0xFFDC2626 : validated ? 0xFF15803D : 0xFFB45309);
+                } else {
+                    tint = online ? ColorStateList.valueOf(0xFF15803D) : ExpressiveGlass.adaptivePillTextColors();
+                }
+            } else {
+                tint = online ? wifiOnlineTint : wifiPlainTint;
+                // wifi_status_warnings: orange while connected but not validated (a captive portal), red while offline.
+                if (wifiNoInternetTint != null) tint = !online ? wifiOfflineTint : validated ? wifiOnlineTint : wifiNoInternetTint;
+            }
             wifiFocusAccent = wifiOnlineTint == null ? 0
                     : (!online ? (wifiNoInternetTint != null ? 0xFFFF453A : 0)
                     : (validated || wifiNoInternetTint == null ? 0xFF34C759 : 0xFFFF9F0A));
-            if (wifiOnlineTint != null && btnWifi.getCompoundDrawableTintList() != tint) {
+            if (tint != null && btnWifi.getCompoundDrawableTintList() != tint) {
                 btnWifi.setCompoundDrawableTintList(tint);
             }
         }
@@ -4556,7 +4718,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             boolean up = state == VpnBadge.PILL_UP;
             // Frosted pill stays dark glass on focus (wobbly Fresnel ring surrounds it), so keep the vivid state hue.
             int stateColor = up ? VpnBadge.GREEN : VpnBadge.RED;
-            ColorStateList ink = ColorStateList.valueOf(stateColor);
+            ColorStateList ink = ColorStateList.valueOf(
+                    ExpressiveGlass.isLightGlass() ? ExpressiveGlass.adaptColorForLight(stateColor) : stateColor);
+            ColorStateList plainVpnInk = ExpressiveGlass.isLightGlass()
+                    ? ExpressiveGlass.adaptivePillTextColors() : vpnPlainInk;
             if (iconOnlyVpn) {
                 // An open lock on the plain glass button, or the closed lock outlined in green like the pill (solid
                 // while focused); the words go to talkback.
@@ -4564,7 +4729,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 btnVpn.setBackground(new FrostedPillDrawable(btnVpn, root, wallpaperPlayer, heroArt, this::pillAmbientColor,
                         density, 21f * density, up ? VpnBadge.GREEN : 0));
                 btnVpn.setCompoundDrawablesRelativeWithIntrinsicBounds(VpnBadge.iconOnlyLock(up), 0, 0, 0);
-                btnVpn.setCompoundDrawableTintList(up ? ink : vpnPlainInk);
+                btnVpn.setCompoundDrawableTintList(up ? ink : plainVpnInk);
                 btnVpn.setVisibility(View.VISIBLE);
                 return;
             }
@@ -5112,6 +5277,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                         animTarget, density, false, pad, reduce, popup::dismiss);
             }
             popup.showAsDropDown(anchor, xOff, (int) (10 * density) - pad, gravity);
+            ExpressiveGlass.applyAdaptiveContentTheme(panel);
             focusFirstRow(panel);
             animTarget.post(() -> animTarget.postOnAnimation(() -> {
                 if (openPopup != popup || !popup.isShowing() || isFinishing() || isDestroyed()) return;
@@ -5123,7 +5289,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     private View addSeparator(LinearLayout rows) {
         View line = new View(this);
-        line.setBackgroundColor(0x1FFFFFFF);
+        line.setBackgroundColor(ExpressiveGlass.adaptiveDividerColor());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) density);
         int m = (int) (6 * density), h = (int) (12 * density);
         lp.setMargins(h, m, h, m);
@@ -5133,6 +5299,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     private View addInputRow(LinearLayout rows, PopupWindow popup, int iconRes, String title, int state, Runnable action) {
         View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
         ((ImageView) row.findViewById(R.id.icon)).setImageResource(iconRes);
         ((TextView) row.findViewById(R.id.title)).setText(title);
         TextView status = row.findViewById(R.id.status);
@@ -5154,6 +5321,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             action.run();
         });
         Motion.attachRowFocus(row, density, reducedMotion || !animations);
+        ExpressiveGlass.applyAdaptiveContentTheme(row);
         rows.addView(row);
         return row;
     }
@@ -5637,6 +5805,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         title.setTextColor(Color.WHITE);
         title.setTextSize(22f);
         title.setTypeface(UiFont.get(this, R.string.font_medium));
+        ExpressiveGlass.applyLuminousTitle(title, density, false);
         panel.addView(title, new LinearLayout.LayoutParams(-1, -2));
 
         EditText input = new EditText(this);
@@ -5652,16 +5821,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Folders.MAX_NAME_LENGTH)});
         int inPadH = Math.round(16 * density), inPadV = Math.round(12 * density);
         input.setPadding(inPadH, inPadV, inPadH, inPadV);
-        GradientDrawable inputBg = new GradientDrawable();
-        inputBg.setColor(0x22FFFFFF);
-        inputBg.setCornerRadius(14 * density);
-        inputBg.setStroke(Math.round(1.2f * density), 0x45FFFFFF);
-        input.setBackground(inputBg);
+        input.setBackground(ExpressiveGlass.makeAdaptiveInputBg(density, 14f));
         FocusRingController.configure(input, 1f, 0f, 14f, 0);
-        input.setOnFocusChangeListener((v, focused) -> {
-            inputBg.setColor(focused ? 0x34FFFFFF : 0x22FFFFFF);
-            inputBg.setStroke(Math.round(1.2f * density), focused ? 0x55FFFFFF : 0x45FFFFFF);
-        });
         LinearLayout.LayoutParams inputLp = new LinearLayout.LayoutParams(-1, -2);
         inputLp.topMargin = Math.round(14 * density);
         panel.addView(input, inputLp);
@@ -5721,6 +5882,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             }
             chipsBox.addView(chipRow, rowLp);
         }
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -5869,6 +6031,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         title.setEllipsize(TextUtils.TruncateAt.END);
         title.setTypeface(UiFont.get(this, R.string.font_medium));
         title.setPadding(Math.round(12 * density), 0, Math.round(12 * density), Math.round(10 * density));
+        ExpressiveGlass.applyLuminousTitle(title, density, false);
         panel.addView(title, new LinearLayout.LayoutParams(-1, -2));
 
         ScrollView scroll = new ScrollView(this);
@@ -5938,7 +6101,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         final boolean[] folderModified = {false};
         for (AppAdapter.Entry app : candidates) {
             View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
+            row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
             ImageView icon = row.findViewById(R.id.icon);
+            ExpressiveGlass.markPreserveImage(icon);
             Drawable art = app.banner != null ? app.banner : app.icon;
             if (art != null) {
                 ViewGroup.LayoutParams ilp = icon.getLayoutParams();
@@ -5990,8 +6155,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 }
             });
             Motion.attachRowFocus(row, density, reduce);
+            ExpressiveGlass.applyAdaptiveContentTheme(row);
             rows.addView(row);
         }
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
 
         dialog.setOnDismissListener(d -> {
             Motion.cancelPanelAnim(keyHost);
@@ -6040,8 +6207,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         btn.setGravity(Gravity.CENTER);
         int pad = Math.round(16 * density);
         btn.setPadding(pad, 0, pad, 0);
-        btn.setBackgroundResource(R.drawable.pill_bg);
-        btn.setTextColor(getColorStateList(R.color.pill_text));
+        btn.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 18f, 0));
+        btn.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         btn.setFocusable(true);
         btn.setFocusableInTouchMode(true);
         btn.setClickable(true);
@@ -6055,6 +6222,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     private void addSettingsMenuRow(LinearLayout rows, PopupWindow popup, CharSequence title, Runnable action) {
         View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
         row.findViewById(R.id.icon).setVisibility(View.GONE);
         row.findViewById(R.id.dot).setVisibility(View.GONE);
         row.findViewById(R.id.status).setVisibility(View.GONE);
@@ -6064,6 +6232,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             action.run();
         });
         Motion.attachRowFocus(row, density, reducedMotion || !animations);
+        ExpressiveGlass.applyAdaptiveContentTheme(row);
         // The OK-up after opening the menu must not activate its first row.
         final boolean[] pressed = {false};
         row.setOnKeyListener((v, code, event) -> {
@@ -6119,6 +6288,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 getString(R.string.card_prompt_identity, card.pkg, Cards.shortDigest(card.digest)));
         TextView keep = panel.findViewById(R.id.btnKeep);
         TextView show = panel.findViewById(R.id.btnShow);
+        keep.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 18f, 0));
+        show.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 18f, 0));
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
         if (rtl) {
             LinearLayout buttons = (LinearLayout) keep.getParent();
             buttons.removeAllViews();

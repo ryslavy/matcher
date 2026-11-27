@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Horario de silencio</string>
+    <string name="channel_name">Límite de volumen</string>
+    <string name="notification_text">Manteniendo el volumen por debajo del límite. Abre Horario de silencio para cambiarlo.</string>
+</resources>

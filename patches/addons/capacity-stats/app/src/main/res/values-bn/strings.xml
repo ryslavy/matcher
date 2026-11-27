@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">সক্ষমতা পরিসংখ্যান</string>
+    <string name="loading">তথ্য পড়া হচ্ছে…</string>
+    <string name="unavailable">তথ্য উপলব্ধ নয়</string>
+    <string name="back">ব্যাক</string>
+    <string name="memory">উপলব্ধ RAM: %1$s</string>
+    <string name="memory_used">ব্যবহৃত RAM: %1$s</string>
+    <string name="storage">উপলব্ধ স্টোরেজ: %1$s</string>
+    <string name="note">উপলব্ধ RAM-এ পুনরুদ্ধারযোগ্য ক্যাশ অন্তর্ভুক্ত থাকে; ব্যবহৃত RAM হলো মোট থেকে উপলব্ধ বাদ দিয়ে। স্টোরেজ ডেটা ফাইলসিস্টেমকে নির্দেশ করে।</string>
+</resources>

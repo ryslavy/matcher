@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Audífonos</string>
+    <string name="plays_through">El sonido se reproduce ahora por: %1$s</string>
+    <string name="output_speakers">los altavoces de la TV</string>
+    <string name="output_fixed">la salida de audio de la TV (HDMI ARC u óptica)</string>
+    <string name="allow_title">Permitir acceso a Bluetooth</string>
+    <string name="allow_detail">Para mostrar tus audífonos y detectar cuándo se desconectan. OK solicita permiso.</string>
+    <string name="not_allowed">No permitido</string>
+    <string name="pair_title">Vincular o conectar audífonos</string>
+    <string name="pair_detail">Abre la configuración de Bluetooth de la TV. Primero pon los audífonos en modo de vinculación.</string>
+    <string name="guard_title">Silenciar al desconectarse</string>
+    <string name="guard_detail">Pausa la reproducción y silencia los altavoces de la TV cuando los audífonos se desconectan, para que el sonido no salga a la habitación. Reactiva el sonido cuando vuelven a conectarse.</string>
+    <string name="guard_detail_fixed">Pausa la reproducción cuando los audífonos se desconectan. El volumen de esta TV es fijo (ARC o amplificador), por lo que tampoco puede silenciar los altavoces.</string>
+    <string name="on">Activado</string>
+    <string name="off">Desactivado</string>
+    <string name="unmute_title">Activar el sonido de los altavoces</string>
+    <string name="unmute_detail">Silenciados cuando se desconectaron los audífonos.</string>
+    <string name="muted">Silenciado</string>
+    <string name="heading_paired">Audífonos y altavoces vinculados</string>
+    <string name="no_bluetooth">Esta TV no tiene Bluetooth</string>
+    <string name="bluetooth_off">El Bluetooth está desactivado</string>
+    <string name="bluetooth_off_detail">Actívalo en la configuración de la TV.</string>
+    <string name="none_yet">Ninguno todavía</string>
+    <string name="none_yet_detail">Usa la fila de arriba para vincular alguno.</string>
+    <string name="connected">Conectado</string>
+    <string name="connected_battery">Conectado, batería %1$s</string>
+    <string name="not_connected_detail">No conectado. OK abre la configuración de Bluetooth para conectarlo.</string>
+    <string name="unnamed">Dispositivo sin nombre</string>
+    <string name="heading_several">Varios audífonos a la vez</string>
+    <string name="sharing_one_pair">Esta TV envía sonido a un solo par de audífonos Bluetooth a la vez. Para dos pares, usa un transmisor Bluetooth de doble enlace en la salida óptica o de audífonos de la TV.</string>
+    <string name="sharing_auracast">Esta TV puede transmitir a varios audífonos LE Audio (Auracast) a la vez: inicia la transmisión desde la configuración de Bluetooth de la TV.</string>
+    <string name="sharing_no_broadcast">Esta TV envía sonido a un solo par de audífonos Bluetooth a la vez; no admite transmisión LE Audio. Para dos pares, usa un transmisor Bluetooth de doble enlace en la salida óptica o de audífonos de la TV.</string>
+</resources>

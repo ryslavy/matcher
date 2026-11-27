@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Rellotge mundial</string>
+    <string name="add_city">Afegeix ciutat</string>
+    <string name="clock_format">Format del rellotge</string>
+    <string name="local">Local</string>
+    <string name="search_city">Ciutat o fus horari</string>
+    <string name="search_hint">Prem OK per escriure · Avall per triar una ciutat</string>
+    <string name="no_cities">No s\'han trobat ciutats</string>
+    <string name="change_city">Canvia de ciutat</string>
+    <string name="move_earlier">Mou abans</string>
+    <string name="move_later">Mou després</string>
+    <string name="remove_city">Elimina la ciutat</string>
+    <string name="city_limit">Tria fins a sis rellotges</string>
+    <string name="already_shown">Aquest rellotge ja es mostra</string>
+    <string name="same_day">Mateix dia que l\'hora local</string>
+    <string name="tomorrow">Demà en aquesta ciutat</string>
+    <string name="yesterday">Ahir en aquesta ciutat</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d dia respecte a l\'hora local</item>
+        <item quantity="other">%1$+d dies respecte a l\'hora local</item>
+    </plurals>
+    <string name="local_reference">Dates comparades amb %1$s</string>
+    <string name="controls">Fletxes per moure\'t · OK per a opcions de ciutat · Enrere per tornar</string>
+    <string name="format_system">Fes servir la configuració del TV</string>
+    <string name="format_12">Format de 12 hores</string>
+    <string name="format_24">Format de 24 hores</string>
+    <string name="close">Tanca</string>
+    <string name="screensaver">Estalvi de pantalla</string>
+    <string name="preview">Previsualització · qualsevol botó torna enrere</string>
+    <string name="background_option">Fons: %1$s</string>
+    <string name="motion_option">Moviment: %1$s</string>
+    <string name="brightness_option">Brillantor del rellotge: %1$s</string>
+    <string name="gradient">Degradat de cel</string>
+    <string name="plain">Negre</string>
+    <string name="motion_on">Activat</string>
+    <string name="motion_reduced">Reduït (estàtic)</string>
+    <string name="clock_brightness">Brillantor del rellotge</string>
+    <string name="dim">Tènue</string>
+    <string name="medium">Mitjana</string>
+    <string name="bright">Brillant</string>
+    <string name="tv_screensaver_settings">Configuració de l\'estalvi del TV</string>
+    <string name="screensaver_unavailable">Aquest TV no exposa la configuració de l\'estalvi de pantalla. La previsualització continua disponible.</string>
+    <string name="background">Fons</string>
+    <string name="starfield">Cel estrellat</string>
+    <string name="world_map">Mapa del món</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

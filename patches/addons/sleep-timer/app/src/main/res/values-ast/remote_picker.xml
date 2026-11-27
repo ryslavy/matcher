@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Hores"</string>
+    <string name="remote_minutes">"Minutos"</string>
+    <string name="remote_day">"Día"</string>
+    <string name="remote_month">"Mes"</string>
+    <string name="remote_year">"Añu"</string>
+    <string name="remote_hint">"Izquierda / Drecha: campu · Arriba / Abaxo: valor · OK: siguiente · Atrás: encaboxar"</string>
+    <string name="remote_page_hint">"Escueyi una filera coles fleches y calca OK. Los cambeos aplíquense dempués de Guardar."</string>
+    <string name="remote_events">"EVENTOS SELMANALES"</string>
+    <string name="remote_exclusions">"PERIODOS ENSIN ESPERTAR AUTOMÁTICU"</string>
+    <string name="remote_wake_time">"Hora d'espertar"</string>
+    <string name="remote_sleep_time">"Hora d'espera"</string>
+</resources>

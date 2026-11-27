@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"ชั่วโมง"</string>
+    <string name="remote_minutes">"นาที"</string>
+    <string name="remote_day">"วัน"</string>
+    <string name="remote_month">"เดือน"</string>
+    <string name="remote_year">"ปี"</string>
+    <string name="remote_hint">"ซ้าย / ขวา: ช่อง · ขึ้น / ลง: ค่า · OK: ถัดไป · กลับ: ยกเลิก"</string>
+    <string name="remote_page_hint">"เลือกแถวด้วยปุ่มลูกศรแล้วกด OK การเปลี่ยนแปลงจะมีผลหลังจากบันทึก"</string>
+    <string name="remote_events">"กิจกรรมรายสัปดาห์"</string>
+    <string name="remote_exclusions">"ช่วงเวลาที่ไม่ปลุกอัตโนมัติ"</string>
+    <string name="remote_wake_time">"เวลาปลุก"</string>
+    <string name="remote_sleep_time">"เวลาพักเครื่อง"</string>
+</resources>

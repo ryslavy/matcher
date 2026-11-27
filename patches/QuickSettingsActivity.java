@@ -301,6 +301,7 @@ public final class QuickSettingsActivity extends Activity {
 
         scroll.addView(body, new FrameLayout.LayoutParams(-1, -2));
         panel.addView(scroll, new LinearLayout.LayoutParams(-1, -2));
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
 
         int ringPad = FocusRingController.wrapInsetPx(density);
         panelStage = new FrameLayout(this);
@@ -420,12 +421,13 @@ public final class QuickSettingsActivity extends Activity {
         rightGroup.setClipChildren(false);
         rightGroup.setClipToPadding(false);
         if (AmbientWeather.isVpnActive(this)) {
-            TextView vpn = makeText(getString(R.string.ambient_vpn_badge), 11f, 0xFF8DE6A8);
+            boolean light = ExpressiveGlass.isLightGlass();
+            TextView vpn = makeText(getString(R.string.ambient_vpn_badge), 11f, light ? 0xFF15803D : 0xFF8DE6A8);
             vpn.setPadding(dp(9), dp(4), dp(9), dp(4));
             GradientDrawable bg = new GradientDrawable();
-            bg.setColor(0x281B4D2E);
+            bg.setColor(light ? 0x2415803D : 0x281B4D2E);
             bg.setCornerRadius(dp(11));
-            bg.setStroke(Math.max(1, dp(1)), 0x6634C759);
+            bg.setStroke(Math.max(1, dp(1)), light ? 0x8815803D : 0x6634C759);
             vpn.setBackground(bg);
             LinearLayout.LayoutParams vLp = new LinearLayout.LayoutParams(-2, -2);
             vLp.rightMargin = dp(8);
@@ -477,14 +479,11 @@ public final class QuickSettingsActivity extends Activity {
         mediaBox.setPadding(dp(11), dp(10), dp(10), dp(10));
         mediaBox.setClipChildren(false);
         mediaBox.setClipToPadding(false);
-        GradientDrawable boxBg = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x1EFFFFFF, 0x0FFFFFFF});
-        boxBg.setCornerRadius(dp(18));
-        boxBg.setStroke(Math.max(1, dp(1)), 0x30FFFFFF);
-        mediaBox.setBackground(boxBg);
+        mediaBox.setBackground(ExpressiveGlass.makeAdaptiveCardBg(density, 18f, false));
         mediaBox.setVisibility(View.GONE);
 
         mediaArt = new ImageView(this);
+        ExpressiveGlass.markPreserveImage(mediaArt);
         mediaArt.setScaleType(ImageView.ScaleType.CENTER_CROP);
         mediaArt.setOutlineProvider(new ViewOutlineProvider() {
             @Override
@@ -876,6 +875,7 @@ public final class QuickSettingsActivity extends Activity {
             View right = (i + 1 < haTiles.size()) ? haTiles.get(i + 1).root : makeSpacer();
             addTileRow(haGridBox, left, right);
         }
+        ExpressiveGlass.applyAdaptiveContentTheme(haGridBox);
     }
 
     private View makeSpacer() {
@@ -970,7 +970,7 @@ public final class QuickSettingsActivity extends Activity {
             handingOff = true;
             LauncherSettingsActivity.launch(this, overHome, true);
         });
-        addSettingsActionRow(settingsDrawer, R.drawable.ic_apps_pill, R.string.cc_reorder_tiles,
+        addSettingsActionRow(settingsDrawer, R.drawable.ic_swap_vert, R.string.cc_reorder_tiles,
                 () -> startTileReorder(tileOrder.isEmpty() ? "bedtime" : tileOrder.get(0), false));
     }
 
@@ -1240,33 +1240,16 @@ public final class QuickSettingsActivity extends Activity {
     }
 
     private StateListDrawable makeTileBg(boolean active, int activeStroke, int activeFill, int radiusPx) {
-        StateListDrawable bg = new StateListDrawable();
-        // Stay translucent frosted glass on focus (living wobbly Fresnel GlassView highlights the tile).
-        GradientDrawable focused = active
-                ? new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{(activeFill & 0x00FFFFFF) | 0x62000000, (activeFill & 0x00FFFFFF) | 0x38000000})
-                : new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0x30FFFFFF, 0x18FFFFFF});
-        focused.setCornerRadius(radiusPx);
-        bg.addState(new int[]{android.R.attr.state_focused}, focused);
-
-        GradientDrawable rest = active
-                ? new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{activeFill, (activeFill & 0x00FFFFFF) | 0x26000000})
-                : new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{0x1EFFFFFF, 0x0EFFFFFF});
-        rest.setCornerRadius(radiusPx);
-        rest.setStroke(Math.max(1, Math.round((active ? 1.4f : 1.0f) * density)),
-                active ? (activeStroke & 0x00FFFFFF) | 0xB8000000 : 0x30FFFFFF);
-        bg.addState(new int[0], rest);
-        return bg;
+        return ExpressiveGlass.makeAdaptiveTileBg(density, radiusPx / Math.max(1f, density), active ? activeStroke : 0);
     }
 
     private ColorStateList makeSubTextColors() {
-        return new ColorStateList(
-                new int[][]{new int[]{android.R.attr.state_focused}, new int[0]},
-                new int[]{0xEBFFFFFF, 0x9EFFFFFF});
+        return ExpressiveGlass.adaptiveSubTextColors();
     }
 
     private void addSettingsRow(LinearLayout rows, int icon, int title, int status, Intent target) {
         View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
         ((ImageView) row.findViewById(R.id.icon)).setImageResource(icon);
         ((TextView) row.findViewById(R.id.title)).setText(title);
         row.findViewById(R.id.dot).setVisibility(View.GONE);
@@ -1275,17 +1258,20 @@ public final class QuickSettingsActivity extends Activity {
         else hint.setVisibility(View.GONE);
         row.setOnClickListener(v -> launchAndClose(target));
         Motion.attachRowFocus(row, density, reducedMotion);
+        ExpressiveGlass.applyAdaptiveContentTheme(row);
         rows.addView(row);
     }
 
     private void addSettingsActionRow(LinearLayout rows, int icon, int title, Runnable action) {
         View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
         ((ImageView) row.findViewById(R.id.icon)).setImageResource(icon);
         ((TextView) row.findViewById(R.id.title)).setText(title);
         row.findViewById(R.id.dot).setVisibility(View.GONE);
         row.findViewById(R.id.status).setVisibility(View.GONE);
         row.setOnClickListener(v -> action.run());
         Motion.attachRowFocus(row, density, reducedMotion);
+        ExpressiveGlass.applyAdaptiveContentTheme(row);
         rows.addView(row);
     }
 

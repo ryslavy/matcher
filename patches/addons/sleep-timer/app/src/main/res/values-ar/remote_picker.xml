@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"الساعات"</string>
+    <string name="remote_minutes">"الدقائق"</string>
+    <string name="remote_day">"اليوم"</string>
+    <string name="remote_month">"الشهر"</string>
+    <string name="remote_year">"السنة"</string>
+    <string name="remote_hint">"يمين / يسار: الحقل · أعلى / أسفل: القيمة · OK: التالي · رجوع: إلغاء"</string>
+    <string name="remote_page_hint">"اختر صفًا بالأسهم واضغط OK. تُطبّق التغييرات بعد الحفظ."</string>
+    <string name="remote_events">"الأحداث الأسبوعية"</string>
+    <string name="remote_exclusions">"فترات دون استيقاظ تلقائي"</string>
+    <string name="remote_wake_time">"وقت الاستيقاظ"</string>
+    <string name="remote_sleep_time">"وقت السكون"</string>
+</resources>

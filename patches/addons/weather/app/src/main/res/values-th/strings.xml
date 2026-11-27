@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">สภาพอากาศ</string>
+
+    <string name="feels_like">รู้สึกเหมือน %1$d°</string>
+    <string name="humidity">ความชื้น %1$d%%</string>
+    <string name="wind">ลม %1$d กม./ชม.</string>
+    <string name="wind_mph">ลม %1$d ไมล์/ชม.</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">คุณภาพอากาศ %1$d · %2$s</string>
+    <string name="updated">อัปเดตเมื่อ %1$s · Open-Meteo</string>
+    <string name="change_city">เปลี่ยนเมือง</string>
+    <string name="weather_settings">การตั้งค่าสภาพอากาศ</string>
+    <string name="settings_done">เสร็จสิ้น</string>
+    <string name="setting_units">หน่วยอุณหภูมิ</string>
+    <string name="unit_c">เซลเซียส (°C)</string>
+    <string name="unit_f">ฟาเรนไฮต์ (°F)</string>
+    <string name="setting_both_units">แสดงทั้งสองหน่วย</string>
+    <string name="setting_days">ระยะเวลาพยากรณ์</string>
+    <plurals name="day_count">
+        <item quantity="other">%1$d วัน</item>
+    </plurals>
+    <string name="setting_humidity">แสดงความชื้น</string>
+    <string name="setting_wind">แสดงความเร็วลม</string>
+    <string name="setting_reset">รีเซ็ตการตั้งค่าสภาพอากาศ</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">เปิด</string>
+    <string name="option_off">ปิด</string>
+    <string name="loading">กำลังโหลดสภาพอากาศ…</string>
+    <string name="offline">ไม่สามารถเชื่อมต่อ Open-Meteo ได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของทีวี ระบบจะลองใหม่ใน 5 นาที</string>
+
+    <string name="pick_title">เลือกเมืองใด?</string>
+    <string name="pick_hint">ชื่อเมือง เช่น กรุงเทพฯ</string>
+    <string name="pick_search">ค้นหา</string>
+    <string name="pick_none">ไม่พบสถานที่ชื่อ \"%1$s\"</string>
+    <string name="pick_first">เลือกเมืองเพื่อดูสภาพอากาศ</string>
+
+    <string name="aqi_good">ดี</string>
+    <string name="aqi_moderate">ปานกลาง</string>
+    <string name="aqi_sensitive">ไม่ดีต่อกลุ่มเสี่ยง</string>
+    <string name="aqi_unhealthy">ไม่ดีต่อสุขภาพ</string>
+    <string name="aqi_very_unhealthy">ไม่ดีต่อสุขภาพอย่างมาก</string>
+    <string name="aqi_hazardous">อันตราย</string>
+
+    <string name="sky_clear">ท้องฟ้าแจ่มใส</string>
+    <string name="sky_sunny">แดดจัด</string>
+    <string name="sky_mostly_clear">ท้องฟ้าโปร่งเป็นส่วนใหญ่</string>
+    <string name="sky_mostly_sunny">แดดจัดเป็นส่วนใหญ่</string>
+    <string name="sky_partly_cloudy">มีเมฆบางส่วน</string>
+    <string name="sky_cloudy">มีเมฆมาก</string>
+    <string name="sky_fog">หมอก</string>
+    <string name="sky_drizzle">ฝนปรอยๆ</string>
+    <string name="sky_freezing_drizzle">ฝนปรอยเยือกแข็ง</string>
+    <string name="sky_light_rain">ฝนตกเล็กน้อย</string>
+    <string name="sky_rain">ฝนตก</string>
+    <string name="sky_heavy_rain">ฝนตกหนัก</string>
+    <string name="sky_freezing_rain">ฝนเยือกแข็ง</string>
+    <string name="sky_light_snow">หิมะตกเล็กน้อย</string>
+    <string name="sky_snow">หิมะ</string>
+    <string name="sky_heavy_snow">หิมะตกหนัก</string>
+    <string name="sky_snow_grains">เกล็ดหิมะ</string>
+    <string name="sky_showers">ฝนตกเป็นช่วงๆ</string>
+    <string name="sky_snow_showers">หิมะตกเป็นช่วงๆ</string>
+    <string name="sky_thunderstorm">พายุฝนฟ้าคะนอง</string>
+</resources>

@@ -66,7 +66,7 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ## 3. Modulární doplňky (8 výchozích + 40+ dalších v upstreamu)
 
-Výchozí sada 8 doplňků je kompletně v češtině i angličtině a sdílí [`GlassKit.java`](../patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (Liquid Glass 2.0 + Material 3 Expressive blur + živý focus ring):
+Výchozí sada 8 doplňků je kompletně přeložena **do všech 31 jazyků** (včetně češtiny, slovenštiny, polštiny a angličtiny) a sdílí [`GlassKit.java`](../patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (Liquid Glass 2.0 + 6 stylů skla + Material 3 Expressive blur + živý focus ring):
 
 1. **Jas (`Brightness`)** — ztlumení pod minimum TV + teplý noční filtr + rychlá lišta.
 2. **Časovač spánku (`Sleep Timer`)** — uspání za 15–120 min, týdenní rozvrh a výjimky, HDMI-CEC + rychlá lišta.

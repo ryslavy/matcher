@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Пам’ять і сховище</string>
+    <string name="loading">Зчитування показників…</string>
+    <string name="unavailable">Показники недоступні</string>
+    <string name="back">Назад</string>
+    <string name="memory">Доступно ОЗП: %1$s</string>
+    <string name="memory_used">Використано ОЗП: %1$s</string>
+    <string name="storage">Доступне сховище: %1$s</string>
+    <string name="note">Доступний ОЗП включає кеш, який можна звільнити; використаний ОЗП — різниця між загальним і доступним. Сховище стосується розділу даних.</string>
+</resources>

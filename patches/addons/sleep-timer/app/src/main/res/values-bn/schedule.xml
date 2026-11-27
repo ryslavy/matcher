@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"টিভি সময়সূচী"</string>
+    <string name="sched_1">"সময়গুলো নির্বাচিত ক্যালেন্ডার দিনের জন্য প্রযোজ্য। বাদ দেওয়ার সময়কাল শুধু স্বয়ংক্রিয় জাগানো বন্ধ রাখে। ব্যাক চাপলে অসংরক্ষিত পরিবর্তন বাতিল হবে।"</string>
+    <string name="sched_2">"সময়সূচী: চালু"</string>
+    <string name="sched_3">"সময়সূচী: বন্ধ"</string>
+    <string name="sched_4">"+ জাগানো / স্লিপ সময় যোগ করুন"</string>
+    <string name="sched_5">"জাগানো বন্ধ: "</string>
+    <string name="sched_6">"জাগানো বাদ দেওয়ার সময়কাল"</string>
+    <string name="sched_7">"তারিখ সম্পাদনা করুন"</string>
+    <string name="sched_8">"মুছুন"</string>
+    <string name="sched_9">"+ বাদ দেওয়ার সময়কাল যোগ করুন"</string>
+    <string name="sched_10">"সংরক্ষণ করুন"</string>
+    <string name="sched_11">"জাগানো  "</string>
+    <string name="sched_12">"স্লিপ  "</string>
+    <string name="sched_13">"ইভেন্ট যোগ করুন"</string>
+    <string name="sched_14">"জাগানো"</string>
+    <string name="sched_15">"স্লিপ"</string>
+    <string name="sched_16">"সপ্তাহের দিনগুলো"</string>
+    <string name="sched_17">"বাতিল"</string>
+    <string name="sched_18">"সময়"</string>
+    <string name="sched_19">"অন্তত একটি দিন নির্বাচন করুন"</string>
+    <string name="sched_20">"শেষ তারিখ শুরুর তারিখের সমান বা পরে হতে হবে"</string>
+    <string name="sched_21">"শেষ দিন (অন্তর্ভুক্ত)"</string>
+    <string name="sched_22">"প্রথম দিন (অন্তর্ভুক্ত)"</string>
+    <string name="sched_23">"সোমবার"</string>
+    <string name="sched_24">"মঙ্গলবার"</string>
+    <string name="sched_25">"বুধবার"</string>
+    <string name="sched_26">"বৃহস্পতিবার"</string>
+    <string name="sched_27">"শুক্রবার"</string>
+    <string name="sched_28">"শনিবার"</string>
+    <string name="sched_29">"রবিবার"</string>
+</resources>

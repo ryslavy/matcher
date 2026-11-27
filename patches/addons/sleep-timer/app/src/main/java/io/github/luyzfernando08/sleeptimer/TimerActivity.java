@@ -154,15 +154,16 @@ public class TimerActivity extends Activity {
     private void refresh() {
         if (state == null) return;
         long end = Timer.end(this);
+        GlassKit.markPreserveTextColor(state);
         if (!Timer.canSleep()) {
             state.setText(R.string.no_service);
-            state.setTextColor(0xFFFCA5A5);
+            state.setTextColor(GlassKit.adaptiveAccentTextColor(0xFFFCA5A5));
         } else if (end == 0) {
             state.setText(R.string.state_off);
-            state.setTextColor(0xA6FFFFFF);
+            state.setTextColor(GlassKit.adaptiveSecondaryTextColor());
         } else {
             state.setText(getString(R.string.state_on, DateFormat.getTimeFormat(this).format(end)));
-            state.setTextColor(0xFFC4B5FD);
+            state.setTextColor(GlassKit.adaptiveAccentTextColor(0xFFC4B5FD));
         }
 
         long leftMinutes = end > 0 ? (end - System.currentTimeMillis() + 59_999) / 60_000 : -1;

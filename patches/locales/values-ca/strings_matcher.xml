@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Carpetes d'aplicacions -->
+    <string name="folder_add_to">Afegeix a una carpeta…</string>
+    <string name="folder_new">+ Carpeta nova</string>
+    <string name="folder_new_title">Carpeta nova</string>
+    <string name="folder_rename">Canvia el nom de la carpeta…</string>
+    <string name="folder_rename_title">Canvia el nom de la carpeta</string>
+    <string name="folder_open">Obre la carpeta</string>
+    <string name="folder_add_apps">Afegeix aplicacions…</string>
+    <string name="folder_add_apps_title">Afegeix aplicacions a %1$s</string>
+    <string name="folder_add_apps_empty">Totes les aplicacions d\'Inici ja són en carpetes</string>
+    <string name="folder_dissolve">Desagrupa la carpeta</string>
+    <string name="folder_remove_app">Treu de la carpeta</string>
+    <string name="folder_move_to">Mou a una carpeta…</string>
+    <string name="folder_hint">OK obre · Mantén OK per a opcions · Amunt per a accions</string>
+    <string name="folder_default_name">Carpeta %1$d</string>
+    <string name="folder_name_hint">Nom de la carpeta</string>
+    <string name="folder_create">Crea</string>
+    <string name="folder_save">Desa</string>
+    <string name="folder_cancel">Cancel·la</string>
+    <string name="folder_btn_add">+ Afegeix</string>
+    <string name="folder_btn_reorder">Reordena</string>
+    <string name="folder_btn_done">Fet</string>
+    <string name="folder_btn_rename">Reanomena</string>
+    <string name="folder_preset_streaming">Streaming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Esports</string>
+    <string name="folder_preset_music">Música</string>
+    <string name="folder_preset_games">Jocs</string>
+    <string name="folder_preset_tools">Eines</string>
+
+    <!-- Minireproductor Ara sona -->
+    <string name="media_now_playing">Ara sona</string>
+    <string name="media_playing">Reproduint</string>
+    <string name="media_paused">En pausa</string>
+    <string name="media_live">En directe</string>
+    <string name="media_prev">Anterior</string>
+    <string name="media_play_pause">Reprodueix o pausa</string>
+    <string name="media_next">Següent</string>
+    <string name="media_open_app">Obre l\'aplicació</string>
+    <string name="media_switch_hint">Amunt per canviar d\'aplicació · OK reprèn la reproducció</string>
+
+    <!-- Aplicacions recents -->
+    <string name="recents_title">Aplicacions recents</string>
+    <string name="recents_hint">OK canvia · 2× Amunt tanca · Mantén OK per a opcions</string>
+    <string name="recents_empty">No hi ha cap aplicació recent oberta</string>
+    <string name="recents_switch">Canvia a l\'aplicació</string>
+    <string name="recents_close_app">Tanca l\'aplicació</string>
+    <string name="recents_close_all">Tanca-ho tot</string>
+    <string name="recents_swipe_close">Torna a prémer Amunt per tancar</string>
+    <string name="recents_playing_badge">Reproduint</string>
+    <string name="recents_free_ram">RAM lliure: %1$d MB</string>
+    <string name="recents_just_now">Ara mateix</string>
+    <string name="recents_minutes_ago">Fa %1$d min</string>
+    <string name="recents_hours_ago">Fa %1$d h</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">S\'ha tancat %1$d aplicació</item>
+        <item quantity="other">S\'han tancat %1$d aplicacions</item>
+    </plurals>
+
+    <!-- Estalvi de pantalla Ambient -->
+    <string name="ambient_controls_hint">◄ ► pista · ▼ reprodueix/pausa · ▲ obre</string>
+    <string name="ambient_action_prev">Pista anterior</string>
+    <string name="ambient_action_next">Pista següent</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Serè</string>
+    <string name="weather_partly">Parcialment ennuvolat</string>
+    <string name="weather_cloudy">Ennuvolat</string>
+    <string name="weather_fog">Boira</string>
+    <string name="weather_drizzle">Plugim</string>
+    <string name="weather_rain">Pluja</string>
+    <string name="weather_snow">Neu</string>
+    <string name="weather_showers">Ruixats</string>
+    <string name="weather_storm">Tempesta</string>
+
+    <!-- Centre de control, So nocturn, Bona nit i vídeos Aerial -->
+    <string name="cc_title">Centre de control</string>
+    <string name="cc_bedtime">Bona nit</string>
+    <string name="cc_bedtime_sub">30 min · Atenua · So nocturn</string>
+    <string name="cc_bedtime_on">Actiu</string>
+    <string name="cc_night_audio">So nocturn</string>
+    <string name="cc_night_audio_on">Pics forts reduïts</string>
+    <string name="cc_night_audio_off">Desactivat</string>
+    <string name="cc_night_audio_unavailable">Processador d\'àudio no disponible</string>
+    <string name="cc_audio">Àudio</string>
+    <string name="cc_audio_tv">Altaveus del TV</string>
+    <string name="cc_sleep_timer">Temporitzador</string>
+    <string name="cc_sleep_timer_sub">Defineix el temps</string>
+    <string name="cc_brightness">Brillantor</string>
+    <string name="cc_brightness_sub">Barra d\'atenuació</string>
+    <string name="cc_aerial">Vídeos Aerial</string>
+    <string name="cc_aerial_on">Vídeo 1080p</string>
+    <string name="cc_aerial_on_4k">Vídeo 4K HEVC</string>
+    <string name="cc_aerial_off">Fons de pantalla</string>
+    <string name="cc_screensaver">Estalvi de pantalla</string>
+    <string name="cc_settings">Configuració</string>
+    <string name="cc_sleep_tv">Posa el TV en espera</string>
+    <string name="cc_reorder_tiles">Reordena els mosaics</string>
+    <string name="cc_footer_hint">Mantén OK a Posa el TV en espera per reiniciar · Enrere tanca</string>
+    <string name="cc_on">Activat</string>
+    <string name="cc_off">Desactivat</string>
+    <string name="close">Tanca</string>
+
+    <!-- Configuració QR des del mòbil, Descobreix, Home Assistant, Immich, Watchdog i Actualitzacions -->
+    <string name="qr_setup_title">Configura des del mòbil</string>
+    <string name="qr_setup_subtitle">Escaneja amb el mòbil (mateixa Wi-Fi) per editar botons, fons, ciutat o TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">Configuració QR</string>
+    <string name="qr_setup_no_wifi">Connecta primer el televisor a la Wi-Fi o a Ethernet</string>
+    <string name="qr_setup_waiting">Esperant el mòbil… (vàlid 5 min)</string>
+    <string name="qr_setup_expired">La sessió QR ha caducat — torna-la a obrir per generar un codi nou</string>
+
+    <string name="discover_title">Descobreix &amp; Continua veient</string>
+    <string name="discover_refresh">Actualitza</string>
+    <string name="discover_continue_watching">Continua veient</string>
+    <string name="discover_trending">Tendències recomanades (sense anuncis)</string>
+    <string name="discover_tab_all">Tot</string>
+    <string name="discover_tab_movies">Pel·lícules</string>
+    <string name="discover_tab_shows">Sèries</string>
+    <string name="discover_grant_watchnext_msg">Permet l\'accés als llistats de TV per mostrar Continua veient entre aplicacions</string>
+    <string name="discover_grant_adb_btn">Permet via ADB</string>
+    <string name="discover_grant_success">Continua veient activat</string>
+    <string name="discover_hidden_toast">Amagat de Continua veient</string>
+    <string name="discover_empty_no_key">Fes servir Configuració QR per afegir una clau d\'API de TMDB gratuïta (o servidor Plex) i rebre recomanacions sense anuncis.</string>
+    <string name="discover_empty_no_matches">Ara mateix no s\'ha trobat cap títol coincident per a les aplicacions instal·lades.</string>
+
+    <string name="adb_connecting">Connectant a l\'ADB local…</string>
+    <string name="adb_accept_prompt">Accepta «Permet sempre la depuració per USB» al televisor</string>
+
+    <string name="ha_section_title">Casa intel·ligent</string>
+    <string name="ha_action_failed">Ha fallat l\'acció de Home Assistant</string>
+    <string name="ha_state_unavailable">No disponible</string>
+    <string name="ha_state_open">Obert</string>
+    <string name="ha_state_closed">Tancat</string>
+    <string name="ha_state_camera">Live PiP</string>
+    <string name="ha_camera_title">Càmera de casa</string>
+    <string name="ha_camera_connecting">Connectant a la càmera…</string>
+    <string name="ha_camera_unavailable">Càmera no disponible</string>
+    <string name="ha_camera_hint_pip">OK: Amplia · Enrere: Tanca</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Enrere: Tanca</string>
+    <string name="ha_camera_hint_pip_multi">OK: Amplia · ◀ ▶: Càmera · Enrere: Tanca</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Càmera · Enrere: Tanca</string>
+
+    <string name="aerial_fav_added">Desat als preferits</string>
+    <string name="aerial_fav_removed">Eliminat dels preferits</string>
+
+    <string name="updater_installed">Actualització instal·lada</string>
+    <string name="updater_failed">Ha fallat l\'actualització</string>
+
+    <!-- Configuració del llançador i estils Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Experiència</string>
+    <string name="fs_liquid_clock">Rellotge Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">Liquid Glass òptic a l\'inici</string>
+    <string name="fs_home_backdrop_blur">Desenfocament del fons a l\'inici</string>
+    <string name="fs_glass_material">Estil del vidre</string>
+    <string name="fs_glass_material_title">Tria l\'estil de Liquid Glass</string>
+    <string name="glass_style_tonal">Vidre esmerilat tonal</string>
+    <string name="glass_style_tonal_sub">Vidre fosc equilibrat amb targetes interiors tenyides pel fons</string>
+    <string name="glass_style_obsidian">Negre pur (OLED)</string>
+    <string name="glass_style_obsidian_sub">Cristall d\'obsidiana profund amb vora Fresnel nítida per a sales fosques</string>
+    <string name="glass_style_frost">Blanc glaç</string>
+    <string name="glass_style_frost_sub">Vidre clar nacrat amb text i icones en grafit fosc</string>
+    <string name="glass_style_clear">Cristall transparent</string>
+    <string name="glass_style_clear_sub">Vidre lleuger d\'alta claredat amb refracció òptica intensa a les vores</string>
+    <string name="glass_style_chromatic">Tint cromàtic</string>
+    <string name="glass_style_chromatic_sub">Color intens Material You del fons als panells i targetes interiors</string>
+    <string name="glass_style_auto">Automàtic (Dia / Nit)</string>
+    <string name="glass_style_auto_sub">Blanc glaç de dia, Negre pur després de la posta de sol</string>
+    <string name="fs_remote_buttons">Botons del comandament</string>
+    <string name="fs_ui_sounds">Sons suaus de clic de la interfície</string>
+    <string name="fs_oled_drift">Desplaçament de píxels OLED a l\'estalvi</string>
+    <string name="fs_aerial_quality">Qualitat dels vídeos Aerial</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Només vídeos Aerial preferits (mantén OK)</string>
+
+    <string name="fs_sec_content">Contingut &amp; Descobreix</string>
+    <string name="fs_open_discover">Obre Descobreix (Continua veient &amp; Recomanacions)</string>
+    <string name="fs_watch_next">Continua veient</string>
+    <string name="fs_open_nuvio">Obre les recomanacions directament a Nuvio</string>
+    <string name="fs_watch_saver">Inicia recomanacions des de l\'estalvi (OK)</string>
+    <string name="fs_hide_animation">Amaga recomanacions d\'animació i anime</string>
+    <string name="fs_region">Regió de streaming</string>
+    <string name="fs_trakt">Compte de Trakt.tv</string>
+    <string name="fs_trakt_code_msg">Ves a %1$s i introdueix el codi: %2$s</string>
+    <string name="fs_trakt_signed_in">Sessió iniciada a Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Sessió tancada a Trakt</string>
+
+    <string name="fs_sec_smart">Casa intel·ligent, Fotos &amp; Mòbil</string>
+    <string name="fs_qr_setup">Configura claus, comandament &amp; fons via QR</string>
+    <string name="fs_ha_toggle">Home Assistant al Centre de control</string>
+    <string name="fs_immich_toggle">Fotos d\'Immich a l\'estalvi de pantalla</string>
+    <string name="fs_immich_sync">Sincronitza les fotos d\'Immich ara</string>
+    <string name="fs_immich_album">Àlbum d\'Immich</string>
+    <string name="fs_immich_all_albums">Totes les fotos</string>
+
+    <string name="fs_sec_system">Seguretat &amp; Recuperació</string>
+    <string name="fs_watchdog">Protecció contra bucles de fallada</string>
+    <string name="fs_check_updates">Actualitzacions (GitHub Releases)</string>
+    <string name="fs_updates_title">Actualitzacions (GitHub)</string>
+    <string name="fs_updates_current">Instal·lat: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Cerca actualitzacions ara</string>
+    <string name="fs_updates_checking">Comprovant GitHub Releases…</string>
+    <string name="fs_updates_downloading">Baixant &amp; verificant SHA-256…</string>
+    <string name="fs_updates_install_launcher">Instal·la Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Actualitza %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Comprovació setmanal en segon pla</string>
+    <string name="fs_update_uptodate">El llançador està actualitzat (%1$s)</string>
+    <string name="fs_update_found">Nova versió %1$s disponible</string>
+    <string name="fs_restore_stock">Restaura el llançador original de Google TV (ADB)</string>
+    <string name="fs_restore_confirm_title">Vols restaurar el llançador original?</string>
+    <string name="fs_restore_confirm_msg">Reactiva primer Google TV Launcher amb seguretat, l\'estableix com a Inici, reactiva SetupWraith i sincronitza el disc.</string>
+    <string name="fs_restore_ok">Restaura ara</string>
+    <string name="fs_cancel">Cancel·la</string>
+
+    <!-- Reassignació de botons del comandament -->
+    <string name="rm_title">Botons del comandament</string>
+    <string name="rm_subtitle_ready">Assigna un toc, doble toc o pulsació llarga a qualsevol botó</string>
+    <string name="rm_subtitle_need_a11y">Activa Accessibilitat → Botó d\'inici a la configuració del TV per reassignar botons arreu</string>
+    <string name="rm_open_a11y">Obre la configuració d\'Accessibilitat del TV</string>
+    <string name="rm_open_a11y_sub">Necessari per a la reassignació global de botons</string>
+    <string name="rm_learn_btn">Aprèn un botó del comandament</string>
+    <string name="rm_learn_sub">Prem qualsevol botó físic per detectar-ne el keycode &amp; scancode</string>
+    <string name="rm_empty">Encara no hi ha botons personalitzats (s\'apliquen els del tema)</string>
+    <string name="rm_reset_all">Restableix els botons personalitzats</string>
+    <string name="rm_reset_all_sub">Torna a les assignacions de config.json del tema</string>
+    <string name="rm_reset_done">S\'han esborrat les assignacions personalitzades</string>
+    <string name="rm_capture_title">Prem un botó del comandament</string>
+    <string name="rm_capture_hint">Fletxes, OK, Enrere i Volum estan reservats · Enrere cancel·la</string>
+    <string name="rm_capture_waiting">Esperant que premis un botó…</string>
+    <string name="rm_edit_subtitle">Codi de botó: %1$s</string>
+    <string name="rm_slot_tap">Pulsació curta (Toc)</string>
+    <string name="rm_slot_double">Doble toc</string>
+    <string name="rm_slot_hold">Pulsació llarga (0,5 s)</string>
+    <string name="rm_short_tap">Toc</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Mantén</string>
+    <string name="rm_target_none">Sense assignar</string>
+    <string name="rm_delete_btn">Elimina el botó personalitzat</string>
+    <string name="rm_saved">Assignació de botó desada</string>
+    <string name="rm_action_mute">Silencia l\'àudio</string>
+    <string name="rm_action_ignore">Ignora el botó (desactiva)</string>
+</resources>

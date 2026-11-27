@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dünya Saati</string>
+    <string name="add_city">Şehir ekle</string>
+    <string name="clock_format">Saat biçimi</string>
+    <string name="local">Yerel</string>
+    <string name="search_city">Şehir veya saat dilimi</string>
+    <string name="search_hint">Yazmak için OK\'a basın; şehir seçmek için Aşağı</string>
+    <string name="no_cities">Eşleşen şehir yok</string>
+    <string name="change_city">Şehri değiştir</string>
+    <string name="move_earlier">Öne taşı</string>
+    <string name="move_later">Sona taşı</string>
+    <string name="remove_city">Şehri kaldır</string>
+    <string name="city_limit">En fazla altı saat seçebilirsiniz</string>
+    <string name="already_shown">Bu saat zaten gösteriliyor</string>
+    <string name="same_day">Yerel zamanla aynı gün</string>
+    <string name="tomorrow">Bu şehirde yarın</string>
+    <string name="yesterday">Bu şehirde dün</string>
+    <plurals name="day_difference">
+        <item quantity="one">Yerel zamana göre %1$+d gün</item>
+        <item quantity="other">Yerel zamana göre %1$+d gün</item>
+    </plurals>
+    <string name="local_reference">Tarihler %1$s ile karşılaştırılır</string>
+    <string name="controls">Gezinmek için oklar · Şehir seçenekleri için OK · Dönmek için Geri</string>
+    <string name="format_system">TV ayarını kullan</string>
+    <string name="format_12">12 saatlik biçim</string>
+    <string name="format_24">24 saatlik biçim</string>
+    <string name="close">Kapat</string>
+    <string name="screensaver">Ekran koruyucu</string>
+    <string name="preview">Önizleme · herhangi bir tuş geri döner</string>
+    <string name="background_option">Arka plan: %1$s</string>
+    <string name="motion_option">Hareket: %1$s</string>
+    <string name="brightness_option">Saat parlaklığı: %1$s</string>
+    <string name="gradient">Gökyüzü geçişi</string>
+    <string name="plain">Siyah</string>
+    <string name="motion_on">Açık</string>
+    <string name="motion_reduced">Azaltılmış (sabit)</string>
+    <string name="clock_brightness">Saat parlaklığı</string>
+    <string name="dim">Kısık</string>
+    <string name="medium">Orta</string>
+    <string name="bright">Parlak</string>
+    <string name="tv_screensaver_settings">TV ekran koruyucu ayarları</string>
+    <string name="screensaver_unavailable">Bu TV ekran koruyucu ayarlarını sunmuyor. Önizleme hâlâ kullanılabilir.</string>
+    <string name="background">Arka plan</string>
+    <string name="starfield">Yıldız alanı</string>
+    <string name="world_map">Dünya haritası</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

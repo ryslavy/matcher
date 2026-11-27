@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Estatísticas de capacidade</string>
+    <string name="loading">Lendo contadores…</string>
+    <string name="unavailable">Leituras indisponíveis</string>
+    <string name="back">Voltar</string>
+    <string name="memory">RAM disponível: %1$s</string>
+    <string name="memory_used">RAM usada: %1$s</string>
+    <string name="storage">Armazenamento disponível: %1$s</string>
+    <string name="note">A RAM disponível inclui caches recuperáveis; a RAM usada é o total menos a disponível. O armazenamento refere-se ao sistema de arquivos de dados.</string>
+</resources>

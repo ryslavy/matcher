@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Reló mundial</string>
+    <string name="add_city">Amestar ciudá</string>
+    <string name="clock_format">Formatu del reló</string>
+    <string name="local">Llocal</string>
+    <string name="search_city">Ciudá o fusu horariu</string>
+    <string name="search_hint">Calca OK pa escribir · Abaxo pa escoyer una ciudá</string>
+    <string name="no_cities">Nun hai ciudaes coincidentes</string>
+    <string name="change_city">Camudar ciudá</string>
+    <string name="move_earlier">Mover enantes</string>
+    <string name="move_later">Mover dempués</string>
+    <string name="remove_city">Quitar ciudá</string>
+    <string name="city_limit">Escueyi hasta seis relós</string>
+    <string name="already_shown">Esti reló yá s\'amuesa</string>
+    <string name="same_day">Mesmu día que la hora llocal</string>
+    <string name="tomorrow">Mañana nesta ciudá</string>
+    <string name="yesterday">Ayeri nesta ciudá</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d día respeutu a la hora llocal</item>
+        <item quantity="other">%1$+d díes respeutu a la hora llocal</item>
+    </plurals>
+    <string name="local_reference">Dates comparaes con %1$s</string>
+    <string name="controls">Fleches pa movese · OK pa opciones de ciudá · Atrás pa volver</string>
+    <string name="format_system">Usar l\'axuste de la TV</string>
+    <string name="format_12">Hora en 12 hores</string>
+    <string name="format_24">Hora en 24 hores</string>
+    <string name="close">Zarrar</string>
+    <string name="screensaver">Salvapantalles</string>
+    <string name="preview">Vista previa · cualesquier botón vuelve</string>
+    <string name="background_option">Fondu: %1$s</string>
+    <string name="motion_option">Movimientu: %1$s</string>
+    <string name="brightness_option">Brillu del reló: %1$s</string>
+    <string name="gradient">Degradáu del cielu</string>
+    <string name="plain">Negru</string>
+    <string name="motion_on">Activáu</string>
+    <string name="motion_reduced">Amenorgáu (fixu)</string>
+    <string name="clock_brightness">Brillu del reló</string>
+    <string name="dim">Baxu</string>
+    <string name="medium">Mediu</string>
+    <string name="bright">Altu</string>
+    <string name="tv_screensaver_settings">Axustes del salvapantalles de la TV</string>
+    <string name="screensaver_unavailable">Esta TV nun ufierta axustes del salvapantalles. La vista previa sigue disponible.</string>
+    <string name="background">Fondu</string>
+    <string name="starfield">Campu d\'estrelles</string>
+    <string name="world_map">Mapa mundial</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

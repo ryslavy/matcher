@@ -119,6 +119,42 @@ public class HomeKeyService extends AccessibilityService {
     /** The bound helper, so the opt-in broadcast can arm it without waiting for a new connection. */
     static HomeKeyService running;
 
+    /** Live capture hook for the in-app "Learn remote button" modal (intercepts keys before app_keys launch apps). */
+    interface KeyCaptureListener {
+        boolean onCapturedKey(KeyEvent event);
+    }
+    static volatile KeyCaptureListener keyCaptureListener;
+
+    /** Reloads app_keys live on the bound service right after saving custom remote button mappings. */
+    static void reloadRemoteKeys() {
+        Config.invalidateCache();
+        HomeKeyService service = running;
+        if (service != null) {
+            service.handler.post(service::reloadAppKeysOnly);
+        }
+        InputKeyService.reloadRemoteKeys();
+    }
+
+    private void reloadAppKeysOnly() {
+        Config config = Config.load(this);
+        appKeys = RemoteKeys.parseAppKeys(config.appKeys);
+        appScancodes = RemoteKeys.parseAppScancodes(config.appKeys);
+        doubleAppKeys = RemoteKeys.parseDoubleAppKeys(config.appKeys);
+        doubleAppScancodes = RemoteKeys.parseDoubleAppScancodes(config.appKeys);
+        holdAppKeys = RemoteKeys.parseHoldAppKeys(config.appKeys);
+        holdAppScancodes = RemoteKeys.parseHoldAppScancodes(config.appKeys);
+        frontAppKeys = RemoteKeys.parseFrontAppKeys(config.appKeys);
+        frontAppScancodes = RemoteKeys.parseFrontAppScancodes(config.appKeys);
+    }
+
+    static boolean isNavigationOrCancelKey(int keyCode) {
+        return keyCode == KeyEvent.KEYCODE_DPAD_UP || keyCode == KeyEvent.KEYCODE_DPAD_DOWN
+                || keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+                || keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER
+                || keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN;
+    }
+
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
@@ -295,6 +331,17 @@ public class HomeKeyService extends AccessibilityService {
 
     @Override
     protected boolean onKeyEvent(KeyEvent event) {
+        KeyCaptureListener cap = keyCaptureListener;
+        if (cap != null && !isNavigationOrCancelKey(event.getKeyCode())) {
+            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
+                final KeyEvent copy = new KeyEvent(event);
+                handler.post(() -> {
+                    KeyCaptureListener cur = keyCaptureListener;
+                    if (cur != null) cur.onCapturedKey(copy);
+                });
+            }
+            return true;
+        }
         if (AppForceStopper.isRunning() && event.getAction() == KeyEvent.ACTION_DOWN
                 && (event.getKeyCode() == KeyEvent.KEYCODE_HOME || event.getKeyCode() == KeyEvent.KEYCODE_BACK)) {
             AppForceStopper.cancel();

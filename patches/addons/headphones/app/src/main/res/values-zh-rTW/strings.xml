@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">耳機</string>
+    <string name="plays_through">目前音訊輸出：%1$s</string>
+    <string name="output_speakers">電視喇叭</string>
+    <string name="output_fixed">電視音訊輸出（HDMI ARC 或光纖）</string>
+    <string name="allow_title">允許藍牙存取權限</string>
+    <string name="allow_detail">用於列出您的耳機並在斷線時偵測通知。按 OK 要求權限。</string>
+    <string name="not_allowed">未允許</string>
+    <string name="pair_title">配對或連線耳機</string>
+    <string name="pair_detail">開啟電視的藍牙設定。請先將耳機設為配對模式。</string>
+    <string name="guard_title">斷線時自動靜音</string>
+    <string name="guard_detail">耳機斷線時暫停播放並將電視喇叭靜音，避免聲音外放。重新連線後自動取消靜音。</string>
+    <string name="guard_detail_fixed">耳機斷線時暫停播放。此電視使用固定音量輸出（ARC 或擴大機），因此無法同時將喇叭靜音。</string>
+    <string name="on">開啟</string>
+    <string name="off">關閉</string>
+    <string name="unmute_title">取消喇叭靜音</string>
+    <string name="unmute_detail">因耳機斷線已靜音。</string>
+    <string name="muted">已靜音</string>
+    <string name="heading_paired">已配對的耳機與喇叭</string>
+    <string name="no_bluetooth">此電視未支援藍牙</string>
+    <string name="bluetooth_off">藍牙已關閉</string>
+    <string name="bluetooth_off_detail">請在電視設定中開啟藍牙。</string>
+    <string name="none_yet">尚無裝置</string>
+    <string name="none_yet_detail">請使用上方選項進行配對。</string>
+    <string name="connected">已連線</string>
+    <string name="connected_battery">已連線，電量 %1$s</string>
+    <string name="not_connected_detail">未連線。按 OK 開啟藍牙設定以進行連線。</string>
+    <string name="unnamed">未命名裝置</string>
+    <string name="heading_several">同時連接多副耳機</string>
+    <string name="sharing_one_pair">此電視一次僅能將音訊傳送至一副藍牙耳機。若要使用兩副耳機，請在電視的耳機孔或光纖輸出端接上雙連線藍牙發射器。</string>
+    <string name="sharing_auracast">此電視支援同時向多副 LE Audio（Auracast）耳機廣播：請從電視的藍牙設定開始分享。</string>
+    <string name="sharing_no_broadcast">此電視一次僅能將音訊傳送至一副藍牙耳機，不支援 LE Audio 廣播。若要使用兩副耳機，請在電視的耳機孔或光纖輸出端接上雙連線藍牙發射器。</string>
+</resources>

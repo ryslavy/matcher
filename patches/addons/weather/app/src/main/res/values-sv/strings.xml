@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Väder</string>
+
+    <string name="feels_like">Känns som %1$d°</string>
+    <string name="humidity">Luftfuktighet %1$d%%</string>
+    <string name="wind">Vind %1$d km/h</string>
+    <string name="wind_mph">Vind %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Luftkvalitet %1$d · %2$s</string>
+    <string name="updated">Uppdaterad %1$s · Open-Meteo</string>
+    <string name="change_city">Byt stad</string>
+    <string name="weather_settings">Väderinställningar</string>
+    <string name="settings_done">Klar</string>
+    <string name="setting_units">Temperaturenhet</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Visa båda enheterna</string>
+    <string name="setting_days">Prognoslängd</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d dag</item>
+        <item quantity="other">%1$d dagar</item>
+    </plurals>
+    <string name="setting_humidity">Visa luftfuktighet</string>
+    <string name="setting_wind">Visa vind</string>
+    <string name="setting_reset">Återställ väderinställningar</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">På</string>
+    <string name="option_off">Av</string>
+    <string name="loading">Läser in vädret…</string>
+    <string name="offline">Kan inte nå Open-Meteo. Kontrollera TV:ns internetanslutning; försöker igen om 5 minuter.</string>
+
+    <string name="pick_title">Vilken stad?</string>
+    <string name="pick_hint">Stadsnamn, t.ex. Stockholm</string>
+    <string name="pick_search">Sök</string>
+    <string name="pick_none">Ingen plats heter \"%1$s\"</string>
+    <string name="pick_first">Välj en stad för att se vädret.</string>
+
+    <string name="aqi_good">Bra</string>
+    <string name="aqi_moderate">Måttlig</string>
+    <string name="aqi_sensitive">Ohälsosam för känsliga grupper</string>
+    <string name="aqi_unhealthy">Ohälsosam</string>
+    <string name="aqi_very_unhealthy">Mycket ohälsosam</string>
+    <string name="aqi_hazardous">Farlig</string>
+
+    <string name="sky_clear">Klart</string>
+    <string name="sky_sunny">Soligt</string>
+    <string name="sky_mostly_clear">Mestadels klart</string>
+    <string name="sky_mostly_sunny">Mestadels soligt</string>
+    <string name="sky_partly_cloudy">Halvklart</string>
+    <string name="sky_cloudy">Mulet</string>
+    <string name="sky_fog">Dimma</string>
+    <string name="sky_drizzle">Duggregn</string>
+    <string name="sky_freezing_drizzle">Underkylt duggregn</string>
+    <string name="sky_light_rain">Lätt regn</string>
+    <string name="sky_rain">Regn</string>
+    <string name="sky_heavy_rain">Kraftigt regn</string>
+    <string name="sky_freezing_rain">Underkylt regn</string>
+    <string name="sky_light_snow">Lätt snöfall</string>
+    <string name="sky_snow">Snö</string>
+    <string name="sky_heavy_snow">Kraftigt snöfall</string>
+    <string name="sky_snow_grains">Kornsnö</string>
+    <string name="sky_showers">Skurar</string>
+    <string name="sky_snow_showers">Snöbyar</string>
+    <string name="sky_thunderstorm">Åskväder</string>
+</resources>

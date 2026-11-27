@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tajmer za spavanje</string>
+    <string name="hint">Izaberite kada TV prelazi u pripravnost. Minut ranije pojavljuje se upozorenje.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Otkaži tajmer</string>
+    <string name="state_off">Tajmer nije podešen.</string>
+    <string name="state_on">Pripravnost u %1$s.</string>
+    <string name="no_service">Usluga Pristupačnosti za Tajmer za spavanje je isključena (pokrenite skriptu za instalaciju).</string>
+    <string name="warning_title">TV se uskoro isključuje</string>
+    <string name="warning_seconds">za %1$d s</string>
+    <string name="more">Još 15 minuta</string>
+    <string name="now">Isključi odmah</string>
+    <string name="service_label">Tajmer za spavanje</string>
+    <string name="quick_hint">◀ ▶ izaberi vreme · OK zatvori</string>
+    <string name="service_description">Samo prebacuje TV u stanje pripravnosti kada Tajmer za spavanje istekne. Ne čita sadržaj ekrana.</string>
+    <string name="schedule_row">Raspored</string>
+</resources>

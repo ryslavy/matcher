@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Hores"</string>
+    <string name="remote_minutes">"Minuts"</string>
+    <string name="remote_day">"Dia"</string>
+    <string name="remote_month">"Mes"</string>
+    <string name="remote_year">"Any"</string>
+    <string name="remote_hint">"Esquerra / Dreta: camp · Amunt / Avall: valor · OK: següent · Enrere: cancel·la"</string>
+    <string name="remote_page_hint">"Tria una fila amb les fletxes i prem OK. Els canvis s'apliquen en desar."</string>
+    <string name="remote_events">"ESDEVENIMENTS SETMANALS"</string>
+    <string name="remote_exclusions">"PERÍODES SENSE ACTIVACIÓ AUTOMÀTICA"</string>
+    <string name="remote_wake_time">"Hora d'activació"</string>
+    <string name="remote_sleep_time">"Hora de repòs"</string>
+</resources>

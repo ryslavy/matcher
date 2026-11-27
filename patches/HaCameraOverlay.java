@@ -125,7 +125,7 @@ final class HaCameraOverlay {
 
         ImageView camIcon = new ImageView(activity);
         camIcon.setImageResource(R.drawable.ic_ha_camera);
-        camIcon.setColorFilter(0xE6FFFFFF);
+        camIcon.setImageTintList(android.content.res.ColorStateList.valueOf(0xE6FFFFFF));
         LinearLayout.LayoutParams iconLp = new LinearLayout.LayoutParams(dp(16), dp(16));
         iconLp.rightMargin = dp(6);
         header.addView(camIcon, iconLp);
@@ -141,10 +141,7 @@ final class HaCameraOverlay {
         counterPill.setTextColor(0xE0DCE8F8);
         counterPill.setTextSize(11.5f);
         counterPill.setPadding(dp(8), dp(2), dp(8), dp(2));
-        GradientDrawable pillBg = new GradientDrawable();
-        pillBg.setCornerRadius(10f * density);
-        pillBg.setColor(0x28FFFFFF);
-        counterPill.setBackground(pillBg);
+        counterPill.setBackground(ExpressiveGlass.makeAdaptiveCardBg(density, 10f, false));
         LinearLayout.LayoutParams pillLp = new LinearLayout.LayoutParams(-2, -2);
         pillLp.rightMargin = dp(8);
         header.addView(counterPill, pillLp);
@@ -174,6 +171,7 @@ final class HaCameraOverlay {
         });
 
         imageView = new ImageView(activity);
+        ExpressiveGlass.markPreserveImage(imageView);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setAlpha(0f);
         videoFrame.addView(imageView, new FrameLayout.LayoutParams(-1, -1));
@@ -196,6 +194,8 @@ final class HaCameraOverlay {
         hintLp.topMargin = dp(7);
         panel.addView(hintView, hintLp);
 
+        ExpressiveGlass.applyAdaptiveContentTheme(header);
+        ExpressiveGlass.applyAdaptiveContentTheme(hintView);
         updateHeaderUi();
     }
 

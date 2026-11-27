@@ -2,7 +2,7 @@
 
 This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspired **Liquid Glass** launcher, 8 matching frosted-glass modular add-ons, seasonal/mood wallpapers, two-level remote keymaps, and automated Windows PowerShell deployment scripts built on top of [`Gathin23/cleanyourtv`](https://github.com/Gathin23/cleanyourtv).
 
-> **Operational Playbooks:** For step-by-step execution recipes (deploy, customize, edit code, add translations, debug overlays, rollback), see [`SKILL.md`](SKILL.md).
+> **Operational Playbooks:** For step-by-step execution recipes (deploy, customize, edit code, add translations, debug overlays, rollback), see [`SKILL.md`](SKILL.md). For safe incremental updates or single-feature cherry-picking on an already configured TV (skipping debloat & preserving themes), see [`UPDATE.md`](UPDATE.md) and [`CHANGELOG.md`](CHANGELOG.md).
 
 ---
 
@@ -122,10 +122,11 @@ This repository (**Matcher**) packages a heavily upgraded Apple tvOS 26–inspir
 | `MainActivity.java`, `AppAdapter.java`, `TileSheenDrawable.java`, `WallpaperPlayer.java`, `WallpaperMood.java`, `HeroArt.java` | Home screen, dock, 3D tile spring tilt/sway/sheen, seasonal/mood wallpapers, tile/folder context menus, Add-Apps & Rename dialogs |
 | `OverlayActivity.java`, `QuickSettingsActivity.java`, `LauncherSettingsActivity.java`, `LauncherFeatureSettings.java` | Translucent overlay hosts for Recents, App Library, Folders, Discover, Control Center, and Settings |
 | `FolderDialog.java`, `AppLibraryDialog.java`, `RecentsDialog.java`, `MediaMiniPlayerDialog.java`, `DiscoverDialog.java`, `QrSetupDialog.java` | All major glass modals, carousels, mini-player, and nested popovers |
-| `HomeKeyService.java`, `InputKeyService.java`, `RemoteKeys.java`, `GamepadPassthrough.java`, `PointerSupport.java`, `UiClickSound.java` | Three-level (`tap`/`double:`/`hold:`) remote key interception, game controller passthrough, air-mouse hover, click sounds |
-| `ClockScene.java`, `ClockActivity.java`, `ClockDream.java`, `AerialCatalog.java`, `AmbientWeather.java`, `ImmichSyncManager.java` | 4K HEVC / 1080p Aerial video & photo screensaver, favorite loops, weather/sunrise, OLED drift, Immich sync |
-| `WatchNextRepository.java`, `TrendingPicksRepository.java`, `TraktClient.java`, `PlexClient.java`, `HomeAssistantClient.java`, `HaCameraOverlay.java`, `QrConfigServer.java`, `QrBitmap.java` | Discover providers, Home Assistant API client & live `camera.*` PiP overlay, ephemeral LAN QR setup web server |
-| `LocalAdbClient.java`, `CrashWatchdog.java`, `TvHomeApp.java`, `SelfUpdater.java`, `FeaturePrefs.java` | Loopback ADB permission/restore client, crash-loop protection, preferences (`SelfUpdater` disabled by default) |
+| `HomeKeyService.java`, `InputKeyService.java`, `RemoteKeys.java`, `RemoteMapperDialog.java`, `GamepadPassthrough.java`, `PointerSupport.java`, `UiClickSound.java` | Three-level (`tap`/`double:`/`hold:`) remote key interception, in-app "Learn Button" remapper, game controller passthrough, air-mouse hover, click sounds |
+| `ClockScene.java`, `ClockActivity.java`, `ClockDream.java`, `AerialCatalog.java`, `AmbientWeather.java`, `ImmichSyncManager.java` | 4K HEVC / 1080p Aerial video & photo screensaver, favorite loops, runtime-overridable weather/sunrise, OLED drift, Immich sync |
+| `WatchNextRepository.java`, `TrendingPicksRepository.java`, `TraktClient.java`, `PlexClient.java`, `HomeAssistantClient.java`, `HaCameraOverlay.java`, `QrConfigServer.java`, `QrBitmap.java` | Discover providers, Home Assistant API client & live `camera.*` PiP overlay, ephemeral LAN QR setup web editor (keys, remote buttons, weather, labels, hidden apps, wallpaper upload, `config.json` export/import) |
+| `LocalAdbClient.java`, `CrashWatchdog.java`, `TvHomeApp.java`, `SelfUpdater.java`, `FeaturePrefs.java` | Loopback ADB permission/restore client, crash-loop protection, OTA GitHub Releases updater (`manifest.json` + `MY_PACKAGE_REPLACED` `ServiceRepair`), persistent preferences |
+| `patches/locales/values*/strings_matcher.xml`, `patches/locales_config.xml`, `LocaleIntegrityTest.java` | Complete 31-locale Matcher string overlays beside untouched upstream `strings.xml` + automated format-specifier & XML validator test |
 
 ---
 

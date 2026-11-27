@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Osvetljenost</string>
+    <string name="quick_brightness">Osvetljenost %1$d%%</string>
+    <string name="quick_night_brightness">Noćna osvetljenost %1$d%%</string>
+    <string name="quick_hint">◀ ▶ podesi · OK zatvori</string>
+    <string name="channel_name">Zatamnjivanje ekrana</string>
+    <string name="notification_text">Ekran je zatamnjen. Otvorite Osvetljenost da promenite ili isključite.</string>
+</resources>

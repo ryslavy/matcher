@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"TV jadvali"</string>
+    <string name="sched_1">"Vaqtlar tanlangan taqvim kuniga tegishli. Istisno davrlari faqat avtomatik uygʻotishni toʻxtatadi. Orqaga saqlanmagan oʻzgarishlarni bekor qiladi."</string>
+    <string name="sched_2">"Jadval: YOQIQ"</string>
+    <string name="sched_3">"Jadval: OʻCHIQ"</string>
+    <string name="sched_4">"+ Uygʻotish / uyqu vaqti qoʻshish"</string>
+    <string name="sched_5">"Uygʻotmaslik: "</string>
+    <string name="sched_6">"Uygʻotish istisno davri"</string>
+    <string name="sched_7">"Sanalarni tahrirlash"</string>
+    <string name="sched_8">"Oʻchirish"</string>
+    <string name="sched_9">"+ Istisno davri qoʻshish"</string>
+    <string name="sched_10">"Saqlash"</string>
+    <string name="sched_11">"Uygʻotish  "</string>
+    <string name="sched_12">"Uyqu  "</string>
+    <string name="sched_13">"Hodisa qoʻshish"</string>
+    <string name="sched_14">"Uygʻotish"</string>
+    <string name="sched_15">"Uyqu"</string>
+    <string name="sched_16">"Hafta kunlari"</string>
+    <string name="sched_17">"Bekor qilish"</string>
+    <string name="sched_18">"Vaqt"</string>
+    <string name="sched_19">"Kamida bitta kunni tanlang"</string>
+    <string name="sched_20">"Tugash sanasi boshlanish sanasi bilan bir xil yoki undan keyin boʻlishi kerak"</string>
+    <string name="sched_21">"Oxirgi kun (shu jumladan)"</string>
+    <string name="sched_22">"Birinchi kun (shu jumladan)"</string>
+    <string name="sched_23">"Dushanba"</string>
+    <string name="sched_24">"Seshanba"</string>
+    <string name="sched_25">"Chorshanba"</string>
+    <string name="sched_26">"Payshanba"</string>
+    <string name="sched_27">"Juma"</string>
+    <string name="sched_28">"Shanba"</string>
+    <string name="sched_29">"Yakshanba"</string>
+</resources>

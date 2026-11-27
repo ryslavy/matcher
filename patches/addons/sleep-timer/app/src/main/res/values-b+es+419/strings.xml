@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Temporizador de apagado</string>
+    <string name="hint">Elige cuándo pasa la TV a modo de espera. Un minuto antes se muestra un aviso.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Cancelar el temporizador</string>
+    <string name="state_off">No hay temporizador configurado.</string>
+    <string name="state_on">En espera a las %1$s.</string>
+    <string name="no_service">El servicio de accesibilidad de Temporizador de apagado está desactivado (ejecuta el script de instalación).</string>
+    <string name="warning_title">La TV se apagará</string>
+    <string name="warning_seconds">en %1$d segundos</string>
+    <string name="more">15 minutos más</string>
+    <string name="now">Apagar ahora</string>
+    <string name="service_label">Temporizador de apagado</string>
+    <string name="quick_hint">◀ ▶ elegir tiempo · OK cerrar</string>
+    <string name="service_description">Solo pone la TV en modo de espera cuando termina el Temporizador de apagado. No lee la pantalla.</string>
+    <string name="schedule_row">Programación</string>
+</resources>

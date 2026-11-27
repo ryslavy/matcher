@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kapacitetsöversikt</string>
+    <string name="loading">Läser av mätare…</string>
+    <string name="unavailable">Mätvärden inte tillgängliga</string>
+    <string name="back">Tillbaka</string>
+    <string name="memory">Tillgängligt RAM: %1$s</string>
+    <string name="memory_used">Använt RAM: %1$s</string>
+    <string name="storage">Tillgängligt lagringsutrymme: %1$s</string>
+    <string name="note">Tillgängligt RAM inkluderar frigörbara cacher; använt RAM är totalt minus tillgängligt. Lagringsutrymme avser datafilsystemet.</string>
+</resources>

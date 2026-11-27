@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Тихі години</string>
+    <string name="channel_name">Обмеження гучності</string>
+    <string name="notification_text">Гучність утримується нижче ліміту. Відкрийте «Тихі години», щоб змінити його.</string>
+</resources>

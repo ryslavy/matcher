@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Lịch TV"</string>
+    <string name="sched_1">"Thời gian áp dụng theo ngày đã chọn. Khoảng loại trừ chỉ chặn tự động bật. Nhấn Quay lại để hủy thay đổi chưa lưu."</string>
+    <string name="sched_2">"Lịch: BẬT"</string>
+    <string name="sched_3">"Lịch: TẮT"</string>
+    <string name="sched_4">"+ Thêm giờ bật / ngủ"</string>
+    <string name="sched_5">"Không bật: "</string>
+    <string name="sched_6">"Khoảng loại trừ tự động bật"</string>
+    <string name="sched_7">"Sửa ngày"</string>
+    <string name="sched_8">"Xóa"</string>
+    <string name="sched_9">"+ Thêm khoảng loại trừ"</string>
+    <string name="sched_10">"Lưu"</string>
+    <string name="sched_11">"Bật  "</string>
+    <string name="sched_12">"Ngủ  "</string>
+    <string name="sched_13">"Thêm sự kiện"</string>
+    <string name="sched_14">"Bật"</string>
+    <string name="sched_15">"Ngủ"</string>
+    <string name="sched_16">"Các ngày trong tuần"</string>
+    <string name="sched_17">"Hủy"</string>
+    <string name="sched_18">"Giờ"</string>
+    <string name="sched_19">"Chọn ít nhất một ngày"</string>
+    <string name="sched_20">"Ngày kết thúc phải từ ngày bắt đầu trở đi"</string>
+    <string name="sched_21">"Ngày cuối (bao gồm)"</string>
+    <string name="sched_22">"Ngày đầu (bao gồm)"</string>
+    <string name="sched_23">"Thứ Hai"</string>
+    <string name="sched_24">"Thứ Ba"</string>
+    <string name="sched_25">"Thứ Tư"</string>
+    <string name="sched_26">"Thứ Năm"</string>
+    <string name="sched_27">"Thứ Sáu"</string>
+    <string name="sched_28">"Thứ Bảy"</string>
+    <string name="sched_29">"Chủ Nhật"</string>
+</resources>

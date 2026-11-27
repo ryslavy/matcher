@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clima</string>
+
+    <string name="feels_like">Sensación %1$d°</string>
+    <string name="humidity">Humedad %1$d%%</string>
+    <string name="wind">Viento %1$d km/h</string>
+    <string name="wind_mph">Viento %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Calidad del aire %1$d · %2$s</string>
+    <string name="updated">Actualizado %1$s · Open-Meteo</string>
+    <string name="change_city">Cambiar ciudad</string>
+    <string name="weather_settings">Configuración del clima</string>
+    <string name="settings_done">Listo</string>
+    <string name="setting_units">Unidades de temperatura</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Mostrar ambas unidades</string>
+    <string name="setting_days">Duración del pronóstico</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d día</item>
+        <item quantity="many">%1$d días</item>
+        <item quantity="other">%1$d días</item>
+    </plurals>
+    <string name="setting_humidity">Mostrar humedad</string>
+    <string name="setting_wind">Mostrar viento</string>
+    <string name="setting_reset">Restablecer configuración del clima</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Activado</string>
+    <string name="option_off">Desactivado</string>
+    <string name="loading">Cargando el clima…</string>
+    <string name="offline">No se puede conectar con Open-Meteo. Verifica la conexión a internet de la TV; volverá a intentarlo en 5 minutos.</string>
+
+    <string name="pick_title">¿Qué ciudad?</string>
+    <string name="pick_hint">Nombre de la ciudad, p. ej., Ciudad de México</string>
+    <string name="pick_search">Buscar</string>
+    <string name="pick_none">No hay ningún lugar llamado \"%1$s\"</string>
+    <string name="pick_first">Elige una ciudad para ver el clima.</string>
+
+    <string name="aqi_good">Buena</string>
+    <string name="aqi_moderate">Moderada</string>
+    <string name="aqi_sensitive">Mala para grupos sensibles</string>
+    <string name="aqi_unhealthy">Mala</string>
+    <string name="aqi_very_unhealthy">Muy mala</string>
+    <string name="aqi_hazardous">Peligrosa</string>
+
+    <string name="sky_clear">Despejado</string>
+    <string name="sky_sunny">Soleado</string>
+    <string name="sky_mostly_clear">Mayormente despejado</string>
+    <string name="sky_mostly_sunny">Mayormente soleado</string>
+    <string name="sky_partly_cloudy">Parcialmente nublado</string>
+    <string name="sky_cloudy">Nublado</string>
+    <string name="sky_fog">Niebla</string>
+    <string name="sky_drizzle">Llovizna</string>
+    <string name="sky_freezing_drizzle">Llovizna helada</string>
+    <string name="sky_light_rain">Lluvia ligera</string>
+    <string name="sky_rain">Lluvia</string>
+    <string name="sky_heavy_rain">Lluvia intensa</string>
+    <string name="sky_freezing_rain">Lluvia helada</string>
+    <string name="sky_light_snow">Nieve ligera</string>
+    <string name="sky_snow">Nieve</string>
+    <string name="sky_heavy_snow">Nieve intensa</string>
+    <string name="sky_snow_grains">Granos de nieve</string>
+    <string name="sky_showers">Chubascos</string>
+    <string name="sky_snow_showers">Chubascos de nieve</string>
+    <string name="sky_thunderstorm">Tormenta eléctrica</string>
+</resources>

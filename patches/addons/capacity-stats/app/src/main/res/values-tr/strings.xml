@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kapasite İstatistikleri</string>
+    <string name="loading">Sayaçlar okunuyor…</string>
+    <string name="unavailable">Veriler kullanılamıyor</string>
+    <string name="back">Geri</string>
+    <string name="memory">Kullanılabilir RAM: %1$s</string>
+    <string name="memory_used">Kullanılan RAM: %1$s</string>
+    <string name="storage">Kullanılabilir depolama: %1$s</string>
+    <string name="note">Kullanılabilir RAM, geri kazanılabilir önbellekleri içerir; kullanılan RAM, toplamdan kullanılabilir miktar çıkarılarak hesaplanır. Depolama, veri dosya sistemini ifade eder.</string>
+</resources>

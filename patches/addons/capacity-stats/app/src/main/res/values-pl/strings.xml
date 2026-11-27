@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pamięć i miejsce</string>
+    <string name="loading">Odczytywanie wskaźników…</string>
+    <string name="unavailable">Dane niedostępne</string>
+    <string name="back">Wstecz</string>
+    <string name="memory">Dostępny RAM: %1$s</string>
+    <string name="memory_used">Użyty RAM: %1$s</string>
+    <string name="storage">Dostępna pamięć: %1$s</string>
+    <string name="note">Dostępny RAM obejmuje pamięć podręczną możliwą do zwolnienia; użyty RAM to różnica pamięci całkowitej i dostępnej. Pamięć dotyczy partycji danych.</string>
+</resources>

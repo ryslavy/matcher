@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.application'
+}
+
+def matcherVersion = providers.gradleProperty('matcherVersion').getOrElse('1.2.0')
+def matcherVersionCode = providers.gradleProperty('matcherVersionCode').map { it.toInteger() }.getOrElse(120)
+
+def releaseStorePath = System.getenv('RELEASE_KEYSTORE_PATH') ?: providers.gradleProperty('releaseKeystorePath').orNull
+def releaseStorePass = System.getenv('RELEASE_KEYSTORE_PASSWORD') ?: providers.gradleProperty('releaseKeystorePassword').orNull
+def releaseKeyAlias  = System.getenv('RELEASE_KEY_ALIAS') ?: providers.gradleProperty('releaseKeyAlias').orNull
+def releaseKeyPass   = System.getenv('RELEASE_KEY_PASSWORD') ?: providers.gradleProperty('releaseKeyPassword').orNull
+def hasReleaseKey    = releaseStorePath && file(releaseStorePath).exists() && releaseStorePass && releaseKeyAlias && releaseKeyPass
+
+android {
+    namespace 'com.gathin.tvhome'
+    compileSdk 34
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    defaultConfig {
+        // Opt-in identity for firmware with a package-name HOME allowlist.
+        // Xiaomi: docs/devices/xiaomi-mitv-aetp0-dofus.md (com.ts.launcher).
+        // ColorOS TV: docs/devices/oppo-k9-55-oppocnm632.md (com.oneplus.tv.launcher2).
+        applicationId providers.gradleProperty('launcherApplicationId').getOrElse('com.gathin.tvhome')
+        minSdk 26
+        targetSdk 34
+        versionCode matcherVersionCode
+        versionName matcherVersion
+        buildConfigField "String", "MATCHER_VERSION", "\"${matcherVersion}\""
+    }
+
+    signingConfigs {
+        if (hasReleaseKey) {
+            release {
+                storeFile file(releaseStorePath)
+                storePassword releaseStorePass
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPass
+                v1SigningEnabled true
+                v2SigningEnabled true
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            // R8 strips and optimises the code (AndroidX included): smaller APK, faster start on a slow TV CPU.
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // Uses stable release keystore in GitHub Actions / signed builds; falls back to debug key for local dev builds.
+            signingConfig hasReleaseKey ? signingConfigs.release : signingConfigs.debug
+        }
+    }
+
+    packagingOptions {
+        resources {
+            // Kotlin metadata pulled in by AndroidX's dependencies. This launcher is plain Java and never reads it;
+            // leaving it out saves about 14 KB of every install.
+            excludes += ['kotlin/**', 'META-INF/*.version', 'META-INF/*.kotlin_module', 'DebugProbesKt.bin']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
+    // Test only (never in the APK): plain JVM tests for the module card validators, src/test.
+    testImplementation 'junit:junit:4.13.2'
+}

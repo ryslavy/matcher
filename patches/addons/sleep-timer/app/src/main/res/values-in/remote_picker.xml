@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Jam"</string>
+    <string name="remote_minutes">"Menit"</string>
+    <string name="remote_day">"Hari"</string>
+    <string name="remote_month">"Bulan"</string>
+    <string name="remote_year">"Tahun"</string>
+    <string name="remote_hint">"Kiri / Kanan: kolom · Atas / Bawah: nilai · OK: lanjut · Kembali: batal"</string>
+    <string name="remote_page_hint">"Pilih baris dengan tombol panah lalu tekan OK. Perubahan berlaku setelah Simpan."</string>
+    <string name="remote_events">"ACARA MINGGUAN"</string>
+    <string name="remote_exclusions">"PERIODE TANPA BANGUN OTOMATIS"</string>
+    <string name="remote_wake_time">"Waktu bangun"</string>
+    <string name="remote_sleep_time">"Waktu tidur"</string>
+</resources>

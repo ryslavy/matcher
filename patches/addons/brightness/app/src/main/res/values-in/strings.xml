@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kecerahan</string>
+    <string name="quick_brightness">Kecerahan %1$d%%</string>
+    <string name="quick_night_brightness">Kecerahan malam %1$d%%</string>
+    <string name="quick_hint">◀ ▶ atur · OK tutup</string>
+    <string name="channel_name">Peredupan layar</string>
+    <string name="notification_text">Meredupkan layar. Buka Kecerahan untuk mengubah atau menonaktifkannya.</string>
+</resources>

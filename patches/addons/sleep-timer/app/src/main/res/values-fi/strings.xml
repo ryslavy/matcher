@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Uniajastin</string>
+    <string name="hint">Valitse, milloin TV siirtyy valmiustilaan. Varoitus näytetään minuuttia aiemmin.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Peruuta ajastin</string>
+    <string name="state_off">Ajastinta ei ole asetettu.</string>
+    <string name="state_on">Valmiustila klo %1$s.</string>
+    <string name="no_service">Uniajastimen esteettömyyspalvelu on pois päältä (suorita asennusskripti).</string>
+    <string name="warning_title">TV sammuu pian</string>
+    <string name="warning_seconds">%1$d sekunnin kuluttua</string>
+    <string name="more">15 minuuttia lisää</string>
+    <string name="now">Sammuta nyt</string>
+    <string name="service_label">Uniajastin</string>
+    <string name="quick_hint">◀ ▶ valitse aika · OK sulje</string>
+    <string name="service_description">Siirtää TV:n valmiustilaan vain Uniajastimen päättyessä. Ei lue näytön sisältöä.</string>
+    <string name="schedule_row">Aikataulu</string>
+</resources>

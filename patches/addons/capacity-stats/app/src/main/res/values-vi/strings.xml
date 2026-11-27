@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Thống kê dung lượng</string>
+    <string name="loading">Đang đọc bộ đếm…</string>
+    <string name="unavailable">Không có dữ liệu</string>
+    <string name="back">Quay lại</string>
+    <string name="memory">RAM khả dụng: %1$s</string>
+    <string name="memory_used">RAM đã dùng: %1$s</string>
+    <string name="storage">Bộ nhớ khả dụng: %1$s</string>
+    <string name="note">RAM khả dụng bao gồm bộ nhớ đệm có thể thu hồi; RAM đã dùng bằng tổng trừ đi khả dụng. Bộ nhớ tham chiếu đến hệ thống tệp dữ liệu.</string>
+</resources>

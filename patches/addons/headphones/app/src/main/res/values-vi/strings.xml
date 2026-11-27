@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tai nghe</string>
+    <string name="plays_through">Âm thanh đang phát qua: %1$s</string>
+    <string name="output_speakers">loa TV</string>
+    <string name="output_fixed">ngõ ra âm thanh của TV (HDMI ARC hoặc quang học)</string>
+    <string name="allow_title">Cho phép truy cập Bluetooth</string>
+    <string name="allow_detail">Để liệt kê tai nghe của bạn và phát hiện khi bị ngắt kết nối. Nhấn OK để cấp quyền.</string>
+    <string name="not_allowed">Chưa cho phép</string>
+    <string name="pair_title">Ghép nối hoặc kết nối tai nghe</string>
+    <string name="pair_detail">Mở cài đặt Bluetooth của TV. Hãy bật chế độ ghép nối trên tai nghe trước.</string>
+    <string name="guard_title">Tắt tiếng khi ngắt kết nối</string>
+    <string name="guard_detail">Tạm dừng nội dung đang phát và tắt tiếng loa TV khi tai nghe ngắt kết nối để âm thanh không phát ra phòng. Tự mở lại tiếng khi kết nối lại.</string>
+    <string name="guard_detail_fixed">Tạm dừng nội dung đang phát khi tai nghe ngắt kết nối. Âm lượng của TV này ở mức cố định (ARC hoặc ampli) nên không thể đồng thời tắt tiếng loa.</string>
+    <string name="on">Bật</string>
+    <string name="off">Tắt</string>
+    <string name="unmute_title">Bật lại tiếng loa</string>
+    <string name="unmute_detail">Đã tắt tiếng khi tai nghe ngắt kết nối.</string>
+    <string name="muted">Đã tắt tiếng</string>
+    <string name="heading_paired">Tai nghe và loa đã ghép nối</string>
+    <string name="no_bluetooth">TV này không có Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth đang tắt</string>
+    <string name="bluetooth_off_detail">Hãy bật trong phần cài đặt của TV.</string>
+    <string name="none_yet">Chưa có thiết bị nào</string>
+    <string name="none_yet_detail">Dùng mục phía trên để ghép nối.</string>
+    <string name="connected">Đã kết nối</string>
+    <string name="connected_battery">Đã kết nối, pin %1$s</string>
+    <string name="not_connected_detail">Chưa kết nối. Nhấn OK để mở cài đặt Bluetooth và kết nối.</string>
+    <string name="unnamed">Thiết bị chưa đặt tên</string>
+    <string name="heading_several">Nhiều tai nghe cùng lúc</string>
+    <string name="sharing_one_pair">TV này chỉ truyền âm thanh tới một tai nghe Bluetooth tại một thời điểm. Để dùng hai tai nghe, hãy dùng bộ phát Bluetooth hai kênh cắm vào cổng tai nghe hoặc cổng quang của TV.</string>
+    <string name="sharing_auracast">TV này có thể phát âm thanh tới nhiều tai nghe LE Audio (Auracast) cùng lúc: hãy bắt đầu chia sẻ trong cài đặt Bluetooth của TV.</string>
+    <string name="sharing_no_broadcast">TV này chỉ truyền âm thanh tới một tai nghe Bluetooth tại một thời điểm và không hỗ trợ phát quảng bá LE Audio. Để dùng hai tai nghe, hãy dùng bộ phát Bluetooth hai kênh cắm vào cổng tai nghe hoặc cổng quang của TV.</string>
+</resources>

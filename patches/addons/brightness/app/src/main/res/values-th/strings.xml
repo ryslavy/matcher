@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ความสว่าง</string>
+    <string name="quick_brightness">ความสว่าง %1$d%%</string>
+    <string name="quick_night_brightness">ความสว่างกลางคืน %1$d%%</string>
+    <string name="quick_hint">◀ ▶ ปรับ · OK ปิด</string>
+    <string name="channel_name">การหรี่แสงหน้าจอ</string>
+    <string name="notification_text">กำลังหรี่แสงหน้าจอ เปิดความสว่างเพื่อปรับเปลี่ยนหรือปิดใช้งาน</string>
+</resources>

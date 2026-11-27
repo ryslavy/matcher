@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">耳机</string>
+    <string name="plays_through">当前声音输出：%1$s</string>
+    <string name="output_speakers">电视扬声器</string>
+    <string name="output_fixed">电视音频输出（HDMI ARC 或光纤）</string>
+    <string name="allow_title">允许蓝牙访问权限</string>
+    <string name="allow_detail">用于列出您的耳机并在断开连接时及时感知。按 OK 请求授权。</string>
+    <string name="not_allowed">未允许</string>
+    <string name="pair_title">配对或连接耳机</string>
+    <string name="pair_detail">打开电视的蓝牙设置。请先将耳机置于配对模式。</string>
+    <string name="guard_title">断开时自动静音</string>
+    <string name="guard_detail">耳机断开连接时暂停播放并将电视扬声器静音，防止声音外放。重新连接后自动取消静音。</string>
+    <string name="guard_detail_fixed">耳机断开连接时暂停播放。此电视使用固定音量输出（ARC 或功放），因此无法同时将扬声器静音。</string>
+    <string name="on">开启</string>
+    <string name="off">关闭</string>
+    <string name="unmute_title">取消扬声器静音</string>
+    <string name="unmute_detail">因耳机断开连接已静音。</string>
+    <string name="muted">已静音</string>
+    <string name="heading_paired">已配对的耳机和扬声器</string>
+    <string name="no_bluetooth">此电视不支持蓝牙</string>
+    <string name="bluetooth_off">蓝牙已关闭</string>
+    <string name="bluetooth_off_detail">请在电视设置中开启蓝牙。</string>
+    <string name="none_yet">暂无设备</string>
+    <string name="none_yet_detail">使用上方选项进行配对。</string>
+    <string name="connected">已连接</string>
+    <string name="connected_battery">已连接，电量 %1$s</string>
+    <string name="not_connected_detail">未连接。按 OK 打开蓝牙设置进行连接。</string>
+    <string name="unnamed">未命名设备</string>
+    <string name="heading_several">同时连接多副耳机</string>
+    <string name="sharing_one_pair">此电视一次仅支持向一副蓝牙耳机传输音频。如需同时连接两副耳机，请在电视的耳机接口或光纤输出口连接双链路蓝牙发射器。</string>
+    <string name="sharing_auracast">此电视支持同时向多副 LE Audio（Auracast）耳机广播音频：请在电视的蓝牙设置中启动音频共享。</string>
+    <string name="sharing_no_broadcast">此电视一次仅支持向一副蓝牙耳机传输音频，不支持 LE Audio 广播。如需同时连接两副耳机，请在电视的耳机接口或光纤输出口连接双链路蓝牙发射器。</string>
+</resources>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sovelluskansiot -->
+    <string name="folder_add_to">Lisää kansioon…</string>
+    <string name="folder_new">+ Uusi kansio</string>
+    <string name="folder_new_title">Uusi kansio</string>
+    <string name="folder_rename">Nimeä kansio uudelleen…</string>
+    <string name="folder_rename_title">Nimeä kansio uudelleen</string>
+    <string name="folder_open">Avaa kansio</string>
+    <string name="folder_add_apps">Lisää sovelluksia…</string>
+    <string name="folder_add_apps_title">Lisää sovelluksia: %1$s</string>
+    <string name="folder_add_apps_empty">Kaikki kotinäkymän sovellukset ovat jo kansioissa</string>
+    <string name="folder_dissolve">Pura kansio</string>
+    <string name="folder_remove_app">Poista kansiosta</string>
+    <string name="folder_move_to">Siirrä kansioon…</string>
+    <string name="folder_hint">OK avaa · Pidä OK: valinnat · Ylös: kansiotoiminnot</string>
+    <string name="folder_default_name">Kansio %1$d</string>
+    <string name="folder_name_hint">Kansion nimi</string>
+    <string name="folder_create">Luo</string>
+    <string name="folder_save">Tallenna</string>
+    <string name="folder_cancel">Peruuta</string>
+    <string name="folder_btn_add">+ Lisää</string>
+    <string name="folder_btn_reorder">Järjestä</string>
+    <string name="folder_btn_done">Valmis</string>
+    <string name="folder_btn_rename">Nimeä</string>
+    <string name="folder_preset_streaming">Suoratoisto</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Urheilu</string>
+    <string name="folder_preset_music">Musiikki</string>
+    <string name="folder_preset_games">Pelit</string>
+    <string name="folder_preset_tools">Työkalut</string>
+
+    <!-- Nyt toistetaan -minisoitin -->
+    <string name="media_now_playing">Nyt toistetaan</string>
+    <string name="media_playing">Toistetaan</string>
+    <string name="media_paused">Keskeytetty</string>
+    <string name="media_live">Suora</string>
+    <string name="media_prev">Edellinen</string>
+    <string name="media_play_pause">Toista tai keskeytä</string>
+    <string name="media_next">Seuraava</string>
+    <string name="media_open_app">Avaa sovellus</string>
+    <string name="media_switch_hint">Ylös vaihtaa sovellusta · OK jatkaa toistoa</string>
+
+    <!-- Viimeisimmät sovellukset -->
+    <string name="recents_title">Viimeisimmät sovellukset</string>
+    <string name="recents_hint">OK vaihtaa · 2× Ylös sulkee · Pidä OK: valinnat</string>
+    <string name="recents_empty">Ei avoimia viimeisimpiä sovelluksia</string>
+    <string name="recents_switch">Vaihda sovellukseen</string>
+    <string name="recents_close_app">Sulje sovellus</string>
+    <string name="recents_close_all">Sulje kaikki</string>
+    <string name="recents_swipe_close">Sulje painamalla Ylös uudelleen</string>
+    <string name="recents_playing_badge">Toistaa</string>
+    <string name="recents_free_ram">Vapaa RAM: %1$d MB</string>
+    <string name="recents_just_now">Juuri nyt</string>
+    <string name="recents_minutes_ago">%1$d min sitten</string>
+    <string name="recents_hours_ago">%1$d t sitten</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Suljettiin %1$d sovellus</item>
+        <item quantity="other">Suljettiin %1$d sovellusta</item>
+    </plurals>
+
+    <!-- Ambient-näytönsäästäjä -->
+    <string name="ambient_controls_hint">◄ ► kappale · ▼ toisto/tauko · ▲ avaa</string>
+    <string name="ambient_action_prev">Edellinen kappale</string>
+    <string name="ambient_action_next">Seuraava kappale</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Selkeää</string>
+    <string name="weather_partly">Puolipilvistä</string>
+    <string name="weather_cloudy">Pilvistä</string>
+    <string name="weather_fog">Sumua</string>
+    <string name="weather_drizzle">Tihkusadetta</string>
+    <string name="weather_rain">Sadetta</string>
+    <string name="weather_snow">Lumisadetta</string>
+    <string name="weather_showers">Sadekuuroja</string>
+    <string name="weather_storm">Ukkosta</string>
+
+    <!-- Ohjauskeskus, Yöääni, Hyvää yötä & Aerial-videot -->
+    <string name="cc_title">Ohjauskeskus</string>
+    <string name="cc_bedtime">Hyvää yötä</string>
+    <string name="cc_bedtime_sub">30 min · Himmennys · Yöääni</string>
+    <string name="cc_bedtime_on">Käytössä</string>
+    <string name="cc_night_audio">Yöääni</string>
+    <string name="cc_night_audio_on">Kovat äänet vaimennettu</string>
+    <string name="cc_night_audio_off">Pois</string>
+    <string name="cc_night_audio_unavailable">Ääniprosessori ei käytettävissä</string>
+    <string name="cc_audio">Ääni</string>
+    <string name="cc_audio_tv">TV-kaiuttimet</string>
+    <string name="cc_sleep_timer">Uniajastin</string>
+    <string name="cc_sleep_timer_sub">Aseta ajastin</string>
+    <string name="cc_brightness">Kirkkaus</string>
+    <string name="cc_brightness_sub">Himmennin</string>
+    <string name="cc_aerial">Aerial-videot</string>
+    <string name="cc_aerial_on">1080p-video</string>
+    <string name="cc_aerial_on_4k">4K HEVC -video</string>
+    <string name="cc_aerial_off">Taustakuvat</string>
+    <string name="cc_screensaver">Näytönsäästäjä</string>
+    <string name="cc_settings">Asetukset</string>
+    <string name="cc_sleep_tv">TV valmiustilaan</string>
+    <string name="cc_reorder_tiles">Järjestä ruudut</string>
+    <string name="cc_footer_hint">Pidä OK TV valmiustilaan -ruudussa: uudelleenkäynnistys · Takaisin sulkee</string>
+    <string name="cc_on">Päällä</string>
+    <string name="cc_off">Pois</string>
+    <string name="close">Sulje</string>
+
+    <!-- QR-puhelinasetukset, Löydä, Home Assistant, Immich, Watchdog & Päivitykset -->
+    <string name="qr_setup_title">Määritä puhelimella</string>
+    <string name="qr_setup_subtitle">Skannaa puhelimella (sama Wi-Fi) muokataksesi painikkeita, taustakuvaa, kaupunkia tai TMDB / Trakt / Plex / HA / Immich -asetuksia</string>
+    <string name="qr_setup_short">QR-asetukset</string>
+    <string name="qr_setup_no_wifi">Yhdistä TV ensin Wi-Fi- tai Ethernet-verkkoon</string>
+    <string name="qr_setup_waiting">Odotetaan puhelinta… (voimassa 5 min)</string>
+    <string name="qr_setup_expired">QR-istunto vanheni — avaa uudelleen luodaksesi uuden koodin</string>
+
+    <string name="discover_title">Löydä &amp; Jatka katselua</string>
+    <string name="discover_refresh">Päivitä</string>
+    <string name="discover_continue_watching">Jatka katselua</string>
+    <string name="discover_trending">Suositut poiminnat (ilman mainoksia)</string>
+    <string name="discover_tab_all">Kaikki</string>
+    <string name="discover_tab_movies">Elokuvat</string>
+    <string name="discover_tab_shows">Sarjat</string>
+    <string name="discover_grant_watchnext_msg">Myönnä TV-luetteloiden käyttöoikeus näyttääksesi Jatka katselua -sisällöt sovellusten välillä</string>
+    <string name="discover_grant_adb_btn">Salli ADB:llä</string>
+    <string name="discover_grant_success">Jatka katselua otettu käyttöön</string>
+    <string name="discover_hidden_toast">Piilotettu Jatka katselua -listalta</string>
+    <string name="discover_empty_no_key">Lisää ilmainen TMDB API -avain (tai Plex-palvelin) QR-asetuksilla saadaksesi mainoksettomia poimintoja sovelluksistasi.</string>
+    <string name="discover_empty_no_matches">Asennetuille suoratoistosovelluksillesi ei löytynyt sopivia nimikkeitä juuri nyt.</string>
+
+    <string name="adb_connecting">Yhdistetään paikalliseen ADB-yhteyteen…</string>
+    <string name="adb_accept_prompt">Hyväksy ”Salli aina USB-virheenkorjaus” televisiossa</string>
+
+    <string name="ha_section_title">Älykoti</string>
+    <string name="ha_action_failed">Home Assistant -toiminto epäonnistui</string>
+    <string name="ha_state_unavailable">Ei käytettävissä</string>
+    <string name="ha_state_open">Auki</string>
+    <string name="ha_state_closed">Kiinni</string>
+    <string name="ha_state_camera">Live PiP</string>
+    <string name="ha_camera_title">Kotikamera</string>
+    <string name="ha_camera_connecting">Yhdistetään kameraan…</string>
+    <string name="ha_camera_unavailable">Kamera ei käytettävissä</string>
+    <string name="ha_camera_hint_pip">OK: Laajenna · Takaisin: Sulje</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Takaisin: Sulje</string>
+    <string name="ha_camera_hint_pip_multi">OK: Laajenna · ◀ ▶: Kamera · Takaisin: Sulje</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Takaisin: Sulje</string>
+
+    <string name="aerial_fav_added">Tallennettu suosikkeihin</string>
+    <string name="aerial_fav_removed">Poistettu suosikeista</string>
+
+    <string name="updater_installed">Päivitys asennettu</string>
+    <string name="updater_failed">Päivitys epäonnistui</string>
+
+    <!-- Käynnistimen ominaisuudet & Liquid Glass -tyylit -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Käyttökokemus</string>
+    <string name="fs_liquid_clock">Liquid Glass -kello (iOS 26)</string>
+    <string name="fs_home_liquid">Optinen Liquid Glass kotinäkymässä</string>
+    <string name="fs_home_backdrop_blur">Taustasumennus kotinäkymässä</string>
+    <string name="fs_glass_material">Lasityyli</string>
+    <string name="fs_glass_material_title">Valitse Liquid Glass -tyyli</string>
+    <string name="glass_style_tonal">Himmeä sävylasi</string>
+    <string name="glass_style_tonal_sub">Tasapainoinen tumma lasi, jossa taustakuvan sävyttämät kortit</string>
+    <string name="glass_style_obsidian">Täysin musta (OLED)</string>
+    <string name="glass_style_obsidian_sub">Syvä obsidiaanikristalli terävällä Fresnel-reunalla pimeisiin huoneisiin</string>
+    <string name="glass_style_frost">Huurrevalkoinen</string>
+    <string name="glass_style_frost_sub">Valoisa helmiäislasi tummalla grafiittitekstillä ja -kuvakkeilla</string>
+    <string name="glass_style_clear">Kirkas kristalli</string>
+    <string name="glass_style_clear_sub">Ilmava, erittäin kirkas lasi vahvalla optisella reunataitolla</string>
+    <string name="glass_style_chromatic">Kromaattinen sävy</string>
+    <string name="glass_style_chromatic_sub">Täyteläinen Material You -taustakuvaväri paneeleissa ja korteissa</string>
+    <string name="glass_style_auto">Autom. (Päivä / Yö)</string>
+    <string name="glass_style_auto_sub">Huurrevalkoinen päivällä, Täysin musta auringonlaskun jälkeen</string>
+    <string name="fs_remote_buttons">Kaukosäätimen painikkeet</string>
+    <string name="fs_ui_sounds">Pehmeät käyttöliittymän napsahdukset</string>
+    <string name="fs_oled_drift">OLED-näytönsäästäjän pikselisiirto</string>
+    <string name="fs_aerial_quality">Aerial-videoiden laatu</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Vain suosikki-Aerialit (pidä OK)</string>
+
+    <string name="fs_sec_content">Sisältö &amp; Löydä</string>
+    <string name="fs_open_discover">Avaa Löydä (Jatka katselua &amp; Poiminnat)</string>
+    <string name="fs_watch_next">Jatka katselua</string>
+    <string name="fs_open_nuvio">Avaa poiminnat suoraan Nuvio-sovelluksessa</string>
+    <string name="fs_watch_saver">Käynnistä poiminnat näytönsäästäjästä (OK)</string>
+    <string name="fs_hide_animation">Piilota animaatio- &amp; animepoiminnat</string>
+    <string name="fs_region">Suoratoistoalue</string>
+    <string name="fs_trakt">Trakt.tv-tili</string>
+    <string name="fs_trakt_code_msg">Siirry osoitteeseen %1$s ja syötä koodi: %2$s</string>
+    <string name="fs_trakt_signed_in">Kirjauduttu Trakt-tilille (%1$s)</string>
+    <string name="fs_trakt_signed_out">Kirjauduttu ulos Trakt-tililtä</string>
+
+    <string name="fs_sec_smart">Älykoti, Kuvat &amp; Puhelinasetukset</string>
+    <string name="fs_qr_setup">Määritä avaimet, kaukosäädin &amp; taustakuva QR-koodilla</string>
+    <string name="fs_ha_toggle">Home Assistant Ohjauskeskuksessa</string>
+    <string name="fs_immich_toggle">Immich-kuvat näytönsäästäjässä</string>
+    <string name="fs_immich_sync">Synkronoi Immich-kuvat nyt</string>
+    <string name="fs_immich_album">Immich-albumi</string>
+    <string name="fs_immich_all_albums">Kaikki kuvat</string>
+
+    <string name="fs_sec_system">Turvallisuus &amp; Palautus</string>
+    <string name="fs_watchdog">Kaatumiskierteen palautusvahti</string>
+    <string name="fs_check_updates">Päivitykset (GitHub Releases)</string>
+    <string name="fs_updates_title">Päivitykset (GitHub)</string>
+    <string name="fs_updates_current">Asennettu: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Tarkista päivitykset nyt</string>
+    <string name="fs_updates_checking">Tarkistetaan GitHub Releases…</string>
+    <string name="fs_updates_downloading">Ladataan &amp; vahvistetaan SHA-256…</string>
+    <string name="fs_updates_install_launcher">Asenna Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Päivitä %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Viikoittainen taustapäivitystarkistus</string>
+    <string name="fs_update_uptodate">Käynnistin on ajan tasalla (%1$s)</string>
+    <string name="fs_update_found">Uusi versio %1$s saatavilla</string>
+    <string name="fs_restore_stock">Palauta alkuperäinen Google TV -käynnistin (ADB)</string>
+    <string name="fs_restore_confirm_title">Palautetaanko alkuperäinen käynnistin?</string>
+    <string name="fs_restore_confirm_msg">Ottaa ensin turvallisesti käyttöön Google TV -käynnistimen, asettaa sen kotinäkymäksi, ottaa sitten käyttöön SetupWraith-palvelun ja synkronoi levyn.</string>
+    <string name="fs_restore_ok">Palauta nyt</string>
+    <string name="fs_cancel">Peruuta</string>
+
+    <!-- Kaukosäätimen painikkeiden määritys -->
+    <string name="rm_title">Kaukosäätimen painikkeet</string>
+    <string name="rm_subtitle_ready">Määritä painikkeille Napautus, Kaksoisnapautus tai Pitkä painallus</string>
+    <string name="rm_subtitle_need_a11y">Ota käyttöön Esteettömyys → Koti-painike TV:n asetuksissa, jotta painikkeet toimivat kaikkialla</string>
+    <string name="rm_open_a11y">Avaa TV:n esteettömyysasetukset</string>
+    <string name="rm_open_a11y_sub">Vaaditaan yleiseen painikemääritykseen</string>
+    <string name="rm_learn_btn">Opeta kaukosäätimen painike</string>
+    <string name="rm_learn_sub">Paina mitä tahansa fyysistä painiketta tunnistaaksesi keycode &amp; scancode -koodit</string>
+    <string name="rm_empty">Ei tallennettuja omia painikkeita (teeman oletukset käytössä)</string>
+    <string name="rm_reset_all">Nollaa omat painikkeet</string>
+    <string name="rm_reset_all_sub">Palauta teeman config.json-määritykset</string>
+    <string name="rm_reset_done">Omat painikemääritykset tyhjennetty</string>
+    <string name="rm_capture_title">Paina kaukosäätimen painiketta</string>
+    <string name="rm_capture_hint">Nuolet, OK, Takaisin ja äänenvoimakkuus on varattu · Takaisin peruuttaa</string>
+    <string name="rm_capture_waiting">Odotetaan painikkeen painallusta…</string>
+    <string name="rm_edit_subtitle">Painikekoodi: %1$s</string>
+    <string name="rm_slot_tap">Lyhyt painallus</string>
+    <string name="rm_slot_double">Kaksoisnapautus</string>
+    <string name="rm_slot_hold">Pitkä painallus (0,5 s)</string>
+    <string name="rm_short_tap">Lyhyt</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Pitkä</string>
+    <string name="rm_target_none">Ei määritetty</string>
+    <string name="rm_delete_btn">Poista oma painike</string>
+    <string name="rm_saved">Painikemääritys tallennettu</string>
+    <string name="rm_action_mute">Mykistä ääni</string>
+    <string name="rm_action_ignore">Ohita painike (poista käytöstä)</string>
+</resources>

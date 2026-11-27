@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vejr</string>
+
+    <string name="feels_like">Føles som %1$d°</string>
+    <string name="humidity">Luftfugtighed %1$d%%</string>
+    <string name="wind">Vind %1$d km/t</string>
+    <string name="wind_mph">Vind %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Luftkvalitet %1$d · %2$s</string>
+    <string name="updated">Opdateret %1$s · Open-Meteo</string>
+    <string name="change_city">Skift by</string>
+    <string name="weather_settings">Vejrindstillinger</string>
+    <string name="settings_done">Færdig</string>
+    <string name="setting_units">Temperaturenhed</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Vis begge enheder</string>
+    <string name="setting_days">Prognoselængde</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d dag</item>
+        <item quantity="other">%1$d dage</item>
+    </plurals>
+    <string name="setting_humidity">Vis luftfugtighed</string>
+    <string name="setting_wind">Vis vind</string>
+    <string name="setting_reset">Nulstil vejrindstillinger</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Til</string>
+    <string name="option_off">Fra</string>
+    <string name="loading">Indlæser vejret…</string>
+    <string name="offline">Kan ikke kontakte Open-Meteo. Tjek TV\'ets internetforbindelse; prøver igen om 5 minutter.</string>
+
+    <string name="pick_title">Hvilken by?</string>
+    <string name="pick_hint">Bynavn, f.eks. København</string>
+    <string name="pick_search">Søg</string>
+    <string name="pick_none">Intet sted fundet med navnet \"%1$s\"</string>
+    <string name="pick_first">Vælg en by for at se vejret.</string>
+
+    <string name="aqi_good">God</string>
+    <string name="aqi_moderate">Moderat</string>
+    <string name="aqi_sensitive">Usund for følsomme grupper</string>
+    <string name="aqi_unhealthy">Usund</string>
+    <string name="aqi_very_unhealthy">Meget usund</string>
+    <string name="aqi_hazardous">Sundhedsfarlig</string>
+
+    <string name="sky_clear">Klart</string>
+    <string name="sky_sunny">Solrigt</string>
+    <string name="sky_mostly_clear">Mest klart</string>
+    <string name="sky_mostly_sunny">Mest solrigt</string>
+    <string name="sky_partly_cloudy">Delvist skyet</string>
+    <string name="sky_cloudy">Overskyet</string>
+    <string name="sky_fog">Tåge</string>
+    <string name="sky_drizzle">Finregn</string>
+    <string name="sky_freezing_drizzle">Isslag med finregn</string>
+    <string name="sky_light_rain">Let regn</string>
+    <string name="sky_rain">Regn</string>
+    <string name="sky_heavy_rain">Kraftig regn</string>
+    <string name="sky_freezing_rain">Isslag</string>
+    <string name="sky_light_snow">Let sne</string>
+    <string name="sky_snow">Sne</string>
+    <string name="sky_heavy_snow">Kraftig sne</string>
+    <string name="sky_snow_grains">Kornsne</string>
+    <string name="sky_showers">Byger</string>
+    <string name="sky_snow_showers">Snebyger</string>
+    <string name="sky_thunderstorm">Tordenvejr</string>
+</resources>

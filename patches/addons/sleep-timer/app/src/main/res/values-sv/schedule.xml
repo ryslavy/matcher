@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"TV-schema"</string>
+    <string name="sched_1">"Tiderna gäller vald kalenderdag. Undantagsperioder blockerar bara automatisk väckning. Tillbaka avbryter osparade ändringar."</string>
+    <string name="sched_2">"Schema: PÅ"</string>
+    <string name="sched_3">"Schema: AV"</string>
+    <string name="sched_4">"+ Lägg till väcknings- / vilotid"</string>
+    <string name="sched_5">"Ingen väckning: "</string>
+    <string name="sched_6">"Undantagsperiod för väckning"</string>
+    <string name="sched_7">"Redigera datum"</string>
+    <string name="sched_8">"Ta bort"</string>
+    <string name="sched_9">"+ Lägg till undantagsperiod"</string>
+    <string name="sched_10">"Spara"</string>
+    <string name="sched_11">"Väckning  "</string>
+    <string name="sched_12">"Viloläge  "</string>
+    <string name="sched_13">"Lägg till händelse"</string>
+    <string name="sched_14">"Väckning"</string>
+    <string name="sched_15">"Viloläge"</string>
+    <string name="sched_16">"Veckodagar"</string>
+    <string name="sched_17">"Avbryt"</string>
+    <string name="sched_18">"Tid"</string>
+    <string name="sched_19">"Välj minst en dag"</string>
+    <string name="sched_20">"Slutet måste vara samma dag eller efter starten"</string>
+    <string name="sched_21">"Sista dag (inkl.)"</string>
+    <string name="sched_22">"Första dag (inkl.)"</string>
+    <string name="sched_23">"Måndag"</string>
+    <string name="sched_24">"Tisdag"</string>
+    <string name="sched_25">"Onsdag"</string>
+    <string name="sched_26">"Torsdag"</string>
+    <string name="sched_27">"Fredag"</string>
+    <string name="sched_28">"Lördag"</string>
+    <string name="sched_29">"Söndag"</string>
+</resources>

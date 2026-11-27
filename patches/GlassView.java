@@ -69,7 +69,10 @@ public class GlassView extends View {
     /** Refined optical accent colors (0xRRGGBB) for top-left and bottom-right Fresnel prism reflections. */
     private int primaryRgb = 0xEAF0FA;
     private int secondaryRgb = 0xDCE6F7;
+    private int rawPrimaryArgb;
+    private int rawSecondaryArgb;
     private boolean accented;
+    private boolean lightSurface;
     /** Base resting alpha for wide Gaussian aura and tight rim halo. */
     private int auraBaseAlpha = 0x5A;
     private int haloBaseAlpha = 0x42;
@@ -192,32 +195,66 @@ public class GlassView extends View {
     }
 
     /**
+     * Switches between dark-glass luminous white/pastel Fresnel rim and light-surface (Frost White)
+     * deep obsidian-slate / jewel-toned Fresnel rim so selection stays razor-crisp on pearl white glass.
+     */
+    void setLightSurface(boolean light) {
+        if (lightSurface == light) return;
+        lightSurface = light;
+        recomputeAccentColors(true);
+    }
+
+    /**
      * Dual-accent Fresnel prism tinting (ideal for folders with 2+ member apps, e.g. emerald + violet).
      * Both colors are softened through {@link ExpressiveGlass#refineFocusAccent(int)} so highlights read
      * as refracted optical glass rather than harsh neon paint.
      */
     void setDualAccent(int primaryArgb, int secondaryArgb) {
+        rawPrimaryArgb = primaryArgb;
+        rawSecondaryArgb = secondaryArgb;
+        recomputeAccentColors(false);
+    }
+
+    private void recomputeAccentColors(boolean forceDirty) {
         int nextPrimary;
         int nextSecondary;
         boolean nextAccented;
         int nextAura;
         int nextHalo;
-        if (primaryArgb == 0) {
-            nextPrimary = 0xEAF0FA;
-            nextSecondary = 0xDCE6F7;
-            nextAccented = false;
-            nextAura = 0x5A;
-            nextHalo = 0x42;
+        if (lightSurface) {
+            if (rawPrimaryArgb == 0) {
+                nextPrimary = 0x1E293B;
+                nextSecondary = 0x334155;
+                nextAccented = false;
+                nextAura = 0x48;
+                nextHalo = 0x40;
+            } else {
+                nextPrimary = ExpressiveGlass.refineLightFocusAccent(rawPrimaryArgb);
+                nextSecondary = rawSecondaryArgb != 0
+                        ? ExpressiveGlass.refineLightFocusAccent(rawSecondaryArgb)
+                        : ExpressiveGlass.mixRgb(nextPrimary, 0x0F172A, 0.22f);
+                nextAccented = true;
+                nextAura = 0x64;
+                nextHalo = 0x50;
+            }
         } else {
-            nextPrimary = ExpressiveGlass.refineFocusAccent(primaryArgb);
-            nextSecondary = secondaryArgb != 0
-                    ? ExpressiveGlass.refineFocusAccent(secondaryArgb)
-                    : ExpressiveGlass.mixRgb(nextPrimary, 0xFFFFFF, 0.20f);
-            nextAccented = true;
-            nextAura = 0xA2;
-            nextHalo = 0x6E;
+            if (rawPrimaryArgb == 0) {
+                nextPrimary = 0xEAF0FA;
+                nextSecondary = 0xDCE6F7;
+                nextAccented = false;
+                nextAura = 0x5A;
+                nextHalo = 0x42;
+            } else {
+                nextPrimary = ExpressiveGlass.refineFocusAccent(rawPrimaryArgb);
+                nextSecondary = rawSecondaryArgb != 0
+                        ? ExpressiveGlass.refineFocusAccent(rawSecondaryArgb)
+                        : ExpressiveGlass.mixRgb(nextPrimary, 0xFFFFFF, 0.20f);
+                nextAccented = true;
+                nextAura = 0xA2;
+                nextHalo = 0x6E;
+            }
         }
-        if (nextPrimary == primaryRgb && nextSecondary == secondaryRgb
+        if (!forceDirty && nextPrimary == primaryRgb && nextSecondary == secondaryRgb
                 && nextAccented == accented && nextAura == auraBaseAlpha && nextHalo == haloBaseAlpha) {
             return;
         }
@@ -256,6 +293,39 @@ public class GlassView extends View {
 
     private void rebuildShaders(RectF r) {
         shadersDirty = false;
+        if (lightSurface) {
+            contrastRim.setColor(0x52FFFFFF);
+            int c0 = accented ? (0xF2000000 | primaryRgb) : 0xF00F172A;
+            int c1 = 0xDC000000 | primaryRgb;
+            int c2 = accented ? (0x92000000 | primaryRgb) : 0x8A1E293B;
+            int c3 = 0xCE000000 | secondaryRgb;
+            int c4 = 0xEC000000 | secondaryRgb;
+            rim.setShader(new LinearGradient(
+                    r.left, r.top, r.right, r.bottom,
+                    new int[]{c0, c1, c2, c3, c4},
+                    new float[]{0f, 0.24f, 0.52f, 0.78f, 1f},
+                    Shader.TileMode.CLAMP));
+
+            innerCaustic.setShader(new LinearGradient(
+                    r.left, r.top, r.left, r.top + Math.max(1f, r.height() * 0.25f),
+                    0x92FFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP));
+
+            LinearGradient glowGrad = new LinearGradient(
+                    r.left, r.top, r.right, r.bottom,
+                    new int[]{0xFF000000 | primaryRgb, 0xFF000000 | secondaryRgb},
+                    new float[]{0f, 1f},
+                    Shader.TileMode.CLAMP);
+            auraPaint.setShader(glowGrad);
+            haloPaint.setShader(glowGrad);
+
+            flightFill.setShader(new LinearGradient(
+                    r.left, r.top, r.right, r.bottom,
+                    new int[]{0x180F172A, 0x060F172A, 0x12000000 | secondaryRgb},
+                    new float[]{0f, 0.55f, 1f},
+                    Shader.TileMode.CLAMP));
+            return;
+        }
+        contrastRim.setColor(0x2E000000);
         // Directional Fresnel crystal rim: sparkling top-left specular catchlight, airy translucent glass sides,
         // and luminous prism bounce reflection on the bottom-right corner.
         int c0 = 0xFCFFFFFF;
@@ -294,7 +364,7 @@ public class GlassView extends View {
     /** Returns a cached half-res pre-blurred outer glow + lift shadow bitmap with a 100% transparent interior. */
     private Bitmap getOrBuildGlowBitmap(int w, int h, RectF base) {
         int rKey = Math.round(radius * 2f);
-        int styleBits = (flat ? 1 : 0) | (halo ? 2 : 0) | (accented ? 4 : 0);
+        int styleBits = (flat ? 1 : 0) | (halo ? 2 : 0) | (accented ? 4 : 0) | (lightSurface ? 8 : 0);
         if (currentGlowBmp != null && !currentGlowBmp.isRecycled()
                 && w == cachedGlowW && h == cachedGlowH && rKey == cachedGlowR
                 && primaryRgb == cachedGlowP && secondaryRgb == cachedGlowS && styleBits == cachedGlowStyle) {
@@ -335,6 +405,7 @@ public class GlassView extends View {
 
         // Cleanly punch out the tile interior so artwork stays 100% crisp with zero glow haze.
         c.drawRoundRect(base, radius, radius, clearPaint);
+        bmp.prepareToDraw();
 
         GLOW_CACHE.put(key, bmp);
         cachedGlowW = w;
@@ -543,7 +614,7 @@ public class GlassView extends View {
         // 3. Subtle dark micro-contrast hairline (quadratic ease-in right as wobble finishes settling).
         float fineSettle = settle * settle;
         if (fineSettle > 0.02f) {
-            contrastRim.setAlpha(Math.round(0x2E * fineSettle));
+            contrastRim.setAlpha(Math.round((lightSurface ? 0x52 : 0x2E) * fineSettle));
             float outerOffset = rim.getStrokeWidth() * 0.5f + contrastRim.getStrokeWidth() * 0.5f;
             canvas.drawRoundRect(
                     rect.left - outerOffset, rect.top - outerOffset,

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hores de silenciu</string>
+    <string name="channel_name">Llende de volume</string>
+    <string name="notification_text">Caltiendo\'l volume per debaxo de la llende. Abre Hores de silenciu pa camudalu.</string>
+</resources>

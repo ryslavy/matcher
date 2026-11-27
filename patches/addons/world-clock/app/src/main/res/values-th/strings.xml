@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">นาฬิกาโลก</string>
+    <string name="add_city">เพิ่มเมือง</string>
+    <string name="clock_format">รูปแบบนาฬิกา</string>
+    <string name="local">ท้องถิ่น</string>
+    <string name="search_city">เมืองหรือเขตเวลา</string>
+    <string name="search_hint">กด OK เพื่อพิมพ์ · กดลงเพื่อเลือกเมือง</string>
+    <string name="no_cities">ไม่พบเมืองที่ตรงกัน</string>
+    <string name="change_city">เปลี่ยนเมือง</string>
+    <string name="move_earlier">เลื่อนไปข้างหน้า</string>
+    <string name="move_later">เลื่อนไปข้างหลัง</string>
+    <string name="remove_city">ลบเมือง</string>
+    <string name="city_limit">เลือกได้สูงสุด 6 นาฬิกา</string>
+    <string name="already_shown">นาฬิกานี้แสดงอยู่แล้ว</string>
+    <string name="same_day">วันเดียวกับเวลาท้องถิ่น</string>
+    <string name="tomorrow">พรุ่งนี้ในเมืองนี้</string>
+    <string name="yesterday">เมื่อวานในเมืองนี้</string>
+    <plurals name="day_difference">
+        <item quantity="other">%1$+d วันจากเวลาท้องถิ่น</item>
+    </plurals>
+    <string name="local_reference">เทียบวันที่กับ %1$s</string>
+    <string name="controls">ลูกศรเพื่อเลื่อน · OK ดูตัวเลือกเมือง · กลับเพื่อออก</string>
+    <string name="format_system">ใช้ตามการตั้งค่าทีวี</string>
+    <string name="format_12">แบบ 12 ชั่วโมง</string>
+    <string name="format_24">แบบ 24 ชั่วโมง</string>
+    <string name="close">ปิด</string>
+    <string name="screensaver">ภาพพักหน้าจอ</string>
+    <string name="preview">ตัวอย่าง · กดปุ่มใดก็ได้เพื่อกลับ</string>
+    <string name="background_option">พื้นหลัง: %1$s</string>
+    <string name="motion_option">การเคลื่อนไหว: %1$s</string>
+    <string name="brightness_option">ความสว่างนาฬิกา: %1$s</string>
+    <string name="gradient">ไล่สีท้องฟ้า</string>
+    <string name="plain">สีดำ</string>
+    <string name="motion_on">เปิด</string>
+    <string name="motion_reduced">ลดการเคลื่อนไหว (หยุดนิ่ง)</string>
+    <string name="clock_brightness">ความสว่างนาฬิกา</string>
+    <string name="dim">สลัว</string>
+    <string name="medium">ปานกลาง</string>
+    <string name="bright">สว่าง</string>
+    <string name="tv_screensaver_settings">การตั้งค่าภาพพักหน้าจอทีวี</string>
+    <string name="screensaver_unavailable">ทีวีนี้ไม่เปิดให้เข้าถึงการตั้งค่าภาพพักหน้าจอ แต่ยังสามารถดูตัวอย่างได้</string>
+    <string name="background">พื้นหลัง</string>
+    <string name="starfield">ท้องฟ้าดวงดาว</string>
+    <string name="world_map">แผนที่โลก</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

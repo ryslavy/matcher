@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jasność</string>
+    <string name="quick_brightness">Jasność %1$d%%</string>
+    <string name="quick_night_brightness">Jasność nocna %1$d%%</string>
+    <string name="quick_hint">◀ ▶ zmień · OK zamknij</string>
+    <string name="channel_name">Ściemnianie ekranu</string>
+    <string name="notification_text">Ekran jest przyciemniony. Otwórz aplikację Jasność, aby zmienić lub wyłączyć.</string>
+</resources>

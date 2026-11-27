@@ -5,7 +5,8 @@
 Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **Xiaomi TV Box S 3rd Gen**, `MiTV-AFMU0`, Android 14 / SDK 34), Matcher turns Google TV into a fast, clutter-free living-room interface with optical frosted glass refraction, system-wide overlays, smart-home controls, and zero sponsored home-screen ads.
 
 > **Documentation hub:**
-> - **Visual Gallery (`v1.1.2` — 4 new Sharp Home shots + 43 `v1.1.1` full-UI shots):** [`docs/GALLERY.md`](docs/GALLERY.md)
+> - **Incremental Updates (Users & AI Agents — Skip Debloat!):** [`UPDATE.md`](UPDATE.md) & [`CHANGELOG.md`](CHANGELOG.md)
+> - **Visual Gallery (`v1.1.2` — 4 Sharp Home shots + 43 `v1.1.1` full-UI shots):** [`docs/GALLERY.md`](docs/GALLERY.md)
 > - **Users (Czech guide):** [`docs/README-cs.md`](docs/README-cs.md)
 > - **Contributors & Translators:** [`CONTRIBUTING.md`](CONTRIBUTING.md)
 > - **AI Coding Agents:** [`AGENTS.md`](AGENTS.md) and [`SKILL.md`](SKILL.md)
@@ -34,8 +35,9 @@ Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **X
 
 ## Highlights & Features
 
-### 1. Real-Time Liquid Glass 2.0 & Material 3 Expressive Engine
-- **4-Layer Optical Refraction:** Custom Android 13/14 AGSL `RuntimeShader` (`ExpressiveGlass`) renders dual-profile curved meniscus refraction with 5-tap corner-weighted RGB prism dispersion, dark-TV highlight protection, directional Fresnel speculars, and interactive **Dock glass ripple** on tile focus changes. Each UI tier samples accurately from what sits beneath it: Wallpaper/HeroArt (Layer 0) → Dock, Top Pills & Clock (Layer 1) → Modals, Overlays & Add-ons (Layer 2) → Nested Context Menus & Pickers (Layer 3 via `nestedRefraction`).
+### 1. Real-Time Liquid Glass 2.0, 6-Style Glass Material System & 60 FPS Engine
+- **6-Preset Glass Material Design System (`v1.2.0`):** Switch live in *Launcher Settings → Glass style* between **Frosted Tonal**, **Pure Black (OLED)**, **Frost White** (full light-glass inversion with dark graphite text, dark icons & dark Fresnel focus ring), **Clear Crystal**, **Chromatic Tint (Material You)**, and **Auto (Day / Night)** — synchronized live across Home, Dock, top circular pills, all overlays/menus, and all 8 modular add-ons (`GlassKit`).
+- **4-Layer Optical Refraction & Locked 60 FPS Dock (`v1.2.0`):** Custom Android 13/14 AGSL `RuntimeShader` (`ExpressiveGlass`) renders curved meniscus refraction with 5-tap corner-weighted RGB prism dispersion, dark-TV highlight protection, and directional Fresnel speculars across all 4 tiers: Wallpaper/HeroArt (Layer 0) → Hardware-cached `DockBackdropView`, Top Pills & Clock (Layer 1) → Modals, Overlays & Add-ons (Layer 2) → Nested Context Menus & Pickers (Layer 3 via `nestedRefraction`). Asynchronous `O(W·H)` `HeroArt` blur + `LAYER_TYPE_HARDWARE` Dock caching keep D-pad focus glides locked at **60 FPS (0.00% jank)** on 2 GB RAM Mali-G31 TV boxes.
 - **Optional Sharp Home Mode (`v1.1.2`):** Toggle **Home backdrop blur** off in *Launcher Settings* to keep the Home screen 100% razor-sharp (0% dim) behind floating modals and menus. Every floating panel automatically switches to its own **GPU `RenderNode`-cached per-panel frosted interior blur** (`uInteriorFill = 1.0f` — locked 60 FPS during D-pad navigation) paired with **untouched crisp `960×540` `uSharp` optical rim refraction** across modals, context menus, Dock, top-right circular pills, beveled clock, and all 8 glass add-ons (with synchronous Frame-0 blur via `EXTRA_OVER_SHARP_BACKDROP`).
 - **60/120 FPS Material 3 Expressive Nested Blur:** Opening a context menu or picker over any modal smoothly crossfades the parent panel into a hardware-cached 2-`RenderNode` GPU Skia Gaussian + `BACKDROP_AGSL` veil (vibrancy, wallpaper-derived tonal tint, IGN anti-banding grain) rasterized **once** into a compositing layer while keeping the parent's outer Liquid Glass rim razor-crisp.
 - **3D Tactile Tile Physics & GPU Pre-Warming:** Spring-damped 3D tile tilt, subtle living focus sway, tilt-coupled specular sheen (`TileSheenDrawable`), instant animation freeze on app launch (`prepareForAppLaunch`), and eager GPU `prepareToDraw()` uploads across wallpapers, hero art, and clock maps.
@@ -55,7 +57,8 @@ Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **X
 - **Discover Overlay** *(Compass icon in Control Center)*:
   - **Continue Watching:** Reads Android TV Watch Next & preview channels (with 1-click local ADB `READ_TV_LISTINGS` grant right from the TV).
   - **Unsponsored Trending Picks:** TMDB + Trakt + Plex filtered to your installed apps, with region selector (`CZ/SK/DE/GB/US`), animation filter, and optional direct `nuvio://tmdb/...` deep-linking.
-- **Configure From Your Phone via QR Code:** Spins up an ephemeral local LAN web UI with a scannable QR code on TV so you can paste TMDB, Trakt, Plex, Home Assistant, and Immich credentials from your phone instead of typing on a TV remote. The server shuts down immediately when the dialog closes.
+- **Configure Everything From Your Phone via QR Code (`QrConfigServer`):** Spins up an ephemeral 5-minute LAN web UI with a scannable QR code on TV so you can map **remote buttons** (from a live dropdown of your TV's installed apps), set your **weather city/coordinates**, customize **app labels & hidden apps**, upload a **custom wallpaper directly from your phone gallery**, export/import **`config.json`**, or paste **TMDB, Trakt, Plex, Home Assistant, Immich, and GitHub Releases** settings without typing on a TV remote.
+- **In-App "Learn Remote Button" Remapper (`v1.2.0`):** Open *Launcher Settings → Remote buttons → Learn remote button* on any Android TV remote, press any physical shortcut button (Netflix, YouTube, Prime, Apps, color keys, etc.) to auto-detect its `keyCode` & `scanCode`, and assign independent **Tap**, **Double-Tap**, and **Hold (0.5 s)** actions — zero ADB or JSON editing required.
 - **Home Assistant Smart Home & Live Camera PiP (`HaCameraOverlay`):** Fast toggle tiles for lights, switches, and scenes plus floating smoked-glass live PiP previews for `camera.*` entities directly from Control Center over any app or Home.
 - **Immich Photo Sync:** Periodically syncs a chosen album from your self-hosted Immich server for wallpapers/screensaver.
 
@@ -65,7 +68,7 @@ Designed to run smoothly even on 2 GB RAM streaming boxes (reference device: **X
 - **Crash-Loop Recovery Watchdog** (`CrashWatchdog`) & **1-Click Stock Launcher Restore** via loopback ADB (`LocalAdbClient`) respecting Android 14 safe restore ordering.
 
 ### 5. Modular Glass Add-ons (8 Included by Default, 40+ Available Upstream)
-All 8 default add-ons are localized in English & Czech and share [`GlassKit.java`](patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (`Theme.GlassOverlay` + Liquid Glass 2.0 AGSL + 2-`RenderNode` Material 3 Expressive nested blur + living Fresnel focus ring):
+All 8 default add-ons ship with **all 31 locales** (matching the launcher) and share [`GlassKit.java`](patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (`Theme.GlassOverlay` + Liquid Glass 2.0 AGSL + 6 Glass Styles + 2-`RenderNode` Material 3 Expressive nested blur + living Fresnel focus ring):
 1. **Brightness** — Dim screen below TV hardware minimum + warm night filter + floating quick bar.
 2. **Sleep Timer** — 15–120 min timer, weekly wake/sleep schedule, exclusion dates, HDMI-CEC standby + quick bar.
 3. **Headphones** — Battery level + auto-pause & mute TV speakers when Bluetooth headphones disconnect.
@@ -83,8 +86,17 @@ All 8 default add-ons are localized in English & Czech and share [`GlassKit.java
 
 | Component | Languages Included | Notes |
 |---|---|---|
-| **Launcher (`com.gathin.tvhome`)** | **31 locales** from upstream + complete **English (`values`)** and **Czech (`values-cs`)** for all Matcher features | All other 29 locales automatically fall back to English for Matcher-specific strings |
-| **8 Modular Add-ons** | **English (`values`)** + **Czech (`values-cs`)** (+ partial upstream IT/DE/FR/ES/PT/RU/ZH-TW/KO/TR) | Adding a new language takes ~5 minutes — see [`CONTRIBUTING.md`](CONTRIBUTING.md#adding-or-improving-translations) |
+| **Launcher (`com.gathin.tvhome`)** | **All 31 locales** (`en`, `cs`, `sk`, `pl`, `de`, `es`, `es-419`, `fr`, `it`, `pt`, `pt-PT`, `nl`, `ru`, `uk`, `tr`, `ar`, `iw`, `ko`, `zh-CN`, `zh-TW`, `da`, `sv`, `nb`, `fi`, `ca`, `ast`, `sr-Latn`, `th`, `vi`, `in`, `bn`, `uz`) | Clean `strings_matcher.xml` overlays beside upstream `strings.xml`, guarded by `LocaleIntegrityTest` (valid XML + 100% placeholder parity). Community translation refinements welcome via PR! |
+| **8 Modular Add-ons** | **All 31 locales** (`en` + same 30 languages + `sk` across `brightness`, `sleep-timer`, `headphones`, `bluetooth-connect`, `quiet-hours`, `weather`, `world-clock`, `capacity-stats`) | Preserves complete upstream translations and completes all missing locales; validated in CI by [`tools/validate-addon-locales.py`](tools/validate-addon-locales.py) (`248/248` checks). Native-speaker refinements welcome via [`CONTRIBUTING.md`](CONTRIBUTING.md#3-adding-or-improving-translations)! |
+
+---
+
+## Updating an Existing Installation (Without Re-Running Debloat)
+
+Already have Matcher installed? See [`UPDATE.md`](UPDATE.md) and [`CHANGELOG.md`](CHANGELOG.md):
+- **On TV (OTA, no PC):** *Launcher Settings → Updates (GitHub Releases)* (for signed Release APKs `v1.2.0+`, automatically restores `HomeKeyService` after upgrade; also compatible with **Obtainium** matching `matcher-launcher-*.apk`).
+- **Fast binary update via ADB (no JDK / SDK):** `powershell -ExecutionPolicy Bypass -File .\update.ps1 -TvHost <TV_IP>` (Windows) or `./update.sh <TV_IP>` (macOS / Linux).
+- **AI Agent source update / single-feature cherry-pick:** Tell your agent *"Read `UPDATE.md` and `CHANGELOG.md` from `ryslavy/matcher` and update my launcher (or apply only feature X) without touching debloat or `my-theme/config.json`."*
 
 ---
 
@@ -198,13 +210,17 @@ Or directly on the TV without a PC: **Control Center → Settings → Restore st
 ```text
 matcher/
 ├── README.md                                  # Project overview & quick start (this file)
+├── UPDATE.md                                  # Safe incremental update & cherry-pick guide
+├── CHANGELOG.md                               # Release history & Feature -> Files Map
 ├── AGENTS.md                                  # Architecture, invariants & commands for AI agents
 ├── CONTRIBUTING.md                            # Developer workflow, Glass rules & translation guide
 ├── SKILL.md                                   # Reusable AI Agent Skill playbooks
 ├── LICENSE                                    # MIT License
 ├── apply-setup.ps1                            # Full 1-command bootstrap, patch, build & deploy
+├── update.ps1 / update.sh                     # Fast no-SDK binary updater via GitHub Releases
 ├── switch-theme.ps1                           # Switch themes while preserving dock & remote keys
 ├── restore-all.ps1                            # Safe rollback to stock Google TV launcher
+├── tools/validate-addon-locales.py            # CI validator for all 8 add-ons x 31 locales
 ├── my-debloat.txt                             # Reference safe debloat list (Xiaomi TV Box S 3rd Gen)
 ├── my-theme/                                  # Active theme config.json + seasonal/mood wallpapers
 ├── presets/xiaomi-tv-box-s-3rd-gen/           # Device preset (debloat list & remote keymap)
@@ -214,10 +230,10 @@ matcher/
 │   ├── gallery/v1.1.1/                        # Full 43-screen reference gallery (v1.1.1)
 │   └── README-cs.md                           # Czech user & remote-control manual
 └── patches/                                   # All launcher & add-on source/resource overrides
-    ├── *.java / *.xml                         # Launcher Java classes, layouts, drawables, EN+CS strings
-    ├── *Test.java                             # 376 JVM unit tests
+    ├── *.java / *.xml                         # Launcher Java classes, layouts, drawables & 31-locale overlays
+    ├── *Test.java                             # 382 JVM unit tests (incl. 31-locale integrity tests)
     ├── appletv-frosted-glass.patch            # Unified git diff against upstream cleanyourtv
-    └── addons/                                # GlassKit, manifests, styles & EN+CS strings for 8 add-ons
+    └── addons/                                # GlassKit, manifests, styles & all 31 locales for 8 add-ons
 ```
 
 ---

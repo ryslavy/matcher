@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">טיימר שינה</string>
+    <string name="hint">בחרו מתי הטלוויזיה תעבור למצב המתנה. התראה תופיע דקה לפני כן.</string>
+    <string name="in_minutes">%1$d דק׳</string>
+    <string name="cancel">ביטול הטיימר</string>
+    <string name="state_off">לא הוגדר טיימר.</string>
+    <string name="state_on">מצב המתנה בשעה %1$s.</string>
+    <string name="no_service">שירות הנגישות של טיימר השינה כבוי (הריצו את סקריפט ההתקנה).</string>
+    <string name="warning_title">הטלוויזיה עומדת להיכבות</string>
+    <string name="warning_seconds">בעוד %1$d שניות</string>
+    <string name="more">עוד 15 דקות</string>
+    <string name="now">כיבוי כעת</string>
+    <string name="service_label">טיימר שינה</string>
+    <string name="quick_hint">◀ ▶ בחירת זמן · OK סגירה</string>
+    <string name="service_description">מעביר את הטלוויזיה למצב המתנה בלבד בסיום טיימר השינה. אינו קורא את המסך.</string>
+    <string name="schedule_row">לוח זמנים</string>
+</resources>

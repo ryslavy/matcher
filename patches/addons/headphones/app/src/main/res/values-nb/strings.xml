@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hodetelefoner</string>
+    <string name="plays_through">Lyden spilles nå av gjennom: %1$s</string>
+    <string name="output_speakers">TV-høyttalerne</string>
+    <string name="output_fixed">TV-ens lydutgang (HDMI ARC eller optisk)</string>
+    <string name="allow_title">Tillat Bluetooth-tilgang</string>
+    <string name="allow_detail">For å vise hodetelefonene dine og merke når de kobles fra. Trykk OK for å be om tilgang.</string>
+    <string name="not_allowed">Ikke tillatt</string>
+    <string name="pair_title">Koble til eller par hodetelefoner</string>
+    <string name="pair_detail">Åpner TV-ens Bluetooth-innstillinger. Sett hodetelefonene i paringsmodus først.</string>
+    <string name="guard_title">Stille ved frakobling</string>
+    <string name="guard_detail">Setter avspillingen på pause og demper TV-høyttalerne når hodetelefonene kobles fra, slik at lyden ikke går ut i rommet. Slår på lyden igjen når de er tilbake.</string>
+    <string name="guard_detail_fixed">Setter avspillingen på pause når hodetelefonene kobles fra. Volumet på denne TV-en er fast (ARC eller forsterker), så høyttalerne kan ikke også dempes.</string>
+    <string name="on">På</string>
+    <string name="off">Av</string>
+    <string name="unmute_title">Slå på lyd i høyttalerne</string>
+    <string name="unmute_detail">Dempet da hodetelefonene ble koblet fra.</string>
+    <string name="muted">Dempet</string>
+    <string name="heading_paired">Parede hodetelefoner og høyttalere</string>
+    <string name="no_bluetooth">Ingen Bluetooth på denne TV-en</string>
+    <string name="bluetooth_off">Bluetooth er slått av</string>
+    <string name="bluetooth_off_detail">Slå den på i TV-ens innstillinger.</string>
+    <string name="none_yet">Ingen ennå</string>
+    <string name="none_yet_detail">Bruk raden over for å pare noen.</string>
+    <string name="connected">Tilkoblet</string>
+    <string name="connected_battery">Tilkoblet, batteri %1$s</string>
+    <string name="not_connected_detail">Ikke tilkoblet. OK åpner Bluetooth-innstillinger for å koble til.</string>
+    <string name="unnamed">Enhet uten navn</string>
+    <string name="heading_several">Flere hodetelefoner samtidig</string>
+    <string name="sharing_one_pair">Denne TV-en sender lyd til ett par Bluetooth-hodetelefoner om gangen. For to par bruker du en dual-link Bluetooth-sender på TV-ens hodetelefon- eller optiske utgang.</string>
+    <string name="sharing_auracast">Denne TV-en kan sende til flere LE Audio-hodetelefoner (Auracast) samtidig: start deling fra TV-ens Bluetooth-innstillinger.</string>
+    <string name="sharing_no_broadcast">Denne TV-en sender lyd til ett par Bluetooth-hodetelefoner om gangen og støtter ikke LE Audio-kringkasting. For to par bruker du en dual-link Bluetooth-sender på TV-ens hodetelefon- eller optiske utgang.</string>
+</resources>

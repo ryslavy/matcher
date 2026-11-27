@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Helligkeit</string>
+    <string name="quick_brightness">Helligkeit %1$d%%</string>
+    <string name="quick_night_brightness">Nachthelligkeit %1$d%%</string>
+    <string name="quick_hint">◀ ▶ anpassen · OK schließen</string>
+    <string name="channel_name">Bildschirm dimmen</string>
+    <string name="notification_text">Bildschirm wird gedimmt. Öffne Helligkeit zum Ändern oder Ausschalten.</string>
+</resources>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">El temps</string>
+
+    <string name="feels_like">Sensació %1$d°</string>
+    <string name="humidity">Humitat %1$d%%</string>
+    <string name="wind">Vent %1$d km/h</string>
+    <string name="wind_mph">Vent %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Qualitat de l\'aire %1$d · %2$s</string>
+    <string name="updated">Actualitzat %1$s · Open-Meteo</string>
+    <string name="change_city">Canvia de ciutat</string>
+    <string name="weather_settings">Configuració del temps</string>
+    <string name="settings_done">Fet</string>
+    <string name="setting_units">Unitats de temperatura</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Mostra totes dues unitats</string>
+    <string name="setting_days">Durada de la previsió</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d dia</item>
+        <item quantity="other">%1$d dies</item>
+    </plurals>
+    <string name="setting_humidity">Mostra la humitat</string>
+    <string name="setting_wind">Mostra el vent</string>
+    <string name="setting_reset">Restableix la configuració del temps</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Activat</string>
+    <string name="option_off">Desactivat</string>
+    <string name="loading">Carregant el temps…</string>
+    <string name="offline">No es pot accedir a Open-Meteo. Comprova la connexió a Internet del TV; es tornarà a provar d\'aquí a 5 minuts.</string>
+
+    <string name="pick_title">Quina ciutat?</string>
+    <string name="pick_hint">Nom de la ciutat, p. ex. Barcelona</string>
+    <string name="pick_search">Cerca</string>
+    <string name="pick_none">No hi ha cap lloc anomenat «%1$s»</string>
+    <string name="pick_first">Tria una ciutat per veure\'n el temps.</string>
+
+    <string name="aqi_good">Bona</string>
+    <string name="aqi_moderate">Moderada</string>
+    <string name="aqi_sensitive">Perjudicial per a grups sensibles</string>
+    <string name="aqi_unhealthy">Perjudicial</string>
+    <string name="aqi_very_unhealthy">Molt perjudicial</string>
+    <string name="aqi_hazardous">Perillosa</string>
+
+    <string name="sky_clear">Serè</string>
+    <string name="sky_sunny">Assolellat</string>
+    <string name="sky_mostly_clear">Majoritàriament serè</string>
+    <string name="sky_mostly_sunny">Majoritàriament assolellat</string>
+    <string name="sky_partly_cloudy">Parcialment ennuvolat</string>
+    <string name="sky_cloudy">Ennuvolat</string>
+    <string name="sky_fog">Boira</string>
+    <string name="sky_drizzle">Plugim</string>
+    <string name="sky_freezing_drizzle">Plugim gelat</string>
+    <string name="sky_light_rain">Pluja feble</string>
+    <string name="sky_rain">Pluja</string>
+    <string name="sky_heavy_rain">Pluja intensa</string>
+    <string name="sky_freezing_rain">Pluja gelada</string>
+    <string name="sky_light_snow">Neu feble</string>
+    <string name="sky_snow">Neu</string>
+    <string name="sky_heavy_snow">Neu intensa</string>
+    <string name="sky_snow_grains">Neu granulada</string>
+    <string name="sky_showers">Ruixats</string>
+    <string name="sky_snow_showers">Ruixats de neu</string>
+    <string name="sky_thunderstorm">Tempesta</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sessiz Saatler</string>
+    <string name="channel_name">Ses sınırı</string>
+    <string name="notification_text">Ses düzeyi sınırın altında tutuluyor. Değiştirmek için Sessiz Saatler\'i açın.</string>
+</resources>

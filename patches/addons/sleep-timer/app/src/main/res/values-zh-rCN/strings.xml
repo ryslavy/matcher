@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">睡眠定时器</string>
+    <string name="hint">选择电视进入待机的时间。结束前一分钟将显示提醒。</string>
+    <string name="in_minutes">%1$d 分钟</string>
+    <string name="cancel">取消定时器</string>
+    <string name="state_off">未设置定时器。</string>
+    <string name="state_on">将于 %1$s 进入待机。</string>
+    <string name="no_service">睡眠定时器的无障碍服务未开启（请运行安装脚本）。</string>
+    <string name="warning_title">电视即将关闭</string>
+    <string name="warning_seconds">%1$d 秒后</string>
+    <string name="more">延长 15 分钟</string>
+    <string name="now">立即关闭</string>
+    <string name="service_label">睡眠定时器</string>
+    <string name="quick_hint">◀ ▶ 选择时间 · OK 关闭</string>
+    <string name="service_description">仅在睡眠定时器结束时使电视进入待机状态，不会读取屏幕内容。</string>
+    <string name="schedule_row">定时计划</string>
+</resources>

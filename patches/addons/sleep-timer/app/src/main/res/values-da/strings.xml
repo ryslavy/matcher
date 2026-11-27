@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Søvntimer</string>
+    <string name="hint">Vælg, hvornår TV\'et går på vågeblus. Der vises en advarsel et minut før.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Annuller timeren</string>
+    <string name="state_off">Ingen timer indstillet.</string>
+    <string name="state_on">Vågeblus kl. %1$s.</string>
+    <string name="no_service">Tilgængelighedstjenesten til Søvntimer er slået fra (kør installationsscriptet).</string>
+    <string name="warning_title">TV\'et slukker snart</string>
+    <string name="warning_seconds">om %1$d sekunder</string>
+    <string name="more">15 minutter mere</string>
+    <string name="now">Sluk nu</string>
+    <string name="service_label">Søvntimer</string>
+    <string name="quick_hint">◀ ▶ vælg tid · OK luk</string>
+    <string name="service_description">Sætter kun TV\'et på vågeblus, når Søvntimer udløber. Læser ikke skærmen.</string>
+    <string name="schedule_row">Tidsplan</string>
+</resources>

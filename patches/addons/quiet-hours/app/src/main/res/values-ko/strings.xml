@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">조용한 시간</string>
+    <string name="channel_name">볼륨 제한</string>
+    <string name="notification_text">볼륨을 제한 수준 이하로 유지하고 있습니다. 변경하려면 조용한 시간을 여세요.</string>
+</resources>

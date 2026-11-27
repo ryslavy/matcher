@@ -84,6 +84,7 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
     /** The band's local dimensions and dynamic wallpaper tint the glass gradients were built for. */
     private int shaderW = -1, shaderH = -1;
     private int shaderSeed = -1;
+    private int shaderStyle = -1;
     private float cachedRadius = -1f;
     private LinearGradient bandShader, sheenShader, edgeShader;
     private final Matrix shaderMatrix = new Matrix();
@@ -100,7 +101,8 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
     private int cachedDockW = -1, cachedDockH = -1, cachedDockPad;
     private int cachedScreenX = Integer.MIN_VALUE, cachedScreenY = Integer.MIN_VALUE;
     private float cachedDockRadius = -1f;
-    private int cachedBgVersion = -1, cachedDockSeed = -1, cachedHeroAlpha = -1, cachedAmbientTint = Integer.MIN_VALUE;
+    private int cachedBgVersion = -1, cachedDockSeed = -1, cachedDockStyle = -1, cachedHeroAlpha = -1, cachedAmbientTint = Integer.MIN_VALUE;
+    private boolean cachedOpticalMode;
     @Nullable
     private Bitmap cachedBlurRef, cachedHeroRef;
     /** Draw the band and its edge (config.xml dock_band); false leaves the tiles floating on the wallpaper. */
@@ -154,17 +156,18 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         backdropView.setClickable(false);
         backdropView.setFocusable(false);
         backdropView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-        backdropView.setVisibility(View.GONE);
+        backdropView.setVisibility(View.INVISIBLE);
         backdropView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         wrapper.addView(backdropView, 0, new FrameLayout.LayoutParams(1, 1, Gravity.TOP | Gravity.LEFT));
     }
 
-    /** Forces the cached hardware dock backdrop to repaint on the next draw (e.g. wallpaper/ambient update). */
-    void invalidateBackdrop() {
-        cachedDockSeed = -1;
+    /** Forces the cached hardware dock backdrop to repaint on the next draw (e.g. wallpaper/ambient/style update). */
+    boolean invalidateBackdrop() {
         if (backdropView != null && backdropView.getVisibility() == View.VISIBLE) {
             backdropView.invalidate();
+            return true;
         }
+        return false;
     }
 
     /** Triggers a brief liquid-lens ripple across the Dock glass when focus moves between dock tiles. */
@@ -212,17 +215,17 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
             overlayCache.recycle();
             overlayCache = null;
         }
-        shaderW = shaderH = shaderSeed = -1;
+        shaderW = shaderH = shaderSeed = shaderStyle = -1;
         cachedBackdropBmp = null;
         cachedBackdropShader = null;
         cachedHeroBmp = null;
         cachedHeroShader = null;
-        cachedDockW = cachedDockH = cachedBgVersion = cachedDockSeed = -1;
+        cachedDockW = cachedDockH = cachedBgVersion = cachedDockSeed = cachedDockStyle = -1;
         cachedBlurRef = null;
         cachedHeroRef = null;
         if (backdropView != null) {
             backdropView.setLayerType(View.LAYER_TYPE_NONE, null);
-            backdropView.setVisibility(View.GONE);
+            backdropView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -275,7 +278,9 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
             }
         }
         if (!any) {
-            if (backdropView != null) backdropView.setVisibility(View.GONE);
+            if (backdropView != null && backdropView.getVisibility() == View.VISIBLE) {
+                backdropView.setVisibility(View.INVISIBLE);
+            }
             return;
         }
         float pad = 14 * density;
@@ -300,7 +305,9 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         }
         rect.bottom += namesRoom;
         if (rect.bottom <= 0f || rect.top >= parent.getHeight()) {
-            if (backdropView != null) backdropView.setVisibility(View.GONE);
+            if (backdropView != null && backdropView.getVisibility() == View.VISIBLE) {
+                backdropView.setVisibility(View.INVISIBLE);
+            }
             return;
         }
         if (lightGlass) {
@@ -364,14 +371,29 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
                         cur.height = fh;
                         backdropView.setLayoutParams(cur);
                     }
+                    if (backdropView.getVisibility() == View.GONE) {
+                        backdropView.setVisibility(View.INVISIBLE);
+                    }
                     parent.invalidate();
                 });
             }
-            backdropView.setVisibility(View.GONE);
+            if (backdropView.getVisibility() == View.VISIBLE) {
+                backdropView.setVisibility(View.INVISIBLE);
+            }
             return false;
         }
         if (backdropView.getWidth() != totalW || backdropView.getHeight() != totalH) {
-            backdropView.setVisibility(View.GONE);
+            // Keep INVISIBLE (never GONE) so FrameLayout actually measures & lays out backdropView!
+            if (backdropView.getVisibility() == View.GONE) {
+                backdropView.post(() -> {
+                    if (backdropView != null && backdropView.getVisibility() == View.GONE) {
+                        backdropView.setVisibility(View.INVISIBLE);
+                    }
+                    parent.invalidate();
+                });
+            } else if (backdropView.getVisibility() == View.VISIBLE) {
+                backdropView.setVisibility(View.INVISIBLE);
+            }
             return false;
         }
 
@@ -383,18 +405,17 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         int ambientTint = ambientColorSupplier != null ? ambientColorSupplier.getAsInt() : 0;
         ExpressiveGlass.RefractionBackdrop bg = ExpressiveGlass.homeWallpaperRefraction();
         int bgVer = bg != null ? bg.version : -1;
+        int style = ExpressiveGlass.glassStyle();
+        boolean optical = ExpressiveGlass.isHomeLiquidOpticsEnabled();
 
-        boolean dirty = rw != cachedDockW || rh != cachedDockH || pad != cachedDockPad
+        boolean wasVisible = backdropView.getVisibility() == View.VISIBLE;
+        boolean dirty = !wasVisible || rw != cachedDockW || rh != cachedDockH || pad != cachedDockPad
                 || scrX != cachedScreenX || scrY != cachedScreenY
                 || Math.abs(radius - cachedDockRadius) > 0.25f
-                || seed != cachedDockSeed || bgVer != cachedBgVersion
-                || blurred != cachedBlurRef || heroBmp != cachedHeroRef
+                || seed != cachedDockSeed || style != cachedDockStyle || optical != cachedOpticalMode
+                || bgVer != cachedBgVersion || blurred != cachedBlurRef || heroBmp != cachedHeroRef
                 || heroAlphaByte != cachedHeroAlpha || ambientTint != cachedAmbientTint;
 
-        if (backdropView.getVisibility() != View.VISIBLE) {
-            backdropView.setVisibility(View.VISIBLE);
-            dirty = true;
-        }
         if (dirty) {
             cachedDockW = rw;
             cachedDockH = rh;
@@ -403,11 +424,21 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
             cachedScreenY = scrY;
             cachedDockRadius = radius;
             cachedDockSeed = seed;
+            cachedDockStyle = style;
+            cachedOpticalMode = optical;
             cachedBgVersion = bgVer;
             cachedBlurRef = blurred;
             cachedHeroRef = heroBmp;
             cachedHeroAlpha = heroAlphaByte;
             cachedAmbientTint = ambientTint;
+            if (!wasVisible) {
+                backdropView.setVisibility(View.VISIBLE);
+                backdropView.invalidate();
+                // Handoff frame: child 0 (backdropView) was INVISIBLE earlier in this draw pass, so
+                // render fallback once for 0-blink handoff and switch permanently to GPU cache next frame.
+                backdropView.post(parent::invalidate);
+                return false;
+            }
             backdropView.invalidate();
         }
         return true;
@@ -421,11 +452,27 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         @Override
         protected void onDraw(@NonNull Canvas c) {
             if (cachedDockW <= 0 || cachedDockH <= 0 || root == null) return;
+            int seed = ExpressiveGlass.dynamicSeedRgb();
+            int style = ExpressiveGlass.glassStyle();
+            ExpressiveGlass.RefractionBackdrop bg = ExpressiveGlass.homeWallpaperRefraction();
+            Bitmap blurred = wallpaperPlayer != null ? wallpaperPlayer.blurred() : null;
+            Bitmap heroBmp = (heroArt != null && heroArt.getVisibility() == View.VISIBLE && heroArt.getAlpha() > 0f
+                    && heroArt.getDrawable() instanceof BitmapDrawable)
+                    ? ((BitmapDrawable) heroArt.getDrawable()).getBitmap() : null;
+            cachedDockSeed = seed;
+            cachedDockStyle = style;
+            cachedOpticalMode = ExpressiveGlass.isHomeLiquidOpticsEnabled();
+            cachedBgVersion = bg != null ? bg.version : -1;
+            cachedBlurRef = blurred;
+            cachedHeroRef = heroBmp;
+            cachedHeroAlpha = heroBmp != null ? Math.round(heroArt.getAlpha() * 255) : 0;
+            cachedAmbientTint = ambientColorSupplier != null ? ambientColorSupplier.getAsInt() : 0;
+
             int pad = cachedDockPad;
             cachedLocalRect.set(pad, pad, pad + cachedDockW, pad + cachedDockH);
             drawFrostedBackdrop(c, null, cachedLocalRect, cachedDockRadius,
                     cachedScreenX - pad, cachedScreenY - pad, true);
-            Bitmap overlay = getOrBuildOverlayCache(cachedDockW, cachedDockH, cachedDockRadius, cachedDockSeed);
+            Bitmap overlay = getOrBuildOverlayCache(cachedDockW, cachedDockH, cachedDockRadius, seed);
             if (overlay != null) {
                 overlayDst.set(cachedLocalRect.left - overlayPadPx, cachedLocalRect.top - overlayPadPx,
                         cachedLocalRect.right + overlayPadPx, cachedLocalRect.bottom + overlayPadPx);
@@ -440,8 +487,9 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
 
     @Nullable
     private Bitmap getOrBuildOverlayCache(int rw, int rh, float radius, int seed) {
+        int style = ExpressiveGlass.glassStyle();
         if (overlayCache != null && !overlayCache.isRecycled()
-                && rw == shaderW && rh == shaderH && seed == shaderSeed
+                && rw == shaderW && rh == shaderH && seed == shaderSeed && style == shaderStyle
                 && Math.abs(radius - cachedRadius) < 0.25f) {
             return overlayCache;
         }
@@ -452,16 +500,27 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
             Bitmap bmp = Bitmap.createBitmap(fullW, fullH, Bitmap.Config.ARGB_8888);
             Canvas oc = new Canvas(bmp);
 
-            int[] glassCols = ExpressiveGlass.dockGlassColors(seed);
+            int[] glassCols = ExpressiveGlass.dockGlassColors(style, seed);
             int bounce = ExpressiveGlass.tonalRimTint(seed);
-            int topWithCaustic = blendOverWhite(glassCols[0], 0x16);
+            int caustic = style == ExpressiveGlass.STYLE_OBSIDIAN ? 0x0C
+                    : (style == ExpressiveGlass.STYLE_FROST ? 0x28 : 0x16);
+            int topWithCaustic = blendOverWhite(glassCols[0], caustic);
             int stop22 = lerpArgb(glassCols[0], glassCols[1], 0.22f / 0.48f);
             bandShader = new LinearGradient(0f, 0f, 0f, rh,
                     new int[]{topWithCaustic, stop22, glassCols[1], glassCols[2]},
                     new float[]{0f, 0.22f, 0.48f, 1f}, Shader.TileMode.CLAMP);
-            edgeShader = new LinearGradient(0f, 0f, rw, rh,
-                    new int[]{0x76FFFFFF, 0x24FFFFFF, 0x1AFFFFFF, (0x44 << 24) | bounce},
-                    new float[]{0f, 0.35f, 0.70f, 1f}, Shader.TileMode.CLAMP);
+            if (style == ExpressiveGlass.STYLE_FROST) {
+                outerContrast.setColor(0x280F172A);
+                edgeShader = new LinearGradient(0f, 0f, rw, rh,
+                        new int[]{0xE6FFFFFF, 0x52FFFFFF, 0x220F172A, 0x380F172A},
+                        new float[]{0f, 0.35f, 0.70f, 1f}, Shader.TileMode.CLAMP);
+            } else {
+                outerContrast.setColor(0x32000000);
+                int topSpec = style == ExpressiveGlass.STYLE_OBSIDIAN ? 0x62FFFFFF : 0x76FFFFFF;
+                edgeShader = new LinearGradient(0f, 0f, rw, rh,
+                        new int[]{topSpec, 0x24FFFFFF, 0x1AFFFFFF, (0x44 << 24) | bounce},
+                        new float[]{0f, 0.35f, 0.70f, 1f}, Shader.TileMode.CLAMP);
+            }
             shaderMatrix.setTranslate(pad, pad);
             bandShader.setLocalMatrix(shaderMatrix);
             edgeShader.setLocalMatrix(shaderMatrix);
@@ -490,6 +549,7 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
             shaderW = rw;
             shaderH = rh;
             shaderSeed = seed;
+            shaderStyle = style;
             cachedRadius = radius;
             return bmp;
         } catch (OutOfMemoryError ignored) {
@@ -628,6 +688,8 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         dockLiquidShader.setFloatUniform("uEdgeClarity", optical ? 0.88f : 0.16f);
         dockLiquidShader.setFloatUniform("uInteriorFill", 0.0f);
         dockLiquidShader.setFloatUniform("uLiquidMode", optical ? 1.0f : 0.0f);
+        dockLiquidShader.setFloatUniform("uSurfaceLight", ExpressiveGlass.isLightGlass() ? 1.0f : 0.0f);
+        dockLiquidShader.setFloatUniform("uInteriorDim", ExpressiveGlass.interiorDimForStyle(ExpressiveGlass.glassStyle()));
         dockLiquidShader.setFloatUniform("uRimTint", cachedRimR, cachedRimG, cachedRimB);
         dockLiquidShader.setFloatUniform("uWobble", rippleWobble);
         dockLiquidShader.setFloatUniform("uPhase", ripplePhase);

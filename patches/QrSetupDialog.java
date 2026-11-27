@@ -78,6 +78,7 @@ final class QrSetupDialog {
         box.addView(subtitle, subLp);
 
         ImageView qrView = new ImageView(activity);
+        ExpressiveGlass.markPreserveImage(qrView);
         int qrPx = Math.round(212 * d);
         GradientDrawable qrFrame = new GradientDrawable();
         qrFrame.setColor(Color.WHITE);
@@ -161,20 +162,17 @@ final class QrSetupDialog {
         closeBtn.setFocusableInTouchMode(true);
         closeBtn.setClickable(true);
         closeBtn.setPadding(Math.round(28 * d), Math.round(10 * d), Math.round(28 * d), Math.round(10 * d));
-        GradientDrawable btnBg = new GradientDrawable();
-        btnBg.setCornerRadius(18f * d);
-        btnBg.setColor(0x30FFFFFF);
-        btnBg.setStroke(Math.max(1, Math.round(1.2f * d)), 0x66FFFFFF);
-        closeBtn.setBackground(btnBg);
+        closeBtn.setBackground(ExpressiveGlass.makeAdaptiveTileBg(d, 18f, 0));
         Motion.attachPillFocus(closeBtn, 1.06f, 1.5f, d, reducedMotion);
         FocusRingController.configure(closeBtn, 1.06f, 1.5f, 18f, 0);
         closeBtn.setOnClickListener(v -> dismissRunner[0].run());
         box.addView(closeBtn, new LinearLayout.LayoutParams(-2, -2));
+        ExpressiveGlass.applyAdaptiveContentTheme(box);
 
         final QrConfigServer[] serverHolder = new QrConfigServer[1];
         if (lan == null) {
             urlText.setText(R.string.qr_setup_no_wifi);
-            status.setTextColor(0xFFFCA5A5);
+            status.setTextColor(ExpressiveGlass.adaptiveAccentTextColor(0xFFFCA5A5));
             status.setText("");
         } else {
             try {
@@ -182,7 +180,7 @@ final class QrSetupDialog {
                     @Override
                     public void onSaved(String summary) {
                         main.post(() -> {
-                            status.setTextColor(0xFF8BE2A8);
+                            status.setTextColor(ExpressiveGlass.adaptiveAccentTextColor(0xFF8BE2A8));
                             status.setText(summary);
                             if (onSavedCallback != null) onSavedCallback.run();
                         });
@@ -192,7 +190,7 @@ final class QrSetupDialog {
                     public void onClosed(boolean expired) {
                         if (!expired) return;
                         main.post(() -> {
-                            status.setTextColor(0xFFFCD34D);
+                            status.setTextColor(ExpressiveGlass.adaptiveAccentTextColor(0xFFFCD34D));
                             status.setText(R.string.qr_setup_expired);
                         });
                     }
@@ -204,7 +202,7 @@ final class QrSetupDialog {
                 qrView.setImageBitmap(bmp);
             } catch (IOException e) {
                 urlText.setText(e.getMessage());
-                status.setTextColor(0xFFFCA5A5);
+                status.setTextColor(ExpressiveGlass.adaptiveAccentTextColor(0xFFFCA5A5));
                 status.setText(R.string.not_available);
             }
         }

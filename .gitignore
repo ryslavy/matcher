@@ -7,9 +7,15 @@ cleanyourtv/
 # Local device backups (never commit device-specific dumps, serial numbers, or Wi-Fi metadata)
 backup/
 
-# Temporary capture / build artifacts
+# Temporary capture / build artifacts & signing keys (NEVER commit keystores!)
+dist/
+*.jks
+*.keystore
+*.p12
 *.apk
 *.mp4
 *.log
+__pycache__/
+*.pyc
 .DS_Store
 Thumbs.db

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stille timer</string>
+    <string name="channel_name">Volumgrense</string>
+    <string name="notification_text">Holder volumet under grensen. Åpne Stille timer for å endre den.</string>
+</resources>

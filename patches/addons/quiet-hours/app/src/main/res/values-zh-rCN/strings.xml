@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">安静时段</string>
+    <string name="channel_name">音量上限</string>
+    <string name="notification_text">正在将音量限制在上限以下。打开“安静时段”以更改设置。</string>
+</resources>

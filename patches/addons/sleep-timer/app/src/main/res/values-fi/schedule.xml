@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"TV:n aikataulu"</string>
+    <string name="sched_1">"Kellonajat koskevat valittua kalenteripäivää. Poikkeusjaksot estävät vain automaattisen herätyksen. Takaisin hylkää tallentamattomat muutokset."</string>
+    <string name="sched_2">"Aikataulu: PÄÄLLÄ"</string>
+    <string name="sched_3">"Aikataulu: POIS"</string>
+    <string name="sched_4">"+ Lisää herätys- / valmiustila-aika"</string>
+    <string name="sched_5">"Ei herätystä: "</string>
+    <string name="sched_6">"Herätyksen poikkeusjakso"</string>
+    <string name="sched_7">"Muokkaa päiviä"</string>
+    <string name="sched_8">"Poista"</string>
+    <string name="sched_9">"+ Lisää poikkeusjakso"</string>
+    <string name="sched_10">"Tallenna"</string>
+    <string name="sched_11">"Herätys  "</string>
+    <string name="sched_12">"Valmiustila  "</string>
+    <string name="sched_13">"Lisää tapahtuma"</string>
+    <string name="sched_14">"Herätys"</string>
+    <string name="sched_15">"Valmiustila"</string>
+    <string name="sched_16">"Viikonpäivät"</string>
+    <string name="sched_17">"Peruuta"</string>
+    <string name="sched_18">"Aika"</string>
+    <string name="sched_19">"Valitse vähintään yksi päivä"</string>
+    <string name="sched_20">"Päättymispäivän on oltava alkamispäivä tai myöhempi"</string>
+    <string name="sched_21">"Viimeinen päivä (mukaan lukien)"</string>
+    <string name="sched_22">"Ensimmäinen päivä (mukaan lukien)"</string>
+    <string name="sched_23">"Maanantai"</string>
+    <string name="sched_24">"Tiistai"</string>
+    <string name="sched_25">"Keskiviikko"</string>
+    <string name="sched_26">"Torstai"</string>
+    <string name="sched_27">"Perjantai"</string>
+    <string name="sched_28">"Lauantai"</string>
+    <string name="sched_29">"Sunnuntai"</string>
+</resources>

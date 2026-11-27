@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kapasitetsoversikt</string>
+    <string name="loading">Leser tellere…</string>
+    <string name="unavailable">Målinger utilgjengelige</string>
+    <string name="back">Tilbake</string>
+    <string name="memory">Tilgjengelig RAM: %1$s</string>
+    <string name="memory_used">Brukt RAM: %1$s</string>
+    <string name="storage">Tilgjengelig lagringsplass: %1$s</string>
+    <string name="note">Tilgjengelig RAM inkluderer frigjørbare hurtigbuffere; brukt RAM er totalt minus tilgjengelig. Lagringsplass viser til datafilsystemet.</string>
+</resources>

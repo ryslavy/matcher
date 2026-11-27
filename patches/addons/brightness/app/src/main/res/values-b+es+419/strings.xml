@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Brillo</string>
+    <string name="quick_brightness">Brillo %1$d%%</string>
+    <string name="quick_night_brightness">Brillo nocturno %1$d%%</string>
+    <string name="quick_hint">◀ ▶ ajustar · OK cerrar</string>
+    <string name="channel_name">Atenuación de la pantalla</string>
+    <string name="notification_text">Atenuando la pantalla. Abre Brillo para cambiarlo o desactivarlo.</string>
+</resources>

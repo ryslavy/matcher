@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"TV-Zeitplan"</string>
+    <string name="sched_1">"Uhrzeiten gelten für den gewählten Kalendertag. Ausnahmen blockieren nur das automatische Wecken. Zurück verwirft ungespeicherte Änderungen."</string>
+    <string name="sched_2">"Zeitplan: EIN"</string>
+    <string name="sched_3">"Zeitplan: AUS"</string>
+    <string name="sched_4">"+ Weck- / Ruhezeit hinzufügen"</string>
+    <string name="sched_5">"Kein Wecken: "</string>
+    <string name="sched_6">"Ausnahmezeitraum (kein Wecken)"</string>
+    <string name="sched_7">"Daten bearbeiten"</string>
+    <string name="sched_8">"Löschen"</string>
+    <string name="sched_9">"+ Ausnahmezeitraum hinzufügen"</string>
+    <string name="sched_10">"Speichern"</string>
+    <string name="sched_11">"Wecken  "</string>
+    <string name="sched_12">"Ruhezustand  "</string>
+    <string name="sched_13">"Ereignis hinzufügen"</string>
+    <string name="sched_14">"Wecken"</string>
+    <string name="sched_15">"Ruhezustand"</string>
+    <string name="sched_16">"Wochentage"</string>
+    <string name="sched_17">"Abbrechen"</string>
+    <string name="sched_18">"Uhrzeit"</string>
+    <string name="sched_19">"Mindestens einen Tag auswählen"</string>
+    <string name="sched_20">"Das Ende darf nicht vor dem Beginn liegen"</string>
+    <string name="sched_21">"Letzter Tag (einschließlich)"</string>
+    <string name="sched_22">"Erster Tag (einschließlich)"</string>
+    <string name="sched_23">"Montag"</string>
+    <string name="sched_24">"Dienstag"</string>
+    <string name="sched_25">"Mittwoch"</string>
+    <string name="sched_26">"Donnerstag"</string>
+    <string name="sched_27">"Freitag"</string>
+    <string name="sched_28">"Samstag"</string>
+    <string name="sched_29">"Sonntag"</string>
+</resources>

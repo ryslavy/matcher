@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">שעון עולמי</string>
+    <string name="add_city">הוספת עיר</string>
+    <string name="clock_format">תבנית שעון</string>
+    <string name="local">מקומי</string>
+    <string name="search_city">עיר או אזור זמן</string>
+    <string name="search_hint">לחצו OK להקלדה · למטה לבחירת עיר</string>
+    <string name="no_cities">לא נמצאו ערים תואמות</string>
+    <string name="change_city">החלפת עיר</string>
+    <string name="move_earlier">הזזה מוקדם יותר</string>
+    <string name="move_later">הזזה מאוחר יותר</string>
+    <string name="remove_city">הסרת עיר</string>
+    <string name="city_limit">ניתן לבחור עד שישה שעונים</string>
+    <string name="already_shown">השעון הזה כבר מוצג</string>
+    <string name="same_day">אותו יום כמו בזמן המקומי</string>
+    <string name="tomorrow">מחר בעיר הזו</string>
+    <string name="yesterday">אתמול בעיר הזו</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d יום מהזמן המקומי</item>
+        <item quantity="two">%1$+d ימים מהזמן המקומי</item>
+        <item quantity="other">%1$+d ימים מהזמן המקומי</item>
+    </plurals>
+    <string name="local_reference">התאריכים בהשוואה אל %1$s</string>
+    <string name="controls">חצים לתזוזה · OK לאפשרויות עיר · חזרה ליציאה</string>
+    <string name="format_system">לפי הגדרת הטלוויזיה</string>
+    <string name="format_12">שעון 12 שעות</string>
+    <string name="format_24">שעון 24 שעות</string>
+    <string name="close">סגירה</string>
+    <string name="screensaver">שומר מסך</string>
+    <string name="preview">תצוגה מקדימה · כל כפתור מחזיר</string>
+    <string name="background_option">רקע: %1$s</string>
+    <string name="motion_option">תנועה: %1$s</string>
+    <string name="brightness_option">בהירות השעון: %1$s</string>
+    <string name="gradient">מעבר צבעי שמיים</string>
+    <string name="plain">שחור</string>
+    <string name="motion_on">פעיל</string>
+    <string name="motion_reduced">מופחתת (סטטי)</string>
+    <string name="clock_brightness">בהירות השעון</string>
+    <string name="dim">מעומעם</string>
+    <string name="medium">בינוני</string>
+    <string name="bright">בהיר</string>
+    <string name="tv_screensaver_settings">הגדרות שומר המסך בטלוויזיה</string>
+    <string name="screensaver_unavailable">טלוויזיה זו אינה חושפת הגדרות שומר מסך. התצוגה המקדימה עדיין זמינה.</string>
+    <string name="background">רקע</string>
+    <string name="starfield">שדה כוכבים</string>
+    <string name="world_map">מפת עולם</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

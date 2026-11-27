@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"جدول التلفاز"</string>
+    <string name="sched_1">"تتبع الأوقات اليوم المختار في التقويم. فترات الاستثناء تمنع الاستيقاظ التلقائي فقط. زر رجوع يلغي التغييرات غير المحفوظة."</string>
+    <string name="sched_2">"الجدول: تشغيل"</string>
+    <string name="sched_3">"الجدول: إيقاف"</string>
+    <string name="sched_4">"+ إضافة وقت استيقاظ / سكون"</string>
+    <string name="sched_5">"بلا استيقاظ: "</string>
+    <string name="sched_6">"فترة استثناء الاستيقاظ"</string>
+    <string name="sched_7">"تعديل التواريخ"</string>
+    <string name="sched_8">"حذف"</string>
+    <string name="sched_9">"+ إضافة فترة استثناء"</string>
+    <string name="sched_10">"حفظ"</string>
+    <string name="sched_11">"استيقاظ  "</string>
+    <string name="sched_12">"سكون  "</string>
+    <string name="sched_13">"إضافة حدث"</string>
+    <string name="sched_14">"استيقاظ"</string>
+    <string name="sched_15">"سكون"</string>
+    <string name="sched_16">"أيام الأسبوع"</string>
+    <string name="sched_17">"إلغاء"</string>
+    <string name="sched_18">"الوقت"</string>
+    <string name="sched_19">"اختر يومًا واحدًا على الأقل"</string>
+    <string name="sched_20">"يجب أن يكون تاريخ الانتهاء مساويًا للبداية أو بعدها"</string>
+    <string name="sched_21">"اليوم الأخير (مشمول)"</string>
+    <string name="sched_22">"اليوم الأول (مشمول)"</string>
+    <string name="sched_23">"الاثنين"</string>
+    <string name="sched_24">"الثلاثاء"</string>
+    <string name="sched_25">"الأربعاء"</string>
+    <string name="sched_26">"الخميس"</string>
+    <string name="sched_27">"الجمعة"</string>
+    <string name="sched_28">"السبت"</string>
+    <string name="sched_29">"الأحد"</string>
+</resources>

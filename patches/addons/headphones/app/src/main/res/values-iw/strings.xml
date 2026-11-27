@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">אוזניות</string>
+    <string name="plays_through">השמע מתנגן כעת דרך: %1$s</string>
+    <string name="output_speakers">רמקולי הטלוויזיה</string>
+    <string name="output_fixed">יציאת השמע של הטלוויזיה (HDMI ARC או אופטית)</string>
+    <string name="allow_title">אפשר גישה ל-Bluetooth</string>
+    <string name="allow_detail">להצגת האוזניות שלך ולזיהוי ניתוק שלהן. OK מבקש הרשאה.</string>
+    <string name="not_allowed">לא מורשה</string>
+    <string name="pair_title">צימוד או חיבור אוזניות</string>
+    <string name="pair_detail">פותח את הגדרות ה-Bluetooth של הטלוויזיה. העבירו תחילה את האוזניות למצב צימוד.</string>
+    <string name="guard_title">השתקה בעת ניתוק</string>
+    <string name="guard_detail">משהה את הניגון ומשתיק את רמקולי הטלוויזיה כשהאוזניות מתנתקות, כדי שהשמע לא יפרוץ לחדר. מבטל השתקה כשהן חוזרות.</string>
+    <string name="guard_detail_fixed">משהה את הניגון כשהאוזניות מתנתקות. עוצמת השמע בטלוויזיה זו קבועה (ARC או מגבר), ולכן אי אפשר גם להשתיק את הרמקולים.</string>
+    <string name="on">פעיל</string>
+    <string name="off">כבוי</string>
+    <string name="unmute_title">ביטול השתקת הרמקולים</string>
+    <string name="unmute_detail">הושתק כשהאוזניות התנתקו.</string>
+    <string name="muted">מושתק</string>
+    <string name="heading_paired">אוזניות ורמקולים מצומדים</string>
+    <string name="no_bluetooth">אין Bluetooth בטלוויזיה זו</string>
+    <string name="bluetooth_off">ה-Bluetooth כבוי</string>
+    <string name="bluetooth_off_detail">הפעילו אותו בהגדרות הטלוויזיה.</string>
+    <string name="none_yet">עדיין אין מכשירים</string>
+    <string name="none_yet_detail">השתמשו בשורה למעלה כדי לצמד מכשירים.</string>
+    <string name="connected">מחובר</string>
+    <string name="connected_battery">מחובר, סוללה %1$s</string>
+    <string name="not_connected_detail">לא מחובר. OK פותח את הגדרות ה-Bluetooth לחיבור.</string>
+    <string name="unnamed">מכשיר ללא שם</string>
+    <string name="heading_several">כמה אוזניות בו-זמנית</string>
+    <string name="sharing_one_pair">טלוויזיה זו שולחת שמע לזוג אחד של אוזניות Bluetooth בכל פעם. לשני זוגות, השתמשו במשדר Bluetooth כפול ביציאת האוזניות או היציאה האופטית של הטלוויזיה.</string>
+    <string name="sharing_auracast">טלוויזיה זו יכולה לשדר למספר אוזניות LE Audio (Auracast) בו-זמנית: התחילו שיתוף מהגדרות ה-Bluetooth של הטלוויזיה.</string>
+    <string name="sharing_no_broadcast">טלוויזיה זו שולחת שמע לזוג אחד של אוזניות Bluetooth בכל פעם ואינה תומכת בשידור LE Audio. לשני זוגות, השתמשו במשדר Bluetooth כפול ביציאת האוזניות או היציאה האופטית של הטלוויזיה.</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Розклад ТБ"</string>
+    <string name="sched_1">"Час стосується вибраного календарного дня. Винятки блокують лише автоматичне увімкнення. «Назад» скасовує незбережені зміни."</string>
+    <string name="sched_2">"Розклад: УВІМК."</string>
+    <string name="sched_3">"Розклад: ВИМК."</string>
+    <string name="sched_4">"+ Додати час увімкнення / сну"</string>
+    <string name="sched_5">"Не вмикати: "</string>
+    <string name="sched_6">"Період без автоувімкнення"</string>
+    <string name="sched_7">"Змінити дати"</string>
+    <string name="sched_8">"Видалити"</string>
+    <string name="sched_9">"+ Додати період винятку"</string>
+    <string name="sched_10">"Зберегти"</string>
+    <string name="sched_11">"Увімкнення  "</string>
+    <string name="sched_12">"Сон  "</string>
+    <string name="sched_13">"Додати подію"</string>
+    <string name="sched_14">"Увімкнення"</string>
+    <string name="sched_15">"Сон"</string>
+    <string name="sched_16">"Дні тижня"</string>
+    <string name="sched_17">"Скасувати"</string>
+    <string name="sched_18">"Час"</string>
+    <string name="sched_19">"Виберіть принаймні один день"</string>
+    <string name="sched_20">"Кінець не може бути раніше початку"</string>
+    <string name="sched_21">"Останній день (включно)"</string>
+    <string name="sched_22">"Перший день (включно)"</string>
+    <string name="sched_23">"Понеділок"</string>
+    <string name="sched_24">"Вівторок"</string>
+    <string name="sched_25">"Середа"</string>
+    <string name="sched_26">"Четвер"</string>
+    <string name="sched_27">"П’ятниця"</string>
+    <string name="sched_28">"Субота"</string>
+    <string name="sched_29">"Неділя"</string>
+</resources>

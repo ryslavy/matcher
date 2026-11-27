@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hörlurar</string>
+    <string name="plays_through">Ljudet spelas nu upp via: %1$s</string>
+    <string name="output_speakers">TV-högtalarna</string>
+    <string name="output_fixed">TV:ns ljudutgång (HDMI ARC eller optisk)</string>
+    <string name="allow_title">Tillåt Bluetooth-åtkomst</string>
+    <string name="allow_detail">För att lista dina hörlurar och märka när de kopplas från. Tryck OK för att begära.</string>
+    <string name="not_allowed">Ej tillåtet</string>
+    <string name="pair_title">Parkoppla eller anslut hörlurar</string>
+    <string name="pair_detail">Öppnar TV:ns Bluetooth-inställningar. Sätt hörlurarna i parkopplingsläge först.</string>
+    <string name="guard_title">Tyst när de kopplas från</string>
+    <string name="guard_detail">Pausar uppspelningen och stänger av ljudet på TV-högtalarna när hörlurarna kopplas från, så att ljudet inte hoppar ut i rummet. Slår på ljudet igen när de är tillbaka.</string>
+    <string name="guard_detail_fixed">Pausar uppspelningen när hörlurarna kopplas från. Den här TV:ns volym är fast (ARC eller förstärkare), så den kan inte även tysta högtalarna.</string>
+    <string name="on">På</string>
+    <string name="off">Av</string>
+    <string name="unmute_title">Slå på ljudet i högtalarna</string>
+    <string name="unmute_detail">Ljudet stängdes av när hörlurarna kopplades från.</string>
+    <string name="muted">Ljud av</string>
+    <string name="heading_paired">Parkopplade hörlurar och högtalare</string>
+    <string name="no_bluetooth">Ingen Bluetooth på den här TV:n</string>
+    <string name="bluetooth_off">Bluetooth är avstängt</string>
+    <string name="bluetooth_off_detail">Slå på det i TV:ns inställningar.</string>
+    <string name="none_yet">Inga än</string>
+    <string name="none_yet_detail">Använd raden ovan för att parkoppla några.</string>
+    <string name="connected">Ansluten</string>
+    <string name="connected_battery">Ansluten, batteri %1$s</string>
+    <string name="not_connected_detail">Inte ansluten. OK öppnar Bluetooth-inställningar för att ansluta.</string>
+    <string name="unnamed">Namnlös enhet</string>
+    <string name="heading_several">Flera hörlurar samtidigt</string>
+    <string name="sharing_one_pair">Den här TV:n skickar ljud till ett par Bluetooth-hörlurar i taget. För två par använder du en dual-link Bluetooth-sändare på TV:ns hörlurs- eller optiska utgång.</string>
+    <string name="sharing_auracast">Den här TV:n kan sända till flera LE Audio-hörlurar (Auracast) samtidigt: starta delning i TV:ns Bluetooth-inställningar.</string>
+    <string name="sharing_no_broadcast">Den här TV:n skickar ljud till ett par Bluetooth-hörlurar i taget och saknar LE Audio-sändning. För två par använder du en dual-link Bluetooth-sändare på TV:ns hörlurs- eller optiska utgång.</string>
+</resources>

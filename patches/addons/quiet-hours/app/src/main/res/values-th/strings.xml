@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ช่วงเวลาเงียบ</string>
+    <string name="channel_name">จำกัดระดับเสียง</string>
+    <string name="notification_text">กำลังจำกัดระดับเสียงไม่ให้เกินค่าที่กำหนด เปิดช่วงเวลาเงียบเพื่อปรับเปลี่ยน</string>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">世界时钟</string>
+    <string name="add_city">添加城市</string>
+    <string name="clock_format">时间格式</string>
+    <string name="local">本地</string>
+    <string name="search_city">城市或时区</string>
+    <string name="search_hint">按 OK 输入；按下键选择城市</string>
+    <string name="no_cities">没有匹配的城市</string>
+    <string name="change_city">更换城市</string>
+    <string name="move_earlier">向前移动</string>
+    <string name="move_later">向后移动</string>
+    <string name="remove_city">移除城市</string>
+    <string name="city_limit">最多可选择六个时钟</string>
+    <string name="already_shown">该时钟已在显示中</string>
+    <string name="same_day">与本地同一天</string>
+    <string name="tomorrow">该城市为明天</string>
+    <string name="yesterday">该城市为昨天</string>
+    <plurals name="day_difference">
+        <item quantity="other">与本地相差 %1$+d 天</item>
+    </plurals>
+    <string name="local_reference">日期参考：%1$s</string>
+    <string name="controls">方向键移动 · OK 查看城市选项 · 返回退出</string>
+    <string name="format_system">使用电视设置</string>
+    <string name="format_12">12 小时制</string>
+    <string name="format_24">24 小时制</string>
+    <string name="close">关闭</string>
+    <string name="screensaver">屏幕保护程序</string>
+    <string name="preview">预览 · 按任意键返回</string>
+    <string name="background_option">背景：%1$s</string>
+    <string name="motion_option">动态效果：%1$s</string>
+    <string name="brightness_option">时钟亮度：%1$s</string>
+    <string name="gradient">天空渐变</string>
+    <string name="plain">纯黑</string>
+    <string name="motion_on">开启</string>
+    <string name="motion_reduced">减弱（静止）</string>
+    <string name="clock_brightness">时钟亮度</string>
+    <string name="dim">较暗</string>
+    <string name="medium">中等</string>
+    <string name="bright">明亮</string>
+    <string name="tv_screensaver_settings">电视屏保设置</string>
+    <string name="screensaver_unavailable">此电视未开放屏保设置，但仍可使用预览功能。</string>
+    <string name="background">背景</string>
+    <string name="starfield">星空</string>
+    <string name="world_map">世界地图</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

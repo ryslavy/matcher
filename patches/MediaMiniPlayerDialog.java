@@ -151,6 +151,7 @@ final class MediaMiniPlayerDialog {
         singleHeader.setGravity(Gravity.CENTER_VERTICAL);
 
         singleAppIcon = new ImageView(activity);
+        ExpressiveGlass.markPreserveImage(singleAppIcon);
         singleAppIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
         applyRoundedOutline(singleAppIcon, dp(5));
         LinearLayout.LayoutParams sIconLp = new LinearLayout.LayoutParams(dp(20), dp(20));
@@ -205,9 +206,11 @@ final class MediaMiniPlayerDialog {
         artFrame = new FrameLayout(activity);
         applyRoundedOutline(artFrame, dp(16));
         artImage = new ImageView(activity);
+        ExpressiveGlass.markPreserveImage(artImage);
         artImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         artFrame.addView(artImage, new FrameLayout.LayoutParams(-1, -1));
         artFallbackIcon = new ImageView(activity);
+        ExpressiveGlass.markPreserveImage(artFallbackIcon);
         artFallbackIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
         artFrame.addView(artFallbackIcon, new FrameLayout.LayoutParams(dp(44), dp(44), Gravity.CENTER));
         View artRim = new View(activity);
@@ -244,12 +247,7 @@ final class MediaMiniPlayerDialog {
         progressBlock.setClipToPadding(false);
         progressBlock.setClickable(true);
         progressBlock.setPadding(dp(8), dp(4), dp(8), dp(4));
-        StateListDrawable progressFocusBg = new StateListDrawable();
-        GradientDrawable progressFocused = new GradientDrawable();
-        progressFocused.setColor(0x1CFFFFFF);
-        progressFocused.setCornerRadius(dp(12));
-        progressFocusBg.addState(new int[]{android.R.attr.state_focused}, progressFocused);
-        progressBlock.setBackground(progressFocusBg);
+        progressBlock.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 12f, false));
         LinearLayout.LayoutParams progBlockLp = new LinearLayout.LayoutParams(-1, -2);
         progBlockLp.topMargin = dp(4);
         progBlockLp.leftMargin = -dp(8);
@@ -260,16 +258,17 @@ final class MediaMiniPlayerDialog {
         progressBarHost.setClipChildren(false);
         progressBarHost.setClipToPadding(false);
 
+        boolean lightGlass = ExpressiveGlass.isLightGlass();
         progressTrack = new FrameLayout(activity);
         progressTrackBg = new GradientDrawable();
-        progressTrackBg.setColor(0x2EFFFFFF);
+        progressTrackBg.setColor(lightGlass ? 0x260F172A : 0x2EFFFFFF);
         progressTrackBg.setCornerRadius(dp(3));
         progressTrack.setBackground(progressTrackBg);
         applyRoundedOutline(progressTrack, dp(3));
 
         progressFill = new View(activity);
         progressFillBg = new GradientDrawable();
-        progressFillBg.setColor(0xEBFFFFFF);
+        progressFillBg.setColor(lightGlass ? 0xE60F172A : 0xEBFFFFFF);
         progressFillBg.setCornerRadius(dp(3));
         progressFill.setBackground(progressFillBg);
         progressTrack.addView(progressFill, new FrameLayout.LayoutParams(0, -1));
@@ -279,8 +278,8 @@ final class MediaMiniPlayerDialog {
         progressThumb = new View(activity);
         GradientDrawable thumbBg = new GradientDrawable();
         thumbBg.setShape(GradientDrawable.OVAL);
-        thumbBg.setColor(Color.WHITE);
-        thumbBg.setStroke(Math.max(1, dp(1)), 0x40000000);
+        thumbBg.setColor(lightGlass ? 0xFF0F172A : Color.WHITE);
+        thumbBg.setStroke(Math.max(1, dp(1)), lightGlass ? 0x60FFFFFF : 0x40000000);
         progressThumb.setBackground(thumbBg);
         progressThumb.setElevation(dp(4));
         progressThumb.setAlpha(0f);
@@ -357,8 +356,9 @@ final class MediaMiniPlayerDialog {
         // Wire interactive seek bar scrubbing and D-pad navigation.
         progressBlock.setOnFocusChangeListener((v, focused) -> {
             long dur = reducedMotion ? Motion.REDUCED_MS : 185L;
-            progressTrackBg.setColor(focused ? 0x4DFFFFFF : 0x2EFFFFFF);
-            progressFillBg.setColor(focused ? Color.WHITE : 0xEBFFFFFF);
+            boolean lg = ExpressiveGlass.isLightGlass();
+            progressTrackBg.setColor(focused ? (lg ? 0x420F172A : 0x4DFFFFFF) : (lg ? 0x260F172A : 0x2EFFFFFF));
+            progressFillBg.setColor(focused ? (lg ? 0xFF0F172A : Color.WHITE) : (lg ? 0xE60F172A : 0xEBFFFFFF));
             progressTrack.animate().cancel();
             progressTrack.animate().scaleY(focused ? 1.55f : 1f)
                     .setDuration(dur)
@@ -372,7 +372,7 @@ final class MediaMiniPlayerDialog {
                     .setDuration(dur)
                     .setInterpolator(reducedMotion ? Motion.smoothDecel() : (focused ? Motion.springPop() : Motion.easeOutExpo()))
                     .start();
-            timeElapsed.setTextColor(focused ? Color.WHITE : 0x99FFFFFF);
+            timeElapsed.setTextColor(focused ? ExpressiveGlass.adaptivePrimaryTextColor() : ExpressiveGlass.adaptiveHintTextColor());
             if (!focused) {
                 commitScrub();
             }
@@ -473,6 +473,7 @@ final class MediaMiniPlayerDialog {
 
         popupWidth = Math.min(dp(430), Math.max(dp(320), activity.getWindow().getDecorView().getWidth() - dp(80)));
         int ringPad = FocusRingController.wrapInsetPx(density);
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
         FocusRingController.configure(progressBlock, 1.0f, 0f, 12f, 0);
         FrameLayout ringHost = FocusRingController.wrapPopup(panel, density, !reducedMotion, reducedMotion);
         panel.setOnClickListener(v -> { /* consume inside taps */ });
@@ -669,6 +670,7 @@ final class MediaMiniPlayerDialog {
             chip.setClickable(true);
 
             ImageView icon = new ImageView(activity);
+            ExpressiveGlass.markPreserveImage(icon);
             icon.setImageDrawable(loadAppIcon(pkg));
             icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
             applyRoundedOutline(icon, dp(4));
@@ -739,6 +741,7 @@ final class MediaMiniPlayerDialog {
 
             if (pkg.equals(focusedChipPkg)) toRefocus = chip;
         }
+        ExpressiveGlass.applyAdaptiveContentTheme(sourcesRow);
         if (toRefocus != null) toRefocus.requestFocus();
     }
 
@@ -929,7 +932,9 @@ final class MediaMiniPlayerDialog {
             boolean playing = ps != null && MediaSessionTracker.isPlayingState(ps.getState());
             liveBadge.setText(playing ? "\u25CF  " + activity.getString(R.string.media_live)
                     : activity.getString(R.string.media_paused));
-            liveBadge.setTextColor(playing ? 0xFF6BE88E : 0x99FFFFFF);
+            liveBadge.setTextColor(playing
+                    ? ExpressiveGlass.adaptiveAccentTextColor(0xFF6BE88E)
+                    : ExpressiveGlass.adaptiveHintTextColor());
             liveBadge.setVisibility(View.VISIBLE);
         }
     }
@@ -983,45 +988,11 @@ final class MediaMiniPlayerDialog {
     }
 
     private StateListDrawable makeCircleButtonBg(float radiusPx, boolean primary) {
-        StateListDrawable bg = new StateListDrawable();
-        GradientDrawable focused = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                primary ? new int[]{0x58FFFFFF, 0x32FFFFFF} : new int[]{0x38FFFFFF, 0x1EFFFFFF});
-        focused.setCornerRadius(radiusPx);
-        bg.addState(new int[]{android.R.attr.state_focused}, focused);
-
-        GradientDrawable rest = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                primary ? new int[]{0x42FFFFFF, 0x22FFFFFF} : new int[]{0x28FFFFFF, 0x14FFFFFF});
-        rest.setCornerRadius(radiusPx);
-        rest.setStroke(Math.max(1, Math.round((primary ? 1.4f : 1.0f) * density)),
-                primary ? 0x70FFFFFF : 0x3EFFFFFF);
-        bg.addState(new int[0], rest);
-        return bg;
+        return ExpressiveGlass.makeAdaptiveTileBg(density, radiusPx / Math.max(1f, density), 0);
     }
 
     private StateListDrawable makeSourceChipBg() {
-        StateListDrawable bg = new StateListDrawable();
-        GradientDrawable focusedSelected = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x52FFFFFF, 0x2CFFFFFF});
-        focusedSelected.setCornerRadius(dp(17));
-        bg.addState(new int[]{android.R.attr.state_focused, android.R.attr.state_selected}, focusedSelected);
-
-        GradientDrawable focused = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x38FFFFFF, 0x1EFFFFFF});
-        focused.setCornerRadius(dp(17));
-        bg.addState(new int[]{android.R.attr.state_focused}, focused);
-
-        GradientDrawable selected = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x40FFFFFF, 0x20FFFFFF});
-        selected.setCornerRadius(dp(17));
-        selected.setStroke(Math.max(1, Math.round(1.3f * density)), 0x78FFFFFF);
-        bg.addState(new int[]{android.R.attr.state_selected}, selected);
-
-        GradientDrawable rest = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{0x1EFFFFFF, 0x0EFFFFFF});
-        rest.setCornerRadius(dp(17));
-        rest.setStroke(Math.max(1, Math.round(1.0f * density)), 0x30FFFFFF);
-        bg.addState(new int[0], rest);
-        return bg;
+        return ExpressiveGlass.makeAdaptiveChoiceBg(density, 17f, 0x38BDF8);
     }
 
     private GradientDrawable makeDot(int color) {

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"电视定时计划"</string>
+    <string name="sched_1">"时间仅适用于所选日期。排除时段仅阻止自动唤醒。按返回将放弃未保存的更改。"</string>
+    <string name="sched_2">"定时计划：开启"</string>
+    <string name="sched_3">"定时计划：关闭"</string>
+    <string name="sched_4">"+ 添加唤醒 / 休眠时间"</string>
+    <string name="sched_5">"不自动唤醒："</string>
+    <string name="sched_6">"不自动唤醒时段"</string>
+    <string name="sched_7">"编辑日期"</string>
+    <string name="sched_8">"删除"</string>
+    <string name="sched_9">"+ 添加排除时段"</string>
+    <string name="sched_10">"保存"</string>
+    <string name="sched_11">"唤醒  "</string>
+    <string name="sched_12">"休眠  "</string>
+    <string name="sched_13">"添加事件"</string>
+    <string name="sched_14">"唤醒"</string>
+    <string name="sched_15">"休眠"</string>
+    <string name="sched_16">"星期"</string>
+    <string name="sched_17">"取消"</string>
+    <string name="sched_18">"时间"</string>
+    <string name="sched_19">"请至少选择一天"</string>
+    <string name="sched_20">"结束日期不能早于开始日期"</string>
+    <string name="sched_21">"最后一天（含）"</string>
+    <string name="sched_22">"第一天（含）"</string>
+    <string name="sched_23">"星期一"</string>
+    <string name="sched_24">"星期二"</string>
+    <string name="sched_25">"星期三"</string>
+    <string name="sched_26">"星期四"</string>
+    <string name="sched_27">"星期五"</string>
+    <string name="sched_28">"星期六"</string>
+    <string name="sched_29">"星期日"</string>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Uyku zamanlayıcısı</string>
+    <string name="hint">TV\'nin ne zaman bekleme moduna geçeceğini seçin. Bir dakika önce uyarı gösterilir.</string>
+    <string name="in_minutes">%1$d dk</string>
+    <string name="cancel">Zamanlayıcıyı iptal et</string>
+    <string name="state_off">Zamanlayıcı ayarlı değil.</string>
+    <string name="state_on">Bekleme modu: %1$s.</string>
+    <string name="no_service">Uyku zamanlayıcısı erişilebilirlik hizmeti kapalı (kurulum betiğini çalıştırın).</string>
+    <string name="warning_title">TV kapanıyor</string>
+    <string name="warning_seconds">%1$d saniye içinde</string>
+    <string name="more">15 dakika daha</string>
+    <string name="now">Şimdi kapat</string>
+    <string name="service_label">Uyku zamanlayıcısı</string>
+    <string name="quick_hint">◀ ▶ süre seç · OK kapat</string>
+    <string name="service_description">Yalnızca Uyku zamanlayıcısı dolduğunda TV\'yi bekleme moduna alır. Ekranı okumaz.</string>
+    <string name="schedule_row">Program</string>
+</resources>

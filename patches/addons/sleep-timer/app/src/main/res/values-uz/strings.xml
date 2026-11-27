@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Uyqu taymeri</string>
+    <string name="hint">TV qachon kutish rejimiga oʻtishini tanlang. Bir daqiqa oldin ogohlantirish koʻrsatiladi.</string>
+    <string name="in_minutes">%1$d daq</string>
+    <string name="cancel">Taymerni bekor qilish</string>
+    <string name="state_off">Taymer oʻrnatilmagan.</string>
+    <string name="state_on">Kutish rejimi: %1$s.</string>
+    <string name="no_service">Uyqu taymerining maxsus imkoniyatlar xizmati oʻchiq (oʻrnatish skriptini ishga tushiring).</string>
+    <string name="warning_title">TV oʻchmoqda</string>
+    <string name="warning_seconds">%1$d soniyadan keyin</string>
+    <string name="more">Yana 15 daqiqa</string>
+    <string name="now">Hozir oʻchirish</string>
+    <string name="service_label">Uyqu taymeri</string>
+    <string name="quick_hint">◀ ▶ vaqtni tanlash · OK yopish</string>
+    <string name="service_description">Faqat Uyqu taymeri tugaganda TV ni kutish rejimiga oʻtkazadi. Ekranni oʻqimaydi.</string>
+    <string name="schedule_row">Jadval</string>
+</resources>

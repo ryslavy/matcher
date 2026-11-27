@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Vreme</string>
+
+    <string name="feels_like">Subjektivni osećaj %1$d°</string>
+    <string name="humidity">Vlažnost %1$d%%</string>
+    <string name="wind">Vetar %1$d km/h</string>
+    <string name="wind_mph">Vetar %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Kvalitet vazduha %1$d · %2$s</string>
+    <string name="updated">Ažurirano %1$s · Open-Meteo</string>
+    <string name="change_city">Promeni grad</string>
+    <string name="weather_settings">Podešavanja vremena</string>
+    <string name="settings_done">Gotovo</string>
+    <string name="setting_units">Jedinice temperature</string>
+    <string name="unit_c">Celzijus (°C)</string>
+    <string name="unit_f">Farenhajt (°F)</string>
+    <string name="setting_both_units">Prikaži obe jedinice</string>
+    <string name="setting_days">Trajanje prognoze</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d dan</item>
+        <item quantity="few">%1$d dana</item>
+        <item quantity="other">%1$d dana</item>
+    </plurals>
+    <string name="setting_humidity">Prikaži vlažnost</string>
+    <string name="setting_wind">Prikaži vetar</string>
+    <string name="setting_reset">Resetuj podešavanja vremena</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Uklj.</string>
+    <string name="option_off">Isklj.</string>
+    <string name="loading">Učitavanje vremena…</string>
+    <string name="offline">Nije moguće povezati se sa Open-Meteo. Proverite internet vezu TV-a; novi pokušaj za 5 minuta.</string>
+
+    <string name="pick_title">Koji grad?</string>
+    <string name="pick_hint">Naziv grada, npr. Beograd</string>
+    <string name="pick_search">Pretraži</string>
+    <string name="pick_none">Nema mesta pod nazivom „%1$s“</string>
+    <string name="pick_first">Izaberite grad da vidite prognozu.</string>
+
+    <string name="aqi_good">Dobar</string>
+    <string name="aqi_moderate">Umeren</string>
+    <string name="aqi_sensitive">Nezdrav za osetljive grupe</string>
+    <string name="aqi_unhealthy">Nezdrav</string>
+    <string name="aqi_very_unhealthy">Veoma nezdrav</string>
+    <string name="aqi_hazardous">Opasan</string>
+
+    <string name="sky_clear">Vedro</string>
+    <string name="sky_sunny">Sunčano</string>
+    <string name="sky_mostly_clear">Uglavnom vedro</string>
+    <string name="sky_mostly_sunny">Uglavnom sunčano</string>
+    <string name="sky_partly_cloudy">Delimično oblačno</string>
+    <string name="sky_cloudy">Oblačno</string>
+    <string name="sky_fog">Magla</string>
+    <string name="sky_drizzle">Rosulja</string>
+    <string name="sky_freezing_drizzle">Ledena rosulja</string>
+    <string name="sky_light_rain">Slaba kiša</string>
+    <string name="sky_rain">Kiša</string>
+    <string name="sky_heavy_rain">Jaka kiša</string>
+    <string name="sky_freezing_rain">Ledena kiša</string>
+    <string name="sky_light_snow">Slab sneg</string>
+    <string name="sky_snow">Sneg</string>
+    <string name="sky_heavy_snow">Jak sneg</string>
+    <string name="sky_snow_grains">Zrnasti sneg</string>
+    <string name="sky_showers">Pljuskovi</string>
+    <string name="sky_snow_showers">Snežni pljuskovi</string>
+    <string name="sky_thunderstorm">Grmljavina</string>
+</resources>

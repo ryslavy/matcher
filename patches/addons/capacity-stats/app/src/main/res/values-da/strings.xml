@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kapacitetsoversigt</string>
+    <string name="loading">Indlæser målinger…</string>
+    <string name="unavailable">Målinger ikke tilgængelige</string>
+    <string name="back">Tilbage</string>
+    <string name="memory">Tilgængelig RAM: %1$s</string>
+    <string name="memory_used">Brugt RAM: %1$s</string>
+    <string name="storage">Tilgængelig lagerplads: %1$s</string>
+    <string name="note">Tilgængelig RAM inkluderer frigørlige cacher; brugt RAM er total minus tilgængelig. Lagerplads refererer til datafilsystemet.</string>
+</resources>

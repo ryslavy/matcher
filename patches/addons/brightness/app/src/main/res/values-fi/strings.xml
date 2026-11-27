@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kirkkaus</string>
+    <string name="quick_brightness">Kirkkaus %1$d%%</string>
+    <string name="quick_night_brightness">Yökirkkaus %1$d%%</string>
+    <string name="quick_hint">◀ ▶ säädä · OK sulje</string>
+    <string name="channel_name">Näytön himmennys</string>
+    <string name="notification_text">Näyttöä himmennetään. Avaa Kirkkaus muuttaaksesi tai poistaaksesi käytöstä.</string>
+</resources>

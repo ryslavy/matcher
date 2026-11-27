@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Memorija i skladište</string>
+    <string name="loading">Očitavanje pokazatelja…</string>
+    <string name="unavailable">Podaci nisu dostupni</string>
+    <string name="back">Nazad</string>
+    <string name="memory">Dostupan RAM: %1$s</string>
+    <string name="memory_used">Zauzet RAM: %1$s</string>
+    <string name="storage">Dostupno skladište: %1$s</string>
+    <string name="note">Dostupan RAM uključuje keš koji se može osloboditi; zauzet RAM je ukupan minus dostupan. Skladište se odnosi na particiju podataka.</string>
+</resources>

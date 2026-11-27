@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kopfhörer</string>
+    <string name="plays_through">Ton läuft aktuell über: %1$s</string>
+    <string name="output_speakers">die TV-Lautsprecher</string>
+    <string name="output_fixed">den Audioausgang des Fernsehers (HDMI ARC oder optisch)</string>
+    <string name="allow_title">Bluetooth-Zugriff erlauben</string>
+    <string name="allow_detail">Zum Auflisten deiner Kopfhörer und Erkennen von Verbindungsabbrüchen. OK fragt nach.</string>
+    <string name="not_allowed">Nicht erlaubt</string>
+    <string name="pair_title">Kopfhörer koppeln oder verbinden</string>
+    <string name="pair_detail">Öffnet die Bluetooth-Einstellungen des Fernsehers. Versetze die Kopfhörer zuerst in den Kopplungsmodus.</string>
+    <string name="guard_title">Stumm bei Trennung</string>
+    <string name="guard_detail">Pausiert die Wiedergabe und schaltet die TV-Lautsprecher stumm, wenn Kopfhörer getrennt werden, damit der Ton nicht in den Raum springt. Hebt die Stummschaltung wieder auf, sobald sie zurück sind.</string>
+    <string name="guard_detail_fixed">Pausiert die Wiedergabe, wenn Kopfhörer getrennt werden. Die Lautstärke dieses Fernsehers ist fest (ARC oder Verstärker), daher lassen sich die Lautsprecher nicht zusätzlich stummschalten.</string>
+    <string name="on">Ein</string>
+    <string name="off">Aus</string>
+    <string name="unmute_title">Stummschaltung der Lautsprecher aufheben</string>
+    <string name="unmute_detail">Stummgeschaltet, als die Kopfhörer getrennt wurden.</string>
+    <string name="muted">Stumm</string>
+    <string name="heading_paired">Gekoppelte Kopfhörer und Lautsprecher</string>
+    <string name="no_bluetooth">Dieser Fernseher hat kein Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth ist aus</string>
+    <string name="bluetooth_off_detail">Schalte es in den TV-Einstellungen ein.</string>
+    <string name="none_yet">Noch keine</string>
+    <string name="none_yet_detail">Nutze die Zeile oben zum Koppeln.</string>
+    <string name="connected">Verbunden</string>
+    <string name="connected_battery">Verbunden, Akku %1$s</string>
+    <string name="not_connected_detail">Nicht verbunden. OK öffnet die Bluetooth-Einstellungen zum Verbinden.</string>
+    <string name="unnamed">Unbenanntes Gerät</string>
+    <string name="heading_several">Mehrere Kopfhörer gleichzeitig</string>
+    <string name="sharing_one_pair">Dieser Fernseher sendet Ton immer nur an ein Bluetooth-Kopfhörerpaar gleichzeitig. Für zwei Paare nutze einen Dual-Link-Bluetooth-Sender am Kopfhörer- oder optischen Ausgang des Fernsehers.</string>
+    <string name="sharing_auracast">Dieser Fernseher kann an viele LE-Audio-Kopfhörer (Auracast) gleichzeitig senden: Starte die Freigabe in den Bluetooth-Einstellungen des Fernsehers.</string>
+    <string name="sharing_no_broadcast">Dieser Fernseher sendet Ton immer nur an ein Bluetooth-Kopfhörerpaar gleichzeitig und unterstützt kein LE-Audio-Broadcast. Für zwei Paare nutze einen Dual-Link-Bluetooth-Sender am Kopfhörer- oder optischen Ausgang des Fernsehers.</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"Raspored TV-a"</string>
+    <string name="sched_1">"Vremena se odnose na izabrani kalendarski dan. Periodi izuzeća blokiraju samo automatsko buđenje. Nazad odbacuje nesačuvane promene."</string>
+    <string name="sched_2">"Raspored: UKLJUČEN"</string>
+    <string name="sched_3">"Raspored: ISKLJUČEN"</string>
+    <string name="sched_4">"+ Dodaj vreme buđenja / spavanja"</string>
+    <string name="sched_5">"Bez buđenja: "</string>
+    <string name="sched_6">"Period bez automatskog buđenja"</string>
+    <string name="sched_7">"Izmeni datume"</string>
+    <string name="sched_8">"Obriši"</string>
+    <string name="sched_9">"+ Dodaj period izuzeća"</string>
+    <string name="sched_10">"Sačuvaj"</string>
+    <string name="sched_11">"Buđenje  "</string>
+    <string name="sched_12">"Spavanje  "</string>
+    <string name="sched_13">"Dodaj događaj"</string>
+    <string name="sched_14">"Buđenje"</string>
+    <string name="sched_15">"Spavanje"</string>
+    <string name="sched_16">"Dani u nedelji"</string>
+    <string name="sched_17">"Otkaži"</string>
+    <string name="sched_18">"Vreme"</string>
+    <string name="sched_19">"Izaberite bar jedan dan"</string>
+    <string name="sched_20">"Kraj mora biti na dan početka ili kasnije"</string>
+    <string name="sched_21">"Poslednji dan (uključujući)"</string>
+    <string name="sched_22">"Prvi dan (uključujući)"</string>
+    <string name="sched_23">"Ponedeljak"</string>
+    <string name="sched_24">"Utorak"</string>
+    <string name="sched_25">"Sreda"</string>
+    <string name="sched_26">"Četvrtak"</string>
+    <string name="sched_27">"Petak"</string>
+    <string name="sched_28">"Subota"</string>
+    <string name="sched_29">"Nedelja"</string>
+</resources>

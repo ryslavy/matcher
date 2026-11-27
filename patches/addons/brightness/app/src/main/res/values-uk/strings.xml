@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Яскравість</string>
+    <string name="quick_brightness">Яскравість %1$d%%</string>
+    <string name="quick_night_brightness">Нічна яскравість %1$d%%</string>
+    <string name="quick_hint">◀ ▶ налаштувати · OK закрити</string>
+    <string name="channel_name">Затемнення екрана</string>
+    <string name="notification_text">Екран затемнено. Відкрийте «Яскравість», щоб змінити або вимкнути.</string>
+</resources>

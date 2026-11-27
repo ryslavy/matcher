@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">سماعات الرأس</string>
+    <string name="plays_through">يخرج الصوت الآن عبر: %1$s</string>
+    <string name="output_speakers">سماعات التلفاز</string>
+    <string name="output_fixed">مخرج الصوت بالتلفاز (HDMI ARC أو بصري)</string>
+    <string name="allow_title">السماح بالوصول إلى Bluetooth</string>
+    <string name="allow_detail">لعرض سماعاتك واكتشاف انقطاعها. OK لطلب الإذن.</string>
+    <string name="not_allowed">غير مسموح</string>
+    <string name="pair_title">إقران أو توصيل سماعات</string>
+    <string name="pair_detail">يفتح إعدادات Bluetooth في التلفاز. ضع السماعات في وضع الإقران أولًا.</string>
+    <string name="guard_title">كتم الصوت عند الانقطاع</string>
+    <string name="guard_detail">يُوقف التشغيل مؤقتًا ويكتم سماعات التلفاز عند انقطاع السماعات حتى لا ينتقل الصوت للغرفة، ويعيد الصوت عند عودتها.</string>
+    <string name="guard_detail_fixed">يُوقف التشغيل مؤقتًا عند انقطاع السماعات. مستوى صوت هذا التلفاز ثابت (ARC أو مضخّم صوت)، لذا لا يمكنه كتم السماعات أيضًا.</string>
+    <string name="on">تشغيل</string>
+    <string name="off">إيقاف</string>
+    <string name="unmute_title">إلغاء كتم السماعات</string>
+    <string name="unmute_detail">تم الكتم عند انقطاع سماعات الرأس.</string>
+    <string name="muted">مكتوم</string>
+    <string name="heading_paired">السماعات ومكبرات الصوت المقترنة</string>
+    <string name="no_bluetooth">لا يوجد Bluetooth في هذا التلفاز</string>
+    <string name="bluetooth_off">Bluetooth متوقف</string>
+    <string name="bluetooth_off_detail">قم بتشغيله من إعدادات التلفاز.</string>
+    <string name="none_yet">لا توجد أجهزة بعد</string>
+    <string name="none_yet_detail">استخدم الصف أعلاه لإقران سماعات.</string>
+    <string name="connected">متصل</string>
+    <string name="connected_battery">متصل، البطارية %1$s</string>
+    <string name="not_connected_detail">غير متصل. OK يفتح إعدادات Bluetooth للتوصيل.</string>
+    <string name="unnamed">جهاز بلا اسم</string>
+    <string name="heading_several">عدة سماعات في وقت واحد</string>
+    <string name="sharing_one_pair">يرسل هذا التلفاز الصوت إلى سماعة Bluetooth واحدة في كل مرة. لسماعتين، استخدم جهاز إرسال Bluetooth مزدوج على مخرج السماعات أو المخرج البصري.</string>
+    <string name="sharing_auracast">يمكن لهذا التلفاز البث إلى عدة سماعات LE Audio (Auracast) في وقت واحد: ابدأ المشاركة من إعدادات Bluetooth في التلفاز.</string>
+    <string name="sharing_no_broadcast">يرسل هذا التلفاز الصوت إلى سماعة Bluetooth واحدة في كل مرة ولا يدعم بث LE Audio. لسماعتين، استخدم جهاز إرسال Bluetooth مزدوج على مخرج السماعات أو المخرج البصري.</string>
+</resources>

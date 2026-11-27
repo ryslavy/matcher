@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Maailmankello</string>
+    <string name="add_city">Lisää kaupunki</string>
+    <string name="clock_format">Kellon muoto</string>
+    <string name="local">Paikallinen</string>
+    <string name="search_city">Kaupunki tai aikavyöhyke</string>
+    <string name="search_hint">Paina OK kirjoittaaksesi · Alas valitaksesi kaupungin</string>
+    <string name="no_cities">Ei vastaavia kaupunkeja</string>
+    <string name="change_city">Vaihda kaupunkia</string>
+    <string name="move_earlier">Siirrä aiemmaksi</string>
+    <string name="move_later">Siirrä myöhemmäksi</string>
+    <string name="remove_city">Poista kaupunki</string>
+    <string name="city_limit">Valitse enintään kuusi kelloa</string>
+    <string name="already_shown">Tämä kello on jo näkyvissä</string>
+    <string name="same_day">Sama päivä kuin paikallisaika</string>
+    <string name="tomorrow">Huomenna tässä kaupungissa</string>
+    <string name="yesterday">Eilen tässä kaupungissa</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d päivä paikallisajasta</item>
+        <item quantity="other">%1$+d päivää paikallisajasta</item>
+    </plurals>
+    <string name="local_reference">Päiviä verrataan kohteeseen %1$s</string>
+    <string name="controls">Nuolet: siirry · OK: kaupungin valinnat · Takaisin: palaa</string>
+    <string name="format_system">Käytä TV:n asetusta</string>
+    <string name="format_12">12 tunnin kello</string>
+    <string name="format_24">24 tunnin kello</string>
+    <string name="close">Sulje</string>
+    <string name="screensaver">Näytönsäästäjä</string>
+    <string name="preview">Esikatselu · palaa millä tahansa painikkeella</string>
+    <string name="background_option">Tausta: %1$s</string>
+    <string name="motion_option">Liike: %1$s</string>
+    <string name="brightness_option">Kellon kirkkaus: %1$s</string>
+    <string name="gradient">Taivaan liukuväri</string>
+    <string name="plain">Musta</string>
+    <string name="motion_on">Päällä</string>
+    <string name="motion_reduced">Vähennetty (paikallaan)</string>
+    <string name="clock_brightness">Kellon kirkkaus</string>
+    <string name="dim">Himmeä</string>
+    <string name="medium">Keskitaso</string>
+    <string name="bright">Kirkas</string>
+    <string name="tv_screensaver_settings">TV:n näytönsäästäjäasetukset</string>
+    <string name="screensaver_unavailable">Tämä TV ei näytä näytönsäästäjän asetuksia. Esikatselu on silti käytettävissä.</string>
+    <string name="background">Tausta</string>
+    <string name="starfield">Tähtitaivas</string>
+    <string name="world_map">Maailmankartta</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

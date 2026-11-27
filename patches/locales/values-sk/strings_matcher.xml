@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Priečinky aplikácií -->
+    <string name="folder_add_to">Pridať do priečinka…</string>
+    <string name="folder_new">+ Nový priečinok</string>
+    <string name="folder_new_title">Nový priečinok</string>
+    <string name="folder_rename">Premenovať priečinok…</string>
+    <string name="folder_rename_title">Premenovať priečinok</string>
+    <string name="folder_open">Otvoriť priečinok</string>
+    <string name="folder_add_apps">Pridať aplikácie…</string>
+    <string name="folder_add_apps_title">Pridať aplikácie do %1$s</string>
+    <string name="folder_add_apps_empty">Všetky aplikácie na domovskej obrazovke sú už v priečinkoch</string>
+    <string name="folder_dissolve">Zrušiť zoskupenie priečinka</string>
+    <string name="folder_remove_app">Odstrániť z priečinka</string>
+    <string name="folder_move_to">Presunúť do priečinka…</string>
+    <string name="folder_hint">OK otvorí · Podržanie OK: možnosti · Hore: akcie priečinka</string>
+    <string name="folder_default_name">Priečinok %1$d</string>
+    <string name="folder_name_hint">Názov priečinka</string>
+    <string name="folder_create">Vytvoriť</string>
+    <string name="folder_save">Uložiť</string>
+    <string name="folder_cancel">Zrušiť</string>
+    <string name="folder_btn_add">+ Pridať</string>
+    <string name="folder_btn_reorder">Usporiadať</string>
+    <string name="folder_btn_done">Hotovo</string>
+    <string name="folder_btn_rename">Premenovať</string>
+    <string name="folder_preset_streaming">Streamovanie</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Šport</string>
+    <string name="folder_preset_music">Hudba</string>
+    <string name="folder_preset_games">Hry</string>
+    <string name="folder_preset_tools">Nástroje</string>
+
+    <!-- Miniprehrávač médií -->
+    <string name="media_now_playing">Práve hrá</string>
+    <string name="media_playing">Prehráva sa</string>
+    <string name="media_paused">Pozastavené</string>
+    <string name="media_live">Naživo</string>
+    <string name="media_prev">Predchádzajúca</string>
+    <string name="media_play_pause">Prehrať alebo pozastaviť</string>
+    <string name="media_next">Ďalšia</string>
+    <string name="media_open_app">Otvoriť aplikáciu</string>
+    <string name="media_switch_hint">Hore: prepnúť aplikáciu · OK obnoví prehrávanie</string>
+
+    <!-- Nedávne aplikácie -->
+    <string name="recents_title">Nedávne aplikácie</string>
+    <string name="recents_hint">OK prepne · 2× hore zatvorí · Podržanie OK: možnosti</string>
+    <string name="recents_empty">Žiadne otvorené nedávne aplikácie</string>
+    <string name="recents_switch">Prepnúť do aplikácie</string>
+    <string name="recents_close_app">Zatvoriť aplikáciu</string>
+    <string name="recents_close_all">Zatvoriť všetko</string>
+    <string name="recents_swipe_close">Znova hore na zatvorenie</string>
+    <string name="recents_playing_badge">Prehráva</string>
+    <string name="recents_free_ram">Voľná RAM: %1$d MB</string>
+    <string name="recents_just_now">Práve teraz</string>
+    <string name="recents_minutes_ago">Pred %1$d min</string>
+    <string name="recents_hours_ago">Pred %1$d h</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Zatvorená %1$d aplikácia</item>
+        <item quantity="few">Zatvorené %1$d aplikácie</item>
+        <item quantity="many">Zatvorené %1$d aplikácie</item>
+        <item quantity="other">Zatvorených %1$d aplikácií</item>
+    </plurals>
+
+    <!-- Ambientný šetrič obrazovky -->
+    <string name="ambient_controls_hint">◄ ► skladba · ▼ pauza · ▲ otvoriť</string>
+    <string name="ambient_action_prev">Predchádzajúca skladba</string>
+    <string name="ambient_action_next">Ďalšia skladba</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Jasno</string>
+    <string name="weather_partly">Polojasno</string>
+    <string name="weather_cloudy">Zamračené</string>
+    <string name="weather_fog">Hmla</string>
+    <string name="weather_drizzle">Mrholenie</string>
+    <string name="weather_rain">Dážď</string>
+    <string name="weather_snow">Sneženie</string>
+    <string name="weather_showers">Prehánky</string>
+    <string name="weather_storm">Búrka</string>
+
+    <!-- Ovládacie centrum, Nočný zvuk, Dobrú noc a Aerial videá -->
+    <string name="cc_title">Ovládacie centrum</string>
+    <string name="cc_bedtime">Dobrú noc</string>
+    <string name="cc_bedtime_sub">30 min · Stmaviť · Nočný zvuk</string>
+    <string name="cc_bedtime_on">Aktívne</string>
+    <string name="cc_night_audio">Nočný zvuk</string>
+    <string name="cc_night_audio_on">Tlmí hlasné špičky</string>
+    <string name="cc_night_audio_off">Vypnuté</string>
+    <string name="cc_night_audio_unavailable">Zvukový procesor nie je dostupný</string>
+    <string name="cc_audio">Zvuk</string>
+    <string name="cc_audio_tv">TV reproduktory</string>
+    <string name="cc_sleep_timer">Časovač spánku</string>
+    <string name="cc_sleep_timer_sub">Nastaviť časovač</string>
+    <string name="cc_brightness">Jas</string>
+    <string name="cc_brightness_sub">Lišta stmievania</string>
+    <string name="cc_aerial">Aerial videá</string>
+    <string name="cc_aerial_on">1080p video</string>
+    <string name="cc_aerial_on_4k">4K HEVC video</string>
+    <string name="cc_aerial_off">Tapety</string>
+    <string name="cc_screensaver">Šetrič</string>
+    <string name="cc_settings">Nastavenia</string>
+    <string name="cc_sleep_tv">Uspať TV</string>
+    <string name="cc_reorder_tiles">Usporiadať dlaždice</string>
+    <string name="cc_footer_hint">Podržaním OK na „Uspať TV“ reštartujete · Späť zatvorí</string>
+    <string name="cc_on">Zapnuté</string>
+    <string name="cc_off">Vypnuté</string>
+    <string name="close">Zatvoriť</string>
+
+    <!-- QR nastavenie z telefónu, Objavovať, Home Assistant, Immich a aktualizácie -->
+    <string name="qr_setup_title">Nastavenie z telefónu</string>
+    <string name="qr_setup_subtitle">Naskenujte telefónom (rovnaká Wi-Fi) na úpravu tlačidiel ovládača, tapety, mesta alebo TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">QR nastavenie</string>
+    <string name="qr_setup_no_wifi">Najprv pripojte TV k Wi-Fi alebo Ethernetu</string>
+    <string name="qr_setup_waiting">Čakám na telefón… (platí 5 min)</string>
+    <string name="qr_setup_expired">Platnosť QR relácie vypršala — otvorte znova pre nový kód</string>
+
+    <string name="discover_title">Objavovať &amp; Pokračovať</string>
+    <string name="discover_refresh">Obnoviť</string>
+    <string name="discover_continue_watching">Pokračovať v pozeraní</string>
+    <string name="discover_trending">Populárne tipy (bez reklám)</string>
+    <string name="discover_tab_all">Všetko</string>
+    <string name="discover_tab_movies">Filmy</string>
+    <string name="discover_tab_shows">Seriály</string>
+    <string name="discover_grant_watchnext_msg">Povoľte prístup k TV zoznamom na zobrazenie „Pokračovať v pozeraní“ naprieč aplikáciami</string>
+    <string name="discover_grant_adb_btn">Povoliť cez ADB</string>
+    <string name="discover_grant_success">Pokračovať v pozeraní povolené</string>
+    <string name="discover_hidden_toast">Skryté z Pokračovať v pozeraní</string>
+    <string name="discover_empty_no_key">Cez „QR nastavenie“ pridajte bezplatný TMDB API kľúč (alebo Plex server) pre tipy z vašich aplikácií bez reklám.</string>
+    <string name="discover_empty_no_matches">Pre vaše nainštalované streamovacie aplikácie sa teraz nenašli žiadne tituly.</string>
+
+    <string name="adb_connecting">Pripájam sa k lokálnemu ADB…</string>
+    <string name="adb_accept_prompt">Potvrďte na TV „Vždy povoliť ladenie cez USB“</string>
+
+    <string name="ha_section_title">Inteligentná domácnosť</string>
+    <string name="ha_action_failed">Akcia Home Assistant zlyhala</string>
+    <string name="ha_state_unavailable">Nedostupné</string>
+    <string name="ha_state_open">Otvorené</string>
+    <string name="ha_state_closed">Zatvorené</string>
+    <string name="ha_state_camera">Živý PiP</string>
+    <string name="ha_camera_title">Domáca kamera</string>
+    <string name="ha_camera_connecting">Pripájam sa ku kamere…</string>
+    <string name="ha_camera_unavailable">Kamera je nedostupná</string>
+    <string name="ha_camera_hint_pip">OK: Zväčšiť · Späť: Zatvoriť</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Späť: Zatvoriť</string>
+    <string name="ha_camera_hint_pip_multi">OK: Zväčšiť · ◀ ▶: Kamera · Späť: Zatvoriť</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Kamera · Späť: Zatvoriť</string>
+
+    <string name="aerial_fav_added">Uložené medzi obľúbené</string>
+    <string name="aerial_fav_removed">Odstránené z obľúbených</string>
+
+    <string name="updater_installed">Aktualizácia nainštalovaná</string>
+    <string name="updater_failed">Aktualizácia zlyhala</string>
+
+    <!-- Nastavenia funkcií a štýly Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Ovládanie</string>
+    <string name="fs_liquid_clock">Liquid Glass hodiny (iOS 26)</string>
+    <string name="fs_home_liquid">Optický Liquid Glass na domovskej obrazovke</string>
+    <string name="fs_home_backdrop_blur">Rozmazanie pozadia na domovskej obrazovke</string>
+    <string name="fs_glass_material">Štýl skla</string>
+    <string name="fs_glass_material_title">Vyberte štýl Liquid Glass</string>
+    <string name="glass_style_tonal">Matné tónované</string>
+    <string name="glass_style_tonal_sub">Vyvážené tmavé sklo s vnútornými kartami v odtieni tapety</string>
+    <string name="glass_style_obsidian">Čisto čierne (OLED)</string>
+    <string name="glass_style_obsidian_sub">Hlboký čierny krištáľ s ostrým okrajom do tmavých miestností</string>
+    <string name="glass_style_frost">Mrazivo biele</string>
+    <string name="glass_style_frost_sub">Žiarivé perleťové svetlé sklo s tmavým grafitovým textom a ikonami</string>
+    <string name="glass_style_clear">Krištáľovo číre</string>
+    <string name="glass_style_clear_sub">Vzdušné priehľadné sklo s výrazným optickým lomom na hranách</string>
+    <string name="glass_style_chromatic">Farebné (Material You)</string>
+    <string name="glass_style_chromatic_sub">Výrazné farby tapety Material You na paneloch aj kartách</string>
+    <string name="glass_style_auto">Auto (Deň / Noc)</string>
+    <string name="glass_style_auto_sub">Cez deň Mrazivo biele, po západe slnka Čisto čierne</string>
+    <string name="fs_remote_buttons">Tlačidlá ovládača</string>
+    <string name="fs_ui_sounds">Jemné zvuky rozhrania</string>
+    <string name="fs_oled_drift">OLED ochrana šetriča (posun pixelov)</string>
+    <string name="fs_aerial_quality">Kvalita Aerial videí</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Iba obľúbené Aerial (podržať OK)</string>
+
+    <string name="fs_sec_content">Obsah &amp; Objavovanie</string>
+    <string name="fs_open_discover">Otvoriť Objavovať (Pokračovať &amp; Tipy)</string>
+    <string name="fs_watch_next">Pokračovať v pozeraní</string>
+    <string name="fs_open_nuvio">Otvárať tipy priamo v Nuvio</string>
+    <string name="fs_watch_saver">Spúšťať tipy zo šetriča (OK)</string>
+    <string name="fs_hide_animation">Skryť animované a anime tipy</string>
+    <string name="fs_region">Región streamovacích služieb</string>
+    <string name="fs_trakt">Účet Trakt.tv</string>
+    <string name="fs_trakt_code_msg">Otvorte %1$s a zadajte kód: %2$s</string>
+    <string name="fs_trakt_signed_in">Prihlásené do Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Odhlásené z Trakt</string>
+
+    <string name="fs_sec_smart">Inteligentná domácnosť, Fotky &amp; Telefón</string>
+    <string name="fs_qr_setup">Nastaviť kľúče, ovládač a tapetu cez QR</string>
+    <string name="fs_ha_toggle">Home Assistant v Ovládacom centre</string>
+    <string name="fs_immich_toggle">Immich fotky na šetriči</string>
+    <string name="fs_immich_sync">Synchronizovať Immich fotky teraz</string>
+    <string name="fs_immich_album">Album Immich</string>
+    <string name="fs_immich_all_albums">Všetky fotky</string>
+
+    <string name="fs_sec_system">Bezpečnosť &amp; Obnovenie</string>
+    <string name="fs_watchdog">Ochrana pred cyklom pádov</string>
+    <string name="fs_check_updates">Aktualizácie (GitHub Releases)</string>
+    <string name="fs_updates_title">Aktualizácie (GitHub)</string>
+    <string name="fs_updates_current">Nainštalované: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Skontrolovať aktualizácie teraz</string>
+    <string name="fs_updates_checking">Kontrolujem GitHub Releases…</string>
+    <string name="fs_updates_downloading">Sťahujem a overujem SHA-256…</string>
+    <string name="fs_updates_install_launcher">Nainštalovať Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Aktualizovať %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Týždenná kontrola na pozadí</string>
+    <string name="fs_update_uptodate">Launcher je aktuálny (%1$s)</string>
+    <string name="fs_update_found">Dostupná nová verzia %1$s</string>
+    <string name="fs_restore_stock">Obnoviť pôvodný Google TV launcher (ADB)</string>
+    <string name="fs_restore_confirm_title">Obnoviť pôvodný launcher?</string>
+    <string name="fs_restore_confirm_msg">Bezpečne najprv zapne Google TV Launcher, nastaví ho ako Domov, potom zapne SetupWraith a zosynchronizuje disk.</string>
+    <string name="fs_restore_ok">Obnoviť teraz</string>
+    <string name="fs_cancel">Zrušiť</string>
+
+    <!-- Premapovanie tlačidiel ovládača v aplikácii -->
+    <string name="rm_title">Tlačidlá ovládača</string>
+    <string name="rm_subtitle_ready">Priraďte ľubovoľnému tlačidlu krátke stlačenie, dvojité stlačenie alebo podržanie</string>
+    <string name="rm_subtitle_need_a11y">Pre globálne premapovanie zapnite v Nastaveniach TV → Prístupnosť → Tlačidlo Domov</string>
+    <string name="rm_open_a11y">Otvoriť nastavenia Prístupnosti TV</string>
+    <string name="rm_open_a11y_sub">Vyžaduje sa na globálne premapovanie tlačidiel ovládača</string>
+    <string name="rm_learn_btn">Naučiť tlačidlo ovládača</string>
+    <string name="rm_learn_sub">Stlačte ľubovoľné fyzické tlačidlo na rozpoznanie keycode a scancode</string>
+    <string name="rm_empty">Zatiaľ žiadne vlastné tlačidlá (platia predvolené z motívu)</string>
+    <string name="rm_reset_all">Resetovať vlastné tlačidlá</string>
+    <string name="rm_reset_all_sub">Vráti pôvodné mapovanie z config.json motívu</string>
+    <string name="rm_reset_done">Vlastné mapovania tlačidiel vymazané</string>
+    <string name="rm_capture_title">Stlačte tlačidlo na ovládači</string>
+    <string name="rm_capture_hint">Šípky, OK, Späť a hlasitosť sú vyhradené · Späť zruší</string>
+    <string name="rm_capture_waiting">Čakám na stlačenie tlačidla…</string>
+    <string name="rm_edit_subtitle">Kód tlačidla: %1$s</string>
+    <string name="rm_slot_tap">Krátke stlačenie</string>
+    <string name="rm_slot_double">Dvojité stlačenie</string>
+    <string name="rm_slot_hold">Dlhé stlačenie (Podržanie 0,5 s)</string>
+    <string name="rm_short_tap">Krátky</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Podrž.</string>
+    <string name="rm_target_none">Nepriradené</string>
+    <string name="rm_delete_btn">Odstrániť vlastné tlačidlo</string>
+    <string name="rm_saved">Mapovanie tlačidla uložené</string>
+    <string name="rm_action_mute">Stlmiť zvuk</string>
+    <string name="rm_action_ignore">Ignorovať tlačidlo (vypnúť)</string>
+</resources>

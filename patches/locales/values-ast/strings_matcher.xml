@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Carpetes d'aplicaciones -->
+    <string name="folder_add_to">Amestar a una carpeta…</string>
+    <string name="folder_new">+ Carpeta nueva</string>
+    <string name="folder_new_title">Carpeta nueva</string>
+    <string name="folder_rename">Renomar carpeta…</string>
+    <string name="folder_rename_title">Renomar carpeta</string>
+    <string name="folder_open">Abrir carpeta</string>
+    <string name="folder_add_apps">Amestar aplicaciones…</string>
+    <string name="folder_add_apps_title">Amestar aplicaciones a %1$s</string>
+    <string name="folder_add_apps_empty">Toles aplicaciones d\'Aniciu yá tán en carpetes</string>
+    <string name="folder_dissolve">Desagrupar carpeta</string>
+    <string name="folder_remove_app">Quitar de la carpeta</string>
+    <string name="folder_move_to">Mover a una carpeta…</string>
+    <string name="folder_hint">OK abre · Caltén OK pa opciones · Arriba p\'acciones</string>
+    <string name="folder_default_name">Carpeta %1$d</string>
+    <string name="folder_name_hint">Nome de la carpeta</string>
+    <string name="folder_create">Crear</string>
+    <string name="folder_save">Guardar</string>
+    <string name="folder_cancel">Encaboxar</string>
+    <string name="folder_btn_add">+ Amestar</string>
+    <string name="folder_btn_reorder">Reordenar</string>
+    <string name="folder_btn_done">Fecho</string>
+    <string name="folder_btn_rename">Renomar</string>
+    <string name="folder_preset_streaming">Streaming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Deportes</string>
+    <string name="folder_preset_music">Música</string>
+    <string name="folder_preset_games">Xuegos</string>
+    <string name="folder_preset_tools">Ferramientes</string>
+
+    <!-- Minirreprodutor Agora suena -->
+    <string name="media_now_playing">Agora suena</string>
+    <string name="media_playing">Reproduciendo</string>
+    <string name="media_paused">En pausa</string>
+    <string name="media_live">En direutu</string>
+    <string name="media_prev">Anterior</string>
+    <string name="media_play_pause">Reproducir o pausar</string>
+    <string name="media_next">Siguiente</string>
+    <string name="media_open_app">Abrir aplicación</string>
+    <string name="media_switch_hint">Arriba pa camudar d\'aplicación · OK sigue la reproducción</string>
+
+    <!-- Aplicaciones recientes -->
+    <string name="recents_title">Aplicaciones recientes</string>
+    <string name="recents_hint">OK camuda · 2× Arriba zarra · Caltén OK pa opciones</string>
+    <string name="recents_empty">Nun hai aplicaciones recientes abiertes</string>
+    <string name="recents_switch">Camudar a l\'aplicación</string>
+    <string name="recents_close_app">Zarrar aplicación</string>
+    <string name="recents_close_all">Zarrar too</string>
+    <string name="recents_swipe_close">Calca Arriba otra vegada pa zarrar</string>
+    <string name="recents_playing_badge">Reproduciendo</string>
+    <string name="recents_free_ram">RAM llibre: %1$d MB</string>
+    <string name="recents_just_now">Agora mesmo</string>
+    <string name="recents_minutes_ago">Hai %1$d min</string>
+    <string name="recents_hours_ago">Hai %1$d h</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">Zarróse %1$d aplicación</item>
+        <item quantity="other">Zarráronse %1$d aplicaciones</item>
+    </plurals>
+
+    <!-- Salvapantalles Ambient -->
+    <string name="ambient_controls_hint">◄ ► pista · ▼ reproducir/pausa · ▲ abrir</string>
+    <string name="ambient_action_prev">Pista anterior</string>
+    <string name="ambient_action_next">Pista siguiente</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Despexáu</string>
+    <string name="weather_partly">Parcialmente ñublo</string>
+    <string name="weather_cloudy">Cubierto</string>
+    <string name="weather_fog">Borrina</string>
+    <string name="weather_drizzle">Orbayu</string>
+    <string name="weather_rain">Lluvia</string>
+    <string name="weather_snow">Ñeve</string>
+    <string name="weather_showers">Chubascos</string>
+    <string name="weather_storm">Tormenta</string>
+
+    <!-- Centru de control, Soníu nocherniegu, Bones nueches y videos Aerial -->
+    <string name="cc_title">Centru de control</string>
+    <string name="cc_bedtime">Bones nueches</string>
+    <string name="cc_bedtime_sub">30 min · Atenuar · Soníu nueche</string>
+    <string name="cc_bedtime_on">Activu</string>
+    <string name="cc_night_audio">Soníu nocherniegu</string>
+    <string name="cc_night_audio_on">Picos fuertes atenuaos</string>
+    <string name="cc_night_audio_off">Desactiváu</string>
+    <string name="cc_night_audio_unavailable">Procesador d\'audiu non disponible</string>
+    <string name="cc_audio">Audiu</string>
+    <string name="cc_audio_tv">Altavoces de la TV</string>
+    <string name="cc_sleep_timer">Temporizador</string>
+    <string name="cc_sleep_timer_sub">Afitar tiempu</string>
+    <string name="cc_brightness">Brillu</string>
+    <string name="cc_brightness_sub">Barra d\'atenuación</string>
+    <string name="cc_aerial">Videos Aerial</string>
+    <string name="cc_aerial_on">Videu 1080p</string>
+    <string name="cc_aerial_on_4k">Videu 4K HEVC</string>
+    <string name="cc_aerial_off">Fondos</string>
+    <string name="cc_screensaver">Salvapantalles</string>
+    <string name="cc_settings">Axustes</string>
+    <string name="cc_sleep_tv">Poner TV n\'espera</string>
+    <string name="cc_reorder_tiles">Reordenar tarxetes</string>
+    <string name="cc_footer_hint">Caltén OK en Poner TV n\'espera pa reaniciar · Atrás zarra</string>
+    <string name="cc_on">Activáu</string>
+    <string name="cc_off">Desactiváu</string>
+    <string name="close">Zarrar</string>
+
+    <!-- Configuración QR dende'l móvil, Descubrir, Home Assistant, Immich, Watchdog y Anovamientos -->
+    <string name="qr_setup_title">Configurar dende\'l móvil</string>
+    <string name="qr_setup_subtitle">Escania nel móvil (mesma Wi-Fi) pa editar botones, fondu, ciudá o TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">Axuste QR</string>
+    <string name="qr_setup_no_wifi">Coneuta enantes el televisor a Wi-Fi o Ethernet</string>
+    <string name="qr_setup_waiting">Esperando pel móvil… (válidu 5 min)</string>
+    <string name="qr_setup_expired">La sesión QR caducó — vuelve abrir pa xenerar un códigu nuevu</string>
+
+    <string name="discover_title">Descubrir &amp; Siguir viendo</string>
+    <string name="discover_refresh">Anovar</string>
+    <string name="discover_continue_watching">Siguir viendo</string>
+    <string name="discover_trending">Encamientos destacaos (ensin anuncios)</string>
+    <string name="discover_tab_all">Too</string>
+    <string name="discover_tab_movies">Películes</string>
+    <string name="discover_tab_shows">Series</string>
+    <string name="discover_grant_watchnext_msg">Permite\'l permisu de llistaos de TV p\'amosar Siguir viendo ente aplicaciones</string>
+    <string name="discover_grant_adb_btn">Permitir per ADB</string>
+    <string name="discover_grant_success">Siguir viendo activáu</string>
+    <string name="discover_hidden_toast">Ancultáu de Siguir viendo</string>
+    <string name="discover_empty_no_key">Usa Axuste QR p\'amestar una clave d\'API de TMDB de baldre (o servidor Plex) pa tener encamientos ensin anuncios.</string>
+    <string name="discover_empty_no_matches">Nun s\'atoparon títulos coincidentes pa les tos aplicaciones de streaming agora mesmo.</string>
+
+    <string name="adb_connecting">Coneutando al ADB llocal…</string>
+    <string name="adb_accept_prompt">Aceuta «Permitir siempres la depuración USB» nel televisor</string>
+
+    <string name="ha_section_title">Casa intelixente</string>
+    <string name="ha_action_failed">Falló l\'acción de Home Assistant</string>
+    <string name="ha_state_unavailable">Non disponible</string>
+    <string name="ha_state_open">Abierto</string>
+    <string name="ha_state_closed">Zarráu</string>
+    <string name="ha_state_camera">Live PiP</string>
+    <string name="ha_camera_title">Cámara de casa</string>
+    <string name="ha_camera_connecting">Coneutando a la cámara…</string>
+    <string name="ha_camera_unavailable">Cámara non disponible</string>
+    <string name="ha_camera_hint_pip">OK: Ampliar · Atrás: Zarrar</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Atrás: Zarrar</string>
+    <string name="ha_camera_hint_pip_multi">OK: Ampliar · ◀ ▶: Cámara · Atrás: Zarrar</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Cámara · Atrás: Zarrar</string>
+
+    <string name="aerial_fav_added">Guardáu en favoritos</string>
+    <string name="aerial_fav_removed">Quitáu de favoritos</string>
+
+    <string name="updater_installed">Anovamientu instaláu</string>
+    <string name="updater_failed">Falló l\'anovamientu</string>
+
+    <!-- Axustes del llanzador y estilos Liquid Glass -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Esperiencia</string>
+    <string name="fs_liquid_clock">Reló Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">Liquid Glass ópticu n\'Aniciu</string>
+    <string name="fs_home_backdrop_blur">Desenfoque del fondu n\'Aniciu</string>
+    <string name="fs_glass_material">Estilu del vidriu</string>
+    <string name="fs_glass_material_title">Escueyi l\'estilu de Liquid Glass</string>
+    <string name="glass_style_tonal">Vidriu esmeriláu tonal</string>
+    <string name="glass_style_tonal_sub">Vidriu escuru equilibráu con tarxetes interiores tiñíes pol fondu</string>
+    <string name="glass_style_obsidian">Negru puru (OLED)</string>
+    <string name="glass_style_obsidian_sub">Cristal d\'obsidiana fondu con borde Fresnel nítidu pa sales escures</string>
+    <string name="glass_style_frost">Blancu xelu</string>
+    <string name="glass_style_frost_sub">Vidriu claru nacaráu con testu ya iconos en grafitu escuru</string>
+    <string name="glass_style_clear">Cristal tresparente</string>
+    <string name="glass_style_clear_sub">Vidriu llixeru d\'alta claridá con refraición óptica intensa nos bordes</string>
+    <string name="glass_style_chromatic">Tinte cromáticu</string>
+    <string name="glass_style_chromatic_sub">Color intensu Material You del fondu nos paneles y tarxetes interiores</string>
+    <string name="glass_style_auto">Automáticu (Día / Nueche)</string>
+    <string name="glass_style_auto_sub">Blancu xelu de día, Negru puru al tapecer</string>
+    <string name="fs_remote_buttons">Botones del mandu</string>
+    <string name="fs_ui_sounds">Soníos suaves de clic na interfaz</string>
+    <string name="fs_oled_drift">Desplazamientu de píxeles OLED nel salvapantalles</string>
+    <string name="fs_aerial_quality">Calidá de los videos Aerial</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Namás videos Aerial favoritos (caltén OK)</string>
+
+    <string name="fs_sec_content">Conteníu &amp; Descubrir</string>
+    <string name="fs_open_discover">Abrir Descubrir (Siguir viendo &amp; Encamientos)</string>
+    <string name="fs_watch_next">Siguir viendo</string>
+    <string name="fs_open_nuvio">Abrir encamientos direutamente en Nuvio</string>
+    <string name="fs_watch_saver">Llanzar encamientos dende\'l salvapantalles (OK)</string>
+    <string name="fs_hide_animation">Ancultar encamientos d\'animación y anime</string>
+    <string name="fs_region">Rexón de streaming</string>
+    <string name="fs_trakt">Cuenta de Trakt.tv</string>
+    <string name="fs_trakt_code_msg">Ve a %1$s ya introduz el códigu: %2$s</string>
+    <string name="fs_trakt_signed_in">Sesión aniciada en Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Sesión zarrada en Trakt</string>
+
+    <string name="fs_sec_smart">Casa intelixente, Semeyes &amp; Móvil</string>
+    <string name="fs_qr_setup">Configurar claves, mandu &amp; fondu per QR</string>
+    <string name="fs_ha_toggle">Home Assistant nel Centru de control</string>
+    <string name="fs_immich_toggle">Semeyes d\'Immich nel salvapantalles</string>
+    <string name="fs_immich_sync">Sincronizar semeyes d\'Immich agora</string>
+    <string name="fs_immich_album">Álbum d\'Immich</string>
+    <string name="fs_immich_all_albums">Toles semeyes</string>
+
+    <string name="fs_sec_system">Seguridá &amp; Recuperación</string>
+    <string name="fs_watchdog">Proteición contra bucles de fallu</string>
+    <string name="fs_check_updates">Anovamientos (GitHub Releases)</string>
+    <string name="fs_updates_title">Anovamientos (GitHub)</string>
+    <string name="fs_updates_current">Instaláu: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Comprobar anovamientos agora</string>
+    <string name="fs_updates_checking">Comprobando GitHub Releases…</string>
+    <string name="fs_updates_downloading">Baxando &amp; verificando SHA-256…</string>
+    <string name="fs_updates_install_launcher">Instalar Matcher %1$s</string>
+    <string name="fs_updates_install_addon">Anovar %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">Comprobación selmanal en segundu planu</string>
+    <string name="fs_update_uptodate">El llanzador ta anováu (%1$s)</string>
+    <string name="fs_update_found">Versión nueva %1$s disponible</string>
+    <string name="fs_restore_stock">Restaurar el llanzador orixinal de Google TV (ADB)</string>
+    <string name="fs_restore_confirm_title">¿Restaurar el llanzador orixinal?</string>
+    <string name="fs_restore_confirm_msg">Reactiva enantes Google TV Launcher con seguridá, afítalu como Aniciu, reactiva SetupWraith y sincroniza\'l discu.</string>
+    <string name="fs_restore_ok">Restaurar agora</string>
+    <string name="fs_cancel">Encaboxar</string>
+
+    <!-- Reasignación de botones del mandu -->
+    <string name="rm_title">Botones del mandu</string>
+    <string name="rm_subtitle_ready">Asigna un toque, doble toque o pulsación llarga a cualesquier botón</string>
+    <string name="rm_subtitle_need_a11y">Activa Accesibilidá → Botón d\'Aniciu nos axustes de la TV pa reasignar botones en tolos sitios</string>
+    <string name="rm_open_a11y">Abrir axustes d\'Accesibilidá de la TV</string>
+    <string name="rm_open_a11y_sub">Necesario pa la reasignación global de botones</string>
+    <string name="rm_learn_btn">Aprender botón del mandu</string>
+    <string name="rm_learn_sub">Calca cualesquier botón físicu pa deteutar el so keycode &amp; scancode</string>
+    <string name="rm_empty">Entá nun hai botones personalizaos (aplíquense los del tema)</string>
+    <string name="rm_reset_all">Reestablecer botones personalizaos</string>
+    <string name="rm_reset_all_sub">Volver a les asignaciones de config.json del tema</string>
+    <string name="rm_reset_done">Desaniciáronse les asignaciones personalizaes</string>
+    <string name="rm_capture_title">Calca un botón del mandu</string>
+    <string name="rm_capture_hint">Fleches, OK, Atrás y Volume tán reservaos · Atrás encaboxa</string>
+    <string name="rm_capture_waiting">Esperando a que calques un botón…</string>
+    <string name="rm_edit_subtitle">Códigu de botón: %1$s</string>
+    <string name="rm_slot_tap">Pulsación curtia (Toque)</string>
+    <string name="rm_slot_double">Doble toque</string>
+    <string name="rm_slot_hold">Pulsación llarga (0,5 s)</string>
+    <string name="rm_short_tap">Toque</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Caltener</string>
+    <string name="rm_target_none">Ensin asignar</string>
+    <string name="rm_delete_btn">Quitar botón personalizáu</string>
+    <string name="rm_saved">Asignación de botón guardada</string>
+    <string name="rm_action_mute">Silenciar l\'audiu</string>
+    <string name="rm_action_ignore">Inorar botón (desactivar)</string>
+</resources>

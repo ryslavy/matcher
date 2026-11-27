@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">বিশ্ব ঘড়ি</string>
+    <string name="add_city">শহর যোগ করুন</string>
+    <string name="clock_format">ঘড়ির ফরম্যাট</string>
+    <string name="local">স্থানীয়</string>
+    <string name="search_city">শহর বা সময় অঞ্চল</string>
+    <string name="search_hint">লিখতে OK চাপুন · শহর বাছতে নিচে চাপুন</string>
+    <string name="no_cities">কোনো মিল পাওয়া যায়নি</string>
+    <string name="change_city">শহর পরিবর্তন করুন</string>
+    <string name="move_earlier">আগে সরান</string>
+    <string name="move_later">পরে সরান</string>
+    <string name="remove_city">শহর সরান</string>
+    <string name="city_limit">সর্বোচ্চ ছয়টি ঘড়ি বেছে নিন</string>
+    <string name="already_shown">এই ঘড়িটি ইতিমধ্যেই দেখানো হচ্ছে</string>
+    <string name="same_day">স্থানীয় সময়ের একই দিন</string>
+    <string name="tomorrow">এই শহরে আগামীকাল</string>
+    <string name="yesterday">এই শহরে গতকাল</string>
+    <plurals name="day_difference">
+        <item quantity="one">স্থানীয় সময় থেকে %1$+d দিন</item>
+        <item quantity="other">স্থানীয় সময় থেকে %1$+d দিন</item>
+    </plurals>
+    <string name="local_reference">তারিখ %1$s-এর সাথে তুলনা করা হয়েছে</string>
+    <string name="controls">সরাতে তীর · শহরের অপশনের জন্য OK · ফিরতে ব্যাক</string>
+    <string name="format_system">টিভি সেটিংস ব্যবহার করুন</string>
+    <string name="format_12">১২-ঘণ্টার সময়</string>
+    <string name="format_24">২৪-ঘণ্টার সময়</string>
+    <string name="close">বন্ধ করুন</string>
+    <string name="screensaver">স্ক্রিনসেভার</string>
+    <string name="preview">প্রিভিউ · যেকোনো বোতামে ফিরে যান</string>
+    <string name="background_option">ব্যাকগ্রাউন্ড: %1$s</string>
+    <string name="motion_option">মোশন: %1$s</string>
+    <string name="brightness_option">ঘড়ির উজ্জ্বলতা: %1$s</string>
+    <string name="gradient">আকাশের গ্রেডিয়েন্ট</string>
+    <string name="plain">কালো</string>
+    <string name="motion_on">চালু</string>
+    <string name="motion_reduced">কমানো (স্থির)</string>
+    <string name="clock_brightness">ঘড়ির উজ্জ্বলতা</string>
+    <string name="dim">মৃদু</string>
+    <string name="medium">মাঝারি</string>
+    <string name="bright">উজ্জ্বল</string>
+    <string name="tv_screensaver_settings">টিভি স্ক্রিনসেভার সেটিংস</string>
+    <string name="screensaver_unavailable">এই টিভিতে স্ক্রিনসেভার সেটিংস পাওয়া যায় না। প্রিভিউ এখনো উপলব্ধ।</string>
+    <string name="background">ব্যাকগ্রাউন্ড</string>
+    <string name="starfield">তারামণ্ডল</string>
+    <string name="world_map">বিশ্ব মানচিত্র</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

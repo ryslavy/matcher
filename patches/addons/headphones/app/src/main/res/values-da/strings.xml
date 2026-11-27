@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hovedtelefoner</string>
+    <string name="plays_through">Lyden afspilles nu gennem: %1$s</string>
+    <string name="output_speakers">TV\'ets højttalere</string>
+    <string name="output_fixed">TV\'ets lydudgang (HDMI ARC eller optisk)</string>
+    <string name="allow_title">Tillad Bluetooth-adgang</string>
+    <string name="allow_detail">For at vise dine hovedtelefoner og opdage, når forbindelsen afbrydes. Tryk OK for at anmode.</string>
+    <string name="not_allowed">Ikke tilladt</string>
+    <string name="pair_title">Par eller tilslut hovedtelefoner</string>
+    <string name="pair_detail">Åbner TV\'ets Bluetooth-indstillinger. Sæt først hovedtelefonerne i parringstilstand.</string>
+    <string name="guard_title">Lydløs ved afbrydelse</string>
+    <string name="guard_detail">Sætter afspilningen på pause og slår lyden fra på TV-højttalerne, når hovedtelefonerne afbrydes, så lyden ikke spiller ud i rummet. Slår lyden til igen, når de er tilbage.</string>
+    <string name="guard_detail_fixed">Sætter afspilningen på pause, når hovedtelefonerne afbrydes. Dette TV\'s lydstyrke er fast (ARC eller forstærker), så højttalerne kan ikke også slås fra.</string>
+    <string name="on">Til</string>
+    <string name="off">Fra</string>
+    <string name="unmute_title">Slå lyden til på højttalerne</string>
+    <string name="unmute_detail">Slået fra, da hovedtelefonerne blev afbrudt.</string>
+    <string name="muted">Lydløs</string>
+    <string name="heading_paired">Parrede hovedtelefoner og højttalere</string>
+    <string name="no_bluetooth">Ingen Bluetooth på dette TV</string>
+    <string name="bluetooth_off">Bluetooth er slået fra</string>
+    <string name="bluetooth_off_detail">Slå det til i TV\'ets indstillinger.</string>
+    <string name="none_yet">Ingen endnu</string>
+    <string name="none_yet_detail">Brug rækken ovenfor for at parre nogen.</string>
+    <string name="connected">Tilsluttet</string>
+    <string name="connected_battery">Tilsluttet, batteri %1$s</string>
+    <string name="not_connected_detail">Ikke tilsluttet. OK åbner Bluetooth-indstillinger for at oprette forbindelse.</string>
+    <string name="unnamed">Unavngiven enhed</string>
+    <string name="heading_several">Flere hovedtelefoner på én gang</string>
+    <string name="sharing_one_pair">Dette TV sender lyd til ét par Bluetooth-hovedtelefoner ad gangen. Til to par skal du bruge en dual-link Bluetooth-sender på TV\'ets hovedtelefon- eller optiske udgang.</string>
+    <string name="sharing_auracast">Dette TV kan udsende til flere LE Audio-hovedtelefoner (Auracast) samtidigt: start deling fra TV\'ets Bluetooth-indstillinger.</string>
+    <string name="sharing_no_broadcast">Dette TV sender lyd til ét par Bluetooth-hovedtelefoner ad gangen og understøtter ikke LE Audio-udsendelse. Til to par skal du bruge en dual-link Bluetooth-sender på TV\'ets hovedtelefon- eller optiske udgang.</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Память и хранилище</string>
+    <string name="loading">Чтение показателей…</string>
+    <string name="unavailable">Данные недоступны</string>
+    <string name="back">Назад</string>
+    <string name="memory">Доступно ОЗУ: %1$s</string>
+    <string name="memory_used">Используется ОЗУ: %1$s</string>
+    <string name="storage">Доступное хранилище: %1$s</string>
+    <string name="note">Доступное ОЗУ включает освобождаемый кэш; используемое ОЗУ — разница между общим и доступным. Хранилище относится к разделу данных.</string>
+</resources>

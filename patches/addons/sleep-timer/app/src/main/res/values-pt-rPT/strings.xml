@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Temporizador de suspensão</string>
+    <string name="hint">Escolha quando a TV entra em modo de espera. É mostrado um aviso um minuto antes.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Cancelar o temporizador</string>
+    <string name="state_off">Nenhum temporizador definido.</string>
+    <string name="state_on">Em espera às %1$s.</string>
+    <string name="no_service">O serviço de acessibilidade do Temporizador de suspensão está desativado (execute o script de instalação).</string>
+    <string name="warning_title">A TV vai desligar-se</string>
+    <string name="warning_seconds">em %1$d segundos</string>
+    <string name="more">Mais 15 minutos</string>
+    <string name="now">Desligar agora</string>
+    <string name="service_label">Temporizador de suspensão</string>
+    <string name="quick_hint">◀ ▶ escolher tempo · OK fechar</string>
+    <string name="service_description">Coloca a TV em modo de espera apenas quando o Temporizador de suspensão termina. Não lê o ecrã.</string>
+    <string name="schedule_row">Programação</string>
+</resources>

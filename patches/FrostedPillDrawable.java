@@ -93,6 +93,7 @@ final class FrostedPillDrawable extends Drawable {
     private int shaderHeight = -1;
     private int shaderWidth = -1;
     private int shaderSeed = -1;
+    private int shaderStyle = -1;
 
     FrostedPillDrawable(View host, FrameLayout root, WallpaperPlayer wallpaperPlayer,
                         @Nullable ImageView heroArt, @Nullable IntSupplier ambientColorSupplier,
@@ -260,28 +261,63 @@ final class FrostedPillDrawable extends Drawable {
         int w = b.width();
         int h = b.height();
         int seed = ExpressiveGlass.dynamicSeedRgb();
-        if (w != shaderWidth || h != shaderHeight || seed != shaderSeed) {
+        int style = ExpressiveGlass.glassStyle();
+        if (w != shaderWidth || h != shaderHeight || seed != shaderSeed || style != shaderStyle) {
             if (accentColor != 0) {
-                fill.setShader(new LinearGradient(0, rect.top, 0, rect.bottom,
-                        new int[]{0x86141A24, 0x7A0B1018, 0x66080C14},
-                        new float[]{0f, 0.30f, 1f}, Shader.TileMode.CLAMP));
+                if (style == ExpressiveGlass.STYLE_FROST) {
+                    int deep = ExpressiveGlass.refineLightFocusAccent(accentColor);
+                    fill.setShader(new LinearGradient(0, rect.top, 0, rect.bottom,
+                            new int[]{0xD8F5F8FD, 0xDCE8EEF8, 0xE2DCE4F2},
+                            new float[]{0f, 0.45f, 1f}, Shader.TileMode.CLAMP));
+                    rim.setShader(null);
+                    rim.setColor(0xFF000000 | deep);
+                    focusedFill.setColor((0x2C << 24) | deep);
+                } else if (style == ExpressiveGlass.STYLE_OBSIDIAN) {
+                    fill.setShader(new LinearGradient(0, rect.top, 0, rect.bottom,
+                            new int[]{0xC8090B10, 0xD4030406, 0xDE000002},
+                            new float[]{0f, 0.35f, 1f}, Shader.TileMode.CLAMP));
+                    rim.setShader(null);
+                    rim.setColor(accentColor);
+                    focusedFill.setColor((0x2C << 24) | (accentColor & 0xFFFFFF));
+                } else {
+                    fill.setShader(new LinearGradient(0, rect.top, 0, rect.bottom,
+                            new int[]{0x86141A24, 0x7A0B1018, 0x66080C14},
+                            new float[]{0f, 0.30f, 1f}, Shader.TileMode.CLAMP));
+                    rim.setShader(null);
+                    rim.setColor(accentColor);
+                    focusedFill.setColor((0x2C << 24) | (accentColor & 0xFFFFFF));
+                }
             } else {
-                int[] glassCols = ExpressiveGlass.dockGlassColors(seed);
+                int[] glassCols = ExpressiveGlass.dockGlassColors(style, seed);
                 int bounce = ExpressiveGlass.tonalRimTint(seed);
-                int topWithCaustic = blendOverWhite(glassCols[0], 0x18);
+                int caustic = style == ExpressiveGlass.STYLE_OBSIDIAN ? 0x0C
+                        : (style == ExpressiveGlass.STYLE_FROST ? 0x28 : 0x18);
+                int topWithCaustic = blendOverWhite(glassCols[0], caustic);
                 int stop24 = lerpArgb(glassCols[0], glassCols[1], 0.24f / 0.48f);
                 fill.setShader(new LinearGradient(0, rect.top, 0, rect.bottom,
                         new int[]{topWithCaustic, stop24, glassCols[1], glassCols[2]},
                         new float[]{0f, 0.24f, 0.48f, 1f}, Shader.TileMode.CLAMP));
-                rim.setShader(new LinearGradient(rect.left, rect.top, rect.right, rect.bottom,
-                        new int[]{0x78FFFFFF, 0x24FFFFFF, 0x1AFFFFFF, (0x46 << 24) | bounce},
-                        new float[]{0f, 0.35f, 0.70f, 1f}, Shader.TileMode.CLAMP));
+                if (style == ExpressiveGlass.STYLE_FROST) {
+                    outerContrast.setColor(0x280F172A);
+                    focusedFill.setColor(0x220F172A);
+                    rim.setShader(new LinearGradient(rect.left, rect.top, rect.right, rect.bottom,
+                            new int[]{0xE6FFFFFF, 0x52FFFFFF, 0x220F172A, 0x380F172A},
+                            new float[]{0f, 0.35f, 0.70f, 1f}, Shader.TileMode.CLAMP));
+                } else {
+                    outerContrast.setColor(0x32000000);
+                    focusedFill.setColor(0x1EFFFFFF);
+                    int topSpec = style == ExpressiveGlass.STYLE_OBSIDIAN ? 0x62FFFFFF : 0x78FFFFFF;
+                    rim.setShader(new LinearGradient(rect.left, rect.top, rect.right, rect.bottom,
+                            new int[]{topSpec, 0x24FFFFFF, 0x1AFFFFFF, (0x46 << 24) | bounce},
+                            new float[]{0f, 0.35f, 0.70f, 1f}, Shader.TileMode.CLAMP));
+                }
             }
             fill.setDither(true);
             rim.setDither(true);
             shaderWidth = w;
             shaderHeight = h;
             shaderSeed = seed;
+            shaderStyle = style;
         }
 
         c.drawRoundRect(rect, r, r, fill);
@@ -359,6 +395,8 @@ final class FrostedPillDrawable extends Drawable {
         liquidShader.setFloatUniform("uEdgeClarity", optical ? 0.88f : 0.16f);
         liquidShader.setFloatUniform("uInteriorFill", 0.0f);
         liquidShader.setFloatUniform("uLiquidMode", optical ? 1.0f : 0.0f);
+        liquidShader.setFloatUniform("uSurfaceLight", ExpressiveGlass.isLightGlass() ? 1.0f : 0.0f);
+        liquidShader.setFloatUniform("uInteriorDim", ExpressiveGlass.interiorDimForStyle(ExpressiveGlass.glassStyle()));
         liquidShader.setFloatUniform("uRimTint", cachedRimR, cachedRimG, cachedRimB);
         liquidShader.setFloatUniform("uWobble", 0.0f);
         liquidShader.setFloatUniform("uPhase", 0.0f);

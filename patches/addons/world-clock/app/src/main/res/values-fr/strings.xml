@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Horloge mondiale</string>
+    <string name="add_city">Ajouter une ville</string>
+    <string name="clock_format">Format de l\'horloge</string>
+    <string name="local">Locale</string>
+    <string name="search_city">Ville ou fuseau horaire</string>
+    <string name="search_hint">OK pour saisir ; Bas pour choisir une ville</string>
+    <string name="no_cities">Aucune ville correspondante</string>
+    <string name="change_city">Changer de ville</string>
+    <string name="move_earlier">Déplacer avant</string>
+    <string name="move_later">Déplacer après</string>
+    <string name="remove_city">Retirer la ville</string>
+    <string name="city_limit">Choisissez jusqu\'à six horloges</string>
+    <string name="already_shown">Cette horloge est déjà affichée</string>
+    <string name="same_day">Même jour que l\'heure locale</string>
+    <string name="tomorrow">Demain dans cette ville</string>
+    <string name="yesterday">Hier dans cette ville</string>
+    <string name="local_reference">Dates comparées à %1$s</string>
+    <string name="controls">Flèches pour naviguer · OK pour les options de la ville · Retour pour revenir</string>
+    <string name="format_system">Utiliser le réglage de la TV</string>
+    <string name="format_12">Format 12 heures</string>
+    <string name="format_24">Format 24 heures</string>
+    <string name="close">Fermer</string>
+    <string name="screensaver">Écran de veille</string>
+    <string name="preview">Aperçu · toute touche pour revenir</string>
+    <string name="background_option">Arrière-plan : %1$s</string>
+    <string name="motion_option">Mouvement : %1$s</string>
+    <string name="brightness_option">Luminosité de l\'horloge : %1$s</string>
+    <string name="gradient">Dégradé du ciel</string>
+    <string name="plain">Noir</string>
+    <string name="motion_on">Activé</string>
+    <string name="motion_reduced">Réduit (fixe)</string>
+    <string name="clock_brightness">Luminosité de l\'horloge</string>
+    <string name="dim">Faible</string>
+    <string name="medium">Moyenne</string>
+    <string name="bright">Forte</string>
+    <string name="tv_screensaver_settings">Réglages de l\'écran de veille de la TV</string>
+    <string name="screensaver_unavailable">Cette TV n\'expose pas les réglages de l\'écran de veille. L\'aperçu reste disponible.</string>
+    <string name="background">Arrière-plan</string>
+    <string name="starfield">Ciel étoilé</string>
+    <string name="world_map">Carte du monde</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d jour par rapport à l\'heure locale</item>
+        <item quantity="many">%1$+d jours par rapport à l\'heure locale</item>
+        <item quantity="other">%1$+d jours par rapport à l\'heure locale</item>
+    </plurals>
+</resources>

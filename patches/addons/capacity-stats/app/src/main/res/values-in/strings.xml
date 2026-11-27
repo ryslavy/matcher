@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Statistik Kapasitas</string>
+    <string name="loading">Membaca penghitung…</string>
+    <string name="unavailable">Data tidak tersedia</string>
+    <string name="back">Kembali</string>
+    <string name="memory">RAM tersedia: %1$s</string>
+    <string name="memory_used">RAM terpakai: %1$s</string>
+    <string name="storage">Penyimpanan tersedia: %1$s</string>
+    <string name="note">RAM tersedia mencakup cache yang dapat dikosongkan; RAM terpakai adalah total dikurangi tersedia. Penyimpanan merujuk pada sistem berkas data.</string>
+</resources>

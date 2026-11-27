@@ -29,6 +29,8 @@ public class QuickActivity extends Activity {
     private Dimming.Settings s;
     private LinearLayout panel;
     private TextView label;
+    private GradientDrawable trackBg;
+    private GradientDrawable fillBg;
     private View fill;
     private View rest;
     private boolean closing;
@@ -57,8 +59,8 @@ public class QuickActivity extends Activity {
 
         LinearLayout track = new LinearLayout(this);
         track.setOrientation(LinearLayout.HORIZONTAL);
-        GradientDrawable trackBg = new GradientDrawable();
-        trackBg.setColor(0x2EFFFFFF);
+        trackBg = new GradientDrawable();
+        trackBg.setColor(GlassKit.isLightGlass() ? 0x260F172A : 0x2EFFFFFF);
         trackBg.setCornerRadius(5f * d);
         track.setBackground(trackBg);
         track.setOutlineProvider(new ViewOutlineProvider() {
@@ -70,10 +72,11 @@ public class QuickActivity extends Activity {
         track.setClipToOutline(true);
 
         fill = new View(this);
-        GradientDrawable fillBg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
-                new int[]{0xFFF5A524, 0xFFFFFFFF});
+        fillBg = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                GlassKit.isLightGlass() ? new int[]{0xFFD97706, 0xFF92400E} : new int[]{0xFFF5A524, 0xFFFFFFFF});
         fillBg.setCornerRadius(5f * d);
         fill.setBackground(fillBg);
+        GlassKit.applyAdaptiveContentTheme(panel);
         rest = new View(this);
         track.addView(fill, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 0f));
         track.addView(rest, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f));
@@ -119,6 +122,12 @@ public class QuickActivity extends Activity {
         super.onNewIntent(intent);
         setIntent(intent);
         GlassKit.installQuickBarBackdropFromIntent(this, intent);
+        if (trackBg != null) trackBg.setColor(GlassKit.isLightGlass() ? 0x260F172A : 0x2EFFFFFF);
+        if (fillBg != null) {
+            fillBg.setColors(GlassKit.isLightGlass()
+                    ? new int[]{0xFFD97706, 0xFF92400E} : new int[]{0xFFF5A524, 0xFFFFFFFF});
+        }
+        GlassKit.applyAdaptiveContentTheme(panel);
         GlassKit.invalidateLiquidPanels(panel);
         resetIfClosing();
         closeLater();

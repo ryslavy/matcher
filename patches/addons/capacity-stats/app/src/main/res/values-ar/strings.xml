@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">إحصاءات السعة</string>
+    <string name="loading">جارٍ قراءة العدادات…</string>
+    <string name="unavailable">القراءات غير متاحة</string>
+    <string name="back">رجوع</string>
+    <string name="memory">ذاكرة RAM المتاحة: %1$s</string>
+    <string name="memory_used">ذاكرة RAM المستخدمة: %1$s</string>
+    <string name="storage">التخزين المتاح: %1$s</string>
+    <string name="note">تشمل ذاكرة RAM المتاحة ذاكرة التخزين المؤقت القابلة للاسترداد؛ والذاكرة المستخدمة هي الإجمالي مطروحًا منه المتاح. يشير التخزين إلى نظام ملفات البيانات.</string>
+</resources>

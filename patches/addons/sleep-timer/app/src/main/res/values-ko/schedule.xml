@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"TV 일정"</string>
+    <string name="sched_1">"시간은 선택한 날짜를 기준으로 적용됩니다. 제외 기간은 자동 켜기만 차단합니다. 뒤로를 누르면 저장하지 않은 변경 사항이 취소됩니다."</string>
+    <string name="sched_2">"일정: 켜짐"</string>
+    <string name="sched_3">"일정: 꺼짐"</string>
+    <string name="sched_4">"+ 켜기 / 절전 시간 추가"</string>
+    <string name="sched_5">"자동 켜기 안 함: "</string>
+    <string name="sched_6">"자동 켜기 제외 기간"</string>
+    <string name="sched_7">"날짜 편집"</string>
+    <string name="sched_8">"삭제"</string>
+    <string name="sched_9">"+ 제외 기간 추가"</string>
+    <string name="sched_10">"저장"</string>
+    <string name="sched_11">"켜기  "</string>
+    <string name="sched_12">"절전  "</string>
+    <string name="sched_13">"일정 추가"</string>
+    <string name="sched_14">"켜기"</string>
+    <string name="sched_15">"절전"</string>
+    <string name="sched_16">"요일"</string>
+    <string name="sched_17">"취소"</string>
+    <string name="sched_18">"시간"</string>
+    <string name="sched_19">"요일을 하나 이상 선택하세요"</string>
+    <string name="sched_20">"종료일은 시작일과 같거나 이후여야 합니다"</string>
+    <string name="sched_21">"마지막 날 (포함)"</string>
+    <string name="sched_22">"첫째 날 (포함)"</string>
+    <string name="sched_23">"월요일"</string>
+    <string name="sched_24">"화요일"</string>
+    <string name="sched_25">"수요일"</string>
+    <string name="sched_26">"목요일"</string>
+    <string name="sched_27">"금요일"</string>
+    <string name="sched_28">"토요일"</string>
+    <string name="sched_29">"일요일"</string>
+</resources>

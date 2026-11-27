@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sää</string>
+
+    <string name="feels_like">Tuntuu kuin %1$d°</string>
+    <string name="humidity">Ilmankosteus %1$d%%</string>
+    <string name="wind">Tuuli %1$d km/h</string>
+    <string name="wind_mph">Tuuli %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Ilmanlaatu %1$d · %2$s</string>
+    <string name="updated">Päivitetty %1$s · Open-Meteo</string>
+    <string name="change_city">Vaihda kaupunkia</string>
+    <string name="weather_settings">Sääasetukset</string>
+    <string name="settings_done">Valmis</string>
+    <string name="setting_units">Lämpötilayksikkö</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Näytä molemmat yksiköt</string>
+    <string name="setting_days">Ennusteen pituus</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d päivä</item>
+        <item quantity="other">%1$d päivää</item>
+    </plurals>
+    <string name="setting_humidity">Näytä ilmankosteus</string>
+    <string name="setting_wind">Näytä tuuli</string>
+    <string name="setting_reset">Nollaa sääasetukset</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Päällä</string>
+    <string name="option_off">Pois</string>
+    <string name="loading">Ladataan säätietoja…</string>
+    <string name="offline">Open-Meteo-palveluun ei saada yhteyttä. Tarkista TV:n verkkoyhteys; yritetään uudelleen 5 minuutin kuluttua.</string>
+
+    <string name="pick_title">Mikä kaupunki?</string>
+    <string name="pick_hint">Kaupungin nimi, esim. Helsinki</string>
+    <string name="pick_search">Hae</string>
+    <string name="pick_none">Paikkaa \"%1$s\" ei löytynyt</string>
+    <string name="pick_first">Valitse kaupunki nähdäksesi sen sään.</string>
+
+    <string name="aqi_good">Hyvä</string>
+    <string name="aqi_moderate">Tyydyttävä</string>
+    <string name="aqi_sensitive">Epäterveellinen herkille ryhmille</string>
+    <string name="aqi_unhealthy">Epäterveellinen</string>
+    <string name="aqi_very_unhealthy">Erittäin epäterveellinen</string>
+    <string name="aqi_hazardous">Vaarallinen</string>
+
+    <string name="sky_clear">Selkeää</string>
+    <string name="sky_sunny">Aurinkoista</string>
+    <string name="sky_mostly_clear">Enimmäkseen selkeää</string>
+    <string name="sky_mostly_sunny">Enimmäkseen aurinkoista</string>
+    <string name="sky_partly_cloudy">Puolipilvistä</string>
+    <string name="sky_cloudy">Pilvistä</string>
+    <string name="sky_fog">Sumua</string>
+    <string name="sky_drizzle">Tihkusadetta</string>
+    <string name="sky_freezing_drizzle">Jäätävää tihkua</string>
+    <string name="sky_light_rain">Heikkoa sadetta</string>
+    <string name="sky_rain">Sadetta</string>
+    <string name="sky_heavy_rain">Voimakasta sadetta</string>
+    <string name="sky_freezing_rain">Jäätävää sadetta</string>
+    <string name="sky_light_snow">Heikkoa lumisadetta</string>
+    <string name="sky_snow">Lumisadetta</string>
+    <string name="sky_heavy_snow">Voimakasta lumisadetta</string>
+    <string name="sky_snow_grains">Lumijyväsiä</string>
+    <string name="sky_showers">Sadekuuroja</string>
+    <string name="sky_snow_showers">Lumikuuroja</string>
+    <string name="sky_thunderstorm">Ukkosta</string>
+</resources>

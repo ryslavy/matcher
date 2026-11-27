@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Stunden"</string>
+    <string name="remote_minutes">"Minuten"</string>
+    <string name="remote_day">"Tag"</string>
+    <string name="remote_month">"Monat"</string>
+    <string name="remote_year">"Jahr"</string>
+    <string name="remote_hint">"Links / Rechts: Feld · Hoch / Runter: Wert · OK: weiter · Zurück: abbrechen"</string>
+    <string name="remote_page_hint">"Wähle eine Zeile mit den Pfeiltasten und drücke OK. Änderungen gelten nach dem Speichern."</string>
+    <string name="remote_events">"WÖCHENTLICHE EREIGNISSE"</string>
+    <string name="remote_exclusions">"ZEITRÄUME OHNE AUTOMATISCHES WECKEN"</string>
+    <string name="remote_wake_time">"Weckzeit"</string>
+    <string name="remote_sleep_time">"Ruhezustand-Zeit"</string>
+</resources>

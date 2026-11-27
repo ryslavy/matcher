@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"ঘণ্টা"</string>
+    <string name="remote_minutes">"মিনিট"</string>
+    <string name="remote_day">"দিন"</string>
+    <string name="remote_month">"মাস"</string>
+    <string name="remote_year">"বছর"</string>
+    <string name="remote_hint">"বাম / ডান: ঘর · উপরে / নিচে: মান · OK: পরবর্তী · ব্যাক: বাতিল"</string>
+    <string name="remote_page_hint">"তীর চিহ্ন দিয়ে একটি সারি বেছে OK চাপুন। সংরক্ষণ করার পর পরিবর্তন কার্যকর হবে।"</string>
+    <string name="remote_events">"সাপ্তাহিক ইভেন্ট"</string>
+    <string name="remote_exclusions">"স্বয়ংক্রিয়ভাবে না জাগানোর সময়কাল"</string>
+    <string name="remote_wake_time">"জাগানোর সময়"</string>
+    <string name="remote_sleep_time">"স্লিপের সময়"</string>
+</resources>

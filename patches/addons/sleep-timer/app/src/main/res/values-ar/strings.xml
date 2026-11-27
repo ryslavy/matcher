@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">مؤقت النوم</string>
+    <string name="hint">اختر متى ينتقل التلفاز إلى وضع الاستعداد. يظهر تنبيه قبل دقيقة واحدة.</string>
+    <string name="in_minutes">%1$d د</string>
+    <string name="cancel">إلغاء المؤقت</string>
+    <string name="state_off">لا يوجد مؤقت مضبوط.</string>
+    <string name="state_on">وضع الاستعداد عند %1$s.</string>
+    <string name="no_service">خدمة إمكانية الوصول لمؤقت النوم متوقفة (شغّل سكربت التثبيت).</string>
+    <string name="warning_title">سيتم إيقاف التلفاز</string>
+    <string name="warning_seconds">خلال %1$d ثانية</string>
+    <string name="more">15 دقيقة إضافية</string>
+    <string name="now">إيقاف الآن</string>
+    <string name="service_label">مؤقت النوم</string>
+    <string name="quick_hint">◀ ▶ اختيار الوقت · OK إغلاق</string>
+    <string name="service_description">يضع التلفاز في وضع الاستعداد فقط عند انتهاء مؤقت النوم. لا يقرأ محتوى الشاشة.</string>
+    <string name="schedule_row">الجدول</string>
+</resources>

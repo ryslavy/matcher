@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- โฟลเดอร์แอป -->
+    <string name="folder_add_to">เพิ่มลงโฟลเดอร์…</string>
+    <string name="folder_new">+ โฟลเดอร์ใหม่</string>
+    <string name="folder_new_title">โฟลเดอร์ใหม่</string>
+    <string name="folder_rename">เปลี่ยนชื่อโฟลเดอร์…</string>
+    <string name="folder_rename_title">เปลี่ยนชื่อโฟลเดอร์</string>
+    <string name="folder_open">เปิดโฟลเดอร์</string>
+    <string name="folder_add_apps">เพิ่มแอป…</string>
+    <string name="folder_add_apps_title">เพิ่มแอปลงใน %1$s</string>
+    <string name="folder_add_apps_empty">แอปหน้าหลักทั้งหมดอยู่ในโฟลเดอร์แล้ว</string>
+    <string name="folder_dissolve">ยกเลิกกลุ่มโฟลเดอร์</string>
+    <string name="folder_remove_app">นำออกจากโฟลเดอร์</string>
+    <string name="folder_move_to">ย้ายไปโฟลเดอร์…</string>
+    <string name="folder_hint">กด OK เปิด · กด OK ค้างดูตัวเลือก · กดขึ้นจัดการโฟลเดอร์</string>
+    <string name="folder_default_name">โฟลเดอร์ %1$d</string>
+    <string name="folder_name_hint">ชื่อโฟลเดอร์</string>
+    <string name="folder_create">สร้าง</string>
+    <string name="folder_save">บันทึก</string>
+    <string name="folder_cancel">ยกเลิก</string>
+    <string name="folder_btn_add">+ เพิ่ม</string>
+    <string name="folder_btn_reorder">จัดเรียงใหม่</string>
+    <string name="folder_btn_done">เสร็จสิ้น</string>
+    <string name="folder_btn_rename">เปลี่ยนชื่อ</string>
+    <string name="folder_preset_streaming">สตรีมมิง</string>
+    <string name="folder_preset_tv">ทีวี</string>
+    <string name="folder_preset_sport">กีฬา</string>
+    <string name="folder_preset_music">เพลง</string>
+    <string name="folder_preset_games">เกม</string>
+    <string name="folder_preset_tools">เครื่องมือ</string>
+
+    <!-- มินิเพลเยอร์กำลังเล่น -->
+    <string name="media_now_playing">กำลังเล่น</string>
+    <string name="media_playing">กำลังเล่น</string>
+    <string name="media_paused">หยุดชั่วคราว</string>
+    <string name="media_live">ถ่ายทอดสด</string>
+    <string name="media_prev">ก่อนหน้า</string>
+    <string name="media_play_pause">เล่นหรือหยุดชั่วคราว</string>
+    <string name="media_next">ถัดไป</string>
+    <string name="media_open_app">เปิดแอป</string>
+    <string name="media_switch_hint">กดขึ้นเพื่อสลับแอป · กด OK เล่นต่อ</string>
+
+    <!-- ตัวสลับแอปที่ใช้ล่าสุด -->
+    <string name="recents_title">แอปที่ใช้ล่าสุด</string>
+    <string name="recents_hint">กด OK สลับแอป · กดขึ้น 2 ครั้งเพื่อปิด · กด OK ค้างดูตัวเลือก</string>
+    <string name="recents_empty">ไม่มีแอปที่ใช้ล่าสุดเปิดอยู่</string>
+    <string name="recents_switch">สลับไปยังแอป</string>
+    <string name="recents_close_app">ปิดแอป</string>
+    <string name="recents_close_all">ปิดทั้งหมด</string>
+    <string name="recents_swipe_close">กดขึ้นอีกครั้งเพื่อปิด</string>
+    <string name="recents_playing_badge">กำลังเล่น</string>
+    <string name="recents_free_ram">RAM ว่าง: %1$d MB</string>
+    <string name="recents_just_now">เมื่อสักครู่</string>
+    <string name="recents_minutes_ago">%1$d นาทีที่แล้ว</string>
+    <string name="recents_hours_ago">%1$d ชม. ที่แล้ว</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">ปิด %1$d แอปแล้ว</item>
+        <item quantity="other">ปิด %1$d แอปแล้ว</item>
+    </plurals>
+
+    <!-- ภาพพักหน้าจอแอมเบียนต์ -->
+    <string name="ambient_controls_hint">◄ ► เพลง · ▼ เล่น/หยุด · ▲ เปิด</string>
+    <string name="ambient_action_prev">เพลงก่อนหน้า</string>
+    <string name="ambient_action_next">เพลงถัดไป</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">ท้องฟ้าแจ่มใส</string>
+    <string name="weather_partly">มีเมฆบางส่วน</string>
+    <string name="weather_cloudy">มีเมฆมาก</string>
+    <string name="weather_fog">หมอก</string>
+    <string name="weather_drizzle">ฝนปรอยๆ</string>
+    <string name="weather_rain">ฝนตก</string>
+    <string name="weather_snow">หิมะ</string>
+    <string name="weather_showers">ฝนตกเป็นช่วงๆ</string>
+    <string name="weather_storm">พายุฝนฟ้าคะนอง</string>
+
+    <!-- ศูนย์ควบคุม, เสียงกลางคืน, ราตรีสวัสดิ์ และวิดีโอมุมสูง -->
+    <string name="cc_title">ศูนย์ควบคุม</string>
+    <string name="cc_bedtime">ราตรีสวัสดิ์</string>
+    <string name="cc_bedtime_sub">ตั้งเวลา 30 นาที · หรี่แสง · เสียงกลางคืน</string>
+    <string name="cc_bedtime_on">เปิดใช้งาน</string>
+    <string name="cc_night_audio">เสียงกลางคืน</string>
+    <string name="cc_night_audio_on">ลดเสียงดังฉับพลันแล้ว</string>
+    <string name="cc_night_audio_off">ปิด</string>
+    <string name="cc_night_audio_unavailable">ตัวประมวลผลเสียงไม่พร้อมใช้งาน</string>
+    <string name="cc_audio">เสียง</string>
+    <string name="cc_audio_tv">ลำโพงทีวี</string>
+    <string name="cc_sleep_timer">ตั้งเวลาปิด</string>
+    <string name="cc_sleep_timer_sub">ตั้งเวลา</string>
+    <string name="cc_brightness">ความสว่าง</string>
+    <string name="cc_brightness_sub">แถบหรี่แสง</string>
+    <string name="cc_aerial">วิดีโอมุมสูง</string>
+    <string name="cc_aerial_on">วิดีโอ 1080p</string>
+    <string name="cc_aerial_on_4k">วิดีโอ 4K HEVC</string>
+    <string name="cc_aerial_off">วอลเปเปอร์</string>
+    <string name="cc_screensaver">ภาพพักหน้าจอ</string>
+    <string name="cc_settings">การตั้งค่า</string>
+    <string name="cc_sleep_tv">พักหน้าจอทีวี</string>
+    <string name="cc_reorder_tiles">จัดเรียงไทล์</string>
+    <string name="cc_footer_hint">กด OK ค้างที่ พักหน้าจอทีวี เพื่อรีสตาร์ต · กดกลับเพื่อปิด</string>
+    <string name="cc_on">เปิด</string>
+    <string name="cc_off">ปิด</string>
+    <string name="close">ปิด</string>
+
+    <!-- ตั้งค่าผ่าน QR โทรศัพท์, สำรวจ, Home Assistant, Immich, Watchdog และอัปเดต -->
+    <string name="qr_setup_title">ตั้งค่าจากโทรศัพท์</string>
+    <string name="qr_setup_subtitle">สแกนด้วยโทรศัพท์บน Wi-Fi เดียวกันเพื่อแก้ไขปุ่มรีโมต วอลเปเปอร์ เมือง หรือ TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">ตั้งค่า QR</string>
+    <string name="qr_setup_no_wifi">เชื่อมต่อทีวีกับ Wi-Fi หรือสาย LAN ก่อน</string>
+    <string name="qr_setup_waiting">กำลังรอโทรศัพท์… (ใช้ได้ 5 นาที)</string>
+    <string name="qr_setup_expired">เซสชัน QR หมดอายุแล้ว — เปิดใหม่เพื่อสร้างโค้ดใหม่</string>
+
+    <string name="discover_title">สำรวจ &amp; ดูต่อ</string>
+    <string name="discover_refresh">รีเฟรช</string>
+    <string name="discover_continue_watching">ดูต่อ</string>
+    <string name="discover_trending">รายการแนะนำยอดนิยม (ไร้โฆษณา)</string>
+    <string name="discover_tab_all">ทั้งหมด</string>
+    <string name="discover_tab_movies">ภาพยนตร์</string>
+    <string name="discover_tab_shows">ซีรีส์</string>
+    <string name="discover_grant_watchnext_msg">อนุญาตสิทธิ์รายการทีวีเพื่อแสดง “ดูต่อ” ข้ามแอปต่างๆ</string>
+    <string name="discover_grant_adb_btn">อนุญาตผ่าน ADB</string>
+    <string name="discover_grant_success">เปิดใช้งาน “ดูต่อ” แล้ว</string>
+    <string name="discover_hidden_toast">ซ่อนจาก “ดูต่อ” แล้ว</string>
+    <string name="discover_empty_no_key">ใช้การตั้งค่า QR เพื่อเพิ่มคีย์ TMDB API ฟรี (หรือเซิร์ฟเวอร์ Plex) สำหรับรายการแนะนำไร้โฆษณาจากแอปที่ติดตั้งไว้</string>
+    <string name="discover_empty_no_matches">ยังไม่พบรายการที่ตรงกับแอปสตรีมมิงที่คุณติดตั้งไว้ในขณะนี้</string>
+
+    <string name="adb_connecting">กำลังเชื่อมต่อ ADB ภายในเครื่อง…</string>
+    <string name="adb_accept_prompt">กดยืนยัน “อนุญาตการแก้ไขข้อบกพร่อง USB เสมอ” บนทีวี</string>
+
+    <string name="ha_section_title">บ้านอัจฉริยะ</string>
+    <string name="ha_action_failed">การสั่งงาน Home Assistant ล้มเหลว</string>
+    <string name="ha_state_unavailable">ไม่พร้อมใช้งาน</string>
+    <string name="ha_state_open">เปิด</string>
+    <string name="ha_state_closed">ปิด</string>
+    <string name="ha_state_camera">PiP สด</string>
+    <string name="ha_camera_title">กล้องในบ้าน</string>
+    <string name="ha_camera_connecting">กำลังเชื่อมต่อกล้อง…</string>
+    <string name="ha_camera_unavailable">กล้องไม่พร้อมใช้งาน</string>
+    <string name="ha_camera_hint_pip">OK: ขยาย · กลับ: ปิด</string>
+    <string name="ha_camera_hint_expanded">OK: มินิ PiP · กลับ: ปิด</string>
+    <string name="ha_camera_hint_pip_multi">OK: ขยาย · ◀ ▶: กล้อง · กลับ: ปิด</string>
+    <string name="ha_camera_hint_expanded_multi">OK: มินิ PiP · ◀ ▶: กล้อง · กลับ: ปิด</string>
+
+    <string name="aerial_fav_added">บันทึกในรายการโปรดแล้ว</string>
+    <string name="aerial_fav_removed">นำออกจากรายการโปรดแล้ว</string>
+
+    <string name="updater_installed">ติดตั้งอัปเดตแล้ว</string>
+    <string name="updater_failed">อัปเดตไม่สำเร็จ</string>
+
+    <!-- การตั้งค่าฟีเจอร์ลอนเชอร์และระบบวัสดุกระจก -->
+    <string name="fs_sec_glass">Liquid Glass &amp; ประสบการณ์ใช้งาน</string>
+    <string name="fs_liquid_clock">นาฬิกา Liquid Glass (iOS 26)</string>
+    <string name="fs_home_liquid">Liquid Glass แบบออปติคอลบนหน้าหลัก</string>
+    <string name="fs_home_backdrop_blur">เบลอพื้นหลังหน้าหลัก</string>
+    <string name="fs_glass_material">สไตล์กระจก</string>
+    <string name="fs_glass_material_title">เลือกสไตล์ Liquid Glass</string>
+    <string name="glass_style_tonal">กระจกฝ้าโทนสี</string>
+    <string name="glass_style_tonal_sub">กระจกสีเข้มสมดุลพร้อมการ์ดด้านในที่ย้อมสีตามวอลเปเปอร์</string>
+    <string name="glass_style_obsidian">ดำสนิท (OLED)</string>
+    <string name="glass_style_obsidian_sub">คริสตัลออบซิเดียนสีเข้มพร้อมขอบเฟรสเนลคมชัดสำหรับห้องมืด</string>
+    <string name="glass_style_frost">ขาวฟรอสต์</string>
+    <string name="glass_style_frost_sub">กระจกสว่างสีมุกเปล่งประกายพร้อมข้อความและไอคอนสีเทาเข้ม</string>
+    <string name="glass_style_clear">คริสตัลใส</string>
+    <string name="glass_style_clear_sub">กระจกโปร่งใสคมชัดสูงพร้อมการหักเหแสงที่ขอบชัดเจน</string>
+    <string name="glass_style_chromatic">สีสันโครมาติก</string>
+    <string name="glass_style_chromatic_sub">ผสานสีวอลเปเปอร์ Material You เข้มข้นทั่วแผงควบคุมและการ์ดด้านใน</string>
+    <string name="glass_style_auto">อัตโนมัติ (กลางวัน / กลางคืน)</string>
+    <string name="glass_style_auto_sub">ขาวฟรอสต์ในเวลากลางวัน และดำสนิทหลังพระอาทิตย์ตก</string>
+    <string name="fs_remote_buttons">ปุ่มรีโมต</string>
+    <string name="fs_ui_sounds">เสียงคลิก UI แบบนุ่มนวล</string>
+    <string name="fs_oled_drift">เลื่อนพิกเซลภาพพักหน้าจอปกป้อง OLED</string>
+    <string name="fs_aerial_quality">คุณภาพวิดีโอมุมสูง</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">เฉพาะวิดีโอมุมสูงรายการโปรด (กด OK ค้าง)</string>
+
+    <string name="fs_sec_content">เนื้อหา &amp; การสำรวจ</string>
+    <string name="fs_open_discover">เปิดสำรวจ (ดูต่อ &amp; รายการแนะนำ)</string>
+    <string name="fs_watch_next">ดูต่อ</string>
+    <string name="fs_open_nuvio">เปิดรายการแนะนำใน Nuvio โดยตรง</string>
+    <string name="fs_watch_saver">เปิดรายการแนะนำจากภาพพักหน้าจอ (OK)</string>
+    <string name="fs_hide_animation">ซ่อนรายการแนะนำแอนิเมชันและอนิเมะ</string>
+    <string name="fs_region">ภูมิภาคสตรีมมิง</string>
+    <string name="fs_trakt">บัญชี Trakt.tv</string>
+    <string name="fs_trakt_code_msg">ไปที่ %1$s แล้วป้อนรหัส: %2$s</string>
+    <string name="fs_trakt_signed_in">ลงชื่อเข้าใช้ Trakt แล้ว (%1$s)</string>
+    <string name="fs_trakt_signed_out">ออกจากระบบ Trakt แล้ว</string>
+
+    <string name="fs_sec_smart">บ้านอัจฉริยะ, รูปภาพ &amp; ตั้งค่าผ่านโทรศัพท์</string>
+    <string name="fs_qr_setup">ตั้งค่าคีย์ รีโมต และวอลเปเปอร์ผ่าน QR โทรศัพท์</string>
+    <string name="fs_ha_toggle">แสดง Home Assistant ในศูนย์ควบคุม</string>
+    <string name="fs_immich_toggle">แสดงรูปภาพ Immich บนภาพพักหน้าจอ</string>
+    <string name="fs_immich_sync">ซิงค์รูปภาพ Immich ตอนนี้</string>
+    <string name="fs_immich_album">อัลบั้ม Immich</string>
+    <string name="fs_immich_all_albums">รูปภาพทั้งหมด</string>
+
+    <string name="fs_sec_system">ความปลอดภัย &amp; การกู้คืน</string>
+    <string name="fs_watchdog">ระบบเฝ้าระวังและกู้คืนเมื่อแอปค้างวนซ้ำ</string>
+    <string name="fs_check_updates">อัปเดต (GitHub Releases)</string>
+    <string name="fs_updates_title">อัปเดต (GitHub)</string>
+    <string name="fs_updates_current">ติดตั้งแล้ว: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">ตรวจสอบอัปเดตตอนนี้</string>
+    <string name="fs_updates_checking">กำลังตรวจสอบ GitHub Releases…</string>
+    <string name="fs_updates_downloading">กำลังดาวน์โหลดและตรวจสอบ SHA-256…</string>
+    <string name="fs_updates_install_launcher">ติดตั้ง Matcher %1$s</string>
+    <string name="fs_updates_install_addon">อัปเดต %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">ตรวจสอบอัปเดตเบื้องหลังรายสัปดาห์</string>
+    <string name="fs_update_uptodate">ลอนเชอร์เป็นเวอร์ชันล่าสุดแล้ว (%1$s)</string>
+    <string name="fs_update_found">พบเวอร์ชันใหม่ %1$s</string>
+    <string name="fs_restore_stock">กู้คืนลอนเชอร์ Google TV เดิม (ADB)</string>
+    <string name="fs_restore_confirm_title">กู้คืนลอนเชอร์เดิมหรือไม่?</string>
+    <string name="fs_restore_confirm_msg">เปิดใช้งาน Google TV Launcher กลับคืนอย่างปลอดภัยก่อน ตั้งเป็นหน้าหลัก จากนั้นเปิดใช้งาน SetupWraith และซิงค์ข้อมูลลงดิสก์</string>
+    <string name="fs_restore_ok">กู้คืนทันที</string>
+    <string name="fs_cancel">ยกเลิก</string>
+
+    <!-- การเรียนรู้และกำหนดปุ่มรีโมตในแอป -->
+    <string name="rm_title">ปุ่มรีโมต</string>
+    <string name="rm_subtitle_ready">กำหนดปุ่มรีโมตใดก็ได้สำหรับการกดสั้น กดสองครั้ง หรือกดค้าง</string>
+    <string name="rm_subtitle_need_a11y">เปิด การช่วยการเข้าถึง → ปุ่มโฮม ในการตั้งค่าทีวีเพื่อกำหนดปุ่มได้ทุกหน้าจอ</string>
+    <string name="rm_open_a11y">เปิดการตั้งค่าการช่วยการเข้าถึงของทีวี</string>
+    <string name="rm_open_a11y_sub">จำเป็นสำหรับการกำหนดปุ่มรีโมตทั่วทั้งระบบ</string>
+    <string name="rm_learn_btn">เรียนรู้ปุ่มรีโมต</string>
+    <string name="rm_learn_sub">กดปุ่มจริงบนรีโมตเพื่อตรวจจับ keycode และ scancode</string>
+    <string name="rm_empty">ยังไม่ได้บันทึกปุ่มกำหนดเอง (ใช้ค่าเริ่มต้นของธีม)</string>
+    <string name="rm_reset_all">รีเซ็ตปุ่มกำหนดเอง</string>
+    <string name="rm_reset_all_sub">ย้อนกลับไปใช้การกำหนดค่าจาก config.json ของธีม</string>
+    <string name="rm_reset_done">ล้างการกำหนดปุ่มเองแล้ว</string>
+    <string name="rm_capture_title">กดปุ่มบนรีโมต</string>
+    <string name="rm_capture_hint">ปุ่มทิศทาง, OK, กลับ และระดับเสียงถูกสงวนไว้ · กดกลับเพื่อยกเลิก</string>
+    <string name="rm_capture_waiting">กำลังรอการกดปุ่ม…</string>
+    <string name="rm_edit_subtitle">รหัสปุ่ม: %1$s</string>
+    <string name="rm_slot_tap">กดสั้น (แตะ)</string>
+    <string name="rm_slot_double">กดสองครั้ง</string>
+    <string name="rm_slot_hold">กดค้าง (0.5 วิ)</string>
+    <string name="rm_short_tap">แตะ</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">ค้าง</string>
+    <string name="rm_target_none">ยังไม่กำหนด</string>
+    <string name="rm_delete_btn">ลบปุ่มกำหนดเอง</string>
+    <string name="rm_saved">บันทึกการกำหนดปุ่มแล้ว</string>
+    <string name="rm_action_mute">ปิดเสียง</string>
+    <string name="rm_action_ignore">ละเว้นปุ่ม (ปิดใช้งาน)</string>
+</resources>

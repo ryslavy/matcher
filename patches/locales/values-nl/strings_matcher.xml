@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App-mappen -->
+    <string name="folder_add_to">Toevoegen aan map…</string>
+    <string name="folder_new">+ Nieuwe map</string>
+    <string name="folder_new_title">Nieuwe map</string>
+    <string name="folder_rename">Map hernoemen…</string>
+    <string name="folder_rename_title">Map hernoemen</string>
+    <string name="folder_open">Map openen</string>
+    <string name="folder_add_apps">Apps toevoegen…</string>
+    <string name="folder_add_apps_title">Apps toevoegen aan %1$s</string>
+    <string name="folder_add_apps_empty">Alle Home-apps staan al in mappen</string>
+    <string name="folder_dissolve">Map opheffen</string>
+    <string name="folder_remove_app">Verwijderen uit map</string>
+    <string name="folder_move_to">Verplaatsen naar map…</string>
+    <string name="folder_hint">OK opent · OK inhouden voor opties · Omhoog voor mapacties</string>
+    <string name="folder_default_name">Map %1$d</string>
+    <string name="folder_name_hint">Mapnaam</string>
+    <string name="folder_create">Maken</string>
+    <string name="folder_save">Opslaan</string>
+    <string name="folder_cancel">Annuleren</string>
+    <string name="folder_btn_add">+ Toevoegen</string>
+    <string name="folder_btn_reorder">Ordenen</string>
+    <string name="folder_btn_done">Gereed</string>
+    <string name="folder_btn_rename">Hernoemen</string>
+    <string name="folder_preset_streaming">Streaming</string>
+    <string name="folder_preset_tv">TV</string>
+    <string name="folder_preset_sport">Sport</string>
+    <string name="folder_preset_music">Muziek</string>
+    <string name="folder_preset_games">Games</string>
+    <string name="folder_preset_tools">Hulpmiddelen</string>
+
+    <!-- Nu afspelen mini-mediaspeler -->
+    <string name="media_now_playing">Nu aan het afspelen</string>
+    <string name="media_playing">Speelt af</string>
+    <string name="media_paused">Gepauzeerd</string>
+    <string name="media_live">Live</string>
+    <string name="media_prev">Vorige</string>
+    <string name="media_play_pause">Afspelen of pauzeren</string>
+    <string name="media_next">Volgende</string>
+    <string name="media_open_app">App openen</string>
+    <string name="media_switch_hint">Omhoog om van app te wisselen · OK hervat afspelen</string>
+
+    <!-- Recente apps -->
+    <string name="recents_title">Recente apps</string>
+    <string name="recents_hint">OK wisselt · 2× Omhoog sluit · OK inhouden voor opties</string>
+    <string name="recents_empty">Geen recente apps geopend</string>
+    <string name="recents_switch">Wisselen naar app</string>
+    <string name="recents_close_app">App sluiten</string>
+    <string name="recents_close_all">Alles sluiten</string>
+    <string name="recents_swipe_close">Druk nogmaals Omhoog om te sluiten</string>
+    <string name="recents_playing_badge">Speelt af</string>
+    <string name="recents_free_ram">Vrije RAM: %1$d MB</string>
+    <string name="recents_just_now">Zojuist</string>
+    <string name="recents_minutes_ago">%1$d min geleden</string>
+    <string name="recents_hours_ago">%1$d u geleden</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">%1$d app gesloten</item>
+        <item quantity="other">%1$d apps gesloten</item>
+    </plurals>
+
+    <!-- Ambient-screensaver -->
+    <string name="ambient_controls_hint">◄ ► nummer · ▼ afspelen/pauze · ▲ openen</string>
+    <string name="ambient_action_prev">Vorig nummer</string>
+    <string name="ambient_action_next">Volgend nummer</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">Helder</string>
+    <string name="weather_partly">Half bewolkt</string>
+    <string name="weather_cloudy">Bewolkt</string>
+    <string name="weather_fog">Mist</string>
+    <string name="weather_drizzle">Motregen</string>
+    <string name="weather_rain">Regen</string>
+    <string name="weather_snow">Sneeuw</string>
+    <string name="weather_showers">Buien</string>
+    <string name="weather_storm">Onweer</string>
+
+    <!-- Bedieningspaneel, Nachtgeluid, Goedenacht & Aerial-video's -->
+    <string name="cc_title">Bedieningspaneel</string>
+    <string name="cc_bedtime">Goedenacht</string>
+    <string name="cc_bedtime_sub">30 m timer · Dimmen · Nachtgeluid</string>
+    <string name="cc_bedtime_on">Actief</string>
+    <string name="cc_night_audio">Nachtgeluid</string>
+    <string name="cc_night_audio_on">Harde pieken gedempt</string>
+    <string name="cc_night_audio_off">Uit</string>
+    <string name="cc_night_audio_unavailable">Audioprocessor niet beschikbaar</string>
+    <string name="cc_audio">Audio</string>
+    <string name="cc_audio_tv">Tv-luidsprekers</string>
+    <string name="cc_sleep_timer">Slaaptimer</string>
+    <string name="cc_sleep_timer_sub">Timer instellen</string>
+    <string name="cc_brightness">Helderheid</string>
+    <string name="cc_brightness_sub">Dimbalk</string>
+    <string name="cc_aerial">Aerial-video\'s</string>
+    <string name="cc_aerial_on">1080p-video</string>
+    <string name="cc_aerial_on_4k">4K HEVC-video</string>
+    <string name="cc_aerial_off">Achtergronden</string>
+    <string name="cc_screensaver">Screensaver</string>
+    <string name="cc_settings">Instellingen</string>
+    <string name="cc_sleep_tv">Tv in slaapstand</string>
+    <string name="cc_reorder_tiles">Tegels ordenen</string>
+    <string name="cc_footer_hint">OK inhouden op Tv in slaapstand voor herstart · Terug sluit</string>
+    <string name="cc_on">Aan</string>
+    <string name="cc_off">Uit</string>
+    <string name="close">Sluiten</string>
+
+    <!-- QR-telefooninstelling, Ontdekken, Home Assistant, Immich, Watchdog & Updates -->
+    <string name="qr_setup_title">Instellen via telefoon</string>
+    <string name="qr_setup_subtitle">Scan met je telefoon (zelfde wifi) om knoppen, achtergrond, stad of TMDB / Trakt / Plex / HA / Immich te bewerken</string>
+    <string name="qr_setup_short">QR-instelling</string>
+    <string name="qr_setup_no_wifi">Verbind de tv eerst met wifi of Ethernet</string>
+    <string name="qr_setup_waiting">Wachten op telefoon… (5 min geldig)</string>
+    <string name="qr_setup_expired">QR-sessie verlopen — open opnieuw voor een nieuwe code</string>
+
+    <string name="discover_title">Ontdekken &amp; Verder kijken</string>
+    <string name="discover_refresh">Vernieuwen</string>
+    <string name="discover_continue_watching">Verder kijken</string>
+    <string name="discover_trending">Populaire tips (reclamevrij)</string>
+    <string name="discover_tab_all">Alles</string>
+    <string name="discover_tab_movies">Films</string>
+    <string name="discover_tab_shows">Series</string>
+    <string name="discover_grant_watchnext_msg">Geef toestemming voor tv-overzichten om Verder kijken uit alle apps te tonen</string>
+    <string name="discover_grant_adb_btn">Toestaan via ADB</string>
+    <string name="discover_grant_success">Verder kijken ingeschakeld</string>
+    <string name="discover_hidden_toast">Verborgen uit Verder kijken</string>
+    <string name="discover_empty_no_key">Gebruik QR-instelling om een gratis TMDB API-sleutel (of Plex-server) toe te voegen voor reclamevrije tips uit je apps.</string>
+    <string name="discover_empty_no_matches">Momenteel geen passende titels gevonden voor je geïnstalleerde streamingapps.</string>
+
+    <string name="adb_connecting">Verbinden met lokale ADB…</string>
+    <string name="adb_accept_prompt">Accepteer “Altijd USB-foutopsporing toestaan” op de tv</string>
+
+    <string name="ha_section_title">Smart Home</string>
+    <string name="ha_action_failed">Home Assistant-actie mislukt</string>
+    <string name="ha_state_unavailable">Niet beschikbaar</string>
+    <string name="ha_state_open">Open</string>
+    <string name="ha_state_closed">Gesloten</string>
+    <string name="ha_state_camera">Live PiP</string>
+    <string name="ha_camera_title">Thuiscamera</string>
+    <string name="ha_camera_connecting">Verbinden met camera…</string>
+    <string name="ha_camera_unavailable">Camera niet beschikbaar</string>
+    <string name="ha_camera_hint_pip">OK: Vergroten · Terug: Sluiten</string>
+    <string name="ha_camera_hint_expanded">OK: Mini PiP · Terug: Sluiten</string>
+    <string name="ha_camera_hint_pip_multi">OK: Vergroten · ◀ ▶: Camera · Terug: Sluiten</string>
+    <string name="ha_camera_hint_expanded_multi">OK: Mini PiP · ◀ ▶: Camera · Terug: Sluiten</string>
+
+    <string name="aerial_fav_added">Opgeslagen in favorieten</string>
+    <string name="aerial_fav_removed">Verwijderd uit favorieten</string>
+
+    <string name="updater_installed">Update geïnstalleerd</string>
+    <string name="updater_failed">Update mislukt</string>
+
+    <!-- Launcher-functies & Liquid Glass-stijlen -->
+    <string name="fs_sec_glass">Liquid Glass &amp; Beleving</string>
+    <string name="fs_liquid_clock">Liquid Glass-klok (iOS 26)</string>
+    <string name="fs_home_liquid">Optisch Liquid Glass op Home</string>
+    <string name="fs_home_backdrop_blur">Achtergrondvervaging op Home</string>
+    <string name="fs_glass_material">Glasstijl</string>
+    <string name="fs_glass_material_title">Kies Liquid Glass-stijl</string>
+    <string name="glass_style_tonal">Mat getint</string>
+    <string name="glass_style_tonal_sub">Evenwichtig donker glas met achtergrondgetinte binnenkaarten</string>
+    <string name="glass_style_obsidian">Puur zwart (OLED)</string>
+    <string name="glass_style_obsidian_sub">Diep obsidiaankristal met scherpe Fresnel-rand voor donkere kamers</string>
+    <string name="glass_style_frost">Mat wit</string>
+    <string name="glass_style_frost_sub">Helder parelmoerglas met donkere grafiettekst en -iconen</string>
+    <string name="glass_style_clear">Helder kristal</string>
+    <string name="glass_style_clear_sub">Luchtig, kristalhelder glas met krachtige optische randbreking</string>
+    <string name="glass_style_chromatic">Chromatische tint</string>
+    <string name="glass_style_chromatic_sub">Rijke Material You-achtergrondkleur op panelen en binnenkaarten</string>
+    <string name="glass_style_auto">Automatisch (Dag / Nacht)</string>
+    <string name="glass_style_auto_sub">Mat wit overdag, Puur zwart na zonsondergang</string>
+    <string name="fs_remote_buttons">Afstandsbedieningsknoppen</string>
+    <string name="fs_ui_sounds">Zachte UI-klikgeluiden</string>
+    <string name="fs_oled_drift">OLED-screensaver pixelverschuiving</string>
+    <string name="fs_aerial_quality">Kwaliteit Aerial-video\'s</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">Alleen favoriete Aerial-video\'s (OK inhouden)</string>
+
+    <string name="fs_sec_content">Inhoud &amp; Ontdekken</string>
+    <string name="fs_open_discover">Ontdekken openen (Verder kijken &amp; Tips)</string>
+    <string name="fs_watch_next">Verder kijken</string>
+    <string name="fs_open_nuvio">Tips direct openen in Nuvio</string>
+    <string name="fs_watch_saver">Tips starten vanaf screensaver (OK)</string>
+    <string name="fs_hide_animation">Animatie- &amp; animetips verbergen</string>
+    <string name="fs_region">Streamingregio</string>
+    <string name="fs_trakt">Trakt.tv-account</string>
+    <string name="fs_trakt_code_msg">Ga naar %1$s en voer code in: %2$s</string>
+    <string name="fs_trakt_signed_in">Ingelogd bij Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">Uitgelogd bij Trakt</string>
+
+    <string name="fs_sec_smart">Smart Home, Foto\'s &amp; Telefooninstelling</string>
+    <string name="fs_qr_setup">Sleutels, knoppen &amp; achtergrond instellen via QR</string>
+    <string name="fs_ha_toggle">Home Assistant in Bedieningspaneel</string>
+    <string name="fs_immich_toggle">Immich-foto\'s op screensaver</string>
+    <string name="fs_immich_sync">Immich-foto\'s nu synchroniseren</string>
+    <string name="fs_immich_album">Immich-album</string>
+    <string name="fs_immich_all_albums">Alle foto\'s</string>
+
+    <string name="fs_sec_system">Veiligheid &amp; Herstel</string>
+    <string name="fs_watchdog">Crash-loop herstelbewaking</string>
+    <string name="fs_check_updates">Updates (GitHub Releases)</string>
+    <string name="fs_updates_title">Updates (GitHub)</string>
+    <string name="fs_updates_current">Geïnstalleerd: %1$s · %2$s</string>
+    <string name="fs_updates_check_now">Nu controleren op updates</string>
+    <string name="fs_updates_checking">GitHub Releases controleren…</string>
+    <string name="fs_updates_downloading">Downloaden &amp; SHA-256 verifiëren…</string>
+    <string name="fs_updates_install_launcher">Matcher %1$s installeren</string>
+    <string name="fs_updates_install_addon">%1$s (%2$s) bijwerken</string>
+    <string name="fs_updates_weekly">Wekelijkse updatecontrole op achtergrond</string>
+    <string name="fs_update_uptodate">Launcher is up-to-date (%1$s)</string>
+    <string name="fs_update_found">Nieuwe versie %1$s beschikbaar</string>
+    <string name="fs_restore_stock">Standaard Google TV-launcher herstellen (ADB)</string>
+    <string name="fs_restore_confirm_title">Standaard launcher herstellen?</string>
+    <string name="fs_restore_confirm_msg">Schakelt veilig eerst Google TV Launcher weer in, stelt deze in als Home, schakelt daarna SetupWraith weer in en slaat op.</string>
+    <string name="fs_restore_ok">Nu herstellen</string>
+    <string name="fs_cancel">Annuleren</string>
+
+    <!-- Knoppen van afstandsbediening toewijzen -->
+    <string name="rm_title">Afstandsbedieningsknoppen</string>
+    <string name="rm_subtitle_ready">Wijs Tikken, Dubbeltikken of Inhouden toe aan elke knop</string>
+    <string name="rm_subtitle_need_a11y">Schakel Toegankelijkheid → Home-knop in via tv-instellingen om knoppen overal toe te wijzen</string>
+    <string name="rm_open_a11y">Toegankelijkheidsinstellingen openen</string>
+    <string name="rm_open_a11y_sub">Vereist voor globale knoptoewijzing</string>
+    <string name="rm_learn_btn">Knop aanleren</string>
+    <string name="rm_learn_sub">Druk op een fysieke knop om keycode &amp; scancode te detecteren</string>
+    <string name="rm_empty">Nog geen aangepaste knoppen opgeslagen (themastandaard actief)</string>
+    <string name="rm_reset_all">Aangepaste knoppen resetten</string>
+    <string name="rm_reset_all_sub">Herstel toewijzingen uit config.json van het thema</string>
+    <string name="rm_reset_done">Aangepaste knoptoewijzingen gewist</string>
+    <string name="rm_capture_title">Druk op een knop van de afstandsbediening</string>
+    <string name="rm_capture_hint">Pijlen, OK, Terug en Volume zijn gereserveerd · Terug annuleert</string>
+    <string name="rm_capture_waiting">Wachten op knopdruk…</string>
+    <string name="rm_edit_subtitle">Knopcode: %1$s</string>
+    <string name="rm_slot_tap">Kort drukken (Tik)</string>
+    <string name="rm_slot_double">Dubbeltikken</string>
+    <string name="rm_slot_hold">Lang indrukken (0,5 s)</string>
+    <string name="rm_short_tap">Tik</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">Inhouden</string>
+    <string name="rm_target_none">Niet toegewezen</string>
+    <string name="rm_delete_btn">Aangepaste knop verwijderen</string>
+    <string name="rm_saved">Knoptoewijzing opgeslagen</string>
+    <string name="rm_action_mute">Geluid dempen</string>
+    <string name="rm_action_ignore">Knop negeren (uitschakelen)</string>
+</resources>

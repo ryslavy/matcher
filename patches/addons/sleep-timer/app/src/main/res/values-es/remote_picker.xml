@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Horas"</string>
+    <string name="remote_minutes">"Minutos"</string>
+    <string name="remote_day">"Día"</string>
+    <string name="remote_month">"Mes"</string>
+    <string name="remote_year">"Año"</string>
+    <string name="remote_hint">"Izquierda / Derecha: campo · Arriba / Abajo: valor · OK: siguiente · Atrás: cancelar"</string>
+    <string name="remote_page_hint">"Elige una fila con las flechas y pulsa OK. Los cambios se aplican al guardar."</string>
+    <string name="remote_events">"EVENTOS SEMANALES"</string>
+    <string name="remote_exclusions">"PERIODOS SIN ENCENDIDO AUTOMÁTICO"</string>
+    <string name="remote_wake_time">"Hora de encendido"</string>
+    <string name="remote_sleep_time">"Hora de suspensión"</string>
+</resources>

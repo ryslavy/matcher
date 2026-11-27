@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Počasie</string>
+
+    <string name="feels_like">Pocitovo %1$d°</string>
+    <string name="humidity">Vlhkosť %1$d%%</string>
+    <string name="wind">Vietor %1$d km/h</string>
+    <string name="wind_mph">Vietor %1$d mph</string>
+    <string name="other_unit_c">%1$d°C</string>
+    <string name="other_unit_f">%1$d°F</string>
+    <string name="high_low">%1$d° / %2$d°</string>
+    <string name="aqi_line">Kvalita ovzdušia %1$d · %2$s</string>
+    <string name="updated">Aktualizované %1$s · Open-Meteo</string>
+    <string name="change_city">Zmeniť mesto</string>
+    <string name="weather_settings">Nastavenia počasia</string>
+    <string name="settings_done">Hotovo</string>
+    <string name="setting_units">Jednotky teploty</string>
+    <string name="unit_c">Celsius (°C)</string>
+    <string name="unit_f">Fahrenheit (°F)</string>
+    <string name="setting_both_units">Zobraziť obe jednotky</string>
+    <string name="setting_days">Dĺžka predpovede</string>
+    <plurals name="day_count">
+        <item quantity="one">%1$d deň</item>
+        <item quantity="few">%1$d dni</item>
+        <item quantity="many">%1$d dňa</item>
+        <item quantity="other">%1$d dní</item>
+    </plurals>
+    <string name="setting_humidity">Zobraziť vlhkosť</string>
+    <string name="setting_wind">Zobraziť vietor</string>
+    <string name="setting_reset">Obnoviť nastavenia počasia</string>
+    <string name="setting_value">%1$s · %2$s</string>
+    <string name="option_on">Zapnuté</string>
+    <string name="option_off">Vypnuté</string>
+    <string name="loading">Načítavam počasie…</string>
+    <string name="offline">Nedá sa pripojiť k Open-Meteo. Skontrolujte internetové pripojenie TV; ďalší pokus o 5 minút.</string>
+
+    <string name="pick_title">Ktoré mesto?</string>
+    <string name="pick_hint">Názov mesta, napr. Bratislava</string>
+    <string name="pick_search">Hľadať</string>
+    <string name="pick_none">Miesto „%1$s“ sa nenašlo</string>
+    <string name="pick_first">Vyberte mesto na zobrazenie počasia.</string>
+
+    <string name="aqi_good">Dobrá</string>
+    <string name="aqi_moderate">Stredná</string>
+    <string name="aqi_sensitive">Zhoršená pre citlivé osoby</string>
+    <string name="aqi_unhealthy">Zlá</string>
+    <string name="aqi_very_unhealthy">Veľmi zlá</string>
+    <string name="aqi_hazardous">Nebezpečná</string>
+
+    <string name="sky_clear">Jasno</string>
+    <string name="sky_sunny">Slnečno</string>
+    <string name="sky_mostly_clear">Skoro jasno</string>
+    <string name="sky_mostly_sunny">Prevažne slnečno</string>
+    <string name="sky_partly_cloudy">Polojasno</string>
+    <string name="sky_cloudy">Zamračené</string>
+    <string name="sky_fog">Hmla</string>
+    <string name="sky_drizzle">Mrholenie</string>
+    <string name="sky_freezing_drizzle">Mrznúce mrholenie</string>
+    <string name="sky_light_rain">Slabý dážď</string>
+    <string name="sky_rain">Dážď</string>
+    <string name="sky_heavy_rain">Silný dážď</string>
+    <string name="sky_freezing_rain">Mrznúci dážď</string>
+    <string name="sky_light_snow">Slabé sneženie</string>
+    <string name="sky_snow">Sneženie</string>
+    <string name="sky_heavy_snow">Silné sneženie</string>
+    <string name="sky_snow_grains">Snehové krúpky</string>
+    <string name="sky_showers">Prehánky</string>
+    <string name="sky_snow_showers">Snehové prehánky</string>
+    <string name="sky_thunderstorm">Búrka</string>
+</resources>

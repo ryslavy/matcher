@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slaaptimer</string>
+    <string name="hint">Kies wanneer de tv in stand-by gaat. Eén minuut van tevoren verschijnt een waarschuwing.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Timer annuleren</string>
+    <string name="state_off">Geen timer ingesteld.</string>
+    <string name="state_on">Stand-by om %1$s.</string>
+    <string name="no_service">De toegankelijkheidsservice van Slaaptimer staat uit (voer het installatiescript uit).</string>
+    <string name="warning_title">De tv wordt uitgeschakeld</string>
+    <string name="warning_seconds">over %1$d seconden</string>
+    <string name="more">Nog 15 minuten</string>
+    <string name="now">Nu uitschakelen</string>
+    <string name="service_label">Slaaptimer</string>
+    <string name="quick_hint">◀ ▶ tijd kiezen · OK sluiten</string>
+    <string name="service_description">Zet de tv alleen in stand-by wanneer de Slaaptimer afloopt. Leest het scherm niet.</string>
+    <string name="schedule_row">Schema</string>
+</resources>

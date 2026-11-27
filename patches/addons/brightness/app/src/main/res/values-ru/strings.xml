@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Яркость</string>
+    <string name="quick_brightness">Яркость %1$d%%</string>
+    <string name="quick_night_brightness">Ночная яркость %1$d%%</string>
+    <string name="quick_hint">◀ ▶ настроить · OK закрыть</string>
+    <string name="channel_name">Затемнение экрана</string>
+    <string name="notification_text">Экран затемнён. Откройте «Яркость», чтобы изменить или отключить.</string>
+</resources>

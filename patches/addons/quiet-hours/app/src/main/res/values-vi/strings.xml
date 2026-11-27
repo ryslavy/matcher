@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Giờ yên tĩnh</string>
+    <string name="channel_name">Giới hạn âm lượng</string>
+    <string name="notification_text">Đang giữ âm lượng dưới mức giới hạn. Mở Giờ yên tĩnh để thay đổi.</string>
+</resources>

@@ -203,6 +203,7 @@ final class FocusRingController {
         clipScrollContainers(scope);
 
         glass = new GlassView(host.getContext(), null);
+        glass.setLightSurface(ExpressiveGlass.isLightGlass());
         glass.setLiquidEnabled(animations && !reducedMotion);
         glass.setAlpha(0f);
         glass.setFocusable(false);
@@ -283,10 +284,16 @@ final class FocusRingController {
     }
 
     void refresh() {
+        glass.setLightSurface(ExpressiveGlass.isLightGlass());
         View f = scope.findFocus();
         if (f != null && f != glass && isDescendantOf(f, scope)) {
             moveTo(f, false);
         }
+    }
+
+    void refreshStyle() {
+        glass.setLightSurface(ExpressiveGlass.isLightGlass());
+        glass.invalidate();
     }
 
     void hide() {
@@ -333,6 +340,7 @@ final class FocusRingController {
             lp.height = gh;
             glass.setLayoutParams(lp);
         }
+        glass.setLightSurface(ExpressiveGlass.isLightGlass());
         glass.setRadius(radiusPx);
         glass.setAccent(spec.accent);
 

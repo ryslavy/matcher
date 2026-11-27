@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Godziny"</string>
+    <string name="remote_minutes">"Minuty"</string>
+    <string name="remote_day">"Dzień"</string>
+    <string name="remote_month">"Miesiąc"</string>
+    <string name="remote_year">"Rok"</string>
+    <string name="remote_hint">"Lewo / Prawo: pole · Góra / Dół: wartość · OK: dalej · Wstecz: anuluj"</string>
+    <string name="remote_page_hint">"Wybierz wiersz strzałkami i naciśnij OK. Zmiany zadziałają po zapisaniu."</string>
+    <string name="remote_events">"ZDARZENIA TYGODNIOWE"</string>
+    <string name="remote_exclusions">"OKRESY BEZ AUTOMATYCZNEGO BUDZENIA"</string>
+    <string name="remote_wake_time">"Godzina budzenia"</string>
+    <string name="remote_sleep_time">"Godzina uśpienia"</string>
+</resources>

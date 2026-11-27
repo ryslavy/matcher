@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Soat"</string>
+    <string name="remote_minutes">"Daqiqa"</string>
+    <string name="remote_day">"Kun"</string>
+    <string name="remote_month">"Oy"</string>
+    <string name="remote_year">"Yil"</string>
+    <string name="remote_hint">"Chap / Oʻng: maydon · Yuqori / Past: qiymat · OK: keyingi · Orqaga: bekor qilish"</string>
+    <string name="remote_page_hint">"Strelkalar bilan qatorni tanlang va OK ni bosing. Oʻzgarishlar Saqlashdan keyin qoʻllanadi."</string>
+    <string name="remote_events">"HAFTALIK HODISALAR"</string>
+    <string name="remote_exclusions">"AVTOMATIK UYGʻOTISH BOʻLMAGAN DAVRLAR"</string>
+    <string name="remote_wake_time">"Uygʻotish vaqti"</string>
+    <string name="remote_sleep_time">"Uyqu vaqti"</string>
+</resources>

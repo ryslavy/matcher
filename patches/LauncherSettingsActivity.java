@@ -66,6 +66,14 @@ public final class LauncherSettingsActivity extends Activity {
         }
     }
 
+    /** Re-themes the open Settings sheet immediately when the user switches Glass Material style. */
+    static void refreshGlassStyleIfOpen() {
+        LauncherSettingsActivity a = active();
+        if (a != null && !a.isFinishing() && !a.isDestroyed()) {
+            a.applyGlassThemeLive();
+        }
+    }
+
     @SuppressWarnings("deprecation")
     static void launch(android.content.Context ctx, boolean overHome, boolean seamlessHandoff) {
         MainActivity.markSettingsLaunchPending();
@@ -332,6 +340,7 @@ public final class LauncherSettingsActivity extends Activity {
 
         attachTactileMotion(reorderChoice);
         refresh();
+        applyGlassThemeLive();
 
         final View initialFocus = config.launcherSettingsButton
                 ? reorderChoice
@@ -356,6 +365,36 @@ public final class LauncherSettingsActivity extends Activity {
             }
             Motion.revealModal(panelStage, density, reduce);
         }));
+    }
+
+    private void applyGlassThemeLive() {
+        if (panel == null) return;
+        for (TextView[] group : new TextView[][]{columnChoices, rowChoices, dockChoices, clockChoices}) {
+            for (TextView tv : group) {
+                if (tv != null) tv.setBackground(ExpressiveGlass.makeAdaptiveChoiceBg(density, 14f, SELECTED_ACCENT));
+            }
+        }
+        View[] rows = {
+                findViewById(R.id.reorderChoice), wallpaperChoice, animationsChoice, advancedChoice,
+                openOnStartChoice, followThemeChoice,
+                findViewById(R.id.defaultHomeChoice), findViewById(R.id.tvSettingsChoice)
+        };
+        for (View row : rows) {
+            if (row != null) row.setBackground(ExpressiveGlass.makeAdaptiveChoiceBg(density, 14f, SELECTED_ACCENT));
+        }
+        if (featureSettings != null) featureSettings.refreshTheme();
+        if (panel.getChildCount() > 0 && panel.getChildAt(0) instanceof TextView) {
+            ExpressiveGlass.applyLuminousTitle((TextView) panel.getChildAt(0), density, false);
+        }
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
+        if (focusRing != null) focusRing.refreshStyle();
+        if (!overHome && backdropView != null && backdropView.getChildCount() > 0
+                && backdropView.getChildAt(0) instanceof android.widget.ImageView
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            backdropView.getChildAt(0).setRenderEffect(ExpressiveGlass.createBackdropBlurEffect(
+                    density, ExpressiveGlass.SHADE_BLUR_RADIUS_DP, true, Shader.TileMode.CLAMP));
+        }
+        ExpressiveGlass.invalidateLiquidPanels(backdrop);
     }
 
     private void applyCapturedBackdrop(boolean deferFadeStart, boolean startOpaque) {
@@ -515,6 +554,7 @@ public final class LauncherSettingsActivity extends Activity {
         title.setTextSize(20f);
         title.setTypeface(UiFont.get(this, R.string.font_medium));
         title.setPadding(dp(10), 0, dp(10), dp(10));
+        ExpressiveGlass.applyLuminousTitle(title, density, false);
         box.addView(title, new LinearLayout.LayoutParams(-1, -2));
 
         ScrollView scroll = new ScrollView(this);
@@ -590,6 +630,7 @@ public final class LauncherSettingsActivity extends Activity {
         for (int i = 0; i < labels.length; i++) {
             final int idx = i;
             View row = getLayoutInflater().inflate(R.layout.item_input, rows, false);
+            row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
             row.findViewById(R.id.icon).setVisibility(View.GONE);
             View dot = row.findViewById(R.id.dot);
             dot.setVisibility(idx == checkedIndex ? View.VISIBLE : View.GONE);
@@ -618,6 +659,7 @@ public final class LauncherSettingsActivity extends Activity {
             footer.addView(btnNeutral, new LinearLayout.LayoutParams(-2, dp(38)));
             box.addView(footer, new LinearLayout.LayoutParams(-1, -2));
         }
+        ExpressiveGlass.applyAdaptiveContentTheme(box);
 
         dialog.setOnDismissListener(d -> {
             Motion.cancelPanelAnim(keyHost);
@@ -659,6 +701,7 @@ public final class LauncherSettingsActivity extends Activity {
         title.setTextColor(Color.WHITE);
         title.setTextSize(20f);
         title.setTypeface(UiFont.get(this, R.string.font_medium));
+        ExpressiveGlass.applyLuminousTitle(title, density, false);
         box.addView(title, new LinearLayout.LayoutParams(-1, -2));
 
         TextView msg = new TextView(this);
@@ -690,6 +733,7 @@ public final class LauncherSettingsActivity extends Activity {
         buttons.addView(btnCancel, clp);
         buttons.addView(btnEnable, new LinearLayout.LayoutParams(-2, dp(40)));
         box.addView(buttons, new LinearLayout.LayoutParams(-1, -2));
+        ExpressiveGlass.applyAdaptiveContentTheme(box);
 
         int dialogPad = FocusRingController.wrapInsetPx(density);
         FrameLayout ringHost = FocusRingController.wrapPopup(box, density, animations, reducedMotion);
@@ -770,8 +814,8 @@ public final class LauncherSettingsActivity extends Activity {
         btn.setTypeface(UiFont.get(this, R.string.font_medium));
         btn.setGravity(Gravity.CENTER);
         btn.setPadding(dp(16), 0, dp(16), 0);
-        btn.setBackgroundResource(R.drawable.pill_bg);
-        btn.setTextColor(getColorStateList(R.color.pill_text));
+        btn.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 18f, 0));
+        btn.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         btn.setFocusable(true);
         btn.setFocusableInTouchMode(true);
         btn.setClickable(true);

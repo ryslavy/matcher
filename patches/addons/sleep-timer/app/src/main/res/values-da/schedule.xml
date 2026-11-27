@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sched_0">"TV-tidsplan"</string>
+    <string name="sched_1">"Tidspunkter hører til den valgte kalenderdag. Undtagelsesperioder blokerer kun automatisk vækning. Tilbage annullerer ikke-gemte ændringer."</string>
+    <string name="sched_2">"Tidsplan: TIL"</string>
+    <string name="sched_3">"Tidsplan: FRA"</string>
+    <string name="sched_4">"+ Tilføj væknings- / hviletid"</string>
+    <string name="sched_5">"Ingen vækning: "</string>
+    <string name="sched_6">"Undtagelsesperiode for vækning"</string>
+    <string name="sched_7">"Redigér datoer"</string>
+    <string name="sched_8">"Slet"</string>
+    <string name="sched_9">"+ Tilføj undtagelsesperiode"</string>
+    <string name="sched_10">"Gem"</string>
+    <string name="sched_11">"Vækning  "</string>
+    <string name="sched_12">"Vågeblus  "</string>
+    <string name="sched_13">"Tilføj hændelse"</string>
+    <string name="sched_14">"Vækning"</string>
+    <string name="sched_15">"Vågeblus"</string>
+    <string name="sched_16">"Ugedage"</string>
+    <string name="sched_17">"Annuller"</string>
+    <string name="sched_18">"Tidspunkt"</string>
+    <string name="sched_19">"Vælg mindst én dag"</string>
+    <string name="sched_20">"Slut skal være på eller efter start"</string>
+    <string name="sched_21">"Sidste dag (inkl.)"</string>
+    <string name="sched_22">"Første dag (inkl.)"</string>
+    <string name="sched_23">"Mandag"</string>
+    <string name="sched_24">"Tirsdag"</string>
+    <string name="sched_25">"Onsdag"</string>
+    <string name="sched_26">"Torsdag"</string>
+    <string name="sched_27">"Fredag"</string>
+    <string name="sched_28">"Lørdag"</string>
+    <string name="sched_29">"Søndag"</string>
+</resources>

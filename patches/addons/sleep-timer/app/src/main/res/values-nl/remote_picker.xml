@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Uren"</string>
+    <string name="remote_minutes">"Minuten"</string>
+    <string name="remote_day">"Dag"</string>
+    <string name="remote_month">"Maand"</string>
+    <string name="remote_year">"Jaar"</string>
+    <string name="remote_hint">"Links / Rechts: veld · Omhoog / Omlaag: waarde · OK: volgende · Terug: annuleren"</string>
+    <string name="remote_page_hint">"Kies een rij met de pijltjes en druk op OK. Wijzigingen worden toegepast na Opslaan."</string>
+    <string name="remote_events">"WEKELIJKSE GEBEURTENISSEN"</string>
+    <string name="remote_exclusions">"PERIODES ZONDER AUTOMATISCH INSCHAKELEN"</string>
+    <string name="remote_wake_time">"Inschakeltijd"</string>
+    <string name="remote_sleep_time">"Slaaptijd"</string>
+</resources>

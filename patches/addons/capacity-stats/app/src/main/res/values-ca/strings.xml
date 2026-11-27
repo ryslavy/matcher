@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Estadístiques de capacitat</string>
+    <string name="loading">Llegint els comptadors…</string>
+    <string name="unavailable">Lectures no disponibles</string>
+    <string name="back">Enrere</string>
+    <string name="memory">RAM disponible: %1$s</string>
+    <string name="memory_used">RAM utilitzada: %1$s</string>
+    <string name="storage">Emmagatzematge disponible: %1$s</string>
+    <string name="note">La RAM disponible inclou memòries cau recuperables; la RAM utilitzada és el total menys la disponible. L\'emmagatzematge fa referència al sistema de fitxers de dades.</string>
+</resources>

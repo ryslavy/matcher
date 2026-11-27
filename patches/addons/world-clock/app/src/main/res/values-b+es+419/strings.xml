@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Reloj mundial</string>
+    <string name="add_city">Agregar ciudad</string>
+    <string name="clock_format">Formato de reloj</string>
+    <string name="local">Local</string>
+    <string name="search_city">Ciudad o zona horaria</string>
+    <string name="search_hint">Presiona OK para escribir; Abajo para elegir una ciudad</string>
+    <string name="no_cities">No hay ciudades coincidentes</string>
+    <string name="change_city">Cambiar ciudad</string>
+    <string name="move_earlier">Mover antes</string>
+    <string name="move_later">Mover después</string>
+    <string name="remove_city">Quitar ciudad</string>
+    <string name="city_limit">Elige hasta seis relojes</string>
+    <string name="already_shown">Ese reloj ya se muestra</string>
+    <string name="same_day">Mismo día que la hora local</string>
+    <string name="tomorrow">Mañana en esta ciudad</string>
+    <string name="yesterday">Ayer en esta ciudad</string>
+    <string name="local_reference">Fechas comparadas con %1$s</string>
+    <string name="controls">Flechas para moverte · OK para opciones de la ciudad · Atrás para volver</string>
+    <string name="format_system">Usar configuración de la TV</string>
+    <string name="format_12">Formato de 12 horas</string>
+    <string name="format_24">Formato de 24 horas</string>
+    <string name="close">Cerrar</string>
+    <string name="screensaver">Protector de pantalla</string>
+    <string name="preview">Vista previa · cualquier botón regresa</string>
+    <string name="background_option">Fondo: %1$s</string>
+    <string name="motion_option">Movimiento: %1$s</string>
+    <string name="brightness_option">Brillo del reloj: %1$s</string>
+    <string name="gradient">Degradado del cielo</string>
+    <string name="plain">Negro</string>
+    <string name="motion_on">Activado</string>
+    <string name="motion_reduced">Reducido (estático)</string>
+    <string name="clock_brightness">Brillo del reloj</string>
+    <string name="dim">Tenue</string>
+    <string name="medium">Medio</string>
+    <string name="bright">Brillante</string>
+    <string name="tv_screensaver_settings">Configuración del protector de pantalla de la TV</string>
+    <string name="screensaver_unavailable">Esta TV no muestra la configuración del protector de pantalla. La vista previa sigue disponible.</string>
+    <string name="background">Fondo</string>
+    <string name="starfield">Cielo estrellado</string>
+    <string name="world_map">Mapa mundial</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d día respecto a la hora local</item>
+        <item quantity="many">%1$+d días respecto a la hora local</item>
+        <item quantity="other">%1$+d días respecto a la hora local</item>
+    </plurals>
+</resources>

@@ -214,6 +214,7 @@ final class DiscoverDialog {
         LinearLayout.LayoutParams scrollLp = new LinearLayout.LayoutParams(-1, 0, 1f);
         scrollLp.topMargin = dp(6);
         panel.addView(bodyScroll, scrollLp);
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
     }
 
     private View buildWatchNextPermissionBanner() {
@@ -221,11 +222,7 @@ final class DiscoverDialog {
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(dp(12), dp(10), dp(12), dp(10));
-        GradientDrawable bg = new GradientDrawable();
-        bg.setCornerRadius(14f * density);
-        bg.setColor(0x20FFFFFF);
-        bg.setStroke(Math.max(1, dp(1)), 0x35FFFFFF);
-        row.setBackground(bg);
+        row.setBackground(ExpressiveGlass.makeAdaptiveCardBg(density, 14f, false));
 
         TextView msg = new TextView(activity);
         msg.setText(R.string.discover_grant_watchnext_msg);
@@ -612,12 +609,9 @@ final class DiscoverDialog {
             TextView tab = filterTabs[i];
             if (tab == null) continue;
             boolean sel = i == activeFilter;
-            GradientDrawable bg = new GradientDrawable();
-            bg.setCornerRadius(16f * density);
-            bg.setColor(sel ? 0x4C60A5FA : 0x22FFFFFF);
-            bg.setStroke(Math.max(1, dp(1)), sel ? 0x9993C5FD : 0x38FFFFFF);
-            tab.setBackground(bg);
-            tab.setTextColor(sel ? Color.WHITE : 0xCCDAE6F6);
+            tab.setSelected(sel);
+            tab.setBackground(ExpressiveGlass.makeAdaptiveChoiceBg(density, 16f, 0x60A5FA));
+            tab.setTextColor(sel ? ExpressiveGlass.adaptivePrimaryTextColor() : ExpressiveGlass.adaptiveSecondaryTextColor());
         }
     }
 
@@ -634,18 +628,14 @@ final class DiscoverDialog {
     private TextView makePill(String text) {
         TextView tv = new TextView(activity);
         tv.setText(text);
-        tv.setTextColor(Color.WHITE);
+        tv.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         tv.setTextSize(13f);
         tv.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         tv.setGravity(Gravity.CENTER);
         tv.setFocusable(true);
         tv.setClickable(true);
         tv.setPadding(dp(14), dp(4), dp(14), dp(4));
-        GradientDrawable bg = new GradientDrawable();
-        bg.setCornerRadius(16f * density);
-        bg.setColor(0x28FFFFFF);
-        bg.setStroke(Math.max(1, dp(1)), 0x45FFFFFF);
-        tv.setBackground(bg);
+        tv.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 16f, 0));
         Motion.attachPillFocus(tv, 1.04f, 1f, density, reducedMotion);
         FocusRingController.configure(tv, 1.04f, 1f, 16f, 0);
         return tv;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Capaciteitsoverzicht</string>
+    <string name="loading">Tellers lezen…</string>
+    <string name="unavailable">Gegevens niet beschikbaar</string>
+    <string name="back">Terug</string>
+    <string name="memory">Beschikbare RAM: %1$s</string>
+    <string name="memory_used">Gebruikte RAM: %1$s</string>
+    <string name="storage">Beschikbare opslag: %1$s</string>
+    <string name="note">Beschikbare RAM omvat vrijmaakbare caches; gebruikte RAM is het totaal minus beschikbaar. Opslag verwijst naar het gegevensbestandssysteem.</string>
+</resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Brillu</string>
+    <string name="quick_brightness">Brillu %1$d%%</string>
+    <string name="quick_night_brightness">Brillu nocherniegu %1$d%%</string>
+    <string name="quick_hint">◀ ▶ axustar · OK zarrar</string>
+    <string name="channel_name">Atenuación de pantalla</string>
+    <string name="notification_text">Atenuando la pantalla. Abre Brillu pa camudalo o desactivalo.</string>
+</resources>

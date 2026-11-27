@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">헤드폰</string>
+    <string name="plays_through">현재 사운드 출력: %1$s</string>
+    <string name="output_speakers">TV 스피커</string>
+    <string name="output_fixed">TV 오디오 출력(HDMI ARC 또는 광출력)</string>
+    <string name="allow_title">Bluetooth 접근 허용</string>
+    <string name="allow_detail">헤드폰 목록을 표시하고 연결이 끊겼을 때 감지하려면 권한이 필요합니다. OK를 눌러 요청하세요.</string>
+    <string name="not_allowed">허용되지 않음</string>
+    <string name="pair_title">헤드폰 페어링 또는 연결</string>
+    <string name="pair_detail">TV의 Bluetooth 설정을 엽니다. 먼저 헤드폰을 페어링 모드로 전환하세요.</string>
+    <string name="guard_title">연결 해제 시 자동 음소거</string>
+    <string name="guard_detail">헤드폰 연결이 끊기면 재생을 일시정지하고 TV 스피커를 음소거하여 소리가 방에 울리지 않도록 합니다. 다시 연결되면 음소거를 해제합니다.</string>
+    <string name="guard_detail_fixed">헤드폰 연결이 끊기면 재생을 일시정지합니다. 이 TV는 볼륨이 고정되어 있어(ARC 또는 앰프) 스피커를 음소거할 수 없습니다.</string>
+    <string name="on">켜짐</string>
+    <string name="off">꺼짐</string>
+    <string name="unmute_title">스피커 음소거 해제</string>
+    <string name="unmute_detail">헤드폰 연결이 끊겨 음소거되었습니다.</string>
+    <string name="muted">음소거됨</string>
+    <string name="heading_paired">페어링된 헤드폰 및 스피커</string>
+    <string name="no_bluetooth">이 TV에는 Bluetooth가 없습니다</string>
+    <string name="bluetooth_off">Bluetooth가 꺼져 있음</string>
+    <string name="bluetooth_off_detail">TV 설정에서 Bluetooth를 켜세요.</string>
+    <string name="none_yet">아직 없음</string>
+    <string name="none_yet_detail">위 항목을 사용해 기기를 페어링하세요.</string>
+    <string name="connected">연결됨</string>
+    <string name="connected_battery">연결됨, 배터리 %1$s</string>
+    <string name="not_connected_detail">연결되지 않음. OK를 누르면 연결을 위해 Bluetooth 설정이 열립니다.</string>
+    <string name="unnamed">이름 없는 기기</string>
+    <string name="heading_several">여러 헤드폰 동시 사용</string>
+    <string name="sharing_one_pair">이 TV는 한 번에 한 쌍의 Bluetooth 헤드폰으로만 소리를 보냅니다. 두 쌍을 사용하려면 TV의 헤드폰 또는 광출력 단자에 듀얼 링크 Bluetooth 송신기를 연결하세요.</string>
+    <string name="sharing_auracast">이 TV는 여러 LE Audio(Auracast) 헤드폰에 동시에 오디오를 브로드캐스트할 수 있습니다. TV의 Bluetooth 설정에서 공유를 시작하세요.</string>
+    <string name="sharing_no_broadcast">이 TV는 한 번에 한 쌍의 Bluetooth 헤드폰으로만 소리를 보내며 LE Audio 브로드캐스트를 지원하지 않습니다. 두 쌍을 사용하려면 TV의 헤드폰 또는 광출력 단자에 듀얼 링크 Bluetooth 송신기를 연결하세요.</string>
+</resources>

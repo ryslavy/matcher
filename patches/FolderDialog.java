@@ -512,7 +512,7 @@ final class FolderDialog {
         if (btnReorder != null) {
             btnReorder.setText(R.string.folder_btn_done);
             btnReorder.setActivated(true);
-            btnReorder.setTextColor(0xFF93D1FF);
+            btnReorder.setTextColor(ExpressiveGlass.adaptiveAccentTextColor(0xFF93D1FF));
         }
         int target = Math.max(0, Math.min(selectedPosition, members.size() - 1));
         boolean fromHeader = highlightOnHeader;
@@ -561,7 +561,7 @@ final class FolderDialog {
         if (btnReorder != null) {
             btnReorder.setText(R.string.folder_btn_reorder);
             btnReorder.setActivated(false);
-            btnReorder.setTextColor(activity.getColorStateList(R.color.pill_text));
+            btnReorder.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         }
         refreshReorderVisuals();
         if (highlight != null && !highlightOnHeader && list != null
@@ -797,6 +797,7 @@ final class FolderDialog {
 
         float focusScale = cardFocusScale();
         highlight = new GlassView(activity, null);
+        highlight.setLightSurface(ExpressiveGlass.isLightGlass());
         highlight.setRadius(dp(14) * focusScale);
         highlight.setLiquidEnabled(animations && !reducedMotion);
         highlight.setAlpha(0f);
@@ -827,6 +828,7 @@ final class FolderDialog {
         shelf.addOnLayoutChangeListener(syncHighlightOnLayout);
         list.addOnLayoutChangeListener(syncHighlightOnLayout);
         panel.addView(shelf, new LinearLayout.LayoutParams(-1, 0, 1f));
+        ExpressiveGlass.applyAdaptiveContentTheme(panel);
     }
 
     private TextView makeHeaderPill(String label) {
@@ -836,8 +838,8 @@ final class FolderDialog {
         btn.setTypeface(UiFont.get(activity, R.string.font_medium));
         btn.setGravity(Gravity.CENTER);
         btn.setPadding(dp(14), 0, dp(14), 0);
-        btn.setBackgroundResource(R.drawable.pill_bg);
-        btn.setTextColor(activity.getColorStateList(R.color.pill_text));
+        btn.setBackground(ExpressiveGlass.makeAdaptiveTileBg(density, 17f, 0));
+        btn.setTextColor(ExpressiveGlass.adaptivePillTextColors());
         btn.setFocusable(true);
         btn.setFocusableInTouchMode(true);
         btn.setClickable(true);
@@ -1083,6 +1085,7 @@ final class FolderDialog {
 
     private void addActionRow(LinearLayout rows, String label, Runnable action) {
         View row = activity.getLayoutInflater().inflate(R.layout.item_input, rows, false);
+        row.setBackground(ExpressiveGlass.makeAdaptiveRowBg(density, 16f, false));
         ((TextView) row.findViewById(R.id.title)).setText(label);
         row.setFocusableInTouchMode(true);
         row.findViewById(R.id.icon).setVisibility(View.GONE);
@@ -1090,6 +1093,7 @@ final class FolderDialog {
         row.findViewById(R.id.status).setVisibility(View.GONE);
         row.setOnClickListener(v -> action.run());
         Motion.attachRowFocus(row, density, reducedMotion);
+        ExpressiveGlass.applyAdaptiveContentTheme(row);
         rows.addView(row);
         row.setOnKeyListener((v, key, event) -> {
             int index = rows.indexOfChild(v);
@@ -1148,15 +1152,17 @@ final class FolderDialog {
             ImageView banner = new ImageView(activity);
             banner.setId(R.id.banner);
             banner.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ExpressiveGlass.markPreserveImage(banner);
             card.addView(banner, new FrameLayout.LayoutParams(-1, -1));
 
             ImageView icon = new ImageView(activity);
             icon.setId(R.id.icon);
             icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ExpressiveGlass.markPreserveImage(icon);
             FrameLayout.LayoutParams iconLp = new FrameLayout.LayoutParams(dp(46), dp(46), Gravity.CENTER);
             card.addView(icon, iconLp);
 
-            TextView name = makeText("", 13, 0xEBFFFFFF);
+            TextView name = makeText("", 13, ExpressiveGlass.adaptiveSecondaryTextColor());
             name.setId(R.id.title);
             name.setGravity(Gravity.CENTER);
             name.setSingleLine(true);
@@ -1285,7 +1291,7 @@ final class FolderDialog {
                         lastFocusedCardPos = idx;
                     }
                     if (reordering && movingPkg == null) refreshReorderVisuals();
-                    h.name.setTextColor(Color.WHITE);
+                    h.name.setTextColor(ExpressiveGlass.adaptivePrimaryTextColor());
                     if (app.ambient == 0) {
                         app.ambient = AppAdapter.vividColor(app.banner != null ? app.banner : app.icon);
                     }
@@ -1298,7 +1304,7 @@ final class FolderDialog {
                         });
                     }
                 } else {
-                    h.name.setTextColor(0xB8FFFFFF);
+                    h.name.setTextColor(ExpressiveGlass.adaptiveSecondaryTextColor());
                 }
             });
             h.itemView.setOnKeyListener((v, key, event) -> {

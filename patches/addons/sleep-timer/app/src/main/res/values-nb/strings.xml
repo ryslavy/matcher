@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Søvntimer</string>
+    <string name="hint">Velg når TV-en går i hvilemodus. Et varsel vises ett minutt før.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Avbryt timeren</string>
+    <string name="state_off">Ingen timer er stilt inn.</string>
+    <string name="state_on">Hvilemodus kl. %1$s.</string>
+    <string name="no_service">Tilgjengelighetstjenesten for Søvntimer er slått av (kjør installasjonsskriptet).</string>
+    <string name="warning_title">TV-en slås av snart</string>
+    <string name="warning_seconds">om %1$d sekunder</string>
+    <string name="more">15 minutter til</string>
+    <string name="now">Slå av nå</string>
+    <string name="service_label">Søvntimer</string>
+    <string name="quick_hint">◀ ▶ velg tid · OK lukk</string>
+    <string name="service_description">Setter bare TV-en i hvilemodus når Søvntimer utløper. Leser ikke skjermen.</string>
+    <string name="schedule_row">Tidsplan</string>
+</resources>

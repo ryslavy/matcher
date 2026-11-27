@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Temporitzador d\'apagada</string>
+    <string name="hint">Tria quan el televisor entra en espera. Es mostra un avís un minut abans.</string>
+    <string name="in_minutes">%1$d min</string>
+    <string name="cancel">Cancel·la el temporitzador</string>
+    <string name="state_off">No hi ha cap temporitzador definit.</string>
+    <string name="state_on">En espera a les %1$s.</string>
+    <string name="no_service">El servei d\'accessibilitat del Temporitzador d\'apagada està desactivat (executa l\'script d\'instal·lació).</string>
+    <string name="warning_title">El televisor s\'està apagant</string>
+    <string name="warning_seconds">d\'aquí a %1$d segons</string>
+    <string name="more">15 minuts més</string>
+    <string name="now">Apaga ara</string>
+    <string name="service_label">Temporitzador d\'apagada</string>
+    <string name="quick_hint">◀ ▶ tria el temps · OK tanca</string>
+    <string name="service_description">Només posa el televisor en espera quan s\'acaba el Temporitzador d\'apagada. No llegeix la pantalla.</string>
+    <string name="schedule_row">Programació</string>
+</resources>

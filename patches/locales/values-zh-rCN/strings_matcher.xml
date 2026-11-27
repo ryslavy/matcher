@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 应用文件夹 -->
+    <string name="folder_add_to">添加到文件夹…</string>
+    <string name="folder_new">+ 新建文件夹</string>
+    <string name="folder_new_title">新建文件夹</string>
+    <string name="folder_rename">重命名文件夹…</string>
+    <string name="folder_rename_title">重命名文件夹</string>
+    <string name="folder_open">打开文件夹</string>
+    <string name="folder_add_apps">添加应用…</string>
+    <string name="folder_add_apps_title">添加应用到 %1$s</string>
+    <string name="folder_add_apps_empty">所有主屏幕应用均已在文件夹中</string>
+    <string name="folder_dissolve">解散文件夹</string>
+    <string name="folder_remove_app">移出文件夹</string>
+    <string name="folder_move_to">移动到文件夹…</string>
+    <string name="folder_hint">按 OK 打开 · 长按 OK 显示选项 · 按上键管理文件夹</string>
+    <string name="folder_default_name">文件夹 %1$d</string>
+    <string name="folder_name_hint">文件夹名称</string>
+    <string name="folder_create">创建</string>
+    <string name="folder_save">保存</string>
+    <string name="folder_cancel">取消</string>
+    <string name="folder_btn_add">+ 添加</string>
+    <string name="folder_btn_reorder">排序</string>
+    <string name="folder_btn_done">完成</string>
+    <string name="folder_btn_rename">重命名</string>
+    <string name="folder_preset_streaming">流媒体</string>
+    <string name="folder_preset_tv">电视</string>
+    <string name="folder_preset_sport">体育</string>
+    <string name="folder_preset_music">音乐</string>
+    <string name="folder_preset_games">游戏</string>
+    <string name="folder_preset_tools">工具</string>
+
+    <!-- 正在播放迷你播放器 -->
+    <string name="media_now_playing">正在播放</string>
+    <string name="media_playing">播放中</string>
+    <string name="media_paused">已暂停</string>
+    <string name="media_live">直播</string>
+    <string name="media_prev">上一首</string>
+    <string name="media_play_pause">播放或暂停</string>
+    <string name="media_next">下一首</string>
+    <string name="media_open_app">打开应用</string>
+    <string name="media_switch_hint">按上键切换应用 · 按 OK 继续播放</string>
+
+    <!-- 最近使用的应用切换器 -->
+    <string name="recents_title">最近使用的应用</string>
+    <string name="recents_hint">按 OK 切换 · 连按两次上键关闭 · 长按 OK 显示选项</string>
+    <string name="recents_empty">暂无最近打开的应用</string>
+    <string name="recents_switch">切换到应用</string>
+    <string name="recents_close_app">关闭应用</string>
+    <string name="recents_close_all">全部关闭</string>
+    <string name="recents_swipe_close">再按一次上键关闭</string>
+    <string name="recents_playing_badge">播放中</string>
+    <string name="recents_free_ram">可用 RAM：%1$d MB</string>
+    <string name="recents_just_now">刚刚</string>
+    <string name="recents_minutes_ago">%1$d 分钟前</string>
+    <string name="recents_hours_ago">%1$d 小时前</string>
+    <plurals name="recents_closed_all_toast">
+        <item quantity="one">已关闭 %1$d 个应用</item>
+        <item quantity="other">已关闭 %1$d 个应用</item>
+    </plurals>
+
+    <!-- 环境屏保 -->
+    <string name="ambient_controls_hint">◄ ► 切歌 · ▼ 播放/暂停 · ▲ 打开</string>
+    <string name="ambient_action_prev">上一曲</string>
+    <string name="ambient_action_next">下一曲</string>
+    <string name="ambient_vpn_badge">VPN</string>
+    <string name="weather_clear">晴</string>
+    <string name="weather_partly">多云</string>
+    <string name="weather_cloudy">阴</string>
+    <string name="weather_fog">雾</string>
+    <string name="weather_drizzle">毛毛雨</string>
+    <string name="weather_rain">雨</string>
+    <string name="weather_snow">雪</string>
+    <string name="weather_showers">阵雨</string>
+    <string name="weather_storm">雷阵雨</string>
+
+    <!-- 控制中心、夜间音效、晚安模式与航拍视频 -->
+    <string name="cc_title">控制中心</string>
+    <string name="cc_bedtime">晚安模式</string>
+    <string name="cc_bedtime_sub">30 分钟定时 · 降亮度 · 夜间音效</string>
+    <string name="cc_bedtime_on">已开启</string>
+    <string name="cc_night_audio">夜间音效</string>
+    <string name="cc_night_audio_on">已抑制高音量峰值</string>
+    <string name="cc_night_audio_off">已关闭</string>
+    <string name="cc_night_audio_unavailable">音频处理器不可用</string>
+    <string name="cc_audio">音频</string>
+    <string name="cc_audio_tv">电视扬声器</string>
+    <string name="cc_sleep_timer">睡眠定时器</string>
+    <string name="cc_sleep_timer_sub">设置定时</string>
+    <string name="cc_brightness">亮度</string>
+    <string name="cc_brightness_sub">调光条</string>
+    <string name="cc_aerial">航拍视频</string>
+    <string name="cc_aerial_on">1080p 视频</string>
+    <string name="cc_aerial_on_4k">4K HEVC 视频</string>
+    <string name="cc_aerial_off">壁纸</string>
+    <string name="cc_screensaver">屏保</string>
+    <string name="cc_settings">设置</string>
+    <string name="cc_sleep_tv">休眠电视</string>
+    <string name="cc_reorder_tiles">调整磁贴顺序</string>
+    <string name="cc_footer_hint">在“休眠电视”上长按 OK 重启 · 按返回关闭</string>
+    <string name="cc_on">开</string>
+    <string name="cc_off">关</string>
+    <string name="close">关闭</string>
+
+    <!-- 手机 QR 配置、发现、Home Assistant、Immich、守护与更新 -->
+    <string name="qr_setup_title">通过手机配置</string>
+    <string name="qr_setup_subtitle">使用同一 Wi-Fi 下的手机扫码，即可编辑遥控器按键、壁纸、城市或 TMDB / Trakt / Plex / HA / Immich</string>
+    <string name="qr_setup_short">QR 配置</string>
+    <string name="qr_setup_no_wifi">请先将电视连接至 Wi-Fi 或以太网</string>
+    <string name="qr_setup_waiting">正在等待手机连接…（5 分钟内有效）</string>
+    <string name="qr_setup_expired">QR 会话已过期 — 请重新打开以生成新码</string>
+
+    <string name="discover_title">发现与继续观看</string>
+    <string name="discover_refresh">刷新</string>
+    <string name="discover_continue_watching">继续观看</string>
+    <string name="discover_trending">热门精选（无广告）</string>
+    <string name="discover_tab_all">全部</string>
+    <string name="discover_tab_movies">电影</string>
+    <string name="discover_tab_shows">剧集</string>
+    <string name="discover_grant_watchnext_msg">允许“电视节目表”权限以跨应用显示“继续观看”</string>
+    <string name="discover_grant_adb_btn">通过 ADB 授权</string>
+    <string name="discover_grant_success">已启用“继续观看”</string>
+    <string name="discover_hidden_toast">已从“继续观看”中隐藏</string>
+    <string name="discover_empty_no_key">请使用 QR 配置添加免费的 TMDB API 密钥（或 Plex 服务器），从已安装应用中获取无广告精选。</string>
+    <string name="discover_empty_no_matches">当前未找到与您已安装流媒体应用匹配的影片。</string>
+
+    <string name="adb_connecting">正在连接本地 ADB…</string>
+    <string name="adb_accept_prompt">请在电视上允许“一律允许 USB 调试”</string>
+
+    <string name="ha_section_title">智能家居</string>
+    <string name="ha_action_failed">Home Assistant 操作失败</string>
+    <string name="ha_state_unavailable">不可用</string>
+    <string name="ha_state_open">已打开</string>
+    <string name="ha_state_closed">已关闭</string>
+    <string name="ha_state_camera">实时 PiP</string>
+    <string name="ha_camera_title">家庭摄像头</string>
+    <string name="ha_camera_connecting">正在连接摄像头…</string>
+    <string name="ha_camera_unavailable">摄像头不可用</string>
+    <string name="ha_camera_hint_pip">OK：放大 · 返回：关闭</string>
+    <string name="ha_camera_hint_expanded">OK：迷你 PiP · 返回：关闭</string>
+    <string name="ha_camera_hint_pip_multi">OK：放大 · ◀ ▶：切换摄像头 · 返回：关闭</string>
+    <string name="ha_camera_hint_expanded_multi">OK：迷你 PiP · ◀ ▶：切换摄像头 · 返回：关闭</string>
+
+    <string name="aerial_fav_added">已添加到收藏</string>
+    <string name="aerial_fav_removed">已移出收藏</string>
+
+    <string name="updater_installed">更新已安装</string>
+    <string name="updater_failed">更新失败</string>
+
+    <!-- 启动器功能设置与玻璃材质系统 -->
+    <string name="fs_sec_glass">Liquid Glass 与体验</string>
+    <string name="fs_liquid_clock">Liquid Glass 时钟 (iOS 26)</string>
+    <string name="fs_home_liquid">主屏幕光学 Liquid Glass</string>
+    <string name="fs_home_backdrop_blur">主屏幕背景模糊</string>
+    <string name="fs_glass_material">玻璃风格</string>
+    <string name="fs_glass_material_title">选择 Liquid Glass 风格</string>
+    <string name="glass_style_tonal">磨砂色调</string>
+    <string name="glass_style_tonal_sub">平衡的深色玻璃，内部卡片随壁纸自适应着色</string>
+    <string name="glass_style_obsidian">纯粹黑 (OLED)</string>
+    <string name="glass_style_obsidian_sub">深邃黑曜石质感配锐利菲涅耳边缘，适合暗室观看</string>
+    <string name="glass_style_frost">霜白</string>
+    <string name="glass_style_frost_sub">通透珍珠浅色玻璃，搭配深灰文字与图标</string>
+    <string name="glass_style_clear">澄澈晶莹</string>
+    <string name="glass_style_clear_sub">轻盈高透光玻璃，呈现鲜明光学边缘折射</string>
+    <string name="glass_style_chromatic">炫彩色调</string>
+    <string name="glass_style_chromatic_sub">面板与内部卡片融入丰富的 Material You 壁纸色彩</string>
+    <string name="glass_style_auto">自动（日间 / 夜间）</string>
+    <string name="glass_style_auto_sub">日间使用霜白，日落后切换为纯粹黑</string>
+    <string name="fs_remote_buttons">遥控器按键</string>
+    <string name="fs_ui_sounds">轻柔界面点击音效</string>
+    <string name="fs_oled_drift">OLED 屏保像素防烧屏位移</string>
+    <string name="fs_aerial_quality">航拍视频画质</string>
+    <string name="fs_aerial_1080p">1080p AVC</string>
+    <string name="fs_aerial_4k">4K HEVC</string>
+    <string name="fs_aerial_favorites_only">仅播放收藏的航拍视频（长按 OK）</string>
+
+    <string name="fs_sec_content">内容与发现</string>
+    <string name="fs_open_discover">打开发现（继续观看与精选）</string>
+    <string name="fs_watch_next">继续观看</string>
+    <string name="fs_open_nuvio">直接在 Nuvio 中打开精选</string>
+    <string name="fs_watch_saver">从屏保直接启动精选 (OK)</string>
+    <string name="fs_hide_animation">隐藏动画与动漫精选</string>
+    <string name="fs_region">流媒体地区</string>
+    <string name="fs_trakt">Trakt.tv 账号</string>
+    <string name="fs_trakt_code_msg">请访问 %1$s 并输入代码：%2$s</string>
+    <string name="fs_trakt_signed_in">已登录 Trakt (%1$s)</string>
+    <string name="fs_trakt_signed_out">已退出 Trakt</string>
+
+    <string name="fs_sec_smart">智能家居、照片与手机配置</string>
+    <string name="fs_qr_setup">通过手机 QR 配置密钥、遥控器与壁纸</string>
+    <string name="fs_ha_toggle">在控制中心显示 Home Assistant</string>
+    <string name="fs_immich_toggle">在屏保显示 Immich 照片</string>
+    <string name="fs_immich_sync">立即同步 Immich 照片</string>
+    <string name="fs_immich_album">Immich 相册</string>
+    <string name="fs_immich_all_albums">全部照片</string>
+
+    <string name="fs_sec_system">安全与恢复</string>
+    <string name="fs_watchdog">崩溃循环恢复守护</string>
+    <string name="fs_check_updates">更新 (GitHub Releases)</string>
+    <string name="fs_updates_title">更新 (GitHub)</string>
+    <string name="fs_updates_current">已安装：%1$s · %2$s</string>
+    <string name="fs_updates_check_now">立即检查更新</string>
+    <string name="fs_updates_checking">正在检查 GitHub Releases…</string>
+    <string name="fs_updates_downloading">正在下载并校验 SHA-256…</string>
+    <string name="fs_updates_install_launcher">安装 Matcher %1$s</string>
+    <string name="fs_updates_install_addon">更新 %1$s (%2$s)</string>
+    <string name="fs_updates_weekly">每周后台自动检查更新</string>
+    <string name="fs_update_uptodate">启动器已是最新版本 (%1$s)</string>
+    <string name="fs_update_found">发现新版本 %1$s</string>
+    <string name="fs_restore_stock">恢复原生 Google TV 启动器 (ADB)</string>
+    <string name="fs_restore_confirm_title">恢复原生启动器？</string>
+    <string name="fs_restore_confirm_msg">安全地先重新启用 Google TV 启动器并设为默认主屏幕，再重新启用 SetupWraith 并同步写入磁盘。</string>
+    <string name="fs_restore_ok">立即恢复</string>
+    <string name="fs_cancel">取消</string>
+
+    <!-- 应用内遥控器按键学习与重映射 -->
+    <string name="rm_title">遥控器按键</string>
+    <string name="rm_subtitle_ready">将任意遥控器按键映射为短按、双击或长按操作</string>
+    <string name="rm_subtitle_need_a11y">请在电视设置中开启 无障碍 → 主页按钮，以全局重映射按键</string>
+    <string name="rm_open_a11y">打开电视无障碍设置</string>
+    <string name="rm_open_a11y_sub">全局重映射遥控器按键所需权限</string>
+    <string name="rm_learn_btn">学习遥控器按键</string>
+    <string name="rm_learn_sub">按下任意实体按键以识别其键码与扫描码</string>
+    <string name="rm_empty">尚未保存自定义按键（当前使用主题默认映射）</string>
+    <string name="rm_reset_all">重置自定义按键</string>
+    <string name="rm_reset_all_sub">恢复为主题 config.json 默认映射</string>
+    <string name="rm_reset_done">已清除自定义按键映射</string>
+    <string name="rm_capture_title">请按下遥控器按键</string>
+    <string name="rm_capture_hint">方向键、OK、返回和音量键为系统保留 · 按返回取消</string>
+    <string name="rm_capture_waiting">等待按键输入…</string>
+    <string name="rm_edit_subtitle">按键标识：%1$s</string>
+    <string name="rm_slot_tap">短按</string>
+    <string name="rm_slot_double">双击</string>
+    <string name="rm_slot_hold">长按（0.5 秒）</string>
+    <string name="rm_short_tap">短按</string>
+    <string name="rm_short_double">2×</string>
+    <string name="rm_short_hold">长按</string>
+    <string name="rm_target_none">未分配</string>
+    <string name="rm_delete_btn">移除自定义按键</string>
+    <string name="rm_saved">按键映射已保存</string>
+    <string name="rm_action_mute">静音</string>
+    <string name="rm_action_ignore">忽略此按键（禁用）</string>
+</resources>

@@ -84,23 +84,25 @@ if (-not $SkipDebloat) {
     if ($LASTEXITCODE -ne 0) { throw 'Debloat step failed.' }
 }
 
-# 6. Apply Matcher launcher patches (Liquid Glass engine, Control Center, Folders, Discover, QR Setup, Home Assistant, Immich, Watchdog, EN+CS locales)
+# 6. Apply Matcher launcher patches (Liquid Glass 2.0 + 6 Glass Styles, Control Center, Folders, Discover, Remote Mapper, QR Setup, Home Assistant, Immich, Watchdog, SelfUpdater, 31 locales)
 Write-Host 'Applying Matcher launcher patches...'
+Copy-Item (Join-Path $root 'patches\launcher-app-build.gradle') (Join-Path $cyt 'launcher\app\build.gradle') -Force
 Copy-Item (Join-Path $root 'patches\launcher-config.xml') (Join-Path $cyt 'launcher\app\src\main\res\values\config.xml') -Force
 Copy-Item (Join-Path $root 'patches\AndroidManifest.xml') (Join-Path $cyt 'launcher\app\src\main\AndroidManifest.xml') -Force
 New-Item -ItemType Directory -Force -Path (Join-Path $cyt 'launcher\app\src\main\res\xml'), (Join-Path $cyt 'launcher\app\src\main\res\color'), (Join-Path $cyt 'launcher\app\src\main\res\anim') | Out-Null
 Copy-Item (Join-Path $root 'patches\network_security_config.xml') (Join-Path $cyt 'launcher\app\src\main\res\xml\network_security_config.xml') -Force
 Copy-Item (Join-Path $root 'patches\home_key_service.xml') (Join-Path $cyt 'launcher\app\src\main\res\xml\home_key_service.xml') -Force
+Copy-Item (Join-Path $root 'patches\locales_config.xml') (Join-Path $cyt 'launcher\app\src\main\res\xml\locales_config.xml') -Force
 foreach ($colorFile in @('pill_text.xml', 'pill_icon_online.xml', 'pill_icon_offline.xml', 'pill_icon_no_internet.xml')) {
     Copy-Item (Join-Path $root "patches\$colorFile") (Join-Path $cyt "launcher\app\src\main\res\color\$colorFile") -Force
 }
 Copy-Item (Join-Path $root 'patches\pill_text.xml') (Join-Path $cyt 'launcher\app\src\main\res\drawable\pill_text.xml') -Force
 Copy-Item (Join-Path $root 'patches\ids.xml') (Join-Path $cyt 'launcher\app\src\main\res\values\ids.xml') -Force
 Copy-Item (Join-Path $root 'patches\styles.xml') (Join-Path $cyt 'launcher\app\src\main\res\values\styles.xml') -Force
-foreach ($javaFile in @('Config.java', 'Motion.java', 'ExpressiveGlass.java', 'FocusRingController.java', 'Folders.java', 'FolderDialog.java', 'FrostedPillDrawable.java', 'HeroArt.java', 'TopFade.java', 'VinylDiscDrawable.java', 'MediaSessionTracker.java', 'MediaMiniPlayerDialog.java', 'AppForceStopper.java', 'RecentApps.java', 'RecentsDialog.java', 'AmbientWeather.java', 'AerialCatalog.java', 'NightAudioController.java', 'TileSheenDrawable.java', 'ClockScene.java', 'ClockActivity.java', 'ClockDream.java', 'QuickSettingsActivity.java', 'OverlayActivity.java', 'LauncherSettingsActivity.java', 'RemoteKeys.java', 'GamepadPassthrough.java', 'HomeKeyService.java', 'InputKeyService.java', 'ServiceRepair.java', 'AppAdapter.java', 'LibraryApps.java', 'WallpaperMood.java', 'WallpaperPlayer.java', 'DockDecoration.java', 'GlassView.java', 'AppLibraryDialog.java', 'MainActivity.java', 'FeaturePrefs.java', 'LiquidClockView.java', 'UiClickSound.java', 'PointerSupport.java', 'LocalAdbClient.java', 'CrashWatchdog.java', 'TvHomeApp.java', 'QrBitmap.java', 'QrConfigServer.java', 'QrSetupDialog.java', 'HomeAssistantClient.java', 'HaCameraOverlay.java', 'ImmichSyncManager.java', 'WatchNextRepository.java', 'TraktClient.java', 'PlexClient.java', 'TrendingPicksRepository.java', 'DiscoverDialog.java', 'SelfUpdater.java', 'LauncherFeatureSettings.java')) {
+foreach ($javaFile in @('Config.java', 'Motion.java', 'ExpressiveGlass.java', 'FocusRingController.java', 'Folders.java', 'FolderDialog.java', 'FrostedPillDrawable.java', 'HeroArt.java', 'TopFade.java', 'VinylDiscDrawable.java', 'MediaSessionTracker.java', 'MediaMiniPlayerDialog.java', 'AppForceStopper.java', 'RecentApps.java', 'RecentsDialog.java', 'AmbientWeather.java', 'AerialCatalog.java', 'NightAudioController.java', 'TileSheenDrawable.java', 'ClockScene.java', 'ClockActivity.java', 'ClockDream.java', 'QuickSettingsActivity.java', 'OverlayActivity.java', 'LauncherSettingsActivity.java', 'RemoteKeys.java', 'RemoteMapperDialog.java', 'GamepadPassthrough.java', 'HomeKeyService.java', 'InputKeyService.java', 'ServiceRepair.java', 'AppAdapter.java', 'LibraryApps.java', 'WallpaperMood.java', 'WallpaperPlayer.java', 'DockDecoration.java', 'GlassView.java', 'AppLibraryDialog.java', 'MainActivity.java', 'FeaturePrefs.java', 'LiquidClockView.java', 'UiClickSound.java', 'PointerSupport.java', 'LocalAdbClient.java', 'CrashWatchdog.java', 'TvHomeApp.java', 'QrBitmap.java', 'QrConfigServer.java', 'QrSetupDialog.java', 'HomeAssistantClient.java', 'HaCameraOverlay.java', 'ImmichSyncManager.java', 'WatchNextRepository.java', 'TraktClient.java', 'PlexClient.java', 'TrendingPicksRepository.java', 'DiscoverDialog.java', 'SelfUpdater.java', 'LauncherFeatureSettings.java')) {
     Copy-Item (Join-Path $root "patches\$javaFile") (Join-Path $cyt "launcher\app\src\main\java\com\gathin\tvhome\$javaFile") -Force
 }
-foreach ($testFile in @('ExpressiveGlassTest.java', 'FoldersTest.java', 'MediaSessionsTest.java', 'RecentAppsTest.java', 'AmbientScreensaverTest.java', 'TvOsFeaturesTest.java', 'WallpaperMoodTest.java', 'NewFeaturesTest.java', 'RemoteKeysTest.java')) {
+foreach ($testFile in @('ExpressiveGlassTest.java', 'FoldersTest.java', 'MediaSessionsTest.java', 'RecentAppsTest.java', 'AmbientScreensaverTest.java', 'TvOsFeaturesTest.java', 'WallpaperMoodTest.java', 'NewFeaturesTest.java', 'RemoteKeysTest.java', 'LocaleIntegrityTest.java')) {
     Copy-Item (Join-Path $root "patches\$testFile") (Join-Path $cyt "launcher\app\src\test\java\com\gathin\tvhome\$testFile") -Force
 }
 foreach ($animFile in @('app_open_enter.xml', 'app_open_exit.xml', 'tile_enter.xml', 'dropdown_exit.xml', 'modal_enter.xml', 'modal_exit.xml', 'settings_enter.xml', 'settings_exit.xml')) {
@@ -114,8 +116,16 @@ foreach ($layoutFile in @('activity_main.xml', 'activity_launcher_settings.xml',
 }
 Copy-Item (Join-Path $root 'patches\activity_main-iw.xml') (Join-Path $cyt 'launcher\app\src\main\res\layout-iw\activity_main.xml') -Force
 Copy-Item (Join-Path $root 'patches\dream_clock.xml') (Join-Path $cyt 'launcher\app\src\main\res\layout-iw\dream_clock.xml') -Force
-Copy-Item (Join-Path $root 'patches\strings-en.xml') (Join-Path $cyt 'launcher\app\src\main\res\values\strings.xml') -Force
-Copy-Item (Join-Path $root 'patches\strings-cs.xml') (Join-Path $cyt 'launcher\app\src\main\res\values-cs\strings.xml') -Force
+$localesRoot = Join-Path $root 'patches\locales'
+if (Test-Path $localesRoot) {
+    Get-ChildItem -Path $localesRoot -Directory | ForEach-Object {
+        $targetResDir = Join-Path $cyt ("launcher\app\src\main\res\" + $_.Name)
+        New-Item -ItemType Directory -Force -Path $targetResDir | Out-Null
+        Get-ChildItem -Path $_.FullName -Filter '*.xml' -File | ForEach-Object {
+            Copy-Item $_.FullName (Join-Path $targetResDir $_.Name) -Force
+        }
+    }
+}
 "sdk.dir=$($sdkDir -replace '\\', '\\')" | Out-File -Encoding ascii (Join-Path $cyt 'launcher\local.properties')
 
 powershell -ExecutionPolicy Bypass -File (Join-Path $cyt 'launcher\build-and-install.ps1') -TvHost $TvHost -HomeKeyService -RestoreKeyServices

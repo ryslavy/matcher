@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tiché hodiny</string>
+    <string name="channel_name">Limit hlasitosti</string>
+    <string name="notification_text">Hlasitosť sa udržiava pod nastaveným limitom. Otvorte Tiché hodiny pre zmenu.</string>
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hiljaiset tunnit</string>
+    <string name="channel_name">Äänenvoimakkuusraja</string>
+    <string name="notification_text">Pitää äänenvoimakkuuden rajan alla. Avaa Hiljaiset tunnit muuttaaksesi sitä.</string>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Jahon soati</string>
+    <string name="add_city">Shahar qoʻshish</string>
+    <string name="clock_format">Soat formati</string>
+    <string name="local">Mahalliy</string>
+    <string name="search_city">Shahar yoki vaqt mintaqasi</string>
+    <string name="search_hint">Yozish uchun OK ni bosing · shahar tanlash uchun Pastga</string>
+    <string name="no_cities">Mos shaharlar topilmadi</string>
+    <string name="change_city">Shaharni oʻzgartirish</string>
+    <string name="move_earlier">Oldinga surish</string>
+    <string name="move_later">Orqaga surish</string>
+    <string name="remove_city">Shaharni olib tashlash</string>
+    <string name="city_limit">Oltitagacha soat tanlang</string>
+    <string name="already_shown">Bu soat allaqachon koʻrsatilmoqda</string>
+    <string name="same_day">Mahalliy kun bilan bir xil</string>
+    <string name="tomorrow">Bu shaharda ertaga</string>
+    <string name="yesterday">Bu shaharda kecha</string>
+    <plurals name="day_difference">
+        <item quantity="one">Mahalliy vaqtdan %1$+d kun</item>
+        <item quantity="other">Mahalliy vaqtdan %1$+d kun</item>
+    </plurals>
+    <string name="local_reference">Sanalar %1$s bilan solishtiriladi</string>
+    <string name="controls">Harakatlanish uchun strelkalar · Shahar parametrlari uchun OK · Qaytish uchun Orqaga</string>
+    <string name="format_system">TV sozlamasidan foydalanish</string>
+    <string name="format_12">12 soatlik vaqt</string>
+    <string name="format_24">24 soatlik vaqt</string>
+    <string name="close">Yopish</string>
+    <string name="screensaver">Ekran lavhasi</string>
+    <string name="preview">Koʻrib chiqish · istalgan tugma qaytaradi</string>
+    <string name="background_option">Fon: %1$s</string>
+    <string name="motion_option">Harakat: %1$s</string>
+    <string name="brightness_option">Soat yorqinligi: %1$s</string>
+    <string name="gradient">Osmon gradienti</string>
+    <string name="plain">Qora</string>
+    <string name="motion_on">Yoqiq</string>
+    <string name="motion_reduced">Kamaytirilgan (harakatsiz)</string>
+    <string name="clock_brightness">Soat yorqinligi</string>
+    <string name="dim">Xira</string>
+    <string name="medium">Oʻrtacha</string>
+    <string name="bright">Yorqin</string>
+    <string name="tv_screensaver_settings">TV ekran lavhasi sozlamalari</string>
+    <string name="screensaver_unavailable">Bu TV ekran lavhasi sozlamalarini taqdim etmaydi. Koʻrib chiqish hali ham mavjud.</string>
+    <string name="background">Fon</string>
+    <string name="starfield">Yulduzli osmon</string>
+    <string name="world_map">Dunyo xaritasi</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

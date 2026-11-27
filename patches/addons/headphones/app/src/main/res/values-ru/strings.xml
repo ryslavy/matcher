@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Наушники</string>
+    <string name="plays_through">Звук сейчас идёт через: %1$s</string>
+    <string name="output_speakers">динамики ТВ</string>
+    <string name="output_fixed">аудиовыход ТВ (HDMI ARC или оптический)</string>
+    <string name="allow_title">Разрешить доступ к Bluetooth</string>
+    <string name="allow_detail">Чтобы показывать список наушников и замечать их отключение. OK откроет запрос.</string>
+    <string name="not_allowed">Нет разрешения</string>
+    <string name="pair_title">Подключить или добавить наушники</string>
+    <string name="pair_detail">Открывает настройки Bluetooth на ТВ. Сначала переведите наушники в режим сопряжения.</string>
+    <string name="guard_title">Тишина при отключении</string>
+    <string name="guard_detail">Ставит воспроизведение на паузу и отключает звук динамиков ТВ при отключении наушников, чтобы звук не пошёл в комнату. Включает звук обратно при повторном подключении.</string>
+    <string name="guard_detail_fixed">Ставит воспроизведение на паузу при отключении наушников. Громкость этого ТВ фиксирована (ARC или усилитель), поэтому отключить динамики нельзя.</string>
+    <string name="on">Вкл.</string>
+    <string name="off">Выкл.</string>
+    <string name="unmute_title">Включить звук динамиков</string>
+    <string name="unmute_detail">Звук отключён после отсоединения наушников.</string>
+    <string name="muted">Без звука</string>
+    <string name="heading_paired">Сопряжённые наушники и колонки</string>
+    <string name="no_bluetooth">На этом ТВ нет Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth выключен</string>
+    <string name="bluetooth_off_detail">Включите его в настройках ТВ.</string>
+    <string name="none_yet">Пока нет</string>
+    <string name="none_yet_detail">Используйте строку выше для сопряжения.</string>
+    <string name="connected">Подключено</string>
+    <string name="connected_battery">Подключено, заряд %1$s</string>
+    <string name="not_connected_detail">Не подключено. OK откроет настройки Bluetooth для подключения.</string>
+    <string name="unnamed">Устройство без имени</string>
+    <string name="heading_several">Несколько наушников одновременно</string>
+    <string name="sharing_one_pair">Этот ТВ передаёт звук одновременно только на одну пару Bluetooth-наушников. Для двух пар используйте двухканальный Bluetooth-передатчик через выход для наушников или оптический выход ТВ.</string>
+    <string name="sharing_auracast">Этот ТВ может транслировать звук на несколько наушников LE Audio (Auracast) одновременно: запустите трансляцию в настройках Bluetooth на ТВ.</string>
+    <string name="sharing_no_broadcast">Этот ТВ передаёт звук только на одну пару Bluetooth-наушников одновременно и не поддерживает трансляцию LE Audio. Для двух пар используйте двухканальный Bluetooth-передатчик через выход для наушников или оптический выход ТВ.</string>
+</resources>

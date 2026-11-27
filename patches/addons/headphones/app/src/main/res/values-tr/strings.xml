@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kulaklıklar</string>
+    <string name="plays_through">Ses şu anda buradan çalıyor: %1$s</string>
+    <string name="output_speakers">TV hoparlörleri</string>
+    <string name="output_fixed">TV\'nin ses çıkışı (HDMI ARC veya optik)</string>
+    <string name="allow_title">Bluetooth erişimine izin ver</string>
+    <string name="allow_detail">Kulaklıklarınızı listelemek ve bağlantıları kesildiğinde algılamak için. OK izin ister.</string>
+    <string name="not_allowed">İzin verilmedi</string>
+    <string name="pair_title">Kulaklık eşleştir veya bağla</string>
+    <string name="pair_detail">TV\'nin Bluetooth ayarlarını açar. Önce kulaklığı eşleştirme moduna alın.</string>
+    <string name="guard_title">Bağlantı kesilince sessize al</string>
+    <string name="guard_detail">Kulaklık bağlantısı kesildiğinde oynatmayı duraklatır ve sesin odaya yayılmaması için TV hoparlörlerini sessize alır. Tekrar bağlandığında sesi açar.</string>
+    <string name="guard_detail_fixed">Kulaklık bağlantısı kesildiğinde oynatmayı duraklatır. Bu TV\'nin ses düzeyi sabit (ARC veya amfi) olduğundan hoparlörleri ayrıca sessize alamaz.</string>
+    <string name="on">Açık</string>
+    <string name="off">Kapalı</string>
+    <string name="unmute_title">Hoparlörlerin sesini aç</string>
+    <string name="unmute_detail">Kulaklık bağlantısı kesildiğinde sessize alındı.</string>
+    <string name="muted">Sessiz</string>
+    <string name="heading_paired">Eşleştirilmiş kulaklık ve hoparlörler</string>
+    <string name="no_bluetooth">Bu TV\'de Bluetooth yok</string>
+    <string name="bluetooth_off">Bluetooth kapalı</string>
+    <string name="bluetooth_off_detail">TV ayarlarından açın.</string>
+    <string name="none_yet">Henüz yok</string>
+    <string name="none_yet_detail">Eşleştirmek için yukarıdaki satırı kullanın.</string>
+    <string name="connected">Bağlı</string>
+    <string name="connected_battery">Bağlı, pil %1$s</string>
+    <string name="not_connected_detail">Bağlı değil. Bağlanmak için OK Bluetooth ayarlarını açar.</string>
+    <string name="unnamed">Adsız cihaz</string>
+    <string name="heading_several">Aynı anda birden fazla kulaklık</string>
+    <string name="sharing_one_pair">Bu TV aynı anda yalnızca bir çift Bluetooth kulaklığa ses gönderir. İki çift için TV\'nin kulaklık veya optik çıkışında çift bağlantılı bir Bluetooth vericisi kullanın.</string>
+    <string name="sharing_auracast">Bu TV aynı anda birden çok LE Audio (Auracast) kulaklığa yayın yapabilir: paylaşımı TV\'nin Bluetooth ayarlarından başlatın.</string>
+    <string name="sharing_no_broadcast">Bu TV aynı anda yalnızca bir çift Bluetooth kulaklığa ses gönderir; LE Audio yayını yoktur. İki çift için TV\'nin kulaklık veya optik çıkışında çift bağlantılı bir Bluetooth vericisi kullanın.</string>
+</resources>

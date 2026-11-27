@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remote_hours">"Timer"</string>
+    <string name="remote_minutes">"Minutter"</string>
+    <string name="remote_day">"Dag"</string>
+    <string name="remote_month">"Måned"</string>
+    <string name="remote_year">"År"</string>
+    <string name="remote_hint">"Venstre / Højre: felt · Op / Ned: værdi · OK: næste · Tilbage: annuller"</string>
+    <string name="remote_page_hint">"Vælg en række med piletasterne, og tryk på OK. Ændringer træder i kraft efter Gem."</string>
+    <string name="remote_events">"UGENTLIGE HÆNDELSER"</string>
+    <string name="remote_exclusions">"PERIODER UDEN AUTOMATISK VÆKNING"</string>
+    <string name="remote_wake_time">"Vækningstid"</string>
+    <string name="remote_sleep_time">"Hviletid"</string>
+</resources>

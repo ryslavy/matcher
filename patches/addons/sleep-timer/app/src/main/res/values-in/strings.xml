@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Timer tidur</string>
+    <string name="hint">Pilih kapan TV masuk mode siaga. Peringatan muncul satu menit sebelumnya.</string>
+    <string name="in_minutes">%1$d mnt</string>
+    <string name="cancel">Batalkan timer</string>
+    <string name="state_off">Tidak ada timer yang diatur.</string>
+    <string name="state_on">Siaga pada %1$s.</string>
+    <string name="no_service">Layanan aksesibilitas Timer tidur nonaktif (jalankan skrip pemasangan).</string>
+    <string name="warning_title">TV akan segera mati</string>
+    <string name="warning_seconds">dalam %1$d detik</string>
+    <string name="more">Tambah 15 menit</string>
+    <string name="now">Matikan sekarang</string>
+    <string name="service_label">Timer tidur</string>
+    <string name="quick_hint">◀ ▶ pilih waktu · OK tutup</string>
+    <string name="service_description">Hanya mengalihkan TV ke mode siaga saat Timer tidur berakhir. Tidak membaca isi layar.</string>
+    <string name="schedule_row">Jadwal</string>
+</resources>

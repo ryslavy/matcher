@@ -452,12 +452,33 @@ final class RemoteKeys {
      */
     static boolean isAction(String target) {
         switch (target) {
-            case "back": case "home": case "recents": case "mute": case "sleep":
-            case "screensaver": case "settings": case "wifi": case "library": case "control_center": case "ignore":
+            case "back": case "home": case "recents": case "recents_overlay": case "discover":
+            case "mute": case "sleep": case "screensaver": case "settings": case "wifi":
+            case "library": case "control_center": case "ignore":
                 return true;
             default:
                 return false;
         }
+    }
+
+    /** Formats a physical remote button cleanly for the in-app Learn Button UI. */
+    static String humanKeyLabel(int keyCode, int scanCode) {
+        String name = KeyEvent.keyCodeToString(keyCode);
+        if (name != null && name.startsWith("KEYCODE_")) {
+            name = name.substring("KEYCODE_".length()).replace('_', ' ');
+        } else if (name == null || name.isEmpty() || "0".equals(name)) {
+            name = "Key";
+        }
+        if (scanCode > 0) return name + " (scan " + scanCode + ")";
+        return name + " (#" + keyCode + ")";
+    }
+
+    /** Builds the canonical key token used in app_keys ("scan:<n>" preferred for vendor disambiguation). */
+    static String canonicalKeyToken(int keyCode, int scanCode) {
+        if (scanCode > 0) return "scan:" + scanCode;
+        String name = KeyEvent.keyCodeToString(keyCode);
+        if (name != null && name.startsWith("KEYCODE_")) return name;
+        return String.valueOf(keyCode);
     }
 
     /** Runs an action word; false for an app or an input. Needs no permission the launcher does not already have. */
@@ -496,6 +517,12 @@ final class RemoteKeys {
             case "library":
                 // App library floating as a frosted overlay over Home or any running app.
                 OverlayActivity.launch(ctx, OverlayActivity.MODE_LIBRARY);
+                break;
+            case "recents_overlay":
+                OverlayActivity.launch(ctx, OverlayActivity.MODE_RECENTS);
+                break;
+            case "discover":
+                OverlayActivity.launch(ctx, OverlayActivity.MODE_DISCOVER);
                 break;
             case "control_center":
                 QuickSettingsActivity.launch(ctx);

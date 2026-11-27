@@ -43,21 +43,22 @@ Because `./cleanyourtv/` is a gitignored clone of upstream `Gathin23/cleanyourtv
 We warmly welcome translations! Here is how localization works in Matcher:
 
 ### Current Language Coverage
-- **Launcher (`com.gathin.tvhome`):** Upstream includes **31 locales** (`values`, `values-ar`, `values-ast`, `values-b+es+419`, `values-b+sr+Latn`, `values-bn`, `values-ca`, `values-cs`, `values-da`, `values-de`, `values-es`, `values-fi`, `values-fr`, `values-in`, `values-it`, `values-iw`, `values-ko`, `values-nb`, `values-nl`, `values-pl`, `values-pt`, `values-pt-rPT`, `values-ru`, `values-sv`, `values-th`, `values-tr`, `values-uk`, `values-uz`, `values-vi`, `values-zh-rCN`, `values-zh-rTW`). All custom Matcher strings are complete in **English** ([`patches/strings-en.xml`](patches/strings-en.xml)) and **Czech** ([`patches/strings-cs.xml`](patches/strings-cs.xml)). Other locales automatically fall back to English for untranslated keys.
-- **8 Modular Add-ons:** All 8 add-ons ship complete **English** (`values`) and **Czech** (`values-cs`) resources under `patches/addons/<addon>/app/src/main/res/values-cs/` (plus partial upstream translations such as Italian, German, French, Spanish, Portuguese, Russian, Korean, Turkish, and Traditional Chinese).
+- **Launcher (`com.gathin.tvhome`):** Complete **31-locale coverage** (`values` default EN + all 30 upstream CleanYourTV locales + Slovak `values-sk`). All Matcher-specific strings live in separate **`patches/locales/values*/strings_matcher.xml`** overlays beside upstream `strings.xml` (zero merge conflicts with upstream CleanYourTV!), validated automatically by [`LocaleIntegrityTest.java`](patches/LocaleIntegrityTest.java) for XML well-formedness, zero missing keys, escaped apostrophes, and 100% printf placeholder parity.
+- **8 Modular Add-ons:** Complete **31-locale coverage** across all 8 default GlassKit add-ons (`brightness`, `sleep-timer`, `headphones`, `bluetooth-connect`, `quiet-hours`, `weather`, `world-clock`, `capacity-stats`), preserving complete upstream translations and filling every remaining locale under `patches/addons/<addon>/app/src/main/res/values-<lang>/`. Validated automatically in CI across all `8 × 31 = 248` locale sets by [`tools/validate-addon-locales.py`](tools/validate-addon-locales.py). Translations outside English and Czech were AI-translated on top of upstream CleanYourTV — native-speaker PR refinements are always welcome!
 
-### How to Add a New Language (e.g. German `de`, Slovak `sk`, Polish `pl`)
+### How to Improve or Add a Language (e.g. Polish `pl`, German `de`, Slovak `sk`)
 
 1. **Launcher strings:**
-   - Copy [`patches/strings-en.xml`](patches/strings-en.xml) to `patches/strings-<lang>.xml` (e.g. `patches/strings-sk.xml`).
-   - Translate the `<string>` values while keeping all `name="..."` attributes and format placeholders (`%1$s`, `%1$d`, `%%`) intact.
-   - Add a `Copy-Item` line in [`apply-setup.ps1`](apply-setup.ps1) copying `patches\strings-<lang>.xml` into `cleanyourtv\launcher\app\src\main\res\values-<lang>\strings.xml`.
+   - Edit `patches/locales/values-<lang>/strings_matcher.xml` (or copy `patches/locales/values/strings_matcher.xml` for a brand-new locale and register it in `patches/locales_config.xml`).
+   - Keep all `name="..."` attributes and format placeholders (`%1$s`, `%1$d`, `%%`) intact, and escape apostrophes as `\'`.
+   - Run `.\gradlew.bat testReleaseUnitTest` — `LocaleIntegrityTest` immediately verifies every locale!
 
 2. **Add-on strings (8 add-ons):**
-   For each add-on (`brightness`, `sleep-timer`, `headphones`, `bluetooth-connect`, `quiet-hours`, `weather`, `world-clock`, `capacity-stats`), create `patches/addons/<addon>/app/src/main/res/values-<lang>/strings.xml` using the matching `values-cs/` or upstream `values/` file as template:
-   - `sleep-timer` uses **3 XML files**: `strings.xml`, `schedule.xml`, and `remote_picker.xml`.
-   - `weather` and `world-clock` include `<plurals>` (`day_count`, `day_difference`) — define the appropriate CLDR plural quantities for your language (`one`, `few`, `many`, `other`).
-   - `apply-setup.ps1` automatically copies every file under `patches/addons/` recursively — no script edits needed for add-on locales!
+   Edit (or create for a brand-new language) `patches/addons/<addon>/app/src/main/res/values-<lang>/strings.xml`:
+   - `sleep-timer` uses **3 XML files**: `strings.xml`, `schedule.xml`, and `remote_picker.xml` (preserve double-quoted trailing spaces on `sched_5`, `sched_11`, `sched_12`; note upstream `values-ru` uses `values.xml`).
+   - `weather` and `world-clock` include `<plurals>` (`day_count`, `day_difference` with `%1$+d`) — define the appropriate CLDR plural quantities for your language (`one`, `few`, `many`, `other`). Never override `weather`'s non-translatable `temperature_unit`.
+   - Run `python tools/validate-addon-locales.py` to validate all `8 × 31 = 248` locale sets instantly!
+   - `apply-setup.ps1` and `.github/workflows/release.yml` automatically copy every file under `patches/addons/` recursively — no script edits needed!
 
 3. **XML Rules & Tips:**
    - Escape apostrophes (`\'`) and ampersands (`&amp;`).

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Мировое время</string>
+    <string name="add_city">Добавить город</string>
+    <string name="clock_format">Формат времени</string>
+    <string name="local">Местное</string>
+    <string name="search_city">Город или часовой пояс</string>
+    <string name="search_hint">OK — ввод текста · Вниз — выбор города</string>
+    <string name="no_cities">Подходящих городов не найдено</string>
+    <string name="change_city">Сменить город</string>
+    <string name="move_earlier">Сдвинуть раньше</string>
+    <string name="move_later">Сдвинуть позже</string>
+    <string name="remove_city">Удалить город</string>
+    <string name="city_limit">Можно выбрать до шести часов</string>
+    <string name="already_shown">Эти часы уже отображаются</string>
+    <string name="same_day">Тот же день, что и локально</string>
+    <string name="tomorrow">В этом городе уже завтра</string>
+    <string name="yesterday">В этом городе ещё вчера</string>
+    <plurals name="day_difference">
+        <item quantity="one">%1$+d день от местного времени</item>
+        <item quantity="few">%1$+d дня от местного времени</item>
+        <item quantity="many">%1$+d дней от местного времени</item>
+        <item quantity="other">%1$+d дней от местного времени</item>
+    </plurals>
+    <string name="local_reference">Даты сравниваются с %1$s</string>
+    <string name="controls">Стрелки — перемещение · OK — опции города · Назад — возврат</string>
+    <string name="format_system">Как на ТВ</string>
+    <string name="format_12">12-часовой формат</string>
+    <string name="format_24">24-часовой формат</string>
+    <string name="close">Закрыть</string>
+    <string name="screensaver">Заставка</string>
+    <string name="preview">Предпросмотр · любая кнопка — назад</string>
+    <string name="background_option">Фон: %1$s</string>
+    <string name="motion_option">Движение: %1$s</string>
+    <string name="brightness_option">Яркость часов: %1$s</string>
+    <string name="gradient">Градиент неба</string>
+    <string name="plain">Чёрный</string>
+    <string name="motion_on">Вкл.</string>
+    <string name="motion_reduced">Уменьшенное (статично)</string>
+    <string name="clock_brightness">Яркость часов</string>
+    <string name="dim">Тусклая</string>
+    <string name="medium">Средняя</string>
+    <string name="bright">Яркая</string>
+    <string name="tv_screensaver_settings">Настройки заставки ТВ</string>
+    <string name="screensaver_unavailable">На этом ТВ нет доступа к настройкам заставки. Предпросмотр всё равно доступен.</string>
+    <string name="background">Фон</string>
+    <string name="starfield">Звёздное небо</string>
+    <string name="world_map">Карта мира</string>
+    <string name="zone_detail">%1$s · %2$s</string>
+</resources>

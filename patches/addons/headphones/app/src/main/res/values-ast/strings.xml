@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Auriculares</string>
+    <string name="plays_through">El soníu suena agora per: %1$s</string>
+    <string name="output_speakers">los altavoces de la TV</string>
+    <string name="output_fixed">la salida d\'audiu de la TV (HDMI ARC o óptica)</string>
+    <string name="allow_title">Permitir l\'accesu a Bluetooth</string>
+    <string name="allow_detail">Pa llistar los tos auriculares y deteutar cuándo se desconeuten. OK pídelu.</string>
+    <string name="not_allowed">Non permitíu</string>
+    <string name="pair_title">Empareyar o coneutar auriculares</string>
+    <string name="pair_detail">Abre los axustes de Bluetooth de la TV. Pon enantes los auriculares en mou d\'empareyamientu.</string>
+    <string name="guard_title">Silenciar al desconeutase</string>
+    <string name="guard_detail">Pausa la reproducción y silencia los altavoces de la TV cuando se desconeuten los auriculares, pa que\'l soníu nun salga a la sala. Reactiva\'l soníu al volver.</string>
+    <string name="guard_detail_fixed">Pausa la reproducción cuando se desconeuten los auriculares. El volume d\'esta TV ye fixu (ARC o amplificador), asina que tampoco pue silenciar los altavoces.</string>
+    <string name="on">Activáu</string>
+    <string name="off">Desactiváu</string>
+    <string name="unmute_title">Reactivar los altavoces</string>
+    <string name="unmute_detail">Silenciaos al desconeutase los auriculares.</string>
+    <string name="muted">Silenciáu</string>
+    <string name="heading_paired">Auriculares y altavoces empareyaos</string>
+    <string name="no_bluetooth">Esta TV nun tien Bluetooth</string>
+    <string name="bluetooth_off">Bluetooth desactiváu</string>
+    <string name="bluetooth_off_detail">Actívalu nos axustes de la TV.</string>
+    <string name="none_yet">Entá nengún</string>
+    <string name="none_yet_detail">Usa la filera d\'arriba pa empareyar dalgún.</string>
+    <string name="connected">Coneutáu</string>
+    <string name="connected_battery">Coneutáu, batería %1$s</string>
+    <string name="not_connected_detail">Non coneutáu. OK abre los axustes de Bluetooth pa coneutar.</string>
+    <string name="unnamed">Dispositivu ensin nome</string>
+    <string name="heading_several">Dellos auriculares a la vegada</string>
+    <string name="sharing_one_pair">Esta TV unvia soníu a un par d\'auriculares Bluetooth a la vegada. Pa dos pares, usa un tresmisor Bluetooth doble na salida d\'auriculares o óptica de la TV.</string>
+    <string name="sharing_auracast">Esta TV pue emitir a dellos auriculares LE Audio (Auracast) a la vegada: anicia la compartición dende los axustes de Bluetooth de la TV.</string>
+    <string name="sharing_no_broadcast">Esta TV unvia soníu a un par d\'auriculares Bluetooth a la vegada; nun tien emisión LE Audio. Pa dos pares, usa un tresmisor Bluetooth doble na salida d\'auriculares o óptica de la TV.</string>
+</resources>

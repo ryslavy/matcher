@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tihi sati</string>
+    <string name="channel_name">Ograničenje jačine zvuka</string>
+    <string name="notification_text">Jačina zvuka ostaje ispod ograničenja. Otvorite Tihi sati da promenite.</string>
+</resources>

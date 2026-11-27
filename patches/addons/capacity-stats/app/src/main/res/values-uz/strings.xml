@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sigʻim statistikasi</string>
+    <string name="loading">Koʻrsatkichlar oʻqilmoqda…</string>
+    <string name="unavailable">Koʻrsatkichlar mavjud emas</string>
+    <string name="back">Orqaga</string>
+    <string name="memory">Mavjud RAM: %1$s</string>
+    <string name="memory_used">Band RAM: %1$s</string>
+    <string name="storage">Mavjud xotira: %1$s</string>
+    <string name="note">Mavjud RAM boʻshatilishi mumkin boʻlgan keshlarni ham oʻz ichiga oladi; band RAM umumiy hajmdan mavjudini ayirish orqali hisoblanadi. Xotira maʼlumotlar fayl tizimiga tegishli.</string>
+</resources>

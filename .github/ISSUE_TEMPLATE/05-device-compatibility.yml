@@ -1,0 +1,38 @@
+name: "📺 Device Compatibility / Remote Keymap"
+description: Report a tested TV/Box model, firmware quirk, safe debloat preset, or remote scancode mapping.
+title: "[Device]: "
+labels: ["device-support"]
+body:
+  - type: input
+    id: model
+    attributes:
+      label: Manufacturer & Exact Model
+      description: Output of `adb shell getprop ro.product.manufacturer` and `ro.product.model`.
+      placeholder: "e.g. Google / Chromecast with Google TV 4K, Sony / BRAVIA..."
+    validations:
+      required: true
+  - type: input
+    id: android
+    attributes:
+      label: Android TV / Google TV Version & SDK
+      placeholder: "e.g. Android 14 (SDK 34)"
+    validations:
+      required: true
+  - type: dropdown
+    id: report_type
+    attributes:
+      label: Report Type
+      options:
+        - Working device report / new preset contribution
+        - Stock launcher / HOME allowlist / firmware quirk
+        - Remote button scancode / keymap help
+        - Performance tuning on lower-end GPU / RAM
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details, Keycodes, or Logs
+      description: Include what works, what doesn't, and any keylayout / `getprop` info (please remove serial numbers and LAN IPs).
+    validations:
+      required: true

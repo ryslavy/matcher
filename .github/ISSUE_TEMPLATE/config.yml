@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "📸 Visual Gallery (v1.1.2 — 47 live 1080p screenshots)"
+    url: https://github.com/ryslavy/matcher/blob/main/docs/GALLERY.md
+    about: Preview every screen, menu, Sharp Home mode, and modular add-on.
+  - name: "📖 Quick Start & FAQ (EN / CZ)"
+    url: https://github.com/ryslavy/matcher#quick-start-adb-deployment
+    about: ADB setup, Android 14 Wi-Fi safety check, customization & rollback guide.
+  - name: "📺 CleanYourTV Device Profiles (504+ TVs & Boxes)"
+    url: https://github.com/Gathin23/cleanyourtv/tree/main/docs/devices
+    about: Check device-specific quirks, safe debloat lists & HOME allowlists upstream.

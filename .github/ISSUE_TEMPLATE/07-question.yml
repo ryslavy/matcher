@@ -1,0 +1,19 @@
+name: "💬 Question / Setup Help"
+description: Ask a question about ADB setup, themes, remote mapping, add-ons, or customization.
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: input
+    id: setup
+    attributes:
+      label: Your TV / Box & PC OS (Optional)
+      placeholder: "e.g. Xiaomi TV Box S 3rd Gen + Windows 11"
+    validations:
+      required: false
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: Explain what you're trying to achieve and what you've tried so far.
+    validations:
+      required: true

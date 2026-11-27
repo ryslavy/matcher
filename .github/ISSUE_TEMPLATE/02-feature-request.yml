@@ -1,0 +1,41 @@
+name: "✨ Feature Request"
+description: Propose a new feature, overlay, visual improvement, or integration.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Category
+      options:
+        - Liquid Glass / Visuals / Animations
+        - Home Screen / Dock / Folders
+        - Control Center / System Overlays
+        - Discover / Watch Next / Media
+        - Smart Home (Home Assistant) / Immich / QR Setup
+        - Ambient / Aerial Screensaver
+        - Remote Controls / Ergonomics
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Feature Description
+      description: Describe what you would like Matcher to do.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why Would This Be Useful?
+      description: What living-room problem or workflow does it improve?
+    validations:
+      required: false
+  - type: textarea
+    id: details
+    attributes:
+      label: Visual Ideas, Reference Apps, or Notes (Optional)
+      description: Feel free to attach screenshots, mockups, or links.
+    validations:
+      required: false

@@ -1,0 +1,26 @@
+name: "🌍 Translation / Localization"
+description: Offer a new language translation or fix wording in English/Czech strings.
+title: "[Translation]: "
+labels: ["translation"]
+body:
+  - type: input
+    id: lang
+    attributes:
+      label: Language & Locale Code
+      placeholder: "e.g. Slovak (sk), German (de), Polish (pl), Czech (cs)"
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - label: Launcher UI (`patches/strings-*.xml`)
+        - label: 8 Modular Add-ons (`patches/addons/*/res/values-*/strings.xml`)
+        - label: Documentation (`docs/`)
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes or Suggested Corrections
+    validations:
+      required: true

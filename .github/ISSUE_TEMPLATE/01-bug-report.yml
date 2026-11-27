@@ -1,0 +1,66 @@
+name: "🐛 Bug Report"
+description: Report a crash, visual glitch, shader artifact, or broken feature.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting an issue! Please fill in the details below so it can be reproduced and fixed quickly.
+  - type: input
+    id: device
+    attributes:
+      label: TV / Box Model & Android Version
+      description: e.g. Xiaomi TV Box S 3rd Gen (MiTV-AFMU0), Android 14 (SDK 34)
+      placeholder: "Xiaomi TV Box S 3rd Gen / Android 14"
+    validations:
+      required: true
+  - type: input
+    id: release
+    attributes:
+      label: Matcher Version
+      description: Release tag or commit hash you are running.
+      placeholder: "v1.1.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected Area
+      options:
+        - Home Screen / Dock / Clock
+        - Liquid Glass / Blur / Sharp Home Mode
+        - Control Center / App Library / Recents / Folders
+        - Discover / Watch Next / Smart Home / QR Setup
+        - Remote Keys / Accessibility Service
+        - Screensaver / 4K Aerial Videos
+        - Modular Add-on (GlassKit)
+        - Install / apply-setup.ps1 / Restore
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What Happened?
+      description: Clear description of the bug and what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      placeholder: |
+        1. Open ...
+        2. Toggle / press ...
+        3. Observe ...
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Screenshots or Logcat (Optional)
+      description: Paste any relevant `adb logcat` error lines or drag-and-drop screenshots here.
+      render: text
+    validations:
+      required: false

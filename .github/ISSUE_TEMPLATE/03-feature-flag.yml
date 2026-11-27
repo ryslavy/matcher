@@ -1,0 +1,49 @@
+name: "🎛️ Feature Flag / Settings Toggle"
+description: Request a new on-TV toggle (FeaturePrefs) or config.json switch to turn a visual/behavioral option on or off.
+title: "[Feature Flag]: "
+labels: ["feature-flag", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to suggest a new **feature flag / toggle** (for example, like *Home backdrop blur*, *Home Liquid Glass optics*, or *Liquid Glass clock*) so users can customize Matcher without rebuilding.
+  - type: input
+    id: toggle_name
+    attributes:
+      label: Proposed Toggle Name
+      placeholder: "e.g. Disable Dock glass ripple / Compact Control Center"
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Where Should the Toggle Live?
+      options:
+        - On-TV Launcher Settings (instant live toggle, no rebuild)
+        - Theme config.json (applied via switch-theme.ps1 / theme.ps1)
+        - Either / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: default_value
+    attributes:
+      label: Recommended Default State
+      options:
+        - ON by default (opt-out)
+        - OFF by default (opt-in / experimental)
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Exact Behavior When ON vs OFF
+      description: Describe what changes visually, functionally, or performance-wise when toggled.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Use Case (Visual Preference, Weak GPU / RAM, Accessibility, etc.)
+    validations:
+      required: false

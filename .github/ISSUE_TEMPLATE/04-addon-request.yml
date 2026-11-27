@@ -1,0 +1,29 @@
+name: "🧩 Add-on Request / GlassKit Styling"
+description: Request GlassKit Liquid Glass styling for an upstream CleanYourTV add-on or improvements to bundled add-ons.
+title: "[Add-on]: "
+labels: ["addon"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Request Type
+      options:
+        - Match an upstream CleanYourTV add-on with Liquid Glass (GlassKit.java)
+        - Improve one of the 8 bundled add-ons
+        - Propose a brand new add-on
+    validations:
+      required: true
+  - type: input
+    id: addon_name
+    attributes:
+      label: Add-on Name (and Upstream Link if Applicable)
+      placeholder: "e.g. ad-blocking, tv-hub, frigate-glance, brightness..."
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details & Expected Look / Behavior
+      description: Mention any Android 14 permissions, quick bar ideas, or UI notes.
+    validations:
+      required: true

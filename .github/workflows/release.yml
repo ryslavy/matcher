@@ -1,0 +1,280 @@
+name: Build & Publish Universal Matcher Release APKs
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Release version tag (e.g. v1.2.0)'
+        required: true
+        default: 'v1.2.0'
+      publish_release:
+        description: 'Publish artifacts to GitHub Release'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    env:
+      UPSTREAM_REF: be6087056a1c7d4f08f3f1cc778d92374d86ef27
+
+    steps:
+      - name: Checkout Matcher
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Android SDK 34
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-34 build-tools;34.0.0'
+
+      - name: Clone pinned upstream CleanYourTV
+        run: |
+          git clone https://github.com/Gathin23/cleanyourtv.git cleanyourtv
+          git -C cleanyourtv checkout "$UPSTREAM_REF"
+
+      - name: Resolve version & versionCode from tag
+        id: ver
+        run: |
+          RAW_TAG="${{ github.event.inputs.tag_name || github.ref_name }}"
+          CLEAN_VER="${RAW_TAG#v}"
+          IFS='.' read -r MAJ MIN PAT <<< "${CLEAN_VER%%-*}"
+          MAJ="${MAJ:-1}"; MIN="${MIN:-0}"; PAT="${PAT:-0}"
+          VER_CODE=$((MAJ * 10000 + MIN * 100 + PAT))
+          if [ "$VER_CODE" -lt 120 ]; then VER_CODE=120; fi
+          echo "tag=v${CLEAN_VER}" >> "$GITHUB_OUTPUT"
+          echo "version=${CLEAN_VER}" >> "$GITHUB_OUTPUT"
+          echo "version_code=${VER_CODE}" >> "$GITHUB_OUTPUT"
+          echo "Building Matcher v${CLEAN_VER} (versionCode ${VER_CODE})"
+
+      - name: Decode Release Keystore (if configured in Secrets)
+        id: sign
+        env:
+          RELEASE_KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          if [ -n "$RELEASE_KEYSTORE_BASE64" ] && [ -n "$RELEASE_KEYSTORE_PASSWORD" ] && [ -n "$RELEASE_KEY_ALIAS" ] && [ -n "$RELEASE_KEY_PASSWORD" ]; then
+            echo "$RELEASE_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "RELEASE_KEYSTORE_PATH=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+            echo "Stable release signing key enabled."
+          else
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::RELEASE_KEYSTORE_* secrets not set; APKs will be signed with ephemeral debug key (NOT suitable for OTA upgrades across releases)."
+          fi
+
+      - name: Apply Matcher launcher & locale patches
+        run: |
+          L=cleanyourtv/launcher/app/src
+          cp -f patches/launcher-app-build.gradle cleanyourtv/launcher/app/build.gradle
+          cp -f patches/launcher-config.xml "$L/main/res/values/config.xml"
+          cp -f patches/AndroidManifest.xml "$L/main/AndroidManifest.xml"
+          mkdir -p "$L/main/res/xml" "$L/main/res/color" "$L/main/res/anim" "$L/main/res/layout-iw"
+          cp -f patches/network_security_config.xml "$L/main/res/xml/network_security_config.xml"
+          cp -f patches/home_key_service.xml "$L/main/res/xml/home_key_service.xml"
+          cp -f patches/locales_config.xml "$L/main/res/xml/locales_config.xml"
+          for c in pill_text.xml pill_icon_online.xml pill_icon_offline.xml pill_icon_no_internet.xml; do
+            cp -f "patches/$c" "$L/main/res/color/$c"
+          done
+          cp -f patches/pill_text.xml "$L/main/res/drawable/pill_text.xml"
+          cp -f patches/ids.xml "$L/main/res/values/ids.xml"
+          cp -f patches/styles.xml "$L/main/res/values/styles.xml"
+          cp -f patches/*Test.java "$L/test/java/com/gathin/tvhome/"
+          for f in patches/*.java; do
+            case "$(basename "$f")" in
+              *Test.java) continue ;;
+              *) cp -f "$f" "$L/main/java/com/gathin/tvhome/" ;;
+            esac
+          done
+          for a in app_open_enter.xml app_open_exit.xml tile_enter.xml dropdown_exit.xml modal_enter.xml modal_exit.xml settings_enter.xml settings_exit.xml; do
+            cp -f "patches/$a" "$L/main/res/anim/$a"
+          done
+          for d in glass_panel.xml input_row_bg.xml pill_bg.xml pill_text_mid.xml settings_choice_bg.xml ic_*.xml; do
+            [ -f "patches/$d" ] && cp -f "patches/$d" "$L/main/res/drawable/"
+          done
+          for ly in activity_main.xml activity_launcher_settings.xml activity_quick_settings.xml dialog_card_prompt.xml item_app.xml popup_cards.xml popup_inputs.xml dream_clock.xml; do
+            cp -f "patches/$ly" "$L/main/res/layout/$ly"
+          done
+          cp -f patches/activity_main-iw.xml "$L/main/res/layout-iw/activity_main.xml"
+          cp -f patches/dream_clock.xml "$L/main/res/layout-iw/dream_clock.xml"
+          # Overlay all 31 Matcher locale files cleanly beside upstream strings.xml (incl. values-sk/strings.xml)
+          for locdir in patches/locales/values*; do
+            [ -d "$locdir" ] || continue
+            bname="$(basename "$locdir")"
+            mkdir -p "$L/main/res/$bname"
+            cp -f "$locdir"/*.xml "$L/main/res/$bname/"
+          done
+          # Mirror patched add-ons (including all 31 add-on locales)
+          if [ -d patches/addons ]; then
+            cp -rf patches/addons/* cleanyourtv/addons/
+          fi
+
+      - name: Validate All 8 Add-on 31-Locale Resources
+        run: |
+          python3 tools/validate-addon-locales.py --merged-only --upstream-addons cleanyourtv/addons
+
+      - name: Run Launcher Unit Tests (incl. 31-Locale Validator)
+        run: |
+          cd cleanyourtv/launcher
+          chmod +x gradlew
+          ./gradlew testReleaseUnitTest --no-daemon --console=plain \
+            -PmatcherVersion="${{ steps.ver.outputs.version }}" \
+            -PmatcherVersionCode="${{ steps.ver.outputs.version_code }}"
+
+      - name: Build Universal Launcher APK & All 8 Add-on APKs
+        env:
+          RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          mkdir -p dist
+          VER="${{ steps.ver.outputs.version }}"
+          VCODE="${{ steps.ver.outputs.version_code }}"
+          APKSIGNER="$ANDROID_HOME/build-tools/34.0.0/apksigner"
+
+          # 1. Universal Launcher APK
+          (cd cleanyourtv/launcher && ./gradlew assembleRelease --no-daemon --console=plain \
+            -PmatcherVersion="$VER" -PmatcherVersionCode="$VCODE")
+          cp cleanyourtv/launcher/app/build/outputs/apk/release/app-release.apk \
+            "dist/matcher-launcher-v${VER}.apk"
+
+          # 2. All 8 GlassKit Add-ons (sync versionCode/versionName to release tag & sign with same stable key)
+          ADDONS="brightness sleep-timer headphones bluetooth-connect quiet-hours weather world-clock capacity-stats"
+          for name in $ADDONS; do
+            echo "=== Bumping version & building add-on: $name (v${VER}, versionCode ${VCODE}) ==="
+            python3 - "$name" "$VER" "$VCODE" << 'PY'
+          import pathlib, re, sys
+          name, ver, vcode = sys.argv[1], sys.argv[2], sys.argv[3]
+          p = pathlib.Path(f"cleanyourtv/addons/{name}/app/build.gradle")
+          txt = p.read_text(encoding="utf-8")
+          txt, n1 = re.subn(r"\bversionCode\s+\d+", f"versionCode {vcode}", txt, count=1)
+          txt, n2 = re.subn(r"\bversionName\s+['\"][^'\"]+['\"]", f"versionName '{ver}'", txt, count=1)
+          assert n1 == 1 and n2 == 1, f"Failed to bump version in {p}: n1={n1}, n2={n2}"
+          p.write_text(txt, encoding="utf-8", newline="\n")
+          PY
+            (cd "cleanyourtv/addons/$name" && chmod +x gradlew && ./gradlew assembleRelease --no-daemon --console=plain)
+            SRC_APK="cleanyourtv/addons/$name/app/build/outputs/apk/release/app-release.apk"
+            DST_APK="dist/matcher-addon-${name}-v${VER}.apk"
+            cp "$SRC_APK" "$DST_APK"
+            if [ "${{ steps.sign.outputs.signed }}" = "true" ]; then
+              "$APKSIGNER" sign \
+                --ks "$RELEASE_KEYSTORE_PATH" \
+                --ks-pass "env:RELEASE_KEYSTORE_PASSWORD" \
+                --ks-key-alias "$RELEASE_KEY_ALIAS" \
+                --key-pass "env:RELEASE_KEY_PASSWORD" \
+                "$DST_APK"
+            fi
+          done
+
+      - name: Generate manifest.json and SHA256SUMS.txt
+        env:
+          REPO: ${{ github.repository }}
+          TAG: ${{ steps.ver.outputs.tag }}
+          VER: ${{ steps.ver.outputs.version }}
+          VCODE: ${{ steps.ver.outputs.version_code }}
+        run: |
+          python3 - << 'PY'
+          import hashlib, json, os, re
+
+          repo = os.environ["REPO"]
+          tag = os.environ["TAG"]
+          ver = os.environ["VER"]
+          vcode = int(os.environ["VCODE"])
+          base = f"https://github.com/{repo}/releases/download/{tag}"
+
+          def file_info(path):
+              h = hashlib.sha256()
+              with open(path, "rb") as f:
+                  for chunk in iter(lambda: f.read(65536), b""):
+                      h.update(chunk)
+              return h.hexdigest(), os.path.getsize(path)
+
+          addons_meta = [
+              ("brightness", "io.github.maxhayim.brightness", "Brightness"),
+              ("sleep-timer", "io.github.luyzfernando08.sleeptimer", "Sleep Timer"),
+              ("headphones", "io.github.maxhayim.headphones", "Headphones"),
+              ("bluetooth-connect", "com.gathin.btconnect", "Bluetooth Connect"),
+              ("quiet-hours", "io.github.maxhayim.quiethours", "Quiet Hours"),
+              ("weather", "io.github.sumyabazar1.weather", "Weather"),
+              ("world-clock", "io.github.savioronezero.worldclock", "World Clock"),
+              ("capacity-stats", "com.lionlev.tv.capacity", "Capacity Stats"),
+          ]
+
+          launcher_file = f"matcher-launcher-v{ver}.apk"
+          l_sha, l_size = file_info(os.path.join("dist", launcher_file))
+          sums = [f"{l_sha}  {launcher_file}"]
+
+          addons_json = []
+          for aid, pkg, disp in addons_meta:
+              fname = f"matcher-addon-{aid}-v{ver}.apk"
+              fpath = os.path.join("dist", fname)
+              sha, size = file_info(fpath)
+              sums.append(f"{sha}  {fname}")
+              # Read actual versionCode from add-on build.gradle
+              gradle_txt = open(f"cleanyourtv/addons/{aid}/app/build.gradle", encoding="utf-8").read()
+              m = re.search(r"versionCode\s+(\d+)", gradle_txt)
+              a_code = int(m.group(1)) if m else 1
+              addons_json.append({
+                  "id": aid,
+                  "packageName": pkg,
+                  "name": disp,
+                  "version": ver,
+                  "versionCode": a_code,
+                  "apk": fname,
+                  "url": f"{base}/{fname}",
+                  "sha256": sha,
+                  "size": size,
+              })
+
+          manifest = {
+              "schema": 1,
+              "repo": repo,
+              "tag": tag,
+              "version": ver,
+              "notes": f"Matcher {tag} universal signed release (31 locales across launcher & all 8 add-ons).",
+              "launcher": {
+                  "packageName": "com.gathin.tvhome",
+                  "version": ver,
+                  "versionCode": vcode,
+                  "apk": launcher_file,
+                  "url": f"{base}/{launcher_file}",
+                  "sha256": l_sha,
+                  "size": l_size,
+              },
+              "addons": addons_json,
+          }
+
+          with open("dist/manifest.json", "w", encoding="utf-8") as f:
+              json.dump(manifest, f, indent=2)
+              f.write("\n")
+          with open("dist/SHA256SUMS.txt", "w", encoding="utf-8") as f:
+              f.write("\n".join(sums) + "\n")
+          PY
+          cat dist/manifest.json
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: matcher-${{ steps.ver.outputs.tag }}-apks
+          path: dist/*
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.publish_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          generate_release_notes: true
+          files: dist/*

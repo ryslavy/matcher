@@ -156,3 +156,15 @@ git -C .\cleanyourtv diff --binary --output="$PWD\patches\appletv-frosted-glass.
 - Always write PowerShell-generated files as **UTF-8 without BOM** (`New-Object System.Text.UTF8Encoding($false)`).
 - Never commit device dumps, serial numbers, personal LAN IPs, or personal API tokens.
 - **Release-pinned visual gallery:** Screenshots live in `docs/gallery/v<release>/` and are indexed in `docs/GALLERY.md` (plus hero previews in `README.md` / `docs/README-cs.md`) explicitly tagged with the release version (`v1.1.2`, preserving the 43-screen `v1.1.1` full reference set). When shipping a future UI-changing release, capture new/changed screens into `docs/gallery/v<new-release>/`, anonymize any personal city/IP/SSID, and update the gallery release tag so screenshots never go silently stale.
+
+---
+
+## 6. Sharing Bugs, Performance Findings & Fixes Upstream (Ask the User First)
+
+When assisting a user on their own TV or box, if you uncover a **reproducible bug**, **performance / frame-rate / GPU jank finding**, **device-specific quirk** (e.g., new TV model compatibility, remote scancodes, or protected vendor packages), **translation fix**, or **code optimization** that could help other Matcher users:
+
+- **Proactively — but politely — offer** to help the user share the finding upstream on `ryslavy/matcher` (**never** open issues, discussions, or PRs automatically without the user's explicit approval):
+  - **Bugs, performance/FPS findings, or device compatibility reports:** Offer to draft an anonymized report for **[GitHub Issues](https://github.com/ryslavy/matcher/issues/new/choose)** (including device model, Android SDK, Matcher version, and sanitized `logcat` / `dumpsys gfxinfo` notes).
+  - **Working code fixes, optimizations, translations, or device presets:** Offer to prepare a clean **[Pull Request](https://github.com/ryslavy/matcher/pulls)** following [`CONTRIBUTING.md`](CONTRIBUTING.md).
+  - **Ideas, benchmarks, setup tips, or open feedback:** Point the user to **[GitHub Discussions](https://github.com/ryslavy/matcher/discussions)**.
+- **Privacy first:** Before drafting any report or PR, always strip personal LAN IPs, Wi-Fi SSIDs, hometown coordinates, device serial numbers, and API keys/tokens.

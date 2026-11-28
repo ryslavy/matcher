@@ -109,7 +109,7 @@ Prompt you can paste directly to your AI agent (Claude Code, Antigravity, Cursor
    & $adb -s <TV_IP> shell "dumpsys accessibility | grep -E 'Bound services|Service\[label=|Crashed services'"
    & $adb -s <TV_IP> shell "logcat -d -t 100 | grep -E 'FATAL EXCEPTION|AndroidRuntime'"
    ```
-   Confirm `Crashed services:{}` is empty and zero crashes appear in `logcat`. Remind the user not to unplug/reboot for 15 seconds while `sync` settles.
+   Confirm `Crashed services:{}` is empty and zero crashes appear in `logcat`. Remind the user not to unplug/reboot for 15 seconds while `sync` settles. If you encounter a reproducible bug, regression, or performance issue during the update, offer to help the user report an anonymized summary upstream as a [GitHub Issue](https://github.com/ryslavy/matcher/issues/new/choose), [Pull Request](https://github.com/ryslavy/matcher/pulls), or [Discussion](https://github.com/ryslavy/matcher/discussions) on `ryslavy/matcher` (only with their consent).
 
 ---
 

@@ -177,6 +177,7 @@ The 8 bundled add-ons are completely optional — users can drop any of them or 
 - **Smoked sub-menu missing Liquid Glass on Home:** Ensure `ExpressiveGlass.PanelDrawable.drawLiquidGlass` checks `MainActivity.isHomeVisible()` before returning `null` for `smoked == true`.
 - **Home wallpaper leaking over Netflix/DRM video:** Confirm `MainActivity.isHomeVisible()` is `false` when external apps are foregrounded and `overlayRefraction` is cleared when overlays close.
 - **Remote buttons or Sleep Timer stopped responding:** Re-run the Accessibility bounce-rebind from Playbook 3 and confirm `Crashed services:{}` in `dumpsys accessibility`.
+- **Found a reproducible bug, GPU/FPS performance bottleneck, or new TV model quirk?** Briefly offer to help the user share the anonymized finding upstream on `ryslavy/matcher` — as a **[GitHub Issue](https://github.com/ryslavy/matcher/issues/new/choose)**, a **[Pull Request](https://github.com/ryslavy/matcher/pulls)** (if you already fixed or optimized it), or a **[Discussion](https://github.com/ryslavy/matcher/discussions)** (always ask permission first and strip personal IPs, SSIDs, coordinates, and API keys).
 
 ---
 

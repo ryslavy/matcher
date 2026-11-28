@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Connessione Bluetooth</string>
+    <string name="perm_needed_install">Richiede l\'autorizzazione Dispositivi nelle vicinanze: esegui install.sh una volta oppure consentila nelle impostazioni dell\'app.</string>
+    <string name="perm_needed">Richiede l\'autorizzazione Dispositivi nelle vicinanze: consentila nelle impostazioni dell\'app.</string>
+    <string name="bt_off">Il Bluetooth è disattivato. Attivalo nelle impostazioni della TV.</string>
+    <string name="state_working">Operazione in corso…</string>
+    <string name="state_connected">Connesso</string>
+    <string name="state_not_connected">Non connesso</string>
+    <string name="action_disconnect">Disconnetti</string>
+    <string name="action_connect">Connetti</string>
+    <string name="status_none">Nessun altoparlante associato. Associane prima uno nelle impostazioni Bluetooth della TV.</string>
+    <string name="status_hint">OK connette o disconnette un altoparlante.</string>
+    <string name="status_refused">Android ha rifiutato. Usa le impostazioni Bluetooth della TV: %1$s</string>
 </resources>

@@ -3,4 +3,29 @@
     <string name="app_name">Тихі години</string>
     <string name="channel_name">Обмеження гучності</string>
     <string name="notification_text">Гучність утримується нижче ліміту. Відкрийте «Тихі години», щоб змінити його.</string>
+
+    <string name="row_quiet_hours">Тихі години</string>
+    <string name="row_volume_cap">Обмеження гучності</string>
+    <string name="row_volume_cap_detail">Максимальна гучність ТВ під час тихих годин.</string>
+    <string name="row_volume_cap_step">Максимальна гучність ТВ під час тихих годин: крок %1$d із %2$d.</string>
+    <string name="row_starts">Початок</string>
+    <string name="row_starts_detail">◀ ▶ змінює на 15 хвилин.</string>
+    <string name="row_ends">Кінець</string>
+    <string name="row_headphones">Навушники</string>
+    <string name="row_headphones_detail">Навушники нікого не розбудять, тому можуть грати голосніше.</string>
+    <string name="val_off">Вимкнено</string>
+    <string name="val_always">Завжди</string>
+    <string name="val_scheduled">За розкладом</string>
+    <string name="mode_detail_scheduled">Щодня в зазначений нижче час.</string>
+    <string name="mode_detail_always">Обмеження діє весь день.</string>
+    <string name="mode_detail_off">Без обмеження.</string>
+    <string name="val_no_cap">Без обмеження</string>
+    <string name="val_capped_too">Також обмежено</string>
+    <string name="status_fixed_volume">Гучність цього ТВ фіксована (HDMI ARC або підсилювач), тому Android не може її обмежити.</string>
+    <string name="status_off">Гучність %1$d із %2$d. Тихі години вимкнено.</string>
+    <string name="status_capped">Гучність %1$d із %2$d. Обмежено до %3$d.</string>
+    <string name="status_capped_until">Гучність %1$d із %2$d. Обмежено до %3$d до %4$s.</string>
+    <string name="status_capped_hp">Гучність %1$d із %2$d. Обмежено до %3$d. Навушники: без обмеження.</string>
+    <string name="status_capped_until_hp">Гучність %1$d із %2$d. Обмежено до %3$d до %4$s. Навушники: без обмеження.</string>
+    <string name="status_from">Гучність %1$d із %2$d. Тихі години з %3$s.</string>
 </resources>

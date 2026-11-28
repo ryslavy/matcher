@@ -150,8 +150,10 @@
     <!-- Başlatıcı Özellik Ayarları ve Liquid Glass Sistemi -->
     <string name="fs_sec_glass">Liquid Glass &amp; Deneyim</string>
     <string name="fs_liquid_clock">Liquid Glass saati (iOS 26)</string>
-    <string name="fs_home_liquid">Ana ekranda optik Liquid Glass</string>
+    <string name="fs_home_liquid">Liquid Glass optiği</string>
     <string name="fs_home_backdrop_blur">Ana ekran arka plan bulanıklığı</string>
+    <string name="fs_nested_menu_blur">İç içe menü bulanıklığı</string>
+    <string name="fs_dock_ambient_glow">Dock arkası renkli parıltı</string>
     <string name="fs_glass_material">Cam stili</string>
     <string name="fs_glass_material_title">Liquid Glass stili seçin</string>
     <string name="glass_style_tonal">Buzlu Tonlu</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Tuş ataması kaydedildi</string>
     <string name="rm_action_mute">Sesi kapat</string>
     <string name="rm_action_ignore">Tuşu yok say (devre dışı bırak)</string>
+    <string name="wallpaper_picsum">Rastgele web fotoğrafı (Picsum)</string>
+    <string name="wallpaper_picsum_next">Şimdi yeni web fotoğrafı yükle</string>
+    <string name="wallpaper_picsum_loading">Yeni web fotoğrafı yükleniyor…</string>
+    <string name="wallpaper_picsum_failed">Web fotoğrafı yüklenemedi</string>
+    <string name="settings_reload_launcher">Başlatıcıyı yeniden yükle</string>
+    <string name="launcher_updated_toast">Matcher v%1$s sürümüne güncellendi</string>
 </resources>

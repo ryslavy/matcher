@@ -162,7 +162,18 @@ public class ExpressiveGlassTest {
                     ((f[0] >>> 24) & 0xFF) > ((r[0] >>> 24) & 0xFF));
             assertEquals(3, ExpressiveGlass.dockGlassColors(s, warmSeed).length);
             assertEquals(3, ExpressiveGlass.folderPocketColors(s, warmSeed).length);
+            // Dock opacity (30%..100%) scales Liquid Glass tint monotonically across every style.
+            int a30 = (ExpressiveGlass.dockGlassColors(s, warmSeed, 30)[1] >>> 24) & 0xFF;
+            int a50 = (ExpressiveGlass.dockGlassColors(s, warmSeed, 50)[1] >>> 24) & 0xFF;
+            int a70 = (ExpressiveGlass.dockGlassColors(s, warmSeed, 70)[1] >>> 24) & 0xFF;
+            int a100 = (ExpressiveGlass.dockGlassColors(s, warmSeed, 100)[1] >>> 24) & 0xFF;
+            assertTrue("Dock tint alpha must grow monotonically 30<50<70<100 for style " + s,
+                    a30 < a50 && a50 < a70 && a70 < a100);
         }
+        assertTrue("Dock blurred backdrop alpha grows monotonically 30<50<70<100",
+                ExpressiveGlass.dockBackdropAlpha(30) < ExpressiveGlass.dockBackdropAlpha(50)
+                        && ExpressiveGlass.dockBackdropAlpha(50) < ExpressiveGlass.dockBackdropAlpha(70)
+                        && ExpressiveGlass.dockBackdropAlpha(70) < ExpressiveGlass.dockBackdropAlpha(100));
         int[] frostInner = ExpressiveGlass.innerSurfaceColors(ExpressiveGlass.STYLE_FROST, warmSeed, false);
         assertTrue("Frost inner card must use dark ink tint (not invisible white-on-white)",
                 ((frostInner[0] >> 16) & 0xFF) < 90 && ((frostInner[0] >> 8) & 0xFF) < 90);

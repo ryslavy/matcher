@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">亮度</string>
+    <string name="quick_brightness">亮度　%1$d%%</string>
+    <string name="quick_night_brightness">夜間亮度　%1$d%%</string>
+    <string name="quick_hint">◀ ▶ 調整亮度　OK 關閉</string>
+    <string name="channel_name">螢幕調光</string>
+    <string name="notification_text">正在調暗螢幕。開啟「亮度」可調整或關閉。</string>
+
+    <string name="perm_title">允許顯示在其他應用程式上層</string>
+    <string name="perm_detail">調暗其他應用程式需要此權限。按 OK 開啟設定。</string>
+    <string name="perm_denied">未允許</string>
+    <string name="perm_no_screen">此電視沒有此設定畫面。請在電腦上執行：adb shell appops set %1$s SYSTEM_ALERT_WINDOW allow</string>
+    <string name="row_dimming">螢幕調光</string>
+    <string name="row_dimming_detail">關閉後會立即恢復正常螢幕，下方設定仍會保留。</string>
+    <string name="row_brightness">亮度</string>
+    <string name="row_brightness_detail">非夜間模式下的畫面亮度。</string>
+    <string name="row_night_mode">夜間模式</string>
+    <string name="row_night_brightness">夜間亮度</string>
+    <string name="row_night_brightness_detail">夜間模式下的畫面亮度。</string>
+    <string name="row_warmth">暖色溫</string>
+    <string name="row_warmth_detail">僅限夜間模式：減少藍光，畫面更溫暖。</string>
+    <string name="row_night_starts">夜間開始時間</string>
+    <string name="row_night_starts_detail">排程夜間模式開始時間。◀ ▶ 每次移動 15 分鐘。</string>
+    <string name="row_night_ends">夜間結束時間</string>
+    <string name="row_night_ends_detail">恢復日間亮度。</string>
+    <string name="row_tv_picture">夜間電視畫質</string>
+    <string name="row_tv_picture_detail">夜間同時調低電視本身的背光、對比與亮度，早上再恢復日間設定。</string>
+    <string name="row_tv_perm">允許控制電視畫質</string>
+    <string name="row_tv_perm_detail">電視會詢問一次是否允許此應用程式變更畫質設定。按 OK 進行詢問。</string>
+    <string name="row_tv_backlight">夜間背光</string>
+    <string name="row_tv_backlight_detail">電視背光：面板發出的光線強度。</string>
+    <string name="row_tv_contrast">夜間對比</string>
+    <string name="row_tv_contrast_detail">電視對比。調低可減弱亮部亮度。</string>
+    <string name="row_tv_brightness">夜間電視亮度</string>
+    <string name="row_tv_brightness_detail">電視亮度。調低可加深暗部。</string>
+    <string name="row_tv_dynamic">夜間動態背光</string>
+    <string name="row_tv_dynamic_detail">顯示較暗畫面時，電視會進一步降低背光。</string>
+    <string name="row_tv_take">套用目前電視畫質</string>
+    <string name="row_tv_take_detail">將電視影像選單中目前的設定值套用為夜間數值。</string>
+    <string name="val_reading">讀取中…</string>
+    <string name="val_taken">已套用</string>
+    <string name="val_on">開啟</string>
+    <string name="val_off">關閉</string>
+    <string name="val_scheduled">排程</string>
+    <string name="night_detail_scheduled">每天於下列時間段內自動啟用。</string>
+    <string name="night_detail_on">立即啟用，直到在此關閉為止。</string>
+    <string name="night_detail_off">始終維持日間亮度。</string>
+    <string name="status_off">已關閉：螢幕顯示正常。</string>
+    <string name="status_no_perm">已開啟，但在允許顯示在其他應用程式上層前不會生效。</string>
+    <string name="status_night_now">目前為夜間模式：%1$d %%，暖色溫 %2$d %%。</string>
+    <string name="status_night_until">目前為夜間模式：%1$d %%，暖色溫 %2$d %%，至 %3$s 結束。</string>
+    <string name="status_day_now">目前：%1$d %%。</string>
+    <string name="status_day_until">目前：%1$d %%。夜間模式將於 %2$s 開始。</string>
+</resources>

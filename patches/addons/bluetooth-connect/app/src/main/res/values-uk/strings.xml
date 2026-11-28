@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Під’єднання Bluetooth</string>
+
+    <string name="perm_needed_install">Потрібен дозвіл «Пристрої поблизу»: запустіть install.sh один раз або надайте його в налаштуваннях програми.</string>
+    <string name="perm_needed">Потрібен дозвіл «Пристрої поблизу»: надайте його в налаштуваннях програми.</string>
+    <string name="bt_off">Bluetooth вимкнено. Увімкніть його в налаштуваннях ТВ.</string>
+    <string name="state_working">Виконується…</string>
+    <string name="state_connected">Під’єднано</string>
+    <string name="state_not_connected">Не під’єднано</string>
+    <string name="action_disconnect">Від’єднати</string>
+    <string name="action_connect">Під’єднати</string>
+    <string name="status_none">Немає з’єднаних динаміків. Спочатку з’єднайте один у налаштуваннях Bluetooth на ТВ.</string>
+    <string name="status_hint">OK під’єднує або від’єднує динамік.</string>
+    <string name="status_refused">Android відхилив запит. Скористайтеся налаштуваннями Bluetooth на ТВ: %1$s</string>
 </resources>

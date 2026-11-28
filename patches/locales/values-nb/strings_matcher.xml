@@ -150,8 +150,10 @@
     <!-- Startskjermfunksjoner & Liquid Glass-stiler -->
     <string name="fs_sec_glass">Liquid Glass &amp; Opplevelse</string>
     <string name="fs_liquid_clock">Liquid Glass-klokke (iOS 26)</string>
-    <string name="fs_home_liquid">Optisk Liquid Glass på startskjermen</string>
+    <string name="fs_home_liquid">Liquid Glass-optikk</string>
     <string name="fs_home_backdrop_blur">Bakgrunnsuskarphet på startskjermen</string>
+    <string name="fs_nested_menu_blur">Uskarphet for undermenyer</string>
+    <string name="fs_dock_ambient_glow">Fargeglød bak dokken</string>
     <string name="fs_glass_material">Glasstil</string>
     <string name="fs_glass_material_title">Velg Liquid Glass-stil</string>
     <string name="glass_style_tonal">Frostet tonet</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Knapptilordning lagret</string>
     <string name="rm_action_mute">Demp lyd</string>
     <string name="rm_action_ignore">Ignorer knapp (deaktiver)</string>
+    <string name="wallpaper_picsum">Tilfeldig nettfoto (Picsum)</string>
+    <string name="wallpaper_picsum_next">Last inn nytt nettfoto nå</string>
+    <string name="wallpaper_picsum_loading">Laster inn nytt nettfoto…</string>
+    <string name="wallpaper_picsum_failed">Kunne ikke laste inn nettfoto</string>
+    <string name="settings_reload_launcher">Last inn starter på nytt</string>
+    <string name="launcher_updated_toast">Matcher oppdatert til v%1$s</string>
 </resources>

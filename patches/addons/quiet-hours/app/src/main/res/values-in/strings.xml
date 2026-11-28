@@ -3,4 +3,29 @@
     <string name="app_name">Jam tenang</string>
     <string name="channel_name">Batas volume</string>
     <string name="notification_text">Menjaga volume di bawah batas. Buka Jam tenang untuk mengubahnya.</string>
+
+    <string name="row_quiet_hours">Jam tenang</string>
+    <string name="row_volume_cap">Batas volume</string>
+    <string name="row_volume_cap_detail">Volume paling keras yang boleh diputar TV selama jam tenang.</string>
+    <string name="row_volume_cap_step">Volume paling keras yang boleh diputar TV selama jam tenang: tingkat %1$d dari %2$d.</string>
+    <string name="row_starts">Mulai</string>
+    <string name="row_starts_detail">◀ ▶ bergeser 15 menit.</string>
+    <string name="row_ends">Selesai</string>
+    <string name="row_headphones">Headphone</string>
+    <string name="row_headphones_detail">Headphone tidak membangunkan seisi ruangan, jadi volumenya boleh lebih keras.</string>
+    <string name="val_off">Nonaktif</string>
+    <string name="val_always">Selalu</string>
+    <string name="val_scheduled">Terjadwal</string>
+    <string name="mode_detail_scheduled">Setiap hari di antara waktu di bawah ini.</string>
+    <string name="mode_detail_always">Batas berlaku sepanjang hari.</string>
+    <string name="mode_detail_off">Tanpa batas.</string>
+    <string name="val_no_cap">Tanpa batas</string>
+    <string name="val_capped_too">Dibatasi juga</string>
+    <string name="status_fixed_volume">Volume TV ini tetap (HDMI ARC atau amplifier), sehingga Android tidak dapat membatasinya.</string>
+    <string name="status_off">Volume %1$d dari %2$d. Jam tenang nonaktif.</string>
+    <string name="status_capped">Volume %1$d dari %2$d. Dibatasi pada %3$d.</string>
+    <string name="status_capped_until">Volume %1$d dari %2$d. Dibatasi pada %3$d hingga %4$s.</string>
+    <string name="status_capped_hp">Volume %1$d dari %2$d. Dibatasi pada %3$d. Headphone: tanpa batas.</string>
+    <string name="status_capped_until_hp">Volume %1$d dari %2$d. Dibatasi pada %3$d hingga %4$s. Headphone: tanpa batas.</string>
+    <string name="status_from">Volume %1$d dari %2$d. Jam tenang mulai %3$s.</string>
 </resources>

@@ -150,8 +150,10 @@
     <!-- Setelan Fitur Peluncur & Sistem Material Kaca -->
     <string name="fs_sec_glass">Liquid Glass &amp; Pengalaman</string>
     <string name="fs_liquid_clock">Jam Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Liquid Glass optik di Beranda</string>
+    <string name="fs_home_liquid">Optik Liquid Glass</string>
     <string name="fs_home_backdrop_blur">Blur latar belakang Beranda</string>
+    <string name="fs_nested_menu_blur">Blur menu bertingkat</string>
+    <string name="fs_dock_ambient_glow">Pendar warna di belakang dock</string>
     <string name="fs_glass_material">Gaya kaca</string>
     <string name="fs_glass_material_title">Pilih gaya Liquid Glass</string>
     <string name="glass_style_tonal">Kaca Buram Tonal</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Pemetaan tombol disimpan</string>
     <string name="rm_action_mute">Bisukan audio</string>
     <string name="rm_action_ignore">Abaikan tombol (nonaktifkan)</string>
+    <string name="wallpaper_picsum">Foto web acak (Picsum)</string>
+    <string name="wallpaper_picsum_next">Muat foto web baru sekarang</string>
+    <string name="wallpaper_picsum_loading">Memuat foto web baru…</string>
+    <string name="wallpaper_picsum_failed">Gagal memuat foto web</string>
+    <string name="settings_reload_launcher">Muat ulang peluncur</string>
+    <string name="launcher_updated_toast">Matcher diperbarui ke v%1$s</string>
 </resources>

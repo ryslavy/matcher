@@ -3,4 +3,29 @@
     <string name="app_name">Stille uren</string>
     <string name="channel_name">Volumelimiet</string>
     <string name="notification_text">Houdt het volume onder de limiet. Open Stille uren om dit aan te passen.</string>
+
+    <string name="row_quiet_hours">Stille uren</string>
+    <string name="row_volume_cap">Volumelimiet</string>
+    <string name="row_volume_cap_detail">Hoe hard de tv maximaal mag staan tijdens de stille uren.</string>
+    <string name="row_volume_cap_step">Hoe hard de tv tijdens stille uren maximaal mag staan: stap %1$d van %2$d.</string>
+    <string name="row_starts">Begint</string>
+    <string name="row_starts_detail">◀ ▶ verzet met 15 minuten.</string>
+    <string name="row_ends">Eindigt</string>
+    <string name="row_headphones">Koptelefoon</string>
+    <string name="row_headphones_detail">Een koptelefoon maakt niemand wakker en mag dus harder.</string>
+    <string name="val_off">Uit</string>
+    <string name="val_always">Altijd</string>
+    <string name="val_scheduled">Gepland</string>
+    <string name="mode_detail_scheduled">Elke dag tussen de onderstaande tijden.</string>
+    <string name="mode_detail_always">De limiet geldt de hele dag.</string>
+    <string name="mode_detail_off">Geen limiet.</string>
+    <string name="val_no_cap">Geen limiet</string>
+    <string name="val_capped_too">Ook begrensd</string>
+    <string name="status_fixed_volume">Het volume van deze tv staat vast (HDMI ARC of een versterker), dus Android kan het niet begrenzen.</string>
+    <string name="status_off">Volume %1$d van %2$d. Stille uren staan uit.</string>
+    <string name="status_capped">Volume %1$d van %2$d. Begrensd op %3$d.</string>
+    <string name="status_capped_until">Volume %1$d van %2$d. Begrensd op %3$d tot %4$s.</string>
+    <string name="status_capped_hp">Volume %1$d van %2$d. Begrensd op %3$d. Koptelefoon: geen limiet.</string>
+    <string name="status_capped_until_hp">Volume %1$d van %2$d. Begrensd op %3$d tot %4$s. Koptelefoon: geen limiet.</string>
+    <string name="status_from">Volume %1$d van %2$d. Stille uren vanaf %3$s.</string>
 </resources>

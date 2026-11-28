@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ore di silenzio</string>
+    <string name="channel_name">Limite del volume</string>
+    <string name="notification_text">Il volume resta sotto il limite. Apri Ore di silenzio per cambiarlo.</string>
+    <string name="row_quiet_hours">Ore di silenzio</string>
+    <string name="row_volume_cap">Limite del volume</string>
+    <string name="row_volume_cap_detail">Il volume massimo consentito alla TV durante le ore di silenzio.</string>
+    <string name="row_volume_cap_step">Il volume massimo consentito alla TV durante le ore di silenzio: livello %1$d di %2$d.</string>
+    <string name="row_starts">Inizia</string>
+    <string name="row_starts_detail">◀ ▶ sposta di 15 minuti.</string>
+    <string name="row_ends">Termina</string>
+    <string name="row_headphones">Cuffie</string>
+    <string name="row_headphones_detail">Le cuffie non svegliano la stanza, quindi possono avere un volume più alto.</string>
+    <string name="val_off">Disattiva</string>
+    <string name="val_always">Sempre</string>
+    <string name="val_scheduled">Programmata</string>
+    <string name="mode_detail_scheduled">Ogni giorno tra gli orari indicati sotto.</string>
+    <string name="mode_detail_always">Il limite vale tutto il giorno.</string>
+    <string name="mode_detail_off">Nessun limite.</string>
+    <string name="val_no_cap">Nessun limite</string>
+    <string name="val_capped_too">Limitate anche queste</string>
+    <string name="status_fixed_volume">Il volume di questa TV è fisso (HDMI ARC o amplificatore), quindi Android non può limitarlo.</string>
+    <string name="status_off">Volume %1$d di %2$d. Le ore di silenzio sono disattive.</string>
+    <string name="status_capped">Volume %1$d di %2$d. Limitato a %3$d.</string>
+    <string name="status_capped_until">Volume %1$d di %2$d. Limitato a %3$d fino alle %4$s.</string>
+    <string name="status_capped_hp">Volume %1$d di %2$d. Limitato a %3$d. Cuffie: nessun limite.</string>
+    <string name="status_capped_until_hp">Volume %1$d di %2$d. Limitato a %3$d fino alle %4$s. Cuffie: nessun limite.</string>
+    <string name="status_from">Volume %1$d di %2$d. Ore di silenzio dalle %3$s.</string>
+</resources>

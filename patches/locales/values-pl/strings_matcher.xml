@@ -152,8 +152,10 @@
     <!-- Ustawienia funkcji i style Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass i wygląd</string>
     <string name="fs_liquid_clock">Zegar Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Optyczny Liquid Glass na ekranie głównym</string>
+    <string name="fs_home_liquid">Optyka Liquid Glass</string>
     <string name="fs_home_backdrop_blur">Rozmycie tła ekranu głównego</string>
+    <string name="fs_nested_menu_blur">Rozmycie zagnieżdżonych menu</string>
+    <string name="fs_dock_ambient_glow">Kolorowa poświata za dockiem</string>
     <string name="fs_glass_material">Styl szkła</string>
     <string name="fs_glass_material_title">Wybierz styl Liquid Glass</string>
     <string name="glass_style_tonal">Matowe tonowane</string>
@@ -242,4 +244,10 @@
     <string name="rm_saved">Zapisano mapowanie przycisku</string>
     <string name="rm_action_mute">Wycisz dźwięk</string>
     <string name="rm_action_ignore">Ignoruj przycisk (wyłącz)</string>
+    <string name="wallpaper_picsum">Losowe zdjęcie z sieci (Picsum)</string>
+    <string name="wallpaper_picsum_next">Wczytaj nowe zdjęcie z sieci</string>
+    <string name="wallpaper_picsum_loading">Wczytywanie nowego zdjęcia…</string>
+    <string name="wallpaper_picsum_failed">Nie udało się wczytać zdjęcia</string>
+    <string name="settings_reload_launcher">Przeładuj launcher</string>
+    <string name="launcher_updated_toast">Matcher zaktualizowany do v%1$s</string>
 </resources>

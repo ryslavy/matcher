@@ -152,8 +152,10 @@
     <!-- Настройки функций и стили Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass и интерфейс</string>
     <string name="fs_liquid_clock">Часы Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Оптический Liquid Glass на главном экране</string>
+    <string name="fs_home_liquid">Оптика жидкого стекла</string>
     <string name="fs_home_backdrop_blur">Размытие фона на главном экране</string>
+    <string name="fs_nested_menu_blur">Размытие вложенных меню</string>
+    <string name="fs_dock_ambient_glow">Цветное свечение за доком</string>
     <string name="fs_glass_material">Стиль стекла</string>
     <string name="fs_glass_material_title">Выберите стиль Liquid Glass</string>
     <string name="glass_style_tonal">Матовое тонированное</string>
@@ -242,4 +244,10 @@
     <string name="rm_saved">Назначение кнопки сохранено</string>
     <string name="rm_action_mute">Отключить звук</string>
     <string name="rm_action_ignore">Игнорировать кнопку (откл.)</string>
+    <string name="wallpaper_picsum">Случайное фото из сети (Picsum)</string>
+    <string name="wallpaper_picsum_next">Загрузить новое фото сейчас</string>
+    <string name="wallpaper_picsum_loading">Загрузка нового фото…</string>
+    <string name="wallpaper_picsum_failed">Не удалось загрузить фото из сети</string>
+    <string name="settings_reload_launcher">Перезагрузить лаунчер</string>
+    <string name="launcher_updated_toast">Matcher обновлён до v%1$s</string>
 </resources>

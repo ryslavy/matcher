@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
-def matcherVersion = providers.gradleProperty('matcherVersion').getOrElse('1.2.0')
-def matcherVersionCode = providers.gradleProperty('matcherVersionCode').map { it.toInteger() }.getOrElse(120)
+def matcherVersion = providers.gradleProperty('matcherVersion').getOrElse('1.2.1')
+def matcherVersionCode = providers.gradleProperty('matcherVersionCode').map { it.toInteger() }.getOrElse(10201)
 
 def releaseStorePath = System.getenv('RELEASE_KEYSTORE_PATH') ?: providers.gradleProperty('releaseKeystorePath').orNull
 def releaseStorePass = System.getenv('RELEASE_KEYSTORE_PASSWORD') ?: providers.gradleProperty('releaseKeystorePassword').orNull

@@ -152,8 +152,10 @@
     <!-- הגדרות תכונות ומערכת Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass וחוויית שימוש</string>
     <string name="fs_liquid_clock">שעון Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">אפקט Liquid Glass אופטי במסך הבית</string>
+    <string name="fs_home_liquid">אופטיקת Liquid Glass</string>
     <string name="fs_home_backdrop_blur">טשטוש רקע במסך הבית</string>
+    <string name="fs_nested_menu_blur">טשטוש תפריטים מקוננים</string>
+    <string name="fs_dock_ambient_glow">זוהר סביבתי מאחורי העגינה</string>
     <string name="fs_glass_material">סגנון זכוכית</string>
     <string name="fs_glass_material_title">בחירת סגנון Liquid Glass</string>
     <string name="glass_style_tonal">זכוכית חלבית מאוזנת</string>
@@ -242,4 +244,10 @@
     <string name="rm_saved">מיפוי הכפתור נשמר</string>
     <string name="rm_action_mute">השתקת שמע</string>
     <string name="rm_action_ignore">התעלם מכפתור (השבתה)</string>
+    <string name="wallpaper_picsum">תמונת רשת אקראית (Picsum)</string>
+    <string name="wallpaper_picsum_next">טען תמונת רשת חדשה עכשיו</string>
+    <string name="wallpaper_picsum_loading">טוען תמונת רשת חדשה…</string>
+    <string name="wallpaper_picsum_failed">לא ניתן היה לטעון תמונת רשת</string>
+    <string name="settings_reload_launcher">טען מחדש את המשגר</string>
+    <string name="launcher_updated_toast">Matcher עודכן לגרסה v%1$s</string>
 </resources>

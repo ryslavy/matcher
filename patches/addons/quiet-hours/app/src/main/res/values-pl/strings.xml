@@ -3,4 +3,29 @@
     <string name="app_name">Cisza nocna</string>
     <string name="channel_name">Limit głośności</string>
     <string name="notification_text">Głośność jest utrzymywana poniżej limitu. Otwórz aplikację Cisza nocna, aby to zmienić.</string>
+
+    <string name="row_quiet_hours">Cisza nocna</string>
+    <string name="row_volume_cap">Limit głośności</string>
+    <string name="row_volume_cap_detail">Maksymalna głośność telewizora w czasie ciszy nocnej.</string>
+    <string name="row_volume_cap_step">Maksymalna głośność telewizora w czasie ciszy nocnej: poziom %1$d z %2$d.</string>
+    <string name="row_starts">Początek</string>
+    <string name="row_starts_detail">◀ ▶ zmienia o 15 minut.</string>
+    <string name="row_ends">Koniec</string>
+    <string name="row_headphones">Słuchawki</string>
+    <string name="row_headphones_detail">Słuchawki nikogo nie obudzą, więc mogą grać głośniej.</string>
+    <string name="val_off">Wyłączone</string>
+    <string name="val_always">Zawsze</string>
+    <string name="val_scheduled">Według harmonogramu</string>
+    <string name="mode_detail_scheduled">Codziennie w podanych niżej godzinach.</string>
+    <string name="mode_detail_always">Limit obowiązuje przez cały dzień.</string>
+    <string name="mode_detail_off">Bez limitu.</string>
+    <string name="val_no_cap">Bez limitu</string>
+    <string name="val_capped_too">Też ograniczona</string>
+    <string name="status_fixed_volume">Głośność tego TV jest stała (HDMI ARC lub wzmacniacz), więc Android nie może jej ograniczyć.</string>
+    <string name="status_off">Głośność %1$d z %2$d. Cisza nocna jest wyłączona.</string>
+    <string name="status_capped">Głośność %1$d z %2$d. Limit %3$d.</string>
+    <string name="status_capped_until">Głośność %1$d z %2$d. Limit %3$d do %4$s.</string>
+    <string name="status_capped_hp">Głośność %1$d z %2$d. Limit %3$d. Słuchawki: bez limitu.</string>
+    <string name="status_capped_until_hp">Głośność %1$d z %2$d. Limit %3$d do %4$s. Słuchawki: bez limitu.</string>
+    <string name="status_from">Głośność %1$d z %2$d. Cisza nocna od %3$s.</string>
 </resources>

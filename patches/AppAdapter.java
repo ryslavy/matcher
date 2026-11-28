@@ -152,7 +152,31 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /** The same for either layout: the plain grid (dock_row false) uses the compact spacing. */
     static int itemHeightPx(int tileHeightPx, boolean dockRow, float density) {
-        return tileHeightPx + Math.round((dockRow ? ITEM_EXTRA_DP : COMPACT_ITEM_EXTRA_DP) * density);
+        return itemHeightPx(tileHeightPx, dockRow, 0, density);
+    }
+
+    /** True when vertical row spacing switches to compact (plain grid or 2+ rows below dock). */
+    static boolean isCompactRows(boolean dockRow, int rowsBelowDock) {
+        return !dockRow || rowsBelowDock >= 2;
+    }
+
+    static float itemExtraDp(boolean dockRow, int rowsBelowDock) {
+        return isCompactRows(dockRow, rowsBelowDock) ? COMPACT_ITEM_EXTRA_DP : ITEM_EXTRA_DP;
+    }
+
+    static float titleRoomDp(int rowsBelowDock) {
+        if (rowsBelowDock >= 3) return 44f;
+        if (rowsBelowDock == 2) return 72f;
+        return TITLE_ROOM_DP;
+    }
+
+    static float bottomRoomDp(boolean dockRow, int rowsBelowDock) {
+        if (!dockRow) return COMPACT_BOTTOM_ROOM_DP;
+        return rowsBelowDock >= 2 ? 14f : BOTTOM_ROOM_DP;
+    }
+
+    static int itemHeightPx(int tileHeightPx, boolean dockRow, int rowsBelowDock, float density) {
+        return tileHeightPx + Math.round(itemExtraDp(dockRow, rowsBelowDock) * density);
     }
 
     /**
@@ -167,6 +191,8 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     static final float ITEM_EXTRA_DP = 45;
     /** DockDecoration's offsets above and below the dock row. */
     static final float DOCK_EXTRA_DP = 6 + 12;
+    /** DockDecoration's offsets when compact multi-row mode hides dock names (6dp top + 18dp bottom). */
+    static final float COMPACT_DOCK_EXTRA_DP = 6 + 18;
     /** Room kept under the last row rows_below_dock asks for (MainActivity places the dock with the same). */
     static final float BOTTOM_ROOM_DP = 30;
     /** Room kept above the dock for the dock title (48sp hero name plus its 40dp gap) when dock_title is on. */
@@ -177,23 +203,26 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
      * Tile width that fits the columns across and, with rows_below_dock > 0, the dock (with its title above it,
      * if shown) plus that many rows down the grid's height; the smaller wins. With rows_below_dock = 0, or before
-     * the grid has a height, only the width counts, as before. Without this, 2 or 3 rows below the dock did not
-     * fit: the dock was pushed to the top and its title drew over the clock. With dock_row false there is no band
-     * or title to make room for: the first row plus rows_below_dock rows fit under a small top margin.
+     * the grid has a height, only the width counts, as before. For 2-3 rows below dock, switches to compact vertical
+     * spacing and scales cleanly down to the 80dp minimum so every (4-7 cols x 0-3 rows) combination fits on 1080p.
      */
     static int tileWidthPx(int innerWidthPx, int gridHeightPx, int columns, int rowsBelowDock, boolean dockTitle,
                            boolean dockRow, float density) {
         int w = tileWidthPx(innerWidthPx, columns, density);
         if (gridHeightPx <= 0 || rowsBelowDock <= 0) return w;
-        float reserved = (dockRow ? DOCK_EXTRA_DP + BOTTOM_ROOM_DP + (dockTitle ? TITLE_ROOM_DP : 0)
+        float extra = itemExtraDp(dockRow, rowsBelowDock);
+        float dockNameSave = (dockRow && rowsBelowDock >= 2) ? 18f : 0f; // 24dp hidden name minus 6dp extra dock gap
+        float reserved = (dockRow
+                ? DOCK_EXTRA_DP + bottomRoomDp(true, rowsBelowDock)
+                        + (dockTitle ? titleRoomDp(rowsBelowDock) : 0f) - dockNameSave
                 : TOP_ROOM_DP + COMPACT_BOTTOM_ROOM_DP) * density;
         float perItem = (gridHeightPx - reserved) / (rowsBelowDock + 1);
-        float tileH = perItem - (dockRow ? ITEM_EXTRA_DP : COMPACT_ITEM_EXTRA_DP) * density;
+        float tileH = perItem - extra * density;
         int byHeight = Math.round(tileH * DESIGN_W_DP / DESIGN_H_DP);
-        // Shrink at most to MIN_HEIGHT_FIT of the width-only size. Below that the tiles look lost in their wide
-        // columns (2 rows under a titled dock came out at 80dp); the rows that still don't fit run off the bottom
-        // and scroll, and MainActivity keeps the title's room above the dock.
-        return Math.max(Math.max(Math.round(80 * density), Math.round(w * MIN_HEIGHT_FIT)), Math.min(w, byHeight));
+        int floor = (dockRow && rowsBelowDock >= 2)
+                ? Math.round(80 * density)
+                : Math.max(Math.round(80 * density), Math.round(w * MIN_HEIGHT_FIT));
+        return Math.max(floor, Math.min(w, byHeight));
     }
 
     /** The smallest share of the width-only tile size that fitting rows_below_dock into the height may go to. */
@@ -286,6 +315,10 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      * so focus follows it); hidden_apps wins over a card, and a card's package in dock_apps takes that slot.
      */
     void reload(List<Cards.Card> cards, List<ResolveInfo> leanback) {
+        reload(cards, leanback, Collections.emptySet());
+    }
+
+    void reload(List<Cards.Card> cards, List<ResolveInfo> leanback, Set<String> hiddenCardPackages) {
         PackageManager pm = ctx.getPackageManager();
         // The LEANBACK query is shared with the module-card check (MainActivity); copy it before adding
         // library apps so the caller's list stays as it was.
@@ -315,6 +348,7 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (ri.activityInfo == null) continue;
             String pkg = ri.activityInfo.packageName;
             if (pkg.equals(ctx.getPackageName()) || !ri.activityInfo.exported
+                    || (hiddenCardPackages != null && hiddenCardPackages.contains(pkg))
                     || !LibraryApps.visible(tvPackages.contains(pkg), hidden.contains(pkg), added.contains(pkg), removed.contains(pkg))) continue;
             ComponentName component = new ComponentName(pkg, ri.activityInfo.name);
             Cards.Card card = cardByPkg.get(pkg);
@@ -654,9 +688,10 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         card.setLayoutParams(cardLp);
         View name = v.findViewById(R.id.name);
         ViewGroup.MarginLayoutParams nameLp = (ViewGroup.MarginLayoutParams) name.getLayoutParams();
+        boolean compact = isCompactRows(dockRow, rowsBelowDock);
         nameLp.width = w;
-        nameLp.topMargin = h + Math.round((dockRow ? 7 : 4) * density);
-        if (!dockRow) {
+        nameLp.topMargin = h + Math.round((compact ? 4 : 7) * density);
+        if (compact) {
             // Compact spacing (COMPACT_ITEM_EXTRA_DP): 4dp item padding and a 20dp name instead of 8dp and 22dp.
             nameLp.height = Math.round(20 * density);
             int pad = Math.round(4 * density);
@@ -711,12 +746,13 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         h.card.animate().cancel();
         h.banner.animate().cancel();
         h.name.animate().cancel();
+        boolean hideDockNameGone = dockRow && !singleRow && rowsBelowDock >= 2 && restNameAlpha == 0f;
         if (e.kind == Entry.EMPTY) {
             // A free dock slot keeps its place in the row and the band, but shows nothing and takes no focus.
             if (h.sheen != null) h.sheen.reset();
             h.card.setVisibility(View.INVISIBLE);
             h.card.setFocusable(false);
-            h.name.setVisibility(View.INVISIBLE);
+            h.name.setVisibility(hideDockNameGone ? View.GONE : View.INVISIBLE);
             h.banner.setImageDrawable(null);
             h.icon.setImageDrawable(null);
             h.card.setOnClickListener(null);
@@ -730,7 +766,8 @@ public class AppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         // In a single row every tile is the dock's kind: the big title above names it.
         boolean dockKind = DockSlots.inDockRow(dockRow, singleRow, position, dockSize);
         boolean isFolder = e.kind == Entry.FOLDER;
-        h.name.setVisibility(dockKind && restNameAlpha == 0f ? View.INVISIBLE : View.VISIBLE);
+        h.name.setVisibility(dockKind && restNameAlpha == 0f
+                ? (hideDockNameGone ? View.GONE : View.INVISIBLE) : View.VISIBLE);
         h.inDock = dockKind;
         h.isFolder = isFolder;
         boolean focused = h.card.isFocused();   // a rebind after reload() can hit the focused tile

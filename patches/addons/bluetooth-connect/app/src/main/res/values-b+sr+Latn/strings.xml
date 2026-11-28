@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth povezivanje</string>
+
+    <string name="perm_needed_install">Potrebna je dozvola za Uređaje u blizini: pokrenite install.sh jednom ili je dozvolite u podešavanjima aplikacije.</string>
+    <string name="perm_needed">Potrebna je dozvola za Uređaje u blizini: dozvolite je u podešavanjima aplikacije.</string>
+    <string name="bt_off">Bluetooth je isključen. Uključite ga u podešavanjima TV-a.</string>
+    <string name="state_working">Obrada…</string>
+    <string name="state_connected">Povezano</string>
+    <string name="state_not_connected">Nije povezano</string>
+    <string name="action_disconnect">Prekini vezu</string>
+    <string name="action_connect">Poveži</string>
+    <string name="status_none">Nema uparenih zvučnika. Prvo uparite zvučnik u Bluetooth podešavanjima TV-a.</string>
+    <string name="status_hint">OK povezuje zvučnik ili prekida vezu.</string>
+    <string name="status_refused">Android je odbio zahtev. Koristite Bluetooth podešavanja TV-a: %1$s</string>
 </resources>

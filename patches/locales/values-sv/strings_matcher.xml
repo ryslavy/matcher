@@ -150,8 +150,10 @@
     <!-- Startskärmsfunktioner & Liquid Glass-stilar -->
     <string name="fs_sec_glass">Liquid Glass &amp; Upplevelse</string>
     <string name="fs_liquid_clock">Liquid Glass-klocka (iOS 26)</string>
-    <string name="fs_home_liquid">Optiskt Liquid Glass på startskärmen</string>
+    <string name="fs_home_liquid">Liquid Glass-optik</string>
     <string name="fs_home_backdrop_blur">Bakgrundsoskärpa på startskärmen</string>
+    <string name="fs_nested_menu_blur">Oskärpa för undermenyer</string>
+    <string name="fs_dock_ambient_glow">Färgglöd bakom dockan</string>
     <string name="fs_glass_material">Glasstil</string>
     <string name="fs_glass_material_title">Välj Liquid Glass-stil</string>
     <string name="glass_style_tonal">Frostat tonat</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Knappmappning sparad</string>
     <string name="rm_action_mute">Stäng av ljudet</string>
     <string name="rm_action_ignore">Ignorera knapp (inaktivera)</string>
+    <string name="wallpaper_picsum">Slumpmässigt webbfoto (Picsum)</string>
+    <string name="wallpaper_picsum_next">Ladda nytt webbfoto nu</string>
+    <string name="wallpaper_picsum_loading">Laddar nytt webbfoto…</string>
+    <string name="wallpaper_picsum_failed">Kunde inte ladda webbfoto</string>
+    <string name="settings_reload_launcher">Ladda om startskärmen</string>
+    <string name="launcher_updated_toast">Matcher uppdaterad till v%1$s</string>
 </resources>

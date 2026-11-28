@@ -11,6 +11,7 @@ import android.provider.Settings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Android takes an app's accessibility services off the enabled list when the app is force-stopped (Settings, a
@@ -26,6 +27,7 @@ final class ServiceRepair {
     private static final ComponentName SLEEP_TIMER_SERVICE =
             new ComponentName("io.github.luyzfernando08.sleeptimer",
                     "io.github.luyzfernando08.sleeptimer.SleepService");
+    private static final AtomicBoolean REPAIR_IN_FLIGHT = new AtomicBoolean(false);
 
     private ServiceRepair() {
     }
@@ -39,6 +41,19 @@ final class ServiceRepair {
     }
 
     static void restore(Context context) {
+        restoreInternal(context, false);
+    }
+
+    /**
+     * Always runs the atomic Accessibility bounce-rebind after an in-place APK / OTA upgrade
+     * ({@code MY_PACKAGE_REPLACED}), even when {@code enabled_accessibility_services} still lists
+     * our service, so Android 14 drops any stale service binder immediately.
+     */
+    static void forceRebindAfterUpdate(Context context) {
+        restoreInternal(context, true);
+    }
+
+    private static void restoreInternal(Context context, boolean forceCycle) {
         if (context.checkSelfPermission(Manifest.permission.WRITE_SECURE_SETTINGS)
                 != PackageManager.PERMISSION_GRANTED) return;
         try {
@@ -53,7 +68,19 @@ final class ServiceRepair {
             }
             List<ComponentName> recorded = new ArrayList<>();
             for (String service : prefs(context).getAll().keySet()) {
-                recorded.add(new ComponentName(context.getPackageName(), service));
+                ComponentName cn = new ComponentName(context.getPackageName(), service);
+                if (!recorded.contains(cn)) recorded.add(cn);
+            }
+            // On Android 14, an in-place APK upgrade calls onUnbind() right before killing the old process
+            // (which removes our service from prefs), even though enabled_accessibility_services still lists
+            // our own package's service. Preserve any enabled service from our own package so OTA bounce-rebind
+            // always brings HomeKeyService back cleanly!
+            String ownPkg = context.getPackageName();
+            for (ComponentName cn : enabled) {
+                if (ownPkg.equals(cn.getPackageName()) && !recorded.contains(cn)) {
+                    recorded.add(cn);
+                    prefs(context).edit().putBoolean(cn.getClassName(), true).apply();
+                }
             }
             // Also guard Sleep Timer's SleepService once observed enabled so an accidental force-stop
             // never leaves Sleep Timer disabled in Accessibility settings.
@@ -89,28 +116,32 @@ final class ServiceRepair {
             }
             // Hisense songshan's standby kill leaves the list naming the helper and only drops the switch to 0, with
             // the helper marked crashed (#3404): a confirmed 0 needs the same cycle. Default -1, so an absent or
-            // unreadable switch with a complete list is left alone.
-            if (!missing && Settings.Secure.getInt(cr, Settings.Secure.ACCESSIBILITY_ENABLED, -1) != 0) return;
-            // A killed helper also lands on Android's "Crashed services" list (dumpsys accessibility), and a
-            // crashed service is never bound again, so putting it back on the list alone binds nothing and the
-            // switch falls back to 0 (Hisense songshan, Android 11, whose standby kills third-party apps). Android
-            // drops the crashed mark when it sees the helper leave the enabled list, so add, remove, add: after a
-            // force stop the list is already empty, and a removal that changes nothing is not seen. Off the main
-            // thread, so Home does not wait for the pauses. Each write first checks the list still reads what the
-            // previous step left, and the cycle stops otherwise: a service turned on or off during a pause stays
-            // that way instead of being overwritten by a snapshot.
+            // unreadable switch with a complete list is left alone unless forceCycle is requested after an update.
+            if (!forceCycle && !missing && Settings.Secure.getInt(cr, Settings.Secure.ACCESSIBILITY_ENABLED, -1) != 0) return;
+            if (!REPAIR_IN_FLIGHT.compareAndSet(false, true)) return;
             final String without = others.toString();
             final String with = updated.toString();
+            final boolean alreadyPresent = !missing;
+            final long pauseMs = forceCycle ? 700L : 1000L;
             new Thread(() -> {
                 try {
+                    if (forceCycle && alreadyPresent) {
+                        if (!replaceList(cr, list, without)) return;
+                        Thread.sleep(pauseMs);
+                        if (!replaceList(cr, without, with)) return;
+                        Settings.Secure.putInt(cr, Settings.Secure.ACCESSIBILITY_ENABLED, 1);
+                        return;
+                    }
                     if (!replaceList(cr, list, with)) return;
-                    Thread.sleep(1000);
+                    Thread.sleep(pauseMs);
                     if (!replaceList(cr, with, without)) return;
-                    Thread.sleep(1000);
+                    Thread.sleep(pauseMs);
                     if (!replaceList(cr, without, with)) return;
                     Settings.Secure.putInt(cr, Settings.Secure.ACCESSIBILITY_ENABLED, 1);
                 } catch (RuntimeException | InterruptedException ignored) {
                     // The setting is the system's; a refusal leaves the helper off, as before.
+                } finally {
+                    REPAIR_IN_FLIGHT.set(false);
                 }
             }, "ServiceRepair").start();
         } catch (RuntimeException ignored) {

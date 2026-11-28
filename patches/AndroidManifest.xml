@@ -304,6 +304,14 @@
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <receiver
+            android:name=".ReloadReceiver"
+            android:exported="true"
+            android:permission="android.permission.WRITE_SECURE_SETTINGS">
+            <intent-filter>
+                <action android:name="com.gathin.tvhome.ACTION_RELOAD" />
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".SelfUpdater$InstallReceiver"
             android:exported="false" />
         <receiver

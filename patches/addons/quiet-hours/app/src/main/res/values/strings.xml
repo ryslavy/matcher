@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quiet Hours</string>
+    <string name="channel_name">Volume cap</string>
+    <string name="notification_text">Keeping the volume under the cap. Open Quiet Hours to change it.</string>
+
+    <string name="row_quiet_hours">Quiet hours</string>
+    <string name="row_volume_cap">Volume cap</string>
+    <string name="row_volume_cap_detail">The loudest the TV may play during quiet hours.</string>
+    <string name="row_volume_cap_step">The loudest the TV may play during quiet hours: step %1$d of %2$d.</string>
+    <string name="row_starts">Starts</string>
+    <string name="row_starts_detail">◀ ▶ moves 15 minutes.</string>
+    <string name="row_ends">Ends</string>
+    <string name="row_headphones">Headphones</string>
+    <string name="row_headphones_detail">Headphones don\'t wake the room, so they can go louder.</string>
+    <string name="val_off">Off</string>
+    <string name="val_always">Always</string>
+    <string name="val_scheduled">Scheduled</string>
+    <string name="mode_detail_scheduled">Every day between the times below.</string>
+    <string name="mode_detail_always">The cap applies all day.</string>
+    <string name="mode_detail_off">No cap.</string>
+    <string name="val_no_cap">No cap</string>
+    <string name="val_capped_too">Capped too</string>
+    <string name="status_fixed_volume">This TV\'s volume is fixed (HDMI ARC or an amplifier), so Android can\'t cap it.</string>
+    <string name="status_off">Volume %1$d of %2$d. Quiet hours are off.</string>
+    <string name="status_capped">Volume %1$d of %2$d. Capped at %3$d.</string>
+    <string name="status_capped_until">Volume %1$d of %2$d. Capped at %3$d until %4$s.</string>
+    <string name="status_capped_hp">Volume %1$d of %2$d. Capped at %3$d. Headphones: no cap.</string>
+    <string name="status_capped_until_hp">Volume %1$d of %2$d. Capped at %3$d until %4$s. Headphones: no cap.</string>
+    <string name="status_from">Volume %1$d of %2$d. Quiet hours from %3$s.</string>
+</resources>

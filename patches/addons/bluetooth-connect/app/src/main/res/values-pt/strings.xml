@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Conexão Bluetooth</string>
+    <string name="perm_needed_install">Precisa da permissão Dispositivos próximos: execute install.sh uma vez ou permita nas configurações do app.</string>
+    <string name="perm_needed">Precisa da permissão Dispositivos próximos: permita nas configurações do app.</string>
+    <string name="bt_off">O Bluetooth está desativado. Ative-o nas configurações da TV.</string>
+    <string name="state_working">Processando…</string>
+    <string name="state_connected">Conectado</string>
+    <string name="state_not_connected">Não conectado</string>
+    <string name="action_disconnect">Desconectar</string>
+    <string name="action_connect">Conectar</string>
+    <string name="status_none">Nenhuma caixa de som pareada. Pareie uma primeiro nas configurações de Bluetooth da TV.</string>
+    <string name="status_hint">OK conecta ou desconecta uma caixa de som.</string>
+    <string name="status_refused">O Android recusou. Use as configurações de Bluetooth da TV: %1$s</string>
 </resources>

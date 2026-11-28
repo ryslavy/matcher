@@ -152,8 +152,10 @@
     <!-- Nastavenia funkcií a štýly Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass &amp; Ovládanie</string>
     <string name="fs_liquid_clock">Liquid Glass hodiny (iOS 26)</string>
-    <string name="fs_home_liquid">Optický Liquid Glass na domovskej obrazovke</string>
+    <string name="fs_home_liquid">Optika tekutého skla</string>
     <string name="fs_home_backdrop_blur">Rozmazanie pozadia na domovskej obrazovke</string>
+    <string name="fs_nested_menu_blur">Rozmazanie vnorených menu</string>
+    <string name="fs_dock_ambient_glow">Farebná žiara za dockom</string>
     <string name="fs_glass_material">Štýl skla</string>
     <string name="fs_glass_material_title">Vyberte štýl Liquid Glass</string>
     <string name="glass_style_tonal">Matné tónované</string>
@@ -242,4 +244,10 @@
     <string name="rm_saved">Mapovanie tlačidla uložené</string>
     <string name="rm_action_mute">Stlmiť zvuk</string>
     <string name="rm_action_ignore">Ignorovať tlačidlo (vypnúť)</string>
+    <string name="wallpaper_picsum">Náhodná fotka z webu (Picsum)</string>
+    <string name="wallpaper_picsum_next">Načítať novú fotku z webu</string>
+    <string name="wallpaper_picsum_loading">Načítavam novú fotku z webu…</string>
+    <string name="wallpaper_picsum_failed">Nepodarilo sa načítať fotku z webu</string>
+    <string name="settings_reload_launcher">Znovu načítať spúšťač</string>
+    <string name="launcher_updated_toast">Matcher aktualizovaný na v%1$s</string>
 </resources>

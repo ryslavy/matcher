@@ -188,6 +188,11 @@ final class QrConfigServer {
             handleWallpaperUpload(in, out, head, deadline);
             return;
         }
+        // Route 2b: Fetch a fresh 1920x1080 random photo from picsum.photos
+        if ((path + "/wallpaper-picsum").equals(target) && "POST".equals(method)) {
+            handlePicsumWallpaper(out);
+            return;
+        }
         // Route 3: Import raw config.json body
         if ((path + "/config.json").equals(target) && "POST".equals(method)) {
             handleConfigJsonUpload(in, out, head, deadline);
@@ -265,7 +270,28 @@ final class QrConfigServer {
                 .apply();
         Config.invalidateCache();
         FeaturePrefs.bumpRevision(appCtx);
+        MainActivity.requestGracefulReload(appCtx, false);
         String msg = "Wallpaper updated (" + (img.length / 1024) + " KB)";
+        respond(out, "200 OK", "text/plain; charset=utf-8", msg.getBytes(StandardCharsets.UTF_8));
+        listener.onSaved(msg);
+    }
+
+    private void handlePicsumWallpaper(OutputStream out) throws IOException {
+        File fetched = PicsumWallpapers.fetchFreshBlocking(appCtx);
+        if (fetched == null || !fetched.isFile()) {
+            respond(out, "502 Bad Gateway", "text/plain; charset=utf-8",
+                    "Could not fetch photo from picsum.photos (check TV internet connection).".getBytes(StandardCharsets.UTF_8));
+            return;
+        }
+        SharedPreferences choices = appCtx.getSharedPreferences(Config.SETTINGS_NAME, Context.MODE_PRIVATE);
+        choices.edit()
+                .putString(Config.WALLPAPER_CHOICE_KEY, PicsumWallpapers.CHOICE_PICSUM)
+                .putLong(Config.SETTINGS_REVISION_KEY, choices.getLong(Config.SETTINGS_REVISION_KEY, 0L) + 1L)
+                .apply();
+        Config.invalidateCache();
+        FeaturePrefs.bumpRevision(appCtx);
+        MainActivity.requestGracefulReload(appCtx, false);
+        String msg = "Random Picsum.photos wallpaper applied (" + (fetched.length() / 1024) + " KB)";
         respond(out, "200 OK", "text/plain; charset=utf-8", msg.getBytes(StandardCharsets.UTF_8));
         listener.onSaved(msg);
     }
@@ -323,6 +349,7 @@ final class QrConfigServer {
                 .apply();
         Config.invalidateCache();
         HomeKeyService.reloadRemoteKeys();
+        MainActivity.requestGracefulReload(appCtx, true);
         String msg = "config.json imported (" + text.length() + " B)";
         respond(out, "200 OK", "text/plain; charset=utf-8", msg.getBytes(StandardCharsets.UTF_8));
         listener.onSaved(msg);
@@ -614,6 +641,7 @@ final class QrConfigServer {
                 .append("<label>Upload custom wallpaper from phone (JPG / PNG / WebP, max 10 MB)</label>")
                 .append("<input id='wpFile' type='file' accept='image/jpeg,image/png,image/webp'>")
                 .append("<button type='button' class='btn2' onclick='uploadWp()'>Upload Wallpaper to TV</button>")
+                .append("<button type='button' class='btn2' onclick='usePicsum()'>Load Random Web Photo (Picsum.photos)</button>")
                 .append("<div id='wpSt' class='note'></div>")
                 .append("<hr style='border:0;border-top:1px solid rgba(255,255,255,0.12);margin:14px 0'>")
                 .append("<a class='btn btn2' href='").append(esc(path)).append("/config.json'>Download current config.json</a>")
@@ -626,6 +654,7 @@ final class QrConfigServer {
 
                 .append("<script>")
                 .append("async function uploadWp(){const f=document.getElementById('wpFile').files[0];const st=document.getElementById('wpSt');if(!f){st.textContent='Choose an image first.';return;}st.textContent='Uploading…';const r=await fetch('").append(esc(path)).append("/wallpaper',{method:'POST',body:f});st.textContent=await r.text();}")
+                .append("async function usePicsum(){const st=document.getElementById('wpSt');st.textContent='Fetching 1920x1080 photo from picsum.photos…';const r=await fetch('").append(esc(path)).append("/wallpaper-picsum',{method:'POST'});st.textContent=await r.text();}")
                 .append("function loadCfgFile(inp){const f=inp.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>document.getElementById('cfgTxt').value=fr.result;fr.readAsText(f);}")
                 .append("async function uploadCfg(){const t=document.getElementById('cfgTxt').value.trim();const st=document.getElementById('cfgSt');if(!t){st.textContent='Paste or choose config.json first.';return;}st.textContent='Importing…';const r=await fetch('").append(esc(path)).append("/config.json',{method:'POST',headers:{'Content-Type':'application/json'},body:t});st.textContent=await r.text();}")
                 .append("</script></div></body></html>");

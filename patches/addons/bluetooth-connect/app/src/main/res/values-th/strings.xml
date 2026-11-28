@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">เชื่อมต่อบลูทูธ</string>
+
+    <string name="perm_needed_install">ต้องได้รับสิทธิ์อุปกรณ์ใกล้เคียง: เรียกใช้ install.sh หนึ่งครั้ง หรืออนุญาตในการตั้งค่าแอป</string>
+    <string name="perm_needed">ต้องได้รับสิทธิ์อุปกรณ์ใกล้เคียง: อนุญาตในการตั้งค่าแอป</string>
+    <string name="bt_off">บลูทูธปิดอยู่ โปรดเปิดในการตั้งค่าของทีวี</string>
+    <string name="state_working">กำลังดำเนินการ…</string>
+    <string name="state_connected">เชื่อมต่อแล้ว</string>
+    <string name="state_not_connected">ไม่ได้เชื่อมต่อ</string>
+    <string name="action_disconnect">ยกเลิกการเชื่อมต่อ</string>
+    <string name="action_connect">เชื่อมต่อ</string>
+    <string name="status_none">ไม่มีลำโพงที่จับคู่ไว้ โปรดจับคู่ในการตั้งค่าบลูทูธของทีวีก่อน</string>
+    <string name="status_hint">กด OK เพื่อเชื่อมต่อหรือยกเลิกการเชื่อมต่อลำโพง</string>
+    <string name="status_refused">Android ปฏิเสธคำขอ โปรดใช้การตั้งค่าบลูทูธของทีวี: %1$s</string>
 </resources>

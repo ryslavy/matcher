@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bluetooth Connect</string>
+
+    <string name="perm_needed_install">Needs the Nearby devices permission: run install.sh once, or allow it in the app\'s settings.</string>
+    <string name="perm_needed">Needs the Nearby devices permission: allow it in the app\'s settings.</string>
+    <string name="bt_off">Bluetooth is off. Turn it on in the TV\'s settings.</string>
+    <string name="state_working">Working…</string>
+    <string name="state_connected">Connected</string>
+    <string name="state_not_connected">Not connected</string>
+    <string name="action_disconnect">Disconnect</string>
+    <string name="action_connect">Connect</string>
+    <string name="status_none">No paired speakers. Pair one in the TV\'s Bluetooth settings first.</string>
+    <string name="status_hint">OK connects or disconnects a speaker.</string>
+    <string name="status_refused">Android refused. Use the TV\'s Bluetooth settings: %1$s</string>
+</resources>

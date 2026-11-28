@@ -150,8 +150,10 @@
     <!-- Launcher-funktioner & Liquid Glass-stile -->
     <string name="fs_sec_glass">Liquid Glass &amp; Oplevelse</string>
     <string name="fs_liquid_clock">Liquid Glass-ur (iOS 26)</string>
-    <string name="fs_home_liquid">Optisk Liquid Glass på startskærm</string>
+    <string name="fs_home_liquid">Liquid Glass-optik</string>
     <string name="fs_home_backdrop_blur">Sløret baggrund på startskærm</string>
+    <string name="fs_nested_menu_blur">Sløring af indlejrede menuer</string>
+    <string name="fs_dock_ambient_glow">Farveglød bag docken</string>
     <string name="fs_glass_material">Glasstil</string>
     <string name="fs_glass_material_title">Vælg Liquid Glass-stil</string>
     <string name="glass_style_tonal">Frostet tonet</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Knaptilknytning gemt</string>
     <string name="rm_action_mute">Slå lyd fra</string>
     <string name="rm_action_ignore">Ignorér knap (deaktivér)</string>
+    <string name="wallpaper_picsum">Tilfældigt webfoto (Picsum)</string>
+    <string name="wallpaper_picsum_next">Indlæs nyt webfoto nu</string>
+    <string name="wallpaper_picsum_loading">Indlæser nyt webfoto…</string>
+    <string name="wallpaper_picsum_failed">Kunne ikke indlæse webfoto</string>
+    <string name="settings_reload_launcher">Genindlæs launcher</string>
+    <string name="launcher_updated_toast">Matcher opdateret til v%1$s</string>
 </resources>

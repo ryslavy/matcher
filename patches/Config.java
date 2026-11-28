@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -208,6 +209,8 @@ final class Config {
     final boolean restoreKeyServices;
     /** Whether themes may show a wallpaper (config.json, wallpaper). */
     final boolean wallpaperEnabled;
+    /** True when the user picked Picsum.photos random web wallpaper in Launcher settings. */
+    final boolean picsumWallpaper;
     /** Full-screen picture behind the launcher, or null for the plain colour. */
     final File wallpaper;
     /** Rotating theme images, or the single wallpaper when no collection is configured. */
@@ -294,7 +297,7 @@ final class Config {
                    String inputUriScheme, int columns, int rowsBelowDock, boolean animations, boolean advancedEffects,
                    boolean shamsiDate, String greetingName, boolean moduleCards, boolean reducedMotion, boolean bootToLiveTv, boolean openOnStartChoice, boolean dockTitle, boolean dockRow, boolean topMenu, boolean launcherSettingsButton, boolean reorderButton, boolean showNetworkPill, boolean showInputsPill, boolean iconOnlyButtons, boolean iconOnlyInputs, boolean libraryButton, boolean showLibraryPill, int wifiLabelWidth, boolean alwaysShowNames, boolean wallpaperTrueColor, boolean focusOvershoot, String vpnApp,
                    boolean showHomeSettingsShortcut, boolean showStats, String gameDay, boolean appLibrary, boolean appLibrarySelection, boolean libraryOkOpens, boolean uniformTiles, int backgroundColor, int skyIntensity,
-                   int[] settingsKeycodes, boolean settingsKeyPanel, boolean restoreKeyServices, boolean wallpaperEnabled, File wallpaper, List<File> wallpapers,
+                   int[] settingsKeycodes, boolean settingsKeyPanel, boolean restoreKeyServices, boolean wallpaperEnabled, boolean picsumWallpaper, File wallpaper, List<File> wallpapers,
                    int wallpaperRotationMinutes, int wallpaperDim, int dockOpacity, String wallpaperOrder, boolean overlayApplied,
                    Festival festival, int[] inputKeycodes, List<String> appKeys, String stockHomeRedirect,
                    List<RaceWeekend.Race> raceCalendar, boolean cinematicHome, boolean ambientGlow, boolean appGlow, boolean fadeRows, int homeIdleClockMinutes,
@@ -375,6 +378,7 @@ final class Config {
         this.settingsKeyPanel = settingsKeyPanel;
         this.restoreKeyServices = restoreKeyServices;
         this.wallpaperEnabled = wallpaperEnabled;
+        this.picsumWallpaper = picsumWallpaper;
         this.wallpaper = wallpaper;
         this.wallpapers = Collections.unmodifiableList(wallpapers);
         this.wallpaperRotationMinutes = wallpaperRotationMinutes;
@@ -456,10 +460,11 @@ final class Config {
         File revision = dir != null ? new File(dir, THEME_REVISION_NAME) : null;
         File wpSingle = dir != null ? new File(dir, WALLPAPER_NAME) : null;
         File wpDir = dir != null ? new File(dir, "wallpapers") : null;
+        File picsumFile = PicsumWallpapers.currentFile(ctx);
         boolean mounted = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
         SharedPreferences choices = ctx.getSharedPreferences(SETTINGS_NAME, Context.MODE_PRIVATE);
         int featureRev = FeaturePrefs.revision(ctx);
-        String cacheKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, choices, featureRev);
+        String cacheKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, picsumFile, choices, featureRev);
         synchronized (CACHE_LOCK) {
             if (cachedConfig != null && cacheKey.equals(cachedConfigKey)) {
                 return cachedConfig;
@@ -743,21 +748,34 @@ final class Config {
             wallpapers.addAll(scannedCollection);
         }
         if (wallpapers.isEmpty() && wallpaper != null) wallpapers.add(wallpaper);
-        // An on-TV wallpaper pick overrides the theme: a filename from the wallpapers/
-        // collection, or "none". Unset means the theme decides (off by default).
+        // An on-TV wallpaper pick overrides the theme: "picsum" (web photo), a filename from wallpapers/,
+        // or "none". Unset means the theme decides.
         String wallpaperChoice = choices.getString(WALLPAPER_CHOICE_KEY, null);
-        List<File> chosen = null;
-        if (wallpaperChoice != null) {
-            List<File> pool = WallpaperRotation.CHOICE_NONE.equals(wallpaperChoice) || dir == null
-                    ? Collections.emptyList()
-                    : (scannedCollection != null ? scannedCollection : WallpaperRotation.images(new File(dir, "wallpapers")));
-            chosen = WallpaperRotation.chosen(pool, wallpaper, wallpaperChoice);
-        }
-        if (chosen != null) {
+        boolean picsumWallpaper = PicsumWallpapers.isChoicePicsum(wallpaperChoice);
+        if (picsumWallpaper) {
             wallpapers.clear();
-            wallpapers.addAll(chosen);
-            wallpaper = chosen.isEmpty() ? null : chosen.get(0);
-            wallpaperEnabled = !chosen.isEmpty();
+            if (picsumFile.isFile() && picsumFile.length() > 0) {
+                wallpapers.add(picsumFile);
+                wallpaper = picsumFile;
+            } else {
+                wallpaper = null;
+            }
+            wallpaperEnabled = true;
+            if (rotationMinutes <= 0) rotationMinutes = PicsumWallpapers.DEFAULT_ROTATION_MINUTES;
+        } else {
+            List<File> chosen = null;
+            if (wallpaperChoice != null) {
+                List<File> pool = WallpaperRotation.CHOICE_NONE.equals(wallpaperChoice) || dir == null
+                        ? Collections.emptyList()
+                        : (scannedCollection != null ? scannedCollection : WallpaperRotation.images(new File(dir, "wallpapers")));
+                chosen = WallpaperRotation.chosen(pool, wallpaper, wallpaperChoice);
+            }
+            if (chosen != null) {
+                wallpapers.clear();
+                wallpapers.addAll(chosen);
+                wallpaper = chosen.isEmpty() ? null : chosen.get(0);
+                wallpaperEnabled = !chosen.isEmpty();
+            }
         }
         // A festive skin comes only from a theme; config.xml has no festival. seasonal_skin names one the same way
         // but launchers before it ignore the key, so a theme can carry it without older ones showing the diya skin.
@@ -770,7 +788,7 @@ final class Config {
                 openOnStartChoice, dockTitle, dockRow, topMenu, launcherSettingsButton, reorderButton, showNetworkPill, showInputsPill,
                 iconOnlyButtons, iconOnlyInputs, libraryButton, showLibraryPill, wifiLabelWidth, alwaysShowNames, wallpaperTrueColor, focusOvershoot,
                 vpn, homeSettings, showStats, gameDay, library, librarySelection, libraryOkOpens, uniformTiles, background,
-                Math.max(0, Math.min(100, skyIntensity)), settingsKeycodes, settingsKeyPanel, restoreKeyServices, wallpaperEnabled, wallpaper,
+                Math.max(0, Math.min(100, skyIntensity)), settingsKeycodes, settingsKeyPanel, restoreKeyServices, wallpaperEnabled, picsumWallpaper, wallpaper,
                 wallpapers, rotationMinutes, wallpaperDim, dockOpacity, wallpaperOrder, applied, festival, inputKeycodes, appKeys, stockHomeRedirect,
                 json == null ? Collections.emptyList() : raceCalendar(json), cinematic, ambientGlow, appGlow, fadeRows,
                 Math.max(0, idleClockMinutes), keyFilter, dockGlass, glowStyle, wallpaperCaptions, handleViewInputs, tileMenu, dockEvenPadding,
@@ -780,7 +798,7 @@ final class Config {
                 dateBelowClock, vpnPill, locale, powerOnHomeAlways, inputsConnectedOnly, inputsCecStateOnly,
                 Math.max(0, Math.min(600, openOnStartNetworkWait)), openOnStartOnWake, iconOnlyVpn, clockFormat, backOpensClock, glowSnap,
                 settingsKeyClearTask);
-        String finalKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, choices, featureRev);
+        String finalKey = buildCacheKey(mounted, dir, file, revision, wpSingle, wpDir, picsumFile, choices, featureRev);
         synchronized (CACHE_LOCK) {
             cachedConfig = built;
             cachedConfigKey = finalKey;
@@ -788,15 +806,65 @@ final class Config {
         return built;
     }
 
+    /**
+     * Returns true ONLY when structural Home layout/chrome/adapter inputs changed and a seamless
+     * crossfade rebuild is required. Pure runtime changes (wallpaper, Picsum, "No wallpaper",
+     * clock format, animations, advanced effects, dock opacity, remote keys, sky, background color,
+     * ambient glow) apply live in-place with zero Activity teardown!
+     */
+    static boolean requiresStructuralRebuild(Config a, Config b) {
+        if (a == null || b == null) return true;
+        if (a.columns != b.columns || a.rowsBelowDock != b.rowsBelowDock
+                || a.dockRow != b.dockRow || a.singleRow != b.singleRow
+                || a.dockBand != b.dockBand || a.dockBandAll != b.dockBandAll
+                || a.dockGlass != b.dockGlass || a.dockEvenPadding != b.dockEvenPadding
+                || a.dockTitle != b.dockTitle || a.alwaysShowNames != b.alwaysShowNames
+                || a.cinematicHome != b.cinematicHome || a.cinematicDots != b.cinematicDots
+                || a.cinematicScrim != b.cinematicScrim || a.cinematicWhiteFocus != b.cinematicWhiteFocus
+                || a.topMenu != b.topMenu || a.launcherSettingsButton != b.launcherSettingsButton
+                || a.reorderButton != b.reorderButton || a.showNetworkPill != b.showNetworkPill
+                || a.showInputsPill != b.showInputsPill || a.showLibraryPill != b.showLibraryPill
+                || a.libraryButton != b.libraryButton || a.iconOnlyButtons != b.iconOnlyButtons
+                || a.iconOnlyInputs != b.iconOnlyInputs || a.iconOnlyVpn != b.iconOnlyVpn
+                || a.vpnPill != b.vpnPill || a.showGreeting != b.showGreeting
+                || a.headerWhite != b.headerWhite || a.dateBelowClock != b.dateBelowClock
+                || a.shamsiDate != b.shamsiDate || a.lunarDate != b.lunarDate
+                || a.lunarUtcOffset != b.lunarUtcOffset || a.fadeRows != b.fadeRows
+                || a.uniformTiles != b.uniformTiles || a.appLibrary != b.appLibrary
+                || a.showStats != b.showStats || a.wifiLabelWidth != b.wifiLabelWidth
+                || a.wifiStatusColor != b.wifiStatusColor || a.wifiStatusWarnings != b.wifiStatusWarnings
+                || a.fillDock != b.fillDock || a.moduleCards != b.moduleCards
+                || a.showHomeSettingsShortcut != b.showHomeSettingsShortcut) {
+            return true;
+        }
+        return !Objects.equals(a.glowStyle, b.glowStyle)
+                || !Objects.equals(a.glassStyle, b.glassStyle)
+                || !Objects.equals(a.locale, b.locale)
+                || !Objects.equals(a.greetingName, b.greetingName)
+                || !Objects.equals(a.gameDay, b.gameDay)
+                || !Objects.equals(a.vpnApp, b.vpnApp)
+                || !Objects.equals(a.topBarApps, b.topBarApps)
+                || !Objects.equals(a.dockApps, b.dockApps)
+                || !Objects.equals(a.hiddenApps, b.hiddenApps)
+                || !Objects.equals(a.libraryApps, b.libraryApps)
+                || !Objects.equals(a.libraryExcludedApps, b.libraryExcludedApps)
+                || !Objects.equals(a.appLabels, b.appLabels)
+                || !Objects.equals(a.appBanners, b.appBanners)
+                || !Objects.equals(a.launchActions, b.launchActions)
+                || a.festival != b.festival;
+    }
+
     private static String buildCacheKey(boolean mounted, File dir, File file, File revision,
-                                        File wpSingle, File wpDir, SharedPreferences choices, int featureRev) {
-        StringBuilder sb = new StringBuilder(160);
+                                        File wpSingle, File wpDir, File picsumFile,
+                                        SharedPreferences choices, int featureRev) {
+        StringBuilder sb = new StringBuilder(192);
         sb.append(mounted ? '1' : '0').append('|')
                 .append(dir != null ? dir.getAbsolutePath() : "").append('|')
                 .append(fileStamp(file)).append('|')
                 .append(fileStamp(revision)).append('|')
                 .append(fileStamp(wpSingle)).append('|')
                 .append(wpDir != null && wpDir.isDirectory() ? wpDir.lastModified() : -1L).append('|')
+                .append(fileStamp(picsumFile)).append('|')
                 .append(choices.getLong(SETTINGS_REVISION_KEY, 0L)).append('|')
                 .append(choices.getInt("columns", -1)).append('|')
                 .append(choices.getInt(ROWS_BELOW_DOCK_KEY, -1)).append('|')

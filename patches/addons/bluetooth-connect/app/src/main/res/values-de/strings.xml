@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth verbinden</string>
+
+    <string name="perm_needed_install">Benötigt die Berechtigung „Geräte in der Nähe“: Führe install.sh einmal aus oder erlaube sie in den App-Einstellungen.</string>
+    <string name="perm_needed">Benötigt die Berechtigung „Geräte in der Nähe“: Erlaube sie in den App-Einstellungen.</string>
+    <string name="bt_off">Bluetooth ist aus. Schalte es in den TV-Einstellungen ein.</string>
+    <string name="state_working">Wird ausgeführt…</string>
+    <string name="state_connected">Verbunden</string>
+    <string name="state_not_connected">Nicht verbunden</string>
+    <string name="action_disconnect">Trennen</string>
+    <string name="action_connect">Verbinden</string>
+    <string name="status_none">Keine gekoppelten Lautsprecher. Kopple zuerst einen in den Bluetooth-Einstellungen des TVs.</string>
+    <string name="status_hint">OK verbindet oder trennt einen Lautsprecher.</string>
+    <string name="status_refused">Android hat abgelehnt. Nutze die Bluetooth-Einstellungen des TVs: %1$s</string>
 </resources>

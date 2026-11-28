@@ -3,4 +3,29 @@
     <string name="app_name">Ruhezeiten</string>
     <string name="channel_name">Lautstärkelimit</string>
     <string name="notification_text">Die Lautstärke bleibt unter dem Limit. Öffne Ruhezeiten, um es zu ändern.</string>
+
+    <string name="row_quiet_hours">Ruhezeiten</string>
+    <string name="row_volume_cap">Lautstärkelimit</string>
+    <string name="row_volume_cap_detail">Wie laut der TV während der Ruhezeiten maximal spielen darf.</string>
+    <string name="row_volume_cap_step">Maximale TV-Lautstärke in den Ruhezeiten: Stufe %1$d von %2$d.</string>
+    <string name="row_starts">Beginn</string>
+    <string name="row_starts_detail">◀ ▶ verschiebt um 15 Minuten.</string>
+    <string name="row_ends">Ende</string>
+    <string name="row_headphones">Kopfhörer</string>
+    <string name="row_headphones_detail">Kopfhörer wecken niemanden im Raum und dürfen daher lauter sein.</string>
+    <string name="val_off">Aus</string>
+    <string name="val_always">Immer</string>
+    <string name="val_scheduled">Geplant</string>
+    <string name="mode_detail_scheduled">Jeden Tag zwischen den unten stehenden Zeiten.</string>
+    <string name="mode_detail_always">Das Limit gilt den ganzen Tag.</string>
+    <string name="mode_detail_off">Kein Limit.</string>
+    <string name="val_no_cap">Kein Limit</string>
+    <string name="val_capped_too">Ebenfalls begrenzt</string>
+    <string name="status_fixed_volume">Die Lautstärke dieses TVs ist fest (HDMI ARC oder Verstärker), daher kann Android sie nicht begrenzen.</string>
+    <string name="status_off">Lautstärke %1$d von %2$d. Ruhezeiten sind aus.</string>
+    <string name="status_capped">Lautstärke %1$d von %2$d. Begrenzt auf %3$d.</string>
+    <string name="status_capped_until">Lautstärke %1$d von %2$d. Begrenzt auf %3$d bis %4$s.</string>
+    <string name="status_capped_hp">Lautstärke %1$d von %2$d. Begrenzt auf %3$d. Kopfhörer: kein Limit.</string>
+    <string name="status_capped_until_hp">Lautstärke %1$d von %2$d. Begrenzt auf %3$d bis %4$s. Kopfhörer: kein Limit.</string>
+    <string name="status_from">Lautstärke %1$d von %2$d. Ruhezeiten ab %3$s.</string>
 </resources>

@@ -265,6 +265,7 @@ public final class OverlayActivity extends Activity {
             overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0);
         }
         activeRef = new WeakReference<>(this);
+        ExpressiveGlass.setNestedMenuBlurEnabled(FeaturePrefs.isNestedMenuBlurEnabled(this));
         config = Config.load(this);
         Intent startIntent = getIntent();
         overHome = startIntent != null && startIntent.hasExtra(ExpressiveGlass.EXTRA_OVER_HOME)
@@ -408,6 +409,10 @@ public final class OverlayActivity extends Activity {
                 }
                 MainActivity.notifyLibraryChanged();
             };
+            Set<String> excludedFromLibrary = new HashSet<>(config.libraryExcludedApps);
+            if (config.moduleCards) {
+                excludedFromLibrary.addAll(MainActivity.hiddenModuleCardPackages(this));
+            }
             libraryDialog = new AppLibraryDialog(
                     this,
                     config.animations,
@@ -417,7 +422,7 @@ public final class OverlayActivity extends Activity {
                     onHome,
                     onChanged,
                     this::finishCleanly,
-                    new HashSet<>(config.libraryExcludedApps));
+                    excludedFromLibrary);
             libraryDialog.showInOverlay(root, smoked);
         } else if (MODE_DISCOVER.equals(mode)) {
             stopMediaTracker();

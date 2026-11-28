@@ -36,24 +36,27 @@ import java.util.concurrent.Executors;
 
 /** Displays and rotates a theme's local wallpaper images while Home is visible. */
 final class WallpaperPlayer {
+    private final Context appContext;
     private final FrameLayout root;
     private final FrameLayout imageHost;
     private final ImageView image;
-    private final int backgroundColor;
+    private int backgroundColor;
+    private boolean wallpaperEnabled;
+    private boolean picsumWallpaper;
     private final List<File> files;
-    private final long interval;
-    private final String order;
+    private long interval;
+    private String order;
     private final SharedPreferences preferences;
     private final ExecutorService decoder = Executors.newSingleThreadExecutor();
     private final Random random = new Random();
     private final int width;
     /** config wallpaper_true_color: ARGB_8888 instead of RGB_565. */
-    private final Bitmap.Config bitmapConfig;
+    private Bitmap.Config bitmapConfig;
     private final int height;
     /** wallpaper_dim as an ARGB black, painted into each picture once instead of a full-screen shade view. */
-    private final int dimColor;
+    private int dimColor;
     /** Cinematic scrim opacity (0..255) baked directly into decoded wallpaper to eliminate a full-screen overdraw pass. */
-    private final int scrimAlpha;
+    private int scrimAlpha;
     private final boolean rtl;
     /** The picture on screen, released once the next one has been drawn. */
     private Bitmap current;
@@ -62,21 +65,23 @@ final class WallpaperPlayer {
     /** 480x270 crisp scaled wallpaper for AGSL Liquid Glass edge refraction. */
     private Bitmap sharpCurrent;
     private File displayedFile;
+    private long displayedStamp = -1L;
     private boolean sharpCrispMode;
+    private boolean imageAttached;
     private Runnable onWallpaperChanged;
     private boolean active;
     private boolean closed;
     private boolean loading;
     private String displayed = "";
     /** wallpaper_captions: the shown picture's name from wallpapers/captions.txt; null when off or there are none. */
-    private final TextView caption;
-    private final Map<String, String> names;
+    private TextView caption;
+    private Map<String, String> names;
     /** The grid is scrolled away from the dock, so the caption is faded out (scrolledAway). */
     private boolean captionAway;
     /** wallpaper_moods: the collection's groups by time of day; empty rotates through all of it. */
-    private final Map<String, Set<String>> moods;
+    private Map<String, Set<String>> moods;
     /** config.xml latitude and longitude for the sun's times, and today's {sunrise, sunset} once worked out. */
-    private final String latitude, longitude;
+    private String latitude, longitude;
     private LocalDate sunDay;
     private int[] sun;
 
@@ -85,11 +90,16 @@ final class WallpaperPlayer {
     }
 
     WallpaperPlayer(Context context, FrameLayout root, FrameLayout imageHost, Config config) {
+        this.appContext = context.getApplicationContext();
         this.root = root;
         this.imageHost = imageHost != null ? imageHost : root;
         backgroundColor = config.backgroundColor;
+        wallpaperEnabled = config.wallpaperEnabled;
+        picsumWallpaper = config.picsumWallpaper;
         files = new ArrayList<>(config.wallpapers);
-        interval = config.wallpaperRotationMinutes * 60_000L;
+        interval = picsumWallpaper
+                ? PicsumWallpapers.effectiveIntervalMs(config.wallpaperRotationMinutes)
+                : config.wallpaperRotationMinutes * 60_000L;
         bitmapConfig = config.wallpaperTrueColor ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
         // The dim & scrim are painted into the picture once on decode, eliminating full-screen overdraw layers.
         dimColor = config.wallpaperDim > 0 ? (config.wallpaperDim * 255 / 100) << 24 : 0;
@@ -114,14 +124,194 @@ final class WallpaperPlayer {
         image = new ImageView(context);
         image.setScaleType(ImageView.ScaleType.CENTER_CROP);
         image.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-        names = config.wallpaperCaptions && config.wallpaperEnabled && !files.isEmpty()
+        names = config.wallpaperCaptions && config.wallpaperEnabled && !picsumWallpaper && !files.isEmpty()
                 ? WallpaperCaptions.read(files.get(0).getParentFile()) : Collections.emptyMap();
         caption = names.isEmpty() ? null : makeCaption(context, root);
-        if (config.wallpaperEnabled && !files.isEmpty()) {
-            imageHost.addView(image, 0, new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        if (wallpaperEnabled && !files.isEmpty()) {
+            ensureImageAttached();
             showFirst();
+        } else {
+            // Explicitly clear static refraction & seed when "No wallpaper" is active so Dock & Top Pills
+            // never keep stale optical reflections from the previously displayed wallpaper!
+            ExpressiveGlass.setHomeWallpaperBackdrop(null, null, 0, 0);
+            ExpressiveGlass.setDynamicSeedRgb(ExpressiveGlass.DEFAULT_SEED_RGB);
+            root.setBackgroundColor(backgroundColor);
+            if (wallpaperEnabled && picsumWallpaper) {
+                ensureImageAttached();
+                fetchPicsumAsync(false);
+            }
         }
+    }
+
+    private void ensureImageAttached() {
+        if (imageAttached) return;
+        imageAttached = true;
+        imageHost.addView(image, 0, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    }
+
+    /**
+     * Zero-flicker Tier 1 live wallpaper hot-reload (called by MainActivity onResume without recreate()).
+     * Smoothly transitions between local wallpapers, Picsum web photos, uploaded QR wallpapers, and
+     * "No wallpaper" while keeping static ExpressiveGlass refraction and dynamic seed 100% consistent.
+     */
+    void reloadFromConfig(Config config) {
+        if (closed) return;
+        int newBg = config.backgroundColor;
+        boolean newEnabled = config.wallpaperEnabled;
+        boolean newPicsum = config.picsumWallpaper;
+        int newDim = config.wallpaperDim > 0 ? (config.wallpaperDim * 255 / 100) << 24 : 0;
+        int newScrim = config.cinematicHome && config.cinematicScrim > 0
+                ? Math.min(255, config.cinematicScrim * 255 / 100) : 0;
+        Bitmap.Config newBmpCfg = config.wallpaperTrueColor ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;
+        long newInterval = newPicsum
+                ? PicsumWallpapers.effectiveIntervalMs(config.wallpaperRotationMinutes)
+                : config.wallpaperRotationMinutes * 60_000L;
+
+        boolean visualConfigChanged = newBg != backgroundColor || newDim != dimColor
+                || newScrim != scrimAlpha || newBmpCfg != bitmapConfig
+                || newEnabled != wallpaperEnabled || newPicsum != picsumWallpaper;
+
+        String oldKey = collectionKey(files);
+        String newKey = collectionKey(config.wallpapers);
+        boolean collectionChanged = !oldKey.equals(newKey);
+
+        backgroundColor = newBg;
+        wallpaperEnabled = newEnabled;
+        picsumWallpaper = newPicsum;
+        dimColor = newDim;
+        scrimAlpha = newScrim;
+        bitmapConfig = newBmpCfg;
+        interval = newInterval;
+        order = config.wallpaperOrder;
+        moods = config.wallpaperMoods;
+        latitude = moods.isEmpty() ? "" : FeaturePrefs.weatherLatitude(appContext);
+        longitude = moods.isEmpty() ? "" : FeaturePrefs.weatherLongitude(appContext);
+        sunDay = null;
+
+        files.clear();
+        files.addAll(config.wallpapers);
+        if (collectionChanged) {
+            preferences.edit().putString("collection", newKey)
+                    .remove("image").remove("changed").apply();
+        }
+        names = config.wallpaperCaptions && wallpaperEnabled && !picsumWallpaper && !files.isEmpty()
+                ? WallpaperCaptions.read(files.get(0).getParentFile()) : Collections.emptyMap();
+        if (caption != null && names.isEmpty()) caption.setAlpha(0f);
+
+        if (!wallpaperEnabled) {
+            clearWallpaperLive();
+            return;
+        }
+        ensureImageAttached();
+        if (picsumWallpaper) {
+            File cur = PicsumWallpapers.currentFile(appContext);
+            if (cur.isFile() && cur.length() > 0) {
+                long stamp = fileStamp(cur);
+                if (visualConfigChanged || current == null || !cur.equals(displayedFile) || stamp != displayedStamp) {
+                    decodeAndCrossfadeAsync(cur, true);
+                }
+                if (PicsumWallpapers.isRefreshDue(appContext, interval)) {
+                    fetchPicsumAsync(false);
+                }
+            } else {
+                clearWallpaperLive();
+                fetchPicsumAsync(false);
+            }
+            return;
+        }
+        if (files.isEmpty()) {
+            clearWallpaperLive();
+            return;
+        }
+        File target = displayedFile != null && files.contains(displayedFile) && !visualConfigChanged
+                && fileStamp(displayedFile) == displayedStamp
+                ? null
+                : pickInitialTarget();
+        if (target != null) {
+            decodeAndCrossfadeAsync(target, true);
+        }
+    }
+
+    /** Explicitly downloads a brand-new Picsum.photos 1920x1080 photo and crossfades it onto Home. */
+    void forceRefreshPicsum() {
+        if (closed || !wallpaperEnabled || !picsumWallpaper) return;
+        ensureImageAttached();
+        fetchPicsumAsync(true);
+    }
+
+    private File pickInitialTarget() {
+        String previous = preferences.getString("image", "");
+        List<File> playable = playable();
+        File first = WallpaperRotation.find(playable, previous);
+        if (first == null) first = WallpaperRotation.pick(playable, previous, order, random);
+        return first;
+    }
+
+    private void clearWallpaperLive() {
+        loading = false;
+        Bitmap old = current;
+        current = null;
+        blurredCurrent = null;
+        sharpCurrent = null;
+        displayedFile = null;
+        displayedStamp = -1L;
+        displayed = "";
+        ExpressiveGlass.setHomeWallpaperBackdrop(null, null, 0, 0);
+        ExpressiveGlass.setDynamicSeedRgb(ExpressiveGlass.DEFAULT_SEED_RGB);
+        root.setBackgroundColor(backgroundColor);
+        if (caption != null) caption.setAlpha(0f);
+        image.animate().cancel();
+        image.setImageDrawable(null);
+        image.setAlpha(1f);
+        if (onWallpaperChanged != null) onWallpaperChanged.run();
+        if (old != null && !old.isRecycled()) image.postDelayed(old::recycle, 350);
+    }
+
+    private void decodeAndCrossfadeAsync(File next, boolean crossfade) {
+        if (closed || next == null) return;
+        final boolean crisp = !ExpressiveGlass.isHomeBackdropBlurEnabled();
+        final long expectedStamp = fileStamp(next);
+        loading = true;
+        decoder.execute(() -> {
+            DecodedWallpaper decoded = decode(next, crisp);
+            root.post(() -> {
+                loading = false;
+                if (closed || !wallpaperEnabled) {
+                    if (decoded != null) decoded.recycle();
+                    return;
+                }
+                if (decoded == null) {
+                    files.remove(next);
+                    if (files.isEmpty() && !picsumWallpaper) clearWallpaperLive();
+                    return;
+                }
+                displayedFile = next;
+                displayedStamp = expectedStamp;
+                sharpCrispMode = crisp;
+                displayed = next.getName();
+                showWithOptionalCrossfade(decoded, crossfade);
+                showCaption(true);
+                preferences.edit().putString("image", displayed)
+                        .putLong("changed", System.currentTimeMillis()).apply();
+            });
+        });
+    }
+
+    private void fetchPicsumAsync(boolean force) {
+        if (closed || !wallpaperEnabled || !picsumWallpaper) return;
+        if (!force && !PicsumWallpapers.isRefreshDue(appContext, interval)) return;
+        PicsumWallpapers.fetchFreshAsync(appContext, file -> {
+            if (closed || !wallpaperEnabled || !picsumWallpaper || file == null || !file.isFile()) return;
+            files.clear();
+            files.add(file);
+            Config.invalidateCache();
+            decodeAndCrossfadeAsync(file, true);
+        });
+    }
+
+    private static long fileStamp(File f) {
+        return f != null && f.isFile() ? (f.lastModified() * 31L) ^ f.length() : -1L;
     }
 
     /**
@@ -139,6 +329,7 @@ final class WallpaperPlayer {
             DecodedWallpaper decoded = decode(first, crisp);
             if (decoded != null) {
                 displayedFile = first;
+                displayedStamp = fileStamp(first);
                 sharpCrispMode = crisp;
                 show(decoded);
                 // The picture covers the whole screen: the root's plain colour under it is overdraw.
@@ -155,6 +346,10 @@ final class WallpaperPlayer {
             playable = playable();
             first = WallpaperRotation.pick(playable, previous, order, random);
         }
+        // Every candidate failed to decode: ensure stale static refraction from any prior wallpaper is cleared.
+        ExpressiveGlass.setHomeWallpaperBackdrop(null, null, 0, 0);
+        ExpressiveGlass.setDynamicSeedRgb(ExpressiveGlass.DEFAULT_SEED_RGB);
+        root.setBackgroundColor(backgroundColor);
     }
 
     /**
@@ -234,7 +429,17 @@ final class WallpaperPlayer {
     }
 
     void update() {
-        if (!active || closed || loading || files.isEmpty()) return;
+        if (!active || closed || loading || !wallpaperEnabled) return;
+        if (picsumWallpaper) {
+            if (current == null && PicsumWallpapers.hasCached(appContext)) {
+                decodeAndCrossfadeAsync(PicsumWallpapers.currentFile(appContext), true);
+            }
+            if (PicsumWallpapers.isRefreshDue(appContext, interval)) {
+                fetchPicsumAsync(false);
+            }
+            return;
+        }
+        if (files.isEmpty()) return;
         String previous = preferences.getString("image", "");
         // A picture outside the time of day's group (the group changed) is replaced at once, not after the interval.
         List<File> playable = playable();
@@ -246,6 +451,7 @@ final class WallpaperPlayer {
         if (selected == null || selected.getName().equals(displayed)) return;
         File next = selected;
         final boolean crisp = !ExpressiveGlass.isHomeBackdropBlurEnabled();
+        final long stamp = fileStamp(next);
         loading = true;
         decoder.execute(() -> {
             DecodedWallpaper decoded = decode(next, crisp);
@@ -262,8 +468,9 @@ final class WallpaperPlayer {
                     return;
                 }
                 displayedFile = next;
+                displayedStamp = stamp;
                 sharpCrispMode = crisp;
-                show(decoded);
+                showWithOptionalCrossfade(decoded, true);
                 displayed = next.getName();
                 showCaption(true);
                 if (!displayed.equals(previous) || changed == 0) {
@@ -377,18 +584,47 @@ final class WallpaperPlayer {
 
     /** Puts a picture on screen and releases the previous main texture after a frame has drawn the new one. */
     private void show(DecodedWallpaper pair) {
+        showWithOptionalCrossfade(pair, false);
+    }
+
+    private void showWithOptionalCrossfade(DecodedWallpaper pair, boolean crossfade) {
         Bitmap old = current;
         current = pair.main;
         blurredCurrent = pair.blurred;
         sharpCurrent = pair.sharp;
         ExpressiveGlass.setDynamicSeedRgb(pair.seedRgb);
         ExpressiveGlass.setHomeWallpaperBackdrop(pair.sharp, pair.blurred, width, height);
-        // The wallpaper covers the whole root; avoid drawing the fallback colour under it.
-        root.setBackground(null);
-        image.setImageBitmap(pair.main);
+        image.animate().cancel();
+        if (crossfade && old != null && !old.isRecycled()) {
+            // Brief overlay holds the old bitmap while the new wallpaper fades in cleanly over 280 ms (zero black flash).
+            final ImageView fadeOverlay = new ImageView(appContext);
+            fadeOverlay.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            fadeOverlay.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            fadeOverlay.setImageBitmap(old);
+            int idx = imageHost.indexOfChild(image);
+            imageHost.addView(fadeOverlay, idx >= 0 ? idx + 1 : 0, new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            root.setBackground(null);
+            image.setImageBitmap(pair.main);
+            image.setAlpha(1f);
+            fadeOverlay.animate().alpha(0f).setDuration(280L).setInterpolator(Motion.easeOutExpo())
+                    .withEndAction(() -> {
+                        fadeOverlay.setImageDrawable(null);
+                        imageHost.removeView(fadeOverlay);
+                        if (old != pair.main && !old.isRecycled()) old.recycle();
+                    }).start();
+        } else {
+            root.setBackground(null);
+            image.setImageBitmap(pair.main);
+            if (crossfade) {
+                image.setAlpha(0f);
+                image.animate().alpha(1f).setDuration(280L).setInterpolator(Motion.easeOutExpo()).start();
+            } else {
+                image.setAlpha(1f);
+            }
+            if (old != null && old != pair.main) image.postDelayed(old::recycle, 500);
+        }
         if (onWallpaperChanged != null) onWallpaperChanged.run();
-        // Let GC reclaim small sharp/blurred bitmaps once active BitmapShaders & JPEG encoder release them.
-        if (old != null && old != pair.main) image.postDelayed(old::recycle, 500);
     }
 
     private DecodedWallpaper decode(File file, boolean crispSharp) {

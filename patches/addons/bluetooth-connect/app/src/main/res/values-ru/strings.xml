@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Подключение Bluetooth</string>
+
+    <string name="perm_needed_install">Требуется разрешение «Устройства поблизости»: запустите install.sh один раз или выдайте его в настройках приложения.</string>
+    <string name="perm_needed">Требуется разрешение «Устройства поблизости»: выдайте его в настройках приложения.</string>
+    <string name="bt_off">Bluetooth выключен. Включите его в настройках ТВ.</string>
+    <string name="state_working">Выполняется…</string>
+    <string name="state_connected">Подключено</string>
+    <string name="state_not_connected">Не подключено</string>
+    <string name="action_disconnect">Отключить</string>
+    <string name="action_connect">Подключить</string>
+    <string name="status_none">Нет сопряжённых колонок. Сначала подключите колонку в настройках Bluetooth на ТВ.</string>
+    <string name="status_hint">OK подключает или отключает колонку.</string>
+    <string name="status_refused">Android отклонил запрос. Используйте настройки Bluetooth на ТВ: %1$s</string>
 </resources>

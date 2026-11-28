@@ -121,7 +121,7 @@ try {
             & $adb -s $TvHost shell "sync"
         }
         Start-Sleep -Seconds 2
-        & $adb -s $TvHost shell "am start -n com.gathin.tvhome/.MainActivity" | Out-Null
+        & $adb -s $TvHost shell "am broadcast -a com.gathin.tvhome.ACTION_RELOAD -p com.gathin.tvhome --ez tiles true 2>/dev/null; am start -n com.gathin.tvhome/.MainActivity" | Out-Null
         Write-Host "`n=== Accessibility Check ==="
         & $adb -s $TvHost shell "dumpsys accessibility | grep -E 'Bound services|Service\[label=|Crashed services'"
         Write-Host "`nDone! Updated $updatedCount package(s). Wait 15 seconds before rebooting your TV."

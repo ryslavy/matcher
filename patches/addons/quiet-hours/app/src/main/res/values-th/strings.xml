@@ -3,4 +3,29 @@
     <string name="app_name">ช่วงเวลาเงียบ</string>
     <string name="channel_name">จำกัดระดับเสียง</string>
     <string name="notification_text">กำลังจำกัดระดับเสียงไม่ให้เกินค่าที่กำหนด เปิดช่วงเวลาเงียบเพื่อปรับเปลี่ยน</string>
+
+    <string name="row_quiet_hours">ช่วงเวลาเงียบ</string>
+    <string name="row_volume_cap">ขีดจำกัดระดับเสียง</string>
+    <string name="row_volume_cap_detail">ระดับเสียงดังสุดที่ทีวีสามารถเปิดได้ในช่วงเวลาเงียบ</string>
+    <string name="row_volume_cap_step">ระดับเสียงดังสุดที่ทีวีสามารถเปิดได้ในช่วงเวลาเงียบ: ระดับ %1$d จาก %2$d</string>
+    <string name="row_starts">เวลาเริ่ม</string>
+    <string name="row_starts_detail">◀ ▶ เลื่อนทีละ 15 นาที</string>
+    <string name="row_ends">เวลาสิ้นสุด</string>
+    <string name="row_headphones">หูฟัง</string>
+    <string name="row_headphones_detail">หูฟังไม่รบกวนคนในห้อง จึงเปิดเสียงดังกว่าได้</string>
+    <string name="val_off">ปิด</string>
+    <string name="val_always">ตลอดเวลา</string>
+    <string name="val_scheduled">ตามกำหนดเวลา</string>
+    <string name="mode_detail_scheduled">ทุกวันระหว่างเวลาด้านล่าง</string>
+    <string name="mode_detail_always">ใช้ขีดจำกัดตลอดทั้งวัน</string>
+    <string name="mode_detail_off">ไม่จำกัดระดับเสียง</string>
+    <string name="val_no_cap">ไม่จำกัด</string>
+    <string name="val_capped_too">จำกัดด้วย</string>
+    <string name="status_fixed_volume">ระดับเสียงของทีวีนี้ถูกตั้งค่าคงที่ (HDMI ARC หรือแอมพลิฟายเออร์) Android จึงจำกัดไม่ได้</string>
+    <string name="status_off">ระดับเสียง %1$d จาก %2$d ปิดช่วงเวลาเงียบอยู่</string>
+    <string name="status_capped">ระดับเสียง %1$d จาก %2$d จำกัดไว้ที่ %3$d</string>
+    <string name="status_capped_until">ระดับเสียง %1$d จาก %2$d จำกัดไว้ที่ %3$d จนถึง %4$s</string>
+    <string name="status_capped_hp">ระดับเสียง %1$d จาก %2$d จำกัดไว้ที่ %3$d หูฟัง: ไม่จำกัด</string>
+    <string name="status_capped_until_hp">ระดับเสียง %1$d จาก %2$d จำกัดไว้ที่ %3$d จนถึง %4$s หูฟัง: ไม่จำกัด</string>
+    <string name="status_from">ระดับเสียง %1$d จาก %2$d ช่วงเวลาเงียบเริ่ม %3$s</string>
 </resources>

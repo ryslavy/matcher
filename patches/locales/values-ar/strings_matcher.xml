@@ -154,8 +154,10 @@
     <!-- إعدادات ميزات المشغّل ونظام Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass وتجربة الاستخدام</string>
     <string name="fs_liquid_clock">ساعة Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">تأثير Liquid Glass البصري في الرئيسية</string>
+    <string name="fs_home_liquid">بصريات الزجاج السائل</string>
     <string name="fs_home_backdrop_blur">تمويه خلفية الشاشة الرئيسية</string>
+    <string name="fs_nested_menu_blur">تمويه القوائم المتداخلة</string>
+    <string name="fs_dock_ambient_glow">توهج محيطي خلف الشريط</string>
     <string name="fs_glass_material">نمط الزجاج</string>
     <string name="fs_glass_material_title">اختر نمط Liquid Glass</string>
     <string name="glass_style_tonal">زجاج ضبابي متوازن</string>
@@ -244,4 +246,10 @@
     <string name="rm_saved">تم حفظ تعيين الزر</string>
     <string name="rm_action_mute">كتم الصوت</string>
     <string name="rm_action_ignore">تجاهل الزر (تعطيل)</string>
+    <string name="wallpaper_picsum">صورة ويب عشوائية (Picsum)</string>
+    <string name="wallpaper_picsum_next">تحميل صورة ويب جديدة الآن</string>
+    <string name="wallpaper_picsum_loading">جارٍ تحميل صورة ويب جديدة…</string>
+    <string name="wallpaper_picsum_failed">تعذر تحميل صورة الويب</string>
+    <string name="settings_reload_launcher">إعادة تحميل المشغّل</string>
+    <string name="launcher_updated_toast">تم تحديث Matcher إلى v%1$s</string>
 </resources>

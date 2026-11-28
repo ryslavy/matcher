@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Conexón Bluetooth</string>
+    <string name="perm_needed_install">Necesita\'l permisu de Preseos cercanos: executa install.sh una vegada o permítilu nos axustes de l\'aplicación.</string>
+    <string name="perm_needed">Necesita\'l permisu de Preseos cercanos: permítilu nos axustes de l\'aplicación.</string>
+    <string name="bt_off">El Bluetooth ta desactiváu. Actívalu nos axustes de la TV.</string>
+    <string name="state_working">Procesando…</string>
+    <string name="state_connected">Coneutáu</string>
+    <string name="state_not_connected">Non coneutáu</string>
+    <string name="action_disconnect">Desconeutar</string>
+    <string name="action_connect">Coneutar</string>
+    <string name="status_none">Nun hai altavoces empareyaos. Empareya ún primero nos axustes de Bluetooth de la TV.</string>
+    <string name="status_hint">OK coneuta o desconeuta un altavoz.</string>
+    <string name="status_refused">Android refugólu. Usa los axustes de Bluetooth de la TV: %1$s</string>
 </resources>

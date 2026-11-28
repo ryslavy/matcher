@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth সংযোগ</string>
+
+    <string name="perm_needed_install">কাছাকাছি ডিভাইসগুলোর অনুমতি প্রয়োজন: একবার install.sh চালান, অথবা অ্যাপের সেটিংসে অনুমতি দিন।</string>
+    <string name="perm_needed">কাছাকাছি ডিভাইসগুলোর অনুমতি প্রয়োজন: অ্যাপের সেটিংসে অনুমতি দিন।</string>
+    <string name="bt_off">Bluetooth বন্ধ আছে। টিভির সেটিংসে এটি চালু করুন।</string>
+    <string name="state_working">কাজ চলছে…</string>
+    <string name="state_connected">সংযুক্ত</string>
+    <string name="state_not_connected">সংযুক্ত নয়</string>
+    <string name="action_disconnect">সংযোগ বিচ্ছিন্ন করুন</string>
+    <string name="action_connect">সংযোগ করুন</string>
+    <string name="status_none">কোনো পেয়ার করা স্পিকার নেই। প্রথমে টিভির Bluetooth সেটিংসে একটি পেয়ার করুন।</string>
+    <string name="status_hint">স্পিকার সংযোগ বা বিচ্ছিন্ন করতে OK চাপুন।</string>
+    <string name="status_refused">Android প্রত্যাখ্যান করেছে। টিভির Bluetooth সেটিংস ব্যবহার করুন: %1$s</string>
 </resources>

@@ -150,8 +150,10 @@
     <!-- การตั้งค่าฟีเจอร์ลอนเชอร์และระบบวัสดุกระจก -->
     <string name="fs_sec_glass">Liquid Glass &amp; ประสบการณ์ใช้งาน</string>
     <string name="fs_liquid_clock">นาฬิกา Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Liquid Glass แบบออปติคอลบนหน้าหลัก</string>
+    <string name="fs_home_liquid">ออปติกกระจกเหลว</string>
     <string name="fs_home_backdrop_blur">เบลอพื้นหลังหน้าหลัก</string>
+    <string name="fs_nested_menu_blur">เบลอเมนูซ้อน</string>
+    <string name="fs_dock_ambient_glow">แสงสีด้านหลังด็อก</string>
     <string name="fs_glass_material">สไตล์กระจก</string>
     <string name="fs_glass_material_title">เลือกสไตล์ Liquid Glass</string>
     <string name="glass_style_tonal">กระจกฝ้าโทนสี</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">บันทึกการกำหนดปุ่มแล้ว</string>
     <string name="rm_action_mute">ปิดเสียง</string>
     <string name="rm_action_ignore">ละเว้นปุ่ม (ปิดใช้งาน)</string>
+    <string name="wallpaper_picsum">ภาพสุ่มจากเว็บ (Picsum)</string>
+    <string name="wallpaper_picsum_next">โหลดภาพใหม่จากเว็บตอนนี้</string>
+    <string name="wallpaper_picsum_loading">กำลังโหลดภาพใหม่จากเว็บ…</string>
+    <string name="wallpaper_picsum_failed">ไม่สามารถโหลดภาพจากเว็บได้</string>
+    <string name="settings_reload_launcher">โหลดตัวเรียกใช้งานใหม่</string>
+    <string name="launcher_updated_toast">อัปเดต Matcher เป็น v%1$s แล้ว</string>
 </resources>

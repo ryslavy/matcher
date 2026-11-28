@@ -151,8 +151,10 @@
     <!-- Podešavanja funkcija i stilovi Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass i izgled</string>
     <string name="fs_liquid_clock">Liquid Glass sat (iOS 26)</string>
-    <string name="fs_home_liquid">Optički Liquid Glass na početnom ekranu</string>
+    <string name="fs_home_liquid">Liquid Glass optika</string>
     <string name="fs_home_backdrop_blur">Zamućenje pozadine početnog ekrana</string>
+    <string name="fs_nested_menu_blur">Zamućenje ugnježdenih menija</string>
+    <string name="fs_dock_ambient_glow">Ambijentalni sjaj iza doka</string>
     <string name="fs_glass_material">Stil stakla</string>
     <string name="fs_glass_material_title">Izaberite stil Liquid Glass</string>
     <string name="glass_style_tonal">Matirano tonirano</string>
@@ -241,4 +243,10 @@
     <string name="rm_saved">Mapiranje dugmeta je sačuvano</string>
     <string name="rm_action_mute">Utišaj zvuk</string>
     <string name="rm_action_ignore">Ignoriši dugme (isključi)</string>
+    <string name="wallpaper_picsum">Nasumična veb fotografija (Picsum)</string>
+    <string name="wallpaper_picsum_next">Učitaj novu veb fotografiju sada</string>
+    <string name="wallpaper_picsum_loading">Učitavanje nove veb fotografije…</string>
+    <string name="wallpaper_picsum_failed">Nije moguće učitati veb fotografiju</string>
+    <string name="settings_reload_launcher">Ponovo učitaj pokretač</string>
+    <string name="launcher_updated_toast">Matcher ažuriran na v%1$s</string>
 </resources>

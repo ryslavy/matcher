@@ -150,8 +150,10 @@
     <!-- Cài đặt tính năng trình khởi chạy & hệ thống chất liệu kính -->
     <string name="fs_sec_glass">Liquid Glass &amp; Trải nghiệm</string>
     <string name="fs_liquid_clock">Đồng hồ Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Liquid Glass quang học trên Màn hình chính</string>
+    <string name="fs_home_liquid">Quang học Liquid Glass</string>
     <string name="fs_home_backdrop_blur">Làm mờ nền Màn hình chính</string>
+    <string name="fs_nested_menu_blur">Làm mờ menu lồng nhau</string>
+    <string name="fs_dock_ambient_glow">Ánh sáng màu sau thanh dock</string>
     <string name="fs_glass_material">Kiểu kính</string>
     <string name="fs_glass_material_title">Chọn kiểu Liquid Glass</string>
     <string name="glass_style_tonal">Kính mờ theo tông</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Đã lưu gán nút</string>
     <string name="rm_action_mute">Tắt tiếng</string>
     <string name="rm_action_ignore">Bỏ qua nút (vô hiệu hóa)</string>
+    <string name="wallpaper_picsum">Ảnh web ngẫu nhiên (Picsum)</string>
+    <string name="wallpaper_picsum_next">Tải ảnh web mới ngay</string>
+    <string name="wallpaper_picsum_loading">Đang tải ảnh web mới…</string>
+    <string name="wallpaper_picsum_failed">Không thể tải ảnh web</string>
+    <string name="settings_reload_launcher">Tải lại trình khởi chạy</string>
+    <string name="launcher_updated_toast">Matcher đã cập nhật lên v%1$s</string>
 </resources>

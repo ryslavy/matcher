@@ -193,9 +193,9 @@ final class FrostedPillDrawable extends Drawable {
         c.drawRoundRect(shadowRect, r + density, r + density, shadow);
 
         // True frosted-glass backdrop: anti-aliased shared BitmapShader aligned to this pill's exact coordinates in root.
+        boolean located = host.getWidth() > 0 && root.getWidth() > 0 && root.getHeight() > 0 && locateInRoot(rootPos);
         Bitmap blurred = wallpaperPlayer != null ? wallpaperPlayer.blurred() : null;
-        if (blurred != null && !blurred.isRecycled() && host.getWidth() > 0 && root.getWidth() > 0 && root.getHeight() > 0
-                && locateInRoot(rootPos)) {
+        if (located && blurred != null && !blurred.isRecycled()) {
             if (blurred != sharedBackdropBmp || sharedBackdropShader == null) {
                 sharedBackdropBmp = blurred;
                 sharedBackdropShader = new BitmapShader(blurred, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
@@ -216,6 +216,9 @@ final class FrostedPillDrawable extends Drawable {
             shaderMatrix.postScale(zoom, zoom, rect.centerX(), rect.centerY());
             sharedBackdropShader.setLocalMatrix(shaderMatrix);
             c.drawRoundRect(rect, r, r, backdropPaint);
+        }
+        if (located) {
+            float zoom = ExpressiveGlass.REFRACTION_ZOOM;
             // Composite cinematic heroArt (already softly blurred) so glass tint matches the live screen behind it.
             if (heroArt != null && heroArt.getVisibility() == View.VISIBLE && heroArt.getAlpha() > 0f
                     && heroArt.getDrawable() instanceof BitmapDrawable) {

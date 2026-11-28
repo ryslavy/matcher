@@ -73,7 +73,7 @@ Always read [`AGENTS.md`](AGENTS.md) first for architecture invariants and safet
    Edit `latitude`, `longitude`, and `weather_city` in [`patches/launcher-config.xml`](patches/launcher-config.xml) (lines 503–505), sync to `cleanyourtv/launcher/app/src/main/res/values/config.xml`, and rebuild the launcher APK.
 
 ### 2B — Turn Off or Tone Down Visual Elements (No Code vs. Shader Tuning)
-- **Instant in-app toggles (TV Control Center → Settings):** Liquid Glass clock, Home Liquid Glass optics, UI click sounds, OLED screensaver drift, Aerial videos, Watch from Screensaver.
+- **Instant in-app toggles (TV Control Center → Settings → Launcher settings):** Glass style (6 presets), Dock bar opacity (`30%–100%`), Dock ambient glow, Liquid Glass clock, Liquid Glass optics (global across launcher & add-ons), Home backdrop blur, Nested menu blur, Random web photo (Picsum), Remote buttons (*Learn remote button*), UI click sounds, OLED screensaver drift, Aerial videos, Watch from Screensaver.
 - **Instant theme toggles (edit [`my-theme/config.json`](my-theme/config.json) → `.\switch-theme.ps1 my-theme -TvHost <TV_IP>`):**
   - Disable/soften Dock glass: `"dock_glass": false` or lower `"dock_opacity"` (`0`–`100`).
   - Disable colorful top shelf / glow: `"cinematic_home": false`, `"ambient_glow": false`, `"app_glow": false`.
@@ -151,15 +151,16 @@ The 8 bundled add-ons are completely optional — users can drop any of them or 
 
 ---
 
-## Playbook 5 — Adding a New Translation Locale (`<lang>`)
+## Playbook 5 — Adding or Improving a Translation Locale (`<lang>`)
 
-1. **Launcher:**
-   - Copy `patches/strings-en.xml` to `patches/strings-<lang>.xml` and translate all values (preserving `%1$s`, `%1$d`, `%%`, `\'`, `&amp;`).
-   - Mirror to `cleanyourtv/launcher/app/src/main/res/values-<lang>/strings.xml` and add the `Copy-Item` line in `apply-setup.ps1`.
-2. **All 8 Add-ons:**
-   - Create `patches/addons/<addon>/app/src/main/res/values-<lang>/strings.xml` (and `schedule.xml` + `remote_picker.xml` for `sleep-timer`) using `values-cs/` or upstream `values/` as reference.
+1. **Launcher (31-locale `strings_matcher.xml` overlays):**
+   - Edit `patches/locales/values-<lang>/strings_matcher.xml` (or copy `patches/locales/values/strings_matcher.xml` for a brand-new locale and register `<locale android:name="<lang>"/>` in `patches/locales_config.xml`), preserving all `%1$s`, `%1$d`, `%%`, `\'`, and `&amp;`.
+   - Mirror to `cleanyourtv/launcher/app/src/main/res/values-<lang>/strings_matcher.xml` (`apply-setup.ps1` and `.github/workflows/release.yml` automatically overlay all `patches/locales/values*/` directories).
+   - Run `.\gradlew.bat testReleaseUnitTest` — `LocaleIntegrityTest` automatically validates every locale!
+2. **All 8 Add-ons (100% localized across 31 locales):**
+   - Edit or create `patches/addons/<addon>/app/src/main/res/values-<lang>/strings.xml` (and `schedule.xml` + `remote_picker.xml` for `sleep-timer`) using `values-cs/` or upstream `values/` as reference.
    - Include proper CLDR `<plurals>` quantities in `weather` and `world-clock`.
-   - Copy into `cleanyourtv/addons/<addon>/app/src/main/res/values-<lang>/`.
+   - Copy into `cleanyourtv/addons/<addon>/app/src/main/res/values-<lang>/` and run `python tools/validate-addon-locales.py --merged-only`.
 3. Rebuild launcher + all 8 add-ons to verify AAPT2 resource compilation succeeds with zero format-string warnings.
 
 ---

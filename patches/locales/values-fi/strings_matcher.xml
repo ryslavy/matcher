@@ -150,8 +150,10 @@
     <!-- Käynnistimen ominaisuudet & Liquid Glass -tyylit -->
     <string name="fs_sec_glass">Liquid Glass &amp; Käyttökokemus</string>
     <string name="fs_liquid_clock">Liquid Glass -kello (iOS 26)</string>
-    <string name="fs_home_liquid">Optinen Liquid Glass kotinäkymässä</string>
+    <string name="fs_home_liquid">Liquid Glass -optiikka</string>
     <string name="fs_home_backdrop_blur">Taustasumennus kotinäkymässä</string>
+    <string name="fs_nested_menu_blur">Alivalikoiden taustasumennus</string>
+    <string name="fs_dock_ambient_glow">Värillinen hehku telakan takana</string>
     <string name="fs_glass_material">Lasityyli</string>
     <string name="fs_glass_material_title">Valitse Liquid Glass -tyyli</string>
     <string name="glass_style_tonal">Himmeä sävylasi</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Painikemääritys tallennettu</string>
     <string name="rm_action_mute">Mykistä ääni</string>
     <string name="rm_action_ignore">Ohita painike (poista käytöstä)</string>
+    <string name="wallpaper_picsum">Satunnainen verkkokuva (Picsum)</string>
+    <string name="wallpaper_picsum_next">Lataa uusi verkkokuva nyt</string>
+    <string name="wallpaper_picsum_loading">Ladataan uutta verkkokuvaa…</string>
+    <string name="wallpaper_picsum_failed">Verkkokuvan lataaminen epäonnistui</string>
+    <string name="settings_reload_launcher">Lataa käynnistin uudelleen</string>
+    <string name="launcher_updated_toast">Matcher päivitetty versioon v%1$s</string>
 </resources>

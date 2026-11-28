@@ -255,6 +255,7 @@ public final class LauncherSettingsActivity extends Activity {
                 if (dockOpacity == value) return;
                 dockOpacity = value;
                 choices.edit().putInt(Config.DOCK_OPACITY_KEY, value).apply();
+                MainActivity.applyDockOpacityPreference(value);
                 changed();
                 refresh();
             });
@@ -323,6 +324,7 @@ public final class LauncherSettingsActivity extends Activity {
             clockFormat = current.clockFormat;
             animations = current.animations;
             advancedEffects = current.animations && current.advancedEffects;
+            MainActivity.applyDockOpacityPreference(dockOpacity);
             changed();
             refresh();
         });
@@ -830,26 +832,60 @@ public final class LauncherSettingsActivity extends Activity {
         // A theme with a single wallpaper.jpg offers that picture too (Config maps the choice back to it).
         File single = dir == null ? null : new File(dir, Config.WALLPAPER_NAME);
         if (single != null && single.isFile()) images.add(0, single);
-        String[] labels = new String[images.size() + 1];
-        for (int i = 0; i < images.size(); i++) labels[i] = images.get(i).getName();
-        labels[images.size()] = getString(R.string.wallpaper_none);
         String current = choices.getString(Config.WALLPAPER_CHOICE_KEY, null);
-        int checked = "none".equals(current) ? images.size() : indexOf(images, current);
+        boolean isPicsum = PicsumWallpapers.isChoicePicsum(current);
+        int extraTop = isPicsum ? 2 : 1; // 0 = Picsum, [1 = Load new photo now when active]
+        int noneIdx = extraTop + images.size();
+        String[] labels = new String[noneIdx + 1];
+        labels[0] = getString(R.string.wallpaper_picsum);
+        if (isPicsum) labels[1] = getString(R.string.wallpaper_picsum_next);
+        for (int i = 0; i < images.size(); i++) labels[extraTop + i] = images.get(i).getName();
+        labels[noneIdx] = getString(R.string.wallpaper_none);
+        int checked = isPicsum ? 0
+                : "none".equals(current) ? noneIdx
+                : (indexOf(images, current) >= 0 ? extraTop + indexOf(images, current) : -1);
         showFrostedPicker(R.string.wallpaper_label, labels, checked,
                 getString(R.string.wallpaper_theme_default), () -> {
                     choices.edit().remove(Config.WALLPAPER_CHOICE_KEY).apply();
+                    Config.invalidateCache();
                     changed();
                     refresh();
                 }, which -> {
-                    if (which == images.size()) {
+                    if (which == 0 || (isPicsum && which == 1)) {
+                        boolean forceNew = (isPicsum && which == 1) || !PicsumWallpapers.hasCached(this);
+                        choices.edit().putString(Config.WALLPAPER_CHOICE_KEY, PicsumWallpapers.CHOICE_PICSUM).apply();
+                        Config.invalidateCache();
+                        changed();
+                        refresh();
+                        if (forceNew) {
+                            Toast.makeText(this, R.string.wallpaper_picsum_loading, Toast.LENGTH_SHORT).show();
+                            final android.content.Context appCtx = getApplicationContext();
+                            PicsumWallpapers.fetchFreshAsync(appCtx, file -> {
+                                if (file != null && file.isFile()) {
+                                    Config.invalidateCache();
+                                    MainActivity.requestGracefulReload(appCtx, false);
+                                    Toast.makeText(appCtx, R.string.wallpaper_applied, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(appCtx, R.string.wallpaper_picsum_failed, Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(this, R.string.wallpaper_applied, Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (which == noneIdx) {
                         choices.edit().putString(Config.WALLPAPER_CHOICE_KEY, "none").apply();
+                        Config.invalidateCache();
+                        changed();
+                        Toast.makeText(this, R.string.wallpaper_applied, Toast.LENGTH_SHORT).show();
+                        refresh();
                     } else {
                         choices.edit().putString(Config.WALLPAPER_CHOICE_KEY,
-                                images.get(which).getName()).apply();
+                                images.get(which - extraTop).getName()).apply();
+                        Config.invalidateCache();
+                        changed();
+                        Toast.makeText(this, R.string.wallpaper_applied, Toast.LENGTH_SHORT).show();
+                        refresh();
                     }
-                    changed();
-                    Toast.makeText(this, R.string.wallpaper_applied, Toast.LENGTH_SHORT).show();
-                    refresh();
                 });
     }
 
@@ -950,7 +986,8 @@ public final class LauncherSettingsActivity extends Activity {
         advancedChoice.setAlpha(animations ? 1f : 0.5f);
         String wallpaperCurrent = choices.getString(Config.WALLPAPER_CHOICE_KEY, null);
         wallpaperChoice.setText(getString(R.string.wallpaper_state,
-                "none".equals(wallpaperCurrent) ? getString(R.string.wallpaper_none)
+                PicsumWallpapers.isChoicePicsum(wallpaperCurrent) ? getString(R.string.wallpaper_picsum)
+                        : "none".equals(wallpaperCurrent) ? getString(R.string.wallpaper_none)
                         : wallpaperCurrent != null ? wallpaperCurrent
                         : getString(R.string.wallpaper_theme_default)));
         if (openOnStartChoice.getVisibility() == View.VISIBLE) {

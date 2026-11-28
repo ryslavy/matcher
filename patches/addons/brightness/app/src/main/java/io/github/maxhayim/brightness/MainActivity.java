@@ -105,11 +105,11 @@ public class MainActivity extends Activity {
         rows.removeAllViews();
         permissionRow = null;
         if (!DimService.canDraw(this)) {
-            permissionRow = add(new Row(this, "Allow display over other apps",
-                    "Needed to dim other apps. OK opens the setting.", false, this::askPermission, null));
-            permissionRow.setValue("Not allowed");
+            permissionRow = add(new Row(this, getString(R.string.perm_title),
+                    getString(R.string.perm_detail), false, this::askPermission, null));
+            permissionRow.setValue(getString(R.string.perm_denied));
         }
-        onRow = add(new Row(this, "Dimming", "Off puts the screen back to normal at once. The settings below stay.",
+        onRow = add(new Row(this, getString(R.string.row_dimming), getString(R.string.row_dimming_detail),
                 false, () -> {
                     s.on = !s.on;
                     changed();
@@ -117,27 +117,27 @@ public class MainActivity extends Activity {
                     s.on = d > 0;
                     changed();
                 }));
-        brightnessRow = add(new Row(this, "Brightness", "How bright the picture is outside night mode.", true, null,
+        brightnessRow = add(new Row(this, getString(R.string.row_brightness), getString(R.string.row_brightness_detail), true, null,
                 d -> {
                     s.brightness = Dimming.stepBrightness(s.brightness, d);
                     changed();
                 }));
-        nightRow = add(new Row(this, "Night mode", null, false, () -> stepNight(1), this::stepNight));
-        nightBrightnessRow = add(new Row(this, "Night brightness", "How bright the picture is in night mode.", true,
+        nightRow = add(new Row(this, getString(R.string.row_night_mode), null, false, () -> stepNight(1), this::stepNight));
+        nightBrightnessRow = add(new Row(this, getString(R.string.row_night_brightness), getString(R.string.row_night_brightness_detail), true,
                 null, d -> {
                     s.nightBrightness = Dimming.stepBrightness(s.nightBrightness, d);
                     changed();
                 }));
-        warmthRow = add(new Row(this, "Warmth", "Night mode only: less blue, a warmer picture.", true, null, d -> {
+        warmthRow = add(new Row(this, getString(R.string.row_warmth), getString(R.string.row_warmth_detail), true, null, d -> {
             s.warmth += d * Dimming.WARMTH_STEP;
             changed();
         }));
-        startRow = add(new Row(this, "Night starts", "Scheduled night mode begins. ◀ ▶ moves 15 minutes.", false, null,
+        startRow = add(new Row(this, getString(R.string.row_night_starts), getString(R.string.row_night_starts_detail), false, null,
                 d -> {
                     s.nightStart += d * Dimming.TIME_STEP;
                     changed();
                 }));
-        endRow = add(new Row(this, "Night ends", "Back to the day brightness.", false, null, d -> {
+        endRow = add(new Row(this, getString(R.string.row_night_ends), getString(R.string.row_night_ends_detail), false, null, d -> {
             s.nightEnd += d * Dimming.TIME_STEP;
             changed();
         }));
@@ -147,8 +147,7 @@ public class MainActivity extends Activity {
 
     /** The TV's own picture, on TVs whose picture menu allows it: the light the dimming layer can't take away. */
     private void buildTvRows() {
-        tvRow = add(new Row(this, "TV picture at night", "Also turns the TV's own backlight, contrast and brightness"
-                + " down for the night, and puts the day's back in the morning.", false, () -> {
+        tvRow = add(new Row(this, getString(R.string.row_tv_picture), getString(R.string.row_tv_picture_detail), false, () -> {
                     s.tvPicture = !s.tvPicture;
                     changed();
                 }, d -> {
@@ -156,52 +155,52 @@ public class MainActivity extends Activity {
                     changed();
                 }));
         if (tvAsk != null) {
-            Row ask = add(new Row(this, "Allow TV picture control",
-                    "The TV asks once whether this app may change its picture settings. OK asks.", false, () -> {
+            Row ask = add(new Row(this, getString(R.string.row_tv_perm),
+                    getString(R.string.row_tv_perm_detail), false, () -> {
                         try {
                             tvAsk.send();
                         } catch (PendingIntent.CanceledException ignored) {
                             // Asked again on the next open.
                         }
                     }, null));
-            ask.setValue("Not allowed");
+            ask.setValue(getString(R.string.perm_denied));
         }
-        tvBacklightRow = add(new Row(this, "Night backlight", "The TV's backlight: the light the panel gives off.",
+        tvBacklightRow = add(new Row(this, getString(R.string.row_tv_backlight), getString(R.string.row_tv_backlight_detail),
                 true, null, d -> {
                     s.tvNight = s.tvNight.withBacklight(Dimming.stepPercent(s.tvNight.backlight, d));
                     changed();
                 }));
-        tvContrastRow = add(new Row(this, "Night contrast", "The TV's contrast. Lower dims the whites.", true, null,
+        tvContrastRow = add(new Row(this, getString(R.string.row_tv_contrast), getString(R.string.row_tv_contrast_detail), true, null,
                 d -> {
                     s.tvNight = s.tvNight.withContrast(Dimming.stepPercent(s.tvNight.contrast, d));
                     changed();
                 }));
-        tvBrightnessRow = add(new Row(this, "Night TV brightness", "The TV's brightness. Lower darkens the shadows.",
+        tvBrightnessRow = add(new Row(this, getString(R.string.row_tv_brightness), getString(R.string.row_tv_brightness_detail),
                 true, null, d -> {
                     s.tvNight = s.tvNight.withBrightness(Dimming.stepPercent(s.tvNight.brightness, d));
                     changed();
                 }));
-        tvDynamicRow = add(new Row(this, "Night dynamic backlight", "The TV lowers its backlight further on dark pictures.",
+        tvDynamicRow = add(new Row(this, getString(R.string.row_tv_dynamic), getString(R.string.row_tv_dynamic_detail),
                 false, () -> {
                     s.tvNight = s.tvNight.withDynamicBacklight(!s.tvNight.dynamicBacklight);
                     changed();
                 }, null));
-        tvTakeRow = add(new Row(this, "Use the TV's picture now",
-                "Takes what is set in the TV's own picture menu as the night values.", false, this::takeTvPicture, null));
+        tvTakeRow = add(new Row(this, getString(R.string.row_tv_take),
+                getString(R.string.row_tv_take_detail), false, this::takeTvPicture, null));
     }
 
     private void takeTvPicture() {
-        tvTakeRow.setValue("Reading…");
+        tvTakeRow.setValue(getString(R.string.val_reading));
         new Thread(() -> {
             Dimming.Picture now = tv.read();
             runOnUiThread(() -> {
                 if (now == null) {
-                    tvTakeRow.setValue("Not allowed");
+                    tvTakeRow.setValue(getString(R.string.perm_denied));
                     return;
                 }
                 s.tvNight = now;
                 changed();
-                tvTakeRow.setValue("Taken");
+                tvTakeRow.setValue(getString(R.string.val_taken));
             });
         }).start();
     }
@@ -231,15 +230,16 @@ public class MainActivity extends Activity {
     private void refresh() {
         boolean h24 = DateFormat.is24HourFormat(this);
         int minute = DimService.minuteNow();
-        onRow.setValue(s.on ? "On" : "Off");
+        onRow.setValue(getString(s.on ? R.string.val_on : R.string.val_off));
         onRow.setAccentActive(s.on);
         brightnessRow.setValue(s.brightness + " %");
         brightnessRow.setBar(fraction(s.brightness));
-        nightRow.setValue(s.night == Dimming.Night.OFF ? "Off" : s.night == Dimming.Night.ON ? "On" : "Scheduled");
+        nightRow.setValue(getString(s.night == Dimming.Night.OFF ? R.string.val_off
+                : s.night == Dimming.Night.ON ? R.string.val_on : R.string.val_scheduled));
         nightRow.setAccentActive(s.night != Dimming.Night.OFF);
-        nightRow.setDetail(s.night == Dimming.Night.SCHEDULED
-                ? "Between the times below, every day."
-                : s.night == Dimming.Night.ON ? "Now, until switched off here." : "Day brightness all the time.");
+        nightRow.setDetail(getString(s.night == Dimming.Night.SCHEDULED
+                ? R.string.night_detail_scheduled
+                : s.night == Dimming.Night.ON ? R.string.night_detail_on : R.string.night_detail_off));
         nightBrightnessRow.setValue(s.nightBrightness + " %");
         nightBrightnessRow.setBar(fraction(s.nightBrightness));
         warmthRow.setValue(s.warmth + " %");
@@ -251,14 +251,14 @@ public class MainActivity extends Activity {
         endRow.setAlpha(scheduled ? 1f : 0.5f);
 
         if (tvAvailable && tvRow != null) {
-            tvRow.setValue(s.tvPicture ? "On" : "Off");
+            tvRow.setValue(getString(s.tvPicture ? R.string.val_on : R.string.val_off));
             tvBacklightRow.setValue(s.tvNight.backlight + " %");
             tvBacklightRow.setBar(s.tvNight.backlight / 100f);
             tvContrastRow.setValue(s.tvNight.contrast + " %");
             tvContrastRow.setBar(s.tvNight.contrast / 100f);
             tvBrightnessRow.setValue(s.tvNight.brightness + " %");
             tvBrightnessRow.setBar(s.tvNight.brightness / 100f);
-            tvDynamicRow.setValue(s.tvNight.dynamicBacklight ? "On" : "Off");
+            tvDynamicRow.setValue(getString(s.tvNight.dynamicBacklight ? R.string.val_on : R.string.val_off));
             float a = s.tvPicture ? 1f : 0.5f;
             tvBacklightRow.setAlpha(a);
             tvContrastRow.setAlpha(a);
@@ -268,12 +268,14 @@ public class MainActivity extends Activity {
 
         Dimming.Level l = Dimming.level(s, minute);
         String text;
-        if (!s.on) text = "Off: the screen is normal.";
-        else if (permissionRow != null) text = "On, but nothing is drawn until display over other apps is allowed.";
-        else if (l.night) text = "Night mode now: " + l.brightness + " %, warmth " + l.warmth + " %"
-                + (scheduled ? ", until " + Dimming.clock(s.nightEnd, h24) : "") + ".";
-        else text = "Now: " + l.brightness + " %"
-                + (scheduled && s.nightStart != s.nightEnd ? ". Night mode from " + Dimming.clock(s.nightStart, h24) : "") + ".";
+        if (!s.on) text = getString(R.string.status_off);
+        else if (permissionRow != null) text = getString(R.string.status_no_perm);
+        else if (l.night) text = scheduled
+                ? getString(R.string.status_night_until, l.brightness, l.warmth, Dimming.clock(s.nightEnd, h24))
+                : getString(R.string.status_night_now, l.brightness, l.warmth);
+        else text = (scheduled && s.nightStart != s.nightEnd)
+                ? getString(R.string.status_day_until, l.brightness, Dimming.clock(s.nightStart, h24))
+                : getString(R.string.status_day_now, l.brightness);
         status.setText(text);
         if (modal != null) modal.refreshFocus();
     }
@@ -283,8 +285,7 @@ public class MainActivity extends Activity {
             startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName())));
         } catch (ActivityNotFoundException | SecurityException e) {
             // Many TVs hide this setting; the ADB shell can still grant it.
-            permissionRow.setDetail("This TV has no screen for it. From a computer: adb shell appops set "
-                    + getPackageName() + " SYSTEM_ALERT_WINDOW allow");
+            permissionRow.setDetail(getString(R.string.perm_no_screen, getPackageName()));
         }
     }
 

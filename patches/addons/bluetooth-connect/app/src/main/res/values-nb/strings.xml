@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth-tilkobling</string>
+    <string name="perm_needed_install">Krever tillatelsen Enheter i nærheten: kjør install.sh én gang, eller tillat det i appens innstillinger.</string>
+    <string name="perm_needed">Krever tillatelsen Enheter i nærheten: tillat det i appens innstillinger.</string>
+    <string name="bt_off">Bluetooth er av. Slå det på i TV-ens innstillinger.</string>
+    <string name="state_working">Jobber…</string>
+    <string name="state_connected">Tilkoblet</string>
+    <string name="state_not_connected">Ikke tilkoblet</string>
+    <string name="action_disconnect">Koble fra</string>
+    <string name="action_connect">Koble til</string>
+    <string name="status_none">Ingen sammenkoblede høyttalere. Sammenkoble en i TV-ens Bluetooth-innstillinger først.</string>
+    <string name="status_hint">OK kobler til eller fra en høyttaler.</string>
+    <string name="status_refused">Android avslo. Bruk TV-ens Bluetooth-innstillinger: %1$s</string>
 </resources>

@@ -152,8 +152,10 @@
     <!-- Launcher Feature Settings & Glass Material System -->
     <string name="fs_sec_glass">Liquid Glass &amp; Experience</string>
     <string name="fs_liquid_clock">Liquid Glass clock (iOS 26)</string>
-    <string name="fs_home_liquid">Optical Liquid Glass on Home</string>
+    <string name="fs_home_liquid">Liquid Glass optics</string>
     <string name="fs_home_backdrop_blur">Home backdrop blur</string>
+    <string name="fs_nested_menu_blur">Nested menu blur</string>
+    <string name="fs_dock_ambient_glow">Dock ambient glow</string>
     <string name="fs_glass_material">Glass style</string>
     <string name="fs_glass_material_title">Choose Liquid Glass style</string>
     <string name="glass_style_tonal">Frosted Tonal</string>
@@ -242,4 +244,10 @@
     <string name="rm_saved">Button mapping saved</string>
     <string name="rm_action_mute">Mute audio</string>
     <string name="rm_action_ignore">Ignore button (disable)</string>
+    <string name="wallpaper_picsum">Random web photo (Picsum)</string>
+    <string name="wallpaper_picsum_next">Load new web photo now</string>
+    <string name="wallpaper_picsum_loading">Loading new web photo…</string>
+    <string name="wallpaper_picsum_failed">Could not load web photo</string>
+    <string name="settings_reload_launcher">Reload launcher</string>
+    <string name="launcher_updated_toast">Matcher updated to v%1$s</string>
 </resources>

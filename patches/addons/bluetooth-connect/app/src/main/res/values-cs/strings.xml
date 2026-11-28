@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth připojení</string>
+
+    <string name="perm_needed_install">Vyžaduje oprávnění Zařízení v okolí: spusťte jednou install.sh nebo ho povolte v nastavení aplikace.</string>
+    <string name="perm_needed">Vyžaduje oprávnění Zařízení v okolí: povolte ho v nastavení aplikace.</string>
+    <string name="bt_off">Bluetooth je vypnuté. Zapněte ho v nastavení TV.</string>
+    <string name="state_working">Pracuji…</string>
+    <string name="state_connected">Připojeno</string>
+    <string name="state_not_connected">Nepřipojeno</string>
+    <string name="action_disconnect">Odpojit</string>
+    <string name="action_connect">Připojit</string>
+    <string name="status_none">Žádné spárované reproduktory. Nejprve nějaký spárujte v nastavení Bluetooth na TV.</string>
+    <string name="status_hint">OK připojí nebo odpojí reproduktor.</string>
+    <string name="status_refused">Android požadavek zamítl. Použijte nastavení Bluetooth v TV: %1$s</string>
 </resources>

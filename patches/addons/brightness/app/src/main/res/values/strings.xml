@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Brightness</string>
+    <string name="quick_brightness">Brightness %1$d%%</string>
+    <string name="quick_night_brightness">Night brightness %1$d%%</string>
+    <string name="quick_hint">◀ ▶ adjust · OK close</string>
+    <string name="channel_name">Screen dimming</string>
+    <string name="notification_text">Dimming the screen. Open Brightness to change or switch off.</string>
+
+    <string name="perm_title">Allow display over other apps</string>
+    <string name="perm_detail">Needed to dim other apps. OK opens the setting.</string>
+    <string name="perm_denied">Not allowed</string>
+    <string name="perm_no_screen">This TV has no screen for it. From a computer: adb shell appops set %1$s SYSTEM_ALERT_WINDOW allow</string>
+    <string name="row_dimming">Dimming</string>
+    <string name="row_dimming_detail">Off puts the screen back to normal at once. The settings below stay.</string>
+    <string name="row_brightness">Brightness</string>
+    <string name="row_brightness_detail">How bright the picture is outside night mode.</string>
+    <string name="row_night_mode">Night mode</string>
+    <string name="row_night_brightness">Night brightness</string>
+    <string name="row_night_brightness_detail">How bright the picture is in night mode.</string>
+    <string name="row_warmth">Warmth</string>
+    <string name="row_warmth_detail">Night mode only: less blue, a warmer picture.</string>
+    <string name="row_night_starts">Night starts</string>
+    <string name="row_night_starts_detail">Scheduled night mode begins. ◀ ▶ moves 15 minutes.</string>
+    <string name="row_night_ends">Night ends</string>
+    <string name="row_night_ends_detail">Back to the day brightness.</string>
+    <string name="row_tv_picture">TV picture at night</string>
+    <string name="row_tv_picture_detail">Also turns the TV\'s own backlight, contrast and brightness down for the night, and puts the day\'s back in the morning.</string>
+    <string name="row_tv_perm">Allow TV picture control</string>
+    <string name="row_tv_perm_detail">The TV asks once whether this app may change its picture settings. OK asks.</string>
+    <string name="row_tv_backlight">Night backlight</string>
+    <string name="row_tv_backlight_detail">The TV\'s backlight: the light the panel gives off.</string>
+    <string name="row_tv_contrast">Night contrast</string>
+    <string name="row_tv_contrast_detail">The TV\'s contrast. Lower dims the whites.</string>
+    <string name="row_tv_brightness">Night TV brightness</string>
+    <string name="row_tv_brightness_detail">The TV\'s brightness. Lower darkens the shadows.</string>
+    <string name="row_tv_dynamic">Night dynamic backlight</string>
+    <string name="row_tv_dynamic_detail">The TV lowers its backlight further on dark pictures.</string>
+    <string name="row_tv_take">Use the TV\'s picture now</string>
+    <string name="row_tv_take_detail">Takes what is set in the TV\'s own picture menu as the night values.</string>
+    <string name="val_reading">Reading…</string>
+    <string name="val_taken">Taken</string>
+    <string name="val_on">On</string>
+    <string name="val_off">Off</string>
+    <string name="val_scheduled">Scheduled</string>
+    <string name="night_detail_scheduled">Between the times below, every day.</string>
+    <string name="night_detail_on">Now, until switched off here.</string>
+    <string name="night_detail_off">Day brightness all the time.</string>
+    <string name="status_off">Off: the screen is normal.</string>
+    <string name="status_no_perm">On, but nothing is drawn until display over other apps is allowed.</string>
+    <string name="status_night_now">Night mode now: %1$d %%, warmth %2$d %%.</string>
+    <string name="status_night_until">Night mode now: %1$d %%, warmth %2$d %%, until %3$s.</string>
+    <string name="status_day_now">Now: %1$d %%.</string>
+    <string name="status_day_until">Now: %1$d %%. Night mode from %2$s.</string>
+</resources>

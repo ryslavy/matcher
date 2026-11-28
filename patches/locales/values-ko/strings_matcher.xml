@@ -150,8 +150,10 @@
     <!-- 런처 기능 설정 & 글래스 재질 시스템 -->
     <string name="fs_sec_glass">Liquid Glass &amp; 사용 환경</string>
     <string name="fs_liquid_clock">Liquid Glass 시계 (iOS 26)</string>
-    <string name="fs_home_liquid">홈 화면 광학 Liquid Glass</string>
+    <string name="fs_home_liquid">리퀴드 글래스 광학</string>
     <string name="fs_home_backdrop_blur">홈 배경 블러</string>
+    <string name="fs_nested_menu_blur">중첩 메뉴 블러</string>
+    <string name="fs_dock_ambient_glow">독 배경 주변광</string>
     <string name="fs_glass_material">글래스 스타일</string>
     <string name="fs_glass_material_title">Liquid Glass 스타일 선택</string>
     <string name="glass_style_tonal">프로스트 토널</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">버튼 매핑이 저장되었습니다</string>
     <string name="rm_action_mute">음소거</string>
     <string name="rm_action_ignore">버튼 무시 (비활성화)</string>
+    <string name="wallpaper_picsum">무작위 웹 사진 (Picsum)</string>
+    <string name="wallpaper_picsum_next">새 웹 사진 지금 불러오기</string>
+    <string name="wallpaper_picsum_loading">새 웹 사진을 불러오는 중…</string>
+    <string name="wallpaper_picsum_failed">웹 사진을 불러올 수 없습니다</string>
+    <string name="settings_reload_launcher">런처 다시 불러오기</string>
+    <string name="launcher_updated_toast">Matcher가 v%1$s로 업데이트되었습니다</string>
 </resources>

@@ -150,8 +150,10 @@
     <!-- Axustes del llanzador y estilos Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass &amp; Esperiencia</string>
     <string name="fs_liquid_clock">Reló Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Liquid Glass ópticu n\'Aniciu</string>
+    <string name="fs_home_liquid">Óptica Liquid Glass</string>
     <string name="fs_home_backdrop_blur">Desenfoque del fondu n\'Aniciu</string>
+    <string name="fs_nested_menu_blur">Desenfoque de submenús</string>
+    <string name="fs_dock_ambient_glow">Resplandor ambiental tres del dock</string>
     <string name="fs_glass_material">Estilu del vidriu</string>
     <string name="fs_glass_material_title">Escueyi l\'estilu de Liquid Glass</string>
     <string name="glass_style_tonal">Vidriu esmeriláu tonal</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Asignación de botón guardada</string>
     <string name="rm_action_mute">Silenciar l\'audiu</string>
     <string name="rm_action_ignore">Inorar botón (desactivar)</string>
+    <string name="wallpaper_picsum">Semeya web al debalu (Picsum)</string>
+    <string name="wallpaper_picsum_next">Cargar una semeya web nueva agora</string>
+    <string name="wallpaper_picsum_loading">Cargando una semeya web nueva…</string>
+    <string name="wallpaper_picsum_failed">Nun se pudo cargar la semeya web</string>
+    <string name="settings_reload_launcher">Recargar el llanzador</string>
+    <string name="launcher_updated_toast">Matcher anováu a v%1$s</string>
 </resources>

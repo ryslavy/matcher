@@ -150,8 +150,10 @@
     <!-- লঞ্চার ফিচার সেটিংস ও Liquid Glass সিস্টেম -->
     <string name="fs_sec_glass">Liquid Glass ও অভিজ্ঞতা</string>
     <string name="fs_liquid_clock">Liquid Glass ঘড়ি (iOS 26)</string>
-    <string name="fs_home_liquid">হোমে অপটিক্যাল Liquid Glass</string>
+    <string name="fs_home_liquid">লিকুইড গ্লাস অপটিক্স</string>
     <string name="fs_home_backdrop_blur">হোম ব্যাকড্রপ ব্লার</string>
+    <string name="fs_nested_menu_blur">নেস্টেড মেনু ব্লার</string>
+    <string name="fs_dock_ambient_glow">ডকের পেছনে রঙিন আভা</string>
     <string name="fs_glass_material">গ্লাস স্টাইল</string>
     <string name="fs_glass_material_title">Liquid Glass স্টাইল বেছে নিন</string>
     <string name="glass_style_tonal">ফ্রস্টেড টোনাল</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">বাটন ম্যাপিং সংরক্ষিত হয়েছে</string>
     <string name="rm_action_mute">অডিও মিউট করুন</string>
     <string name="rm_action_ignore">বাটন উপেক্ষা করুন (নিষ্ক্রিয়)</string>
+    <string name="wallpaper_picsum">এলোমেলো ওয়েব ফটো (Picsum)</string>
+    <string name="wallpaper_picsum_next">এখনই নতুন ওয়েব ফটো লোড করুন</string>
+    <string name="wallpaper_picsum_loading">নতুন ওয়েব ফটো লোড হচ্ছে…</string>
+    <string name="wallpaper_picsum_failed">ওয়েব ফটো লোড করা যায়নি</string>
+    <string name="settings_reload_launcher">লঞ্চার পুনরায় লোড করুন</string>
+    <string name="launcher_updated_toast">Matcher v%1$s-এ আপডেট হয়েছে</string>
 </resources>

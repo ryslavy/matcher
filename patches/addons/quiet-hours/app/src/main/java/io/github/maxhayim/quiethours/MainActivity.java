@@ -62,27 +62,27 @@ public class MainActivity extends Activity {
         page.addView(scroll, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
         s = Prefs.load(this);
-        modeRow = add(rows, new Row(this, "Quiet hours", null, false, () -> {
+        modeRow = add(rows, new Row(this, getString(R.string.row_quiet_hours), null, false, () -> {
             s.mode = Quiet.Mode.values()[(s.mode.ordinal() + 1) % 3];
             changed();
         }, d -> {
             s.mode = Quiet.Mode.values()[(s.mode.ordinal() + d + 3) % 3];
             changed();
         }));
-        capRow = add(rows, new Row(this, "Volume cap", "The loudest the TV may play during quiet hours.", true, null,
+        capRow = add(rows, new Row(this, getString(R.string.row_volume_cap), getString(R.string.row_volume_cap_detail), true, null,
                 d -> {
                     s.cap += d * Quiet.CAP_STEP;
                     changed();
                 }));
-        startRow = add(rows, new Row(this, "Starts", "◀ ▶ moves 15 minutes.", false, null, d -> {
+        startRow = add(rows, new Row(this, getString(R.string.row_starts), getString(R.string.row_starts_detail), false, null, d -> {
             s.start += d * Quiet.TIME_STEP;
             changed();
         }));
-        endRow = add(rows, new Row(this, "Ends", null, false, null, d -> {
+        endRow = add(rows, new Row(this, getString(R.string.row_ends), null, false, null, d -> {
             s.end += d * Quiet.TIME_STEP;
             changed();
         }));
-        headphonesRow = add(rows, new Row(this, "Headphones", "Headphones don't wake the room, so they can go louder.",
+        headphonesRow = add(rows, new Row(this, getString(R.string.row_headphones), getString(R.string.row_headphones_detail),
                 false, () -> {
                     s.headphonesFree = !s.headphonesFree;
                     changed();
@@ -137,32 +137,39 @@ public class MainActivity extends Activity {
         int max = audio.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int vol = audio.getStreamVolume(AudioManager.STREAM_MUSIC);
         int cap = Quiet.capIndex(s.cap, max);
-        modeRow.setValue(s.mode == Quiet.Mode.OFF ? "Off" : s.mode == Quiet.Mode.ALWAYS ? "Always" : "Scheduled");
+        modeRow.setValue(getString(s.mode == Quiet.Mode.OFF ? R.string.val_off
+                : s.mode == Quiet.Mode.ALWAYS ? R.string.val_always : R.string.val_scheduled));
         modeRow.setAccentActive(s.mode != Quiet.Mode.OFF);
-        modeRow.setDetail(s.mode == Quiet.Mode.SCHEDULED ? "Every day between the times below."
-                : s.mode == Quiet.Mode.ALWAYS ? "The cap applies all day." : "No cap.");
+        modeRow.setDetail(getString(s.mode == Quiet.Mode.SCHEDULED ? R.string.mode_detail_scheduled
+                : s.mode == Quiet.Mode.ALWAYS ? R.string.mode_detail_always : R.string.mode_detail_off));
         capRow.setValue(s.cap + " %");
-        capRow.setDetail("The loudest the TV may play during quiet hours: step " + cap + " of " + max + ".");
+        capRow.setDetail(getString(R.string.row_volume_cap_step, cap, max));
         capRow.setBar(s.cap / 100f);
         startRow.setValue(Quiet.clock(s.start, h24));
         endRow.setValue(Quiet.clock(s.end, h24));
         boolean scheduled = s.mode == Quiet.Mode.SCHEDULED;
         startRow.setAlpha(scheduled ? 1f : 0.5f);
         endRow.setAlpha(scheduled ? 1f : 0.5f);
-        headphonesRow.setValue(s.headphonesFree ? "No cap" : "Capped too");
+        headphonesRow.setValue(getString(s.headphonesFree ? R.string.val_no_cap : R.string.val_capped_too));
         headphonesRow.setAccentActive(s.headphonesFree);
 
-        String now = "Volume " + vol + " of " + max + ". ";
         if (audio.isVolumeFixed()) {
-            status.setText("This TV's volume is fixed (HDMI ARC or an amplifier), so Android can't cap it.");
+            status.setText(R.string.status_fixed_volume);
         } else if (s.mode == Quiet.Mode.OFF) {
-            status.setText(now + "Quiet hours are off.");
+            status.setText(getString(R.string.status_off, vol, max));
         } else if (Quiet.capNow(s, CapService.minuteNow())) {
-            String until = scheduled ? " until " + Quiet.clock(s.end, h24) : "";
-            String free = CapService.onHeadphones(audio) && s.headphonesFree ? " Headphones: no cap." : "";
-            status.setText(now + "Capped at " + cap + until + "." + free);
+            boolean hpFree = CapService.onHeadphones(audio) && s.headphonesFree;
+            if (scheduled && hpFree) {
+                status.setText(getString(R.string.status_capped_until_hp, vol, max, cap, Quiet.clock(s.end, h24)));
+            } else if (scheduled) {
+                status.setText(getString(R.string.status_capped_until, vol, max, cap, Quiet.clock(s.end, h24)));
+            } else if (hpFree) {
+                status.setText(getString(R.string.status_capped_hp, vol, max, cap));
+            } else {
+                status.setText(getString(R.string.status_capped, vol, max, cap));
+            }
         } else {
-            status.setText(now + "Quiet hours from " + Quiet.clock(s.start, h24) + ".");
+            status.setText(getString(R.string.status_from, vol, max, Quiet.clock(s.start, h24)));
         }
         if (modal != null) modal.refreshFocus();
     }

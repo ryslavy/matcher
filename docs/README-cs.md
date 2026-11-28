@@ -35,13 +35,22 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ## 2. Hlavní funkce na TV
 
-### Vzhled, Liquid Glass 2.0 a Material 3 Expressive blur
-- **4vrstvý optický Liquid Glass 2.0** na celé domovské obrazovce (dock s živým vlněním při pohybu fokusu, horní kulaté ikony, složky, Media Mini-Player, Ovládací centrum, Knihovna aplikací, Nedávné aplikace, Objevovat, Spořič i všechna vnořená podokna a kontextová menu). Každá vrstva opticky láme přesně to, co je pod ní (kontextová menu v *All Apps* / složkách / nastavení lámou obsah rodičovského okna přes `nestedRefraction`, nad cizími streamovacími aplikacemi se přepíná čistý frosted režim bez úniku tapety).
-- **Volitelný režim 100% ostrého Home (`v1.1.2`):** Přepínač **Rozostření pozadí na Home** v *Nastavení domovské obrazovky* vypne celoobrazovkový blur za okny, takže plocha vně oken zůstane úplně ostrá (0 % ztmavení). Každé plovoucí okno, kontextové menu i doplněk si samo vykreslí vlastní mléčný rozostřený vnitřek cachovaný v GPU `RenderNode` (plynulých 60 FPS při listování) a ostré `960×540` optické hrany se automaticky adaptují i pro Dock, kulatá tlačítka vpravo nahoře a hodiny.
-- **Hardwarově cachovaný Material 3 Expressive blur vnořených menu:** Při otevření kontextové nabídky se podkladový panel plynule (60/120 FPS) rozostří nativním GPU Skia Gaussian + `BACKDROP_AGSL` závojem tónovaným podle aktivní tapety, zatímco vnější skleněný okraj panelu zůstává ostrý.
-- **3D naklánění dlaždic a živý odlesk:** Dlaždice na ploše i ve složkách reagují 3D pružinovým náklonem, jemným pohybem a světelným odleskem (`TileSheenDrawable`).
-- **4K HEVC Aerial spořič a oblíbené smyčky (`★`):** Plynulá Apple TV 4K HEVC videa s automatickým fallbackem na 1080p SDR, připínáním oblíbených scén, počasím, kartou *Právě hraje* a ochranou OLED proti vypálení.
-- **Dynamické tapety podle denní doby, ročních období a svátků** (`wallpaper_moods` v [`my-theme/config.json`](../my-theme/config.json)) a volitelné **3D skleněné hodiny (iOS 26)** v *Ovládací centrum → Nastavení*.
+### Vzhled, 6 stylů skla, Liquid Glass 2.0 a 60 FPS engine (`v1.2.0` + `v1.2.1`)
+- **6 předvoleb materiálu skla (`GlassStyle`):** Přímo v *Nastavení launcheru → Styl skla* lze živě přepínat mezi **Matné tónované**, **Čistá černá (OLED)**, **Mléčná bílá** (plná inverze do světlého skla s tmavým grafitovým textem, ikonami a tmavým Fresnel focus ringem), **Čiré sklo**, **Barevný nádech (Material You)** a **Automaticky (Den / Noc)** — synchronizovaně pro Home, Dock, horní pilulky, všechny modály i všech 8 doplňků (`GlassKit`).
+- **4vrstvý optický Liquid Glass 2.0 & 60 FPS Dock:** Dock běží ve 100% hardwarové GPU cache (`LAYER_TYPE_HARDWARE` VRAM, **0,00 % jank** na 2 GB RAM boxu) s oddělenou barevnou vrstvou `DockTintOverlayView` pro sametové `420 ms` barevné přechody pod složkami i aplikacemi, živým laděním **Krytí pruhu docku (30–100 %)** napříč všemi 6 styly skla, samostatným přepínačem **Barevná záře za dockem** a čistým ořezem + fade-outem při scrollování. Každá vrstva opticky láme přesně to, co je pod ní (nad cizími streamovacími aplikacemi se automaticky přepíná čistý frosted režim bez úniku tapety).
+- **Režim 100% ostrého Home, Rozostření vnořených menu a globální Optika tekutého skla:**
+  - Přepínač **Rozostření pozadí na Home** vypne celoobrazovkový blur za okny (plocha venku zůstane 100% ostrá bez ztmavení) a nezávislý přepínač **Rozostření vnořených menu** umožní ponechat 100% ostré i rodičovské okno za kontextovými nabídkami.
+  - Plovoucí okna, kontextová menu i doplňky si automaticky vykreslí vlastní mléčný rozostřený vnitřek cachovaný v GPU `RenderNode` (plynulých 60 FPS, bez nežádoucí průhlednosti) s ostrými `960×540` / `640×360` optickými okraji.
+  - Přepínač **Optika tekutého skla** nyní platí jednotně pro celý launcher, všech 8 doplňků i plovoucí rychlé lišty *Jasu* a *Časovače spánku*.
+- **Náhodné webové tapety (`picsum.photos`), 3stupňové plynulé přenačítání a 16 rozvržení mřížky:**
+  - V *Nastavení launcheru → Tapeta* (nebo jedním klikem v QR web editoru z mobilu) vybereš **Náhodnou fotku z webu (Picsum)** (`1920×1080` CC0/Unsplash, automatická hodinová rotace + offline cache); přepnutí na *Bez tapety* okamžitě čistí starý lom na hranách Docku i pilulek.
+  - Změny tapet a nastavení se aplikují okamžitě na místě bez černého probliknutí (Tier 1), změny mřížky se plynule prolnou se zachováním fokusu (Tier 2), všech **16 kombinací (`4–7 sloupců × 0–3 řádky pod dockem`)** sedí na 1080p bez ořezu a **Karty modulů** čistě skrývají ikony jak na Home, tak v Knihovně aplikací.
+- **3D naklánění dlaždic, 4K HEVC Aerial spořič a sezónní tapety:** Dlaždice reagují 3D pružinovým náklonem a světelným odleskem (`TileSheenDrawable`), Apple TV 4K HEVC Aerial videa podporují připínání oblíbených scén (`★`), místní počasí a OLED ochranu, plus dynamické tapety (`wallpaper_moods`) a volitelné **3D skleněné hodiny (iOS 26)**.
+
+### Učení tlačítek ovladače na TV, QR editor & OTA aktualizace (`v1.2.0` + `v1.2.1`)
+- **Učení tlačítek přímo na TV (bez PC a ADB):** V *Nastavení launcheru → Tlačítka ovladače → Naučit tlačítko* stačí stisknout libovolnou zkratku na ovladači a přiřadit jí nezávisle **Krátký stisk**, **Dvojklik** i **Podržení (0,5 s)**.
+- **Rozšířený QR web editor z mobilu:** Kromě klíčů pro TMDB / Trakt / Plex / Home Assistant / Immich umožňuje z telefonu spravovat tlačítka ovladače (s rozbalovacím seznamem nainstalovaných aplikací), vlastní názvy a skrytí aplikací, město/souřadnice počasí, nahrát tapetu přímo z galerie telefonu, zapnout Picsum a exportovat/importovat `config.json`.
+- **OTA aktualizace přímo na TV a rychlé skripty z PC:** U podepsaných GitHub Release APK (`v1.2.0+`) lze aktualizovat launcher i všech 8 doplňků přímo v *Nastavení launcheru → Aktualizace (GitHub)* (včetně automatického znovupřipojení služeb Přístupnosti po aktualizaci na Androidu 14) nebo jedním příkazem přes `update.ps1` / `update.sh` bez instalace JDK/SDK (viz [`UPDATE.md`](../UPDATE.md)).
 
 ### Složky, Knihovna aplikací a Media Mini-Player
 - **Složky:** Podrž **OK** na libovolné aplikaci → *Přidat do složky* → *Nová složka*. Uvnitř složky lze kdykoliv přidávat další aplikace (*+ Přidat*), přejmenovat ji, přesouvat dlaždice nebo ji rozpustit.
@@ -66,7 +75,7 @@ Výchozí mapa pro **Xiaomi TV Box S 3rd Gen** (upravíš v [`my-theme/config.js
 
 ## 3. Modulární doplňky (8 výchozích + 40+ dalších v upstreamu)
 
-Výchozí sada 8 doplňků je kompletně přeložena **do všech 31 jazyků** (včetně češtiny, slovenštiny, polštiny a angličtiny) a sdílí [`GlassKit.java`](../patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (Liquid Glass 2.0 + 6 stylů skla + Material 3 Expressive blur + živý focus ring):
+Výchozí sada 8 doplňků má **100% přeložené rozhraní ve všech 31 jazycích** (včetně češtiny, slovenštiny, polštiny a angličtiny — v `v1.2.1` doplněny i všechny zbývající texty pro *Jas*, *Noční zvuk* a *Bluetooth připojení*) a sdílí [`GlassKit.java`](../patches/addons/brightness/app/src/main/java/io/github/maxhayim/brightness/GlassKit.java) (Liquid Glass 2.0 + 6 stylů skla + Material 3 Expressive blur + přepínač optiky a rozostření vnořených menu + živý focus ring):
 
 1. **Jas (`Brightness`)** — ztlumení pod minimum TV + teplý noční filtr + rychlá lišta.
 2. **Časovač spánku (`Sleep Timer`)** — uspání za 15–120 min, týdenní rozvrh a výjimky, HDMI-CEC + rychlá lišta.
@@ -122,7 +131,7 @@ Matcher je otestovaný primárně na **Xiaomi TV Box S 3rd Gen** (`MiTV-AFMU0`, 
 ## 5. Vypínání vizuálních prvků a rychlé příkazy z PC
 
 Většinu efektů lze snadno vypnout nebo upravit i bez znalosti kódu (nebo o to požádat svého AI agenta — repozitář obsahuje `AGENTS.md` a `SKILL.md`):
-* **Přímo v TV (*Ovládací centrum → Nastavení*):** 3D Liquid Glass hodiny, Liquid Glass optika na ploše, **Rozostření pozadí na Home** (režim ostrého Home), zvuky kliknutí, OLED ochrana spořiče, Aerial videa, region Objevovat.
+* **Přímo v TV (*Ovládací centrum → Nastavení → Nastavení launcheru*):** Styl skla (6 předvoleb), Krytí pruhu docku (30–100 %), Barevná záře za dockem, 3D Liquid Glass hodiny, **Optika tekutého skla** (globálně pro launcher i doplňky), **Rozostření pozadí na Home**, **Rozostření vnořených menu**, Náhodná webová tapeta (Picsum), Tlačítka ovladače (*Naučit tlačítko*), Zvuky kliknutí, OLED ochrana spořiče, Aerial videa, region Objevovat, Znovu načíst launcher a OTA Aktualizace (GitHub).
 * **V [`my-theme/config.json`](../my-theme/config.json) (bez kompilace):** `dock_glass`, `dock_opacity`, `cinematic_home`, `ambient_glow`, `app_glow`, `reduced_motion`, `glow_snap`, `columns`, `dock_apps`, `app_labels`, `app_keys`, vlastní tapety v `my-theme/wallpapers/`.
 * **Vlastní výběr doplňků:** nepotřebné doplňky můžeš kdykoliv odebrat nebo naopak přidat kterýkoliv ze 40+ doplňků z `cleanyourtv/addons/` a nechat AI agenta sladit jeho vzhled přes `GlassKit.java` (postup v [`SKILL.md`](../SKILL.md#playbook-4--adding-visually-matching-glasskit-or-removing-modular-add-ons)).
 * **Vlastní město pro počasí/slunce:** uprav `latitude`, `longitude`, `weather_city` v [`patches/launcher-config.xml`](../patches/launcher-config.xml) (výchozí `Prague`) před buildem.
@@ -144,6 +153,9 @@ powershell -ExecutionPolicy Bypass -File .\apply-setup.ps1 -TvHost <TV_IP>
 # Vyzkoušení jiného z 30+ témat (zachová dock, názvy i tlačítka):
 .\switch-theme.ps1 -List
 .\switch-theme.ps1 aurora -TvHost <TV_IP>
+
+# Rychlá binární aktualizace již nainstalovaného podepsaného Matcheru (bez JDK/SDK):
+powershell -ExecutionPolicy Bypass -File .\update.ps1 -TvHost <TV_IP>
 
 # Kompletní návrat do původního stavu:
 powershell -ExecutionPolicy Bypass -File .\restore-all.ps1 -TvHost <TV_IP>

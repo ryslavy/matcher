@@ -150,8 +150,10 @@
     <!-- Configuració del llançador i estils Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass &amp; Experiència</string>
     <string name="fs_liquid_clock">Rellotge Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Liquid Glass òptic a l\'inici</string>
+    <string name="fs_home_liquid">Òptica Liquid Glass</string>
     <string name="fs_home_backdrop_blur">Desenfocament del fons a l\'inici</string>
+    <string name="fs_nested_menu_blur">Desenfocament de menús niats</string>
+    <string name="fs_dock_ambient_glow">Brillantor ambiental darrere el dock</string>
     <string name="fs_glass_material">Estil del vidre</string>
     <string name="fs_glass_material_title">Tria l\'estil de Liquid Glass</string>
     <string name="glass_style_tonal">Vidre esmerilat tonal</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Assignació de botó desada</string>
     <string name="rm_action_mute">Silencia l\'àudio</string>
     <string name="rm_action_ignore">Ignora el botó (desactiva)</string>
+    <string name="wallpaper_picsum">Foto web aleatòria (Picsum)</string>
+    <string name="wallpaper_picsum_next">Carrega una foto web nova ara</string>
+    <string name="wallpaper_picsum_loading">S\'està carregant una foto web nova…</string>
+    <string name="wallpaper_picsum_failed">No s\'ha pogut carregar la foto web</string>
+    <string name="settings_reload_launcher">Recarrega el llançador</string>
+    <string name="launcher_updated_toast">Matcher actualitzat a la v%1$s</string>
 </resources>

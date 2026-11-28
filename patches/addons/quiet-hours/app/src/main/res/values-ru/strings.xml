@@ -3,4 +3,29 @@
     <string name="app_name">Тихие часы</string>
     <string name="channel_name">Ограничение громкости</string>
     <string name="notification_text">Громкость ограничена заданным порогом. Откройте «Тихие часы», чтобы изменить его.</string>
+
+    <string name="row_quiet_hours">Тихие часы</string>
+    <string name="row_volume_cap">Ограничение громкости</string>
+    <string name="row_volume_cap_detail">Максимальная громкость ТВ в тихие часы.</string>
+    <string name="row_volume_cap_step">Максимальная громкость ТВ в тихие часы: шаг %1$d из %2$d.</string>
+    <string name="row_starts">Начало</string>
+    <string name="row_starts_detail">◀ ▶ меняет на 15 минут.</string>
+    <string name="row_ends">Конец</string>
+    <string name="row_headphones">Наушники</string>
+    <string name="row_headphones_detail">Наушники никого не разбудят, поэтому в них можно слушать громче.</string>
+    <string name="val_off">Выкл.</string>
+    <string name="val_always">Всегда</string>
+    <string name="val_scheduled">По расписанию</string>
+    <string name="mode_detail_scheduled">Каждый день в указанное ниже время.</string>
+    <string name="mode_detail_always">Ограничение действует весь день.</string>
+    <string name="mode_detail_off">Без ограничения.</string>
+    <string name="val_no_cap">Без ограничения</string>
+    <string name="val_capped_too">Тоже ограничено</string>
+    <string name="status_fixed_volume">Громкость этого ТВ фиксирована (HDMI ARC или усилитель), поэтому Android не может её ограничить.</string>
+    <string name="status_off">Громкость %1$d из %2$d. Тихие часы выключены.</string>
+    <string name="status_capped">Громкость %1$d из %2$d. Ограничено до %3$d.</string>
+    <string name="status_capped_until">Громкость %1$d из %2$d. Ограничено до %3$d до %4$s.</string>
+    <string name="status_capped_hp">Громкость %1$d из %2$d. Ограничено до %3$d. Наушники: без ограничения.</string>
+    <string name="status_capped_until_hp">Громкость %1$d из %2$d. Ограничено до %3$d до %4$s. Наушники: без ограничения.</string>
+    <string name="status_from">Громкость %1$d из %2$d. Тихие часы с %3$s.</string>
 </resources>

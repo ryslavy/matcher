@@ -3,4 +3,29 @@
     <string name="app_name">Tihi sati</string>
     <string name="channel_name">Ograničenje jačine zvuka</string>
     <string name="notification_text">Jačina zvuka ostaje ispod ograničenja. Otvorite Tihi sati da promenite.</string>
+
+    <string name="row_quiet_hours">Tihi sati</string>
+    <string name="row_volume_cap">Ograničenje jačine zvuka</string>
+    <string name="row_volume_cap_detail">Najveća jačina zvuka TV-a tokom tihih sati.</string>
+    <string name="row_volume_cap_step">Najveća jačina zvuka TV-a tokom tihih sati: korak %1$d od %2$d.</string>
+    <string name="row_starts">Početak</string>
+    <string name="row_starts_detail">◀ ▶ pomera za 15 minuta.</string>
+    <string name="row_ends">Kraj</string>
+    <string name="row_headphones">Slušalice</string>
+    <string name="row_headphones_detail">Slušalice nikoga ne bude u sobi, pa mogu biti glasnije.</string>
+    <string name="val_off">Isključeno</string>
+    <string name="val_always">Uvek</string>
+    <string name="val_scheduled">Po rasporedu</string>
+    <string name="mode_detail_scheduled">Svakog dana u navedeno vreme ispod.</string>
+    <string name="mode_detail_always">Ograničenje važi ceo dan.</string>
+    <string name="mode_detail_off">Bez ograničenja.</string>
+    <string name="val_no_cap">Bez ograničenja</string>
+    <string name="val_capped_too">Takođe ograničeno</string>
+    <string name="status_fixed_volume">Jačina zvuka ovog TV-a je fiksna (HDMI ARC ili pojačalo), pa Android ne može da je ograniči.</string>
+    <string name="status_off">Jačina zvuka %1$d od %2$d. Tihi sati su isključeni.</string>
+    <string name="status_capped">Jačina zvuka %1$d od %2$d. Ograničeno na %3$d.</string>
+    <string name="status_capped_until">Jačina zvuka %1$d od %2$d. Ograničeno na %3$d do %4$s.</string>
+    <string name="status_capped_hp">Jačina zvuka %1$d od %2$d. Ograničeno na %3$d. Slušalice: bez ograničenja.</string>
+    <string name="status_capped_until_hp">Jačina zvuka %1$d od %2$d. Ograničeno na %3$d do %4$s. Slušalice: bez ograničenja.</string>
+    <string name="status_from">Jačina zvuka %1$d od %2$d. Tihi sati od %3$s.</string>
 </resources>

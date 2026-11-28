@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth Bağlantısı</string>
+    <string name="perm_needed_install">Yakındaki cihazlar izni gerekiyor: install.sh dosyasını bir kez çalıştırın veya uygulamanın ayarlarından izin verin.</string>
+    <string name="perm_needed">Yakındaki cihazlar izni gerekiyor: uygulamanın ayarlarından izin verin.</string>
+    <string name="bt_off">Bluetooth kapalı. TV\'nin ayarlarından açın.</string>
+    <string name="state_working">İşleniyor…</string>
+    <string name="state_connected">Bağlı</string>
+    <string name="state_not_connected">Bağlı değil</string>
+    <string name="action_disconnect">Bağlantıyı kes</string>
+    <string name="action_connect">Bağlan</string>
+    <string name="status_none">Eşleştirilmiş hoparlör yok. Önce TV\'nin Bluetooth ayarlarından bir hoparlör eşleştirin.</string>
+    <string name="status_hint">OK bir hoparlöre bağlanır veya bağlantısını keser.</string>
+    <string name="status_refused">Android reddetti. TV\'nin Bluetooth ayarlarını kullanın: %1$s</string>
 </resources>

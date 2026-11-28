@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Connexion Bluetooth</string>
+    <string name="perm_needed_install">Nécessite l\'autorisation Appareils à proximité : exécutez install.sh une fois ou autorisez-la dans les paramètres de l\'appli.</string>
+    <string name="perm_needed">Nécessite l\'autorisation Appareils à proximité : autorisez-la dans les paramètres de l\'appli.</string>
+    <string name="bt_off">Le Bluetooth est désactivé. Activez-le dans les paramètres du TV.</string>
+    <string name="state_working">En cours…</string>
+    <string name="state_connected">Connecté</string>
+    <string name="state_not_connected">Non connecté</string>
+    <string name="action_disconnect">Déconnecter</string>
+    <string name="action_connect">Connecter</string>
+    <string name="status_none">Aucune enceinte associée. Associez-en une d\'abord dans les paramètres Bluetooth du TV.</string>
+    <string name="status_hint">OK connecte ou déconnecte une enceinte.</string>
+    <string name="status_refused">Android a refusé. Utilisez les paramètres Bluetooth du TV : %1$s</string>
 </resources>

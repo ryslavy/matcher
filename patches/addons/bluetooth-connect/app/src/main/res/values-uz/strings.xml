@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth ulanish</string>
+    <string name="perm_needed_install">Yaqin atrofdagi qurilmalar ruxsati kerak: install.sh skriptini bir marta ishga tushiring yoki ilova sozlamalarida ruxsat bering.</string>
+    <string name="perm_needed">Yaqin atrofdagi qurilmalar ruxsati kerak: ilova sozlamalarida ruxsat bering.</string>
+    <string name="bt_off">Bluetooth oʻchiq. Uni TV sozlamalaridan yoqing.</string>
+    <string name="state_working">Bajarilmoqda…</string>
+    <string name="state_connected">Ulangan</string>
+    <string name="state_not_connected">Ulanmagan</string>
+    <string name="action_disconnect">Uzish</string>
+    <string name="action_connect">Ulash</string>
+    <string name="status_none">Ulangan karnaylar yoʻq. Avval TVning Bluetooth sozlamalarida karnayni ulang.</string>
+    <string name="status_hint">OK karnayni ulaydi yoki uzadi.</string>
+    <string name="status_refused">Android rad etdi. TVning Bluetooth sozlamalaridan foydalaning: %1$s</string>
 </resources>

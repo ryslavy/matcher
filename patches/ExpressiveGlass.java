@@ -310,6 +310,9 @@ final class ExpressiveGlass {
     static final String EXTRA_BACKDROP_JPEG = "com.gathin.tvhome.BACKDROP_JPEG";
     static final String EXTRA_OVER_HOME = "com.gathin.tvhome.OVER_HOME";
     static final String EXTRA_OVER_SHARP_BACKDROP = "com.gathin.tvhome.OVER_SHARP_BACKDROP";
+    static final String EXTRA_NESTED_MENU_BLUR = "com.gathin.tvhome.NESTED_MENU_BLUR";
+    static final String EXTRA_LIQUID_OPTICS = "com.gathin.tvhome.LIQUID_OPTICS";
+    static final String EXTRA_LOCALE = "com.gathin.tvhome.LOCALE";
     static final String EXTRA_GLASS_STYLE = "com.gathin.tvhome.GLASS_STYLE";
     static final String EXTRA_WALLPAPER_SEED = "com.gathin.tvhome.WALLPAPER_SEED";
     static final String EXTRA_SEAMLESS_HANDOFF = "com.gathin.tvhome.SEAMLESS_HANDOFF";
@@ -331,6 +334,7 @@ final class ExpressiveGlass {
 
     static volatile boolean homeLiquidOpticsEnabled = true;
     static volatile boolean homeBackdropBlurEnabled = true;
+    static volatile boolean nestedMenuBlurEnabled = true;
     static volatile int glassStyle = STYLE_TONAL;
 
     static final class RefractionBackdrop {
@@ -591,6 +595,14 @@ final class ExpressiveGlass {
 
     static void setHomeBackdropBlurEnabled(boolean enabled) {
         homeBackdropBlurEnabled = enabled;
+    }
+
+    static boolean isNestedMenuBlurEnabled() {
+        return nestedMenuBlurEnabled;
+    }
+
+    static void setNestedMenuBlurEnabled(boolean enabled) {
+        nestedMenuBlurEnabled = enabled;
     }
 
     static int glassStyle() {
@@ -1150,6 +1162,7 @@ final class ExpressiveGlass {
         float fraction;
         boolean targetBlurred;
         boolean highlightWasVisible;
+        boolean blurSuppressed;
         @Nullable
         ExpressiveBlurVeilDrawable veilDrawable;
         @Nullable
@@ -1493,7 +1506,7 @@ final class ExpressiveGlass {
                 blurPremulRgba(blurPxScratch, blurTmpScratch, rw, rh, softRadius, 214);
                 softChildren.setPixels(blurPxScratch, 0, rw, 0, 0, rw, rh);
             }
-            buildNestedCompositeBackdrop(panel, softChildren, pd, density);
+            buildNestedCompositeBackdrop(panel, softChildren, pd, density, false);
 
             Bitmap swFallback = null;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -1521,8 +1534,39 @@ final class ExpressiveGlass {
         }
     }
 
-    private static void buildNestedCompositeBackdrop(ViewGroup panel, Bitmap softChildren,
-                                                     @Nullable PanelDrawable pd, float density) {
+    /**
+     * Captures {@code panel}'s live razor-sharp children when nested parent blur is disabled so floating Layer 3
+     * context menus & sub-dialogs still render an opaque frosted-blur interior + live crisp edge refraction
+     * without blurring or dimming the parent panel behind them.
+     */
+    private static void captureNestedSharpBackdropOnly(ViewGroup panel, float density) {
+        int pw = panel.getWidth();
+        int ph = panel.getHeight();
+        if (pw <= 4 || ph <= 4) return;
+        try {
+            float scale = Math.min(0.65f, 720f / Math.max(pw, ph));
+            int sw = Math.max(16, Math.round(pw * scale));
+            int sh = Math.max(16, Math.round(ph * scale));
+            Bitmap sharpChildren = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888);
+            Canvas sc = new Canvas(sharpChildren);
+            sc.scale(sw / (float) pw, sh / (float) ph);
+            PanelDrawable pd = (panel.getBackground() instanceof PanelDrawable)
+                    ? (PanelDrawable) panel.getBackground() : null;
+            if (pd != null) pd.suppressDraw = true;
+            try {
+                panel.draw(sc);
+            } finally {
+                if (pd != null) pd.suppressDraw = false;
+            }
+            buildNestedCompositeBackdrop(panel, sharpChildren, pd, density, true);
+            sharpChildren.recycle();
+        } catch (RuntimeException | OutOfMemoryError ignored) {
+        }
+    }
+
+    private static void buildNestedCompositeBackdrop(ViewGroup panel, Bitmap childrenBmp,
+                                                     @Nullable PanelDrawable pd, float density,
+                                                     boolean sharpParent) {
         try {
             RefractionBackdrop base = activeRefractionBackdrop();
             android.util.DisplayMetrics dm = panel.getResources().getDisplayMetrics();
@@ -1534,8 +1578,8 @@ final class ExpressiveGlass {
             boolean sharpHomeOutside = !homeBackdropBlurEnabled
                     && base != null && !base.externalApp
                     && MainActivity.isHomeVisible();
-            int cw = sharpHomeOutside ? 640 : 480;
-            int ch = sharpHomeOutside ? 360 : 270;
+            int cw = (sharpHomeOutside || sharpParent) ? 640 : 480;
+            int ch = (sharpHomeOutside || sharpParent) ? 360 : 270;
             Bitmap compSharp = Bitmap.createBitmap(cw, ch, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(compSharp);
             Paint fp = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
@@ -1577,13 +1621,15 @@ final class ExpressiveGlass {
                     new int[]{cols[0], cols[1], cols[2]},
                     new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
             c.drawRoundRect(dst, rad, rad, glassFill);
-            c.drawBitmap(softChildren, null, dst, fp);
-            // Match BlurVeilDrawable's depth scrim inside the parent panel.
-            Paint scrimP = new Paint(Paint.ANTI_ALIAS_FLAG);
-            scrimP.setColor(style == STYLE_FROST ? 0x36E8EEF8
-                    : (style == STYLE_OBSIDIAN ? 0x4C020305
-                    : (style == STYLE_CHROMATIC ? ((0x38 << 24) | tonalAccent800(dynamicSeedRgb)) : 0x3C080C14)));
-            c.drawRoundRect(dst, rad, rad, scrimP);
+            c.drawBitmap(childrenBmp, null, dst, fp);
+            if (!sharpParent) {
+                // Match BlurVeilDrawable's depth scrim inside the parent panel when blurred.
+                Paint scrimP = new Paint(Paint.ANTI_ALIAS_FLAG);
+                scrimP.setColor(style == STYLE_FROST ? 0x36E8EEF8
+                        : (style == STYLE_OBSIDIAN ? 0x4C020305
+                        : (style == STYLE_CHROMATIC ? ((0x38 << 24) | tonalAccent800(dynamicSeedRgb)) : 0x3C080C14)));
+                c.drawRoundRect(dst, rad, rad, scrimP);
+            }
 
             Bitmap compBlur = makeFastBlurred(compSharp, 240, 135, false);
             if (compBlur != null) {
@@ -1620,8 +1666,8 @@ final class ExpressiveGlass {
                                                PanelBlurState state, float f) {
         state.fraction = f;
         boolean hasVeil = state.veilDrawable != null;
-        // Crossfade live children cleanly to 0 alpha into the hardware-cached Material 3 Expressive GPU blur veil!
-        float childAlpha = hasVeil ? (1f - f) : (1f - 0.28f * f);
+        // When nested parent blur is disabled, keep parent children 100% razor-sharp at full opacity.
+        float childAlpha = state.blurSuppressed ? 1f : (hasVeil ? (1f - f) : (1f - 0.28f * f));
         for (int i = 0, n = panel.getChildCount(); i < n; i++) {
             panel.getChildAt(i).setAlpha(childAlpha);
         }
@@ -1640,6 +1686,7 @@ final class ExpressiveGlass {
             state.veilDrawable.release();
             state.veilDrawable = null;
         }
+        state.blurSuppressed = false;
         clearNestedBackdropIfOwned(panel);
     }
 
@@ -1667,12 +1714,25 @@ final class ExpressiveGlass {
             state.animator.cancel();
             state.animator = null;
         }
-        if (blurred && state.veilDrawable == null) {
-            ExpressiveBlurVeilDrawable veil = capturePanelChildrenAndBuildVeil(panel, density);
-            if (veil != null) {
-                veil.setBounds(0, 0, panel.getWidth(), panel.getHeight());
-                panel.getOverlay().add(veil);
-                state.veilDrawable = veil;
+        if (blurred) {
+            if (!nestedMenuBlurEnabled) {
+                if (state.veilDrawable != null) {
+                    panel.getOverlay().remove(state.veilDrawable);
+                    state.veilDrawable.release();
+                    state.veilDrawable = null;
+                }
+                state.blurSuppressed = true;
+                captureNestedSharpBackdropOnly(panel, density);
+            } else {
+                state.blurSuppressed = false;
+                if (state.veilDrawable == null) {
+                    ExpressiveBlurVeilDrawable veil = capturePanelChildrenAndBuildVeil(panel, density);
+                    if (veil != null) {
+                        veil.setBounds(0, 0, panel.getWidth(), panel.getHeight());
+                        panel.getOverlay().add(veil);
+                        state.veilDrawable = veil;
+                    }
+                }
             }
         }
         float target = blurred ? 1f : 0f;
@@ -2307,6 +2367,31 @@ final class ExpressiveGlass {
                 return new int[]{(0x4E << 24) | top, (0x3E << 24) | mid, (0x5E << 24) | bot};
             }
         }
+    }
+
+    /**
+     * Scales dock glass tint alpha cleanly for user-chosen {@code dock_opacity} (30..100%) across all 5 glass styles:
+     * 30% = airy crystal tint (0.55x), 70% = balanced Apple TV frosted glass (~1.09x), 100% = dense frost (1.50x).
+     */
+    static int[] dockGlassColors(int style, int seedRgb, int opacityPercent) {
+        int[] base = dockGlassColors(style, seedRgb);
+        int clamped = Math.max(30, Math.min(100, opacityPercent));
+        float t = (clamped - 30f) / 70f;
+        float scale = 0.55f + 0.95f * t;
+        int[] out = new int[base.length];
+        for (int i = 0; i < base.length; i++) {
+            int a = (base[i] >>> 24) & 0xFF;
+            int scaledA = Math.max(12, Math.min(0xEC, Math.round(a * scale)));
+            out[i] = (scaledA << 24) | (base[i] & 0x00FFFFFF);
+        }
+        return out;
+    }
+
+    /** Blurred wallpaper backdrop alpha (0..255) inside the Liquid Glass Dock for {@code dock_opacity} (30..100%). */
+    static int dockBackdropAlpha(int opacityPercent) {
+        int clamped = Math.max(30, Math.min(100, opacityPercent));
+        float t = (clamped - 30f) / 70f;
+        return Math.max(96, Math.min(255, Math.round(115f + 140f * t)));
     }
 
     /** Recessed translucent glass pocket for Home folder tiles so blurred dock glass shines through. */
@@ -3146,7 +3231,7 @@ final class ExpressiveGlass {
 
         private void drawPanelContent(Canvas canvas, RectF r, float rad, @Nullable RefractionBackdrop bg,
                                       float originX, float originY, float scaleX, float scaleY,
-                                      boolean sharpHomePanel, boolean needInteriorBlur, int alpha) {
+                                      boolean richInteriorFill, boolean needInteriorBlur, int alpha) {
             boolean drewInteriorBlur = false;
             if (needInteriorBlur) {
                 drewInteriorBlur = drawLiquidGlassPass(canvas, r, rad, bg, originX, originY, scaleX, scaleY, true, alpha);
@@ -3154,7 +3239,7 @@ final class ExpressiveGlass {
 
             // Layer 1: Single-pass Material 3 Expressive translucent glass body (with baked top specular caustic).
             int fillMode = (smoked || (needInteriorBlur && !drewInteriorBlur))
-                    ? 2 : (sharpHomePanel ? 1 : 0);
+                    ? 2 : (richInteriorFill ? 1 : 0);
             ensureShaders(r, fillMode);
             fillPaint.setAlpha(alpha);
             canvas.drawRoundRect(r, rad, rad, fillPaint);
@@ -3193,11 +3278,14 @@ final class ExpressiveGlass {
                 scaleY = transformTmp[3];
             }
 
-            // For floating panels over sharp video/wallpapers (screensaver media card) OR over sharp Home
-            // when full-screen Home backdrop blur is turned off, paint the silky blurred backdrop strictly
-            // inside the rounded panel first; if unavailable, fall back to rich smoked opacity.
+            // For floating panels over sharp video/wallpapers (screensaver media card), over sharp Home
+            // when full-screen Home backdrop blur is turned off, OR nested Layer-3 context menus/sub-dialogs
+            // floating over a sharp parent modal when nested menu blur is turned off, paint the silky opaque
+            // blurred backdrop strictly inside the rounded panel first; if unavailable, fall back to smoked opacity.
+            boolean isNestedOverSharp = bg != null && bg == nestedRefraction && !nestedMenuBlurEnabled;
             boolean sharpHomePanel = !overSharpBackdrop && !homeBackdropBlurEnabled && MainActivity.isHomeVisible();
-            boolean needInteriorBlur = overSharpBackdrop || sharpHomePanel;
+            boolean needInteriorBlur = overSharpBackdrop || sharpHomePanel || isNestedOverSharp;
+            boolean richInteriorFill = sharpHomePanel || isNestedOverSharp;
 
             // Hardware RenderNode compositing cache (API 29+): rasterizes all 3 AGSL glass passes ONCE into GPU VRAM
             // when the panel is stationary, turning D-pad focus glides, scrolling & toggles into a 0.15ms GPU quad blit!
@@ -3211,7 +3299,7 @@ final class ExpressiveGlass {
                 int bgVer = bg != null ? bg.version : -1;
                 boolean optical = homeLiquidOpticsEnabled && (bg == null || !bg.externalApp || overSharpBackdrop);
                 int expectedFillMode = (smoked || (needInteriorBlur && (bg == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed)))
-                        ? 2 : (sharpHomePanel ? 1 : 0);
+                        ? 2 : (richInteriorFill ? 1 : 0);
                 boolean dirty = panelCacheNode == null || !panelCacheNode.hasDisplayList()
                         || w != cacheW || h != cacheH || seed != cacheSeed || style != cacheStyle || bgVer != cacheBgVer
                         || expectedFillMode != cacheFillMode || needInteriorBlur != cacheNeedInterior
@@ -3229,7 +3317,7 @@ final class ExpressiveGlass {
                     localRect.set(0f, 0f, w, h);
                     RecordingCanvas rc = panelCacheNode.beginRecording(w, h);
                     drawPanelContent(rc, localRect, rad, bg, originX, originY, scaleX, scaleY,
-                            sharpHomePanel, needInteriorBlur, 255);
+                            richInteriorFill, needInteriorBlur, 255);
                     panelCacheNode.endRecording();
                     fillPaint.setAlpha(liquidAlpha);
                     rimPaint.setAlpha(liquidAlpha);
@@ -3260,7 +3348,7 @@ final class ExpressiveGlass {
             }
 
             drawPanelContent(canvas, rect, rad, bg, originX, originY, scaleX, scaleY,
-                    sharpHomePanel, needInteriorBlur, liquidAlpha);
+                    richInteriorFill, needInteriorBlur, liquidAlpha);
         }
 
         @Override

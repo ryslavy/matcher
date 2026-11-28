@@ -106,6 +106,19 @@ final class LauncherFeatureSettings {
                     FeaturePrefs.setHomeBackdropBlurEnabled(activity, v);
                     MainActivity.applyHomeBackdropBlurPreference(v);
                 });
+        addToggleRow(R.string.fs_nested_menu_blur,
+                () -> FeaturePrefs.isNestedMenuBlurEnabled(activity),
+                v -> {
+                    FeaturePrefs.setNestedMenuBlurEnabled(activity, v);
+                    ExpressiveGlass.setNestedMenuBlurEnabled(v);
+                });
+        final boolean themeAmbientGlowDefault = Config.load(activity).ambientGlow;
+        addToggleRow(R.string.fs_dock_ambient_glow,
+                () -> FeaturePrefs.isDockAmbientGlowEnabled(activity, themeAmbientGlowDefault),
+                v -> {
+                    FeaturePrefs.setDockAmbientGlowEnabled(activity, v);
+                    MainActivity.applyDockAmbientGlowPreference(v);
+                });
         addActionRow(R.string.fs_glass_material,
                 () -> glassMaterialLabel(FeaturePrefs.glassMaterial(activity)),
                 this::showGlassStylePicker);
@@ -246,6 +259,13 @@ final class LauncherFeatureSettings {
         addToggleRow(R.string.fs_watchdog,
                 () -> FeaturePrefs.isCrashWatchdogEnabled(activity),
                 v -> FeaturePrefs.setCrashWatchdogEnabled(activity, v));
+        addActionRow(R.string.settings_reload_launcher, () -> "", () -> {
+            Config.invalidateCache();
+            HomeKeyService.reloadRemoteKeys();
+            ServiceRepair.restore(activity.getApplicationContext());
+            MainActivity.requestGracefulReload(activity.getApplicationContext(), true);
+            activity.finish();
+        });
         addActionRow(R.string.fs_restore_stock, () -> "ADB", this::confirmRestoreStockLauncher);
     }
 
@@ -444,16 +464,29 @@ final class LauncherFeatureSettings {
         TextView notesTv = new TextView(activity);
         notesTv.setTextColor(0xCCFFFFFF);
         notesTv.setTextSize(12.5f);
+        notesTv.setMaxLines(3);
+        notesTv.setEllipsize(android.text.TextUtils.TruncateAt.END);
         notesTv.setPadding(dp(8), 0, dp(8), dp(10));
         notesTv.setVisibility(View.GONE);
         box.addView(notesTv, new LinearLayout.LayoutParams(-1, -2));
+
+        android.widget.ScrollView rowsScroll = new android.widget.ScrollView(activity);
+        rowsScroll.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        rowsScroll.setVerticalScrollBarEnabled(false);
+        rowsScroll.setVerticalFadingEdgeEnabled(true);
+        rowsScroll.setFadingEdgeLength(dp(20));
+        rowsScroll.setSmoothScrollingEnabled(true);
+        rowsScroll.setFocusable(false);
+        rowsScroll.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+        FocusRingController.clipScrollContainers(rowsScroll);
 
         LinearLayout rows = new LinearLayout(activity);
         rows.setOrientation(LinearLayout.VERTICAL);
         rows.setClipChildren(false);
         rows.setClipToPadding(false);
-        rows.setPadding(dp(4), dp(2), dp(4), dp(4));
-        box.addView(rows, new LinearLayout.LayoutParams(-1, -2));
+        rows.setPadding(dp(6), dp(4), dp(6), dp(6));
+        rowsScroll.addView(rows, new FrameLayout.LayoutParams(-1, -2));
+        box.addView(rowsScroll, new LinearLayout.LayoutParams(-1, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         final Dialog dlg = new Dialog(activity);
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -517,7 +550,7 @@ final class LauncherFeatureSettings {
                     if (r.error != null) {
                         statusTv.setText(r.error);
                         notesTv.setVisibility(View.GONE);
-                    } else if (r.updateAvailable) {
+                    } else if (r.updateAvailable || !r.addonUpdates.isEmpty()) {
                         statusTv.setText(activity.getString(R.string.fs_update_found, r.latestTag));
                         if (!r.releaseNotes.isEmpty()) {
                             notesTv.setText(r.releaseNotes);
@@ -535,7 +568,7 @@ final class LauncherFeatureSettings {
             if (res != null && res.updateAvailable && res.apkUrl != null) {
                 View installRow = makeModalRow(rows,
                         activity.getString(R.string.fs_updates_install_launcher, res.latestTag),
-                        res.apkSize > 0 ? String.format(java.util.Locale.US, "%.1f MB", res.apkSize / (1024f * 1024f)) : "",
+                        formatApkSize(res.apkSize),
                         0xFF4ADE80, () -> {
                             statusTv.setText(R.string.fs_updates_downloading);
                             SelfUpdater.downloadAndInstall(activity, res, (launched, err) -> {
@@ -550,10 +583,13 @@ final class LauncherFeatureSettings {
                 firstRow = installRow;
             }
             if (res != null && !res.addonUpdates.isEmpty()) {
-                for (SelfUpdater.AddonUpdate au : res.addonUpdates) {
-                    makeModalRow(rows,
-                            activity.getString(R.string.fs_updates_install_addon, au.displayName, au.version),
-                            "", 0xFF38BDF8, () -> {
+                for (int i = 0; i < res.addonUpdates.size(); i++) {
+                    SelfUpdater.AddonUpdate au = res.addonUpdates.get(i);
+                    String verLabel = au.version != null && !au.version.startsWith("v")
+                            ? ("v" + au.version) : (au.version != null ? au.version : "");
+                    View addonRow = makeModalRow(rows,
+                            activity.getString(R.string.fs_updates_install_addon, au.displayName, verLabel),
+                            formatApkSize(au.apkSize), 0xFF38BDF8, () -> {
                                 statusTv.setText(R.string.fs_updates_downloading);
                                 SelfUpdater.downloadAndInstallAddon(activity, au, (launched, err) -> {
                                     if (!launched && err != null) {
@@ -562,6 +598,9 @@ final class LauncherFeatureSettings {
                                     }
                                 });
                             });
+                    if (i == 0 && (res.apkUrl == null || !res.updateAvailable)) {
+                        firstRow = addonRow;
+                    }
                 }
             }
 
@@ -576,11 +615,27 @@ final class LauncherFeatureSettings {
                         rebuild[0].run();
                     });
 
+            // Cap scrollable list height cleanly so all 8+ add-on APKs remain reachable via D-pad on 720p/1080p TVs.
+            int screenH = activity.getResources().getDisplayMetrics().heightPixels;
+            int maxScrollH = Math.min(dp(330), Math.max(dp(190), screenH - dp(215)));
+            int estRowsH = rows.getChildCount() * dp(50) + dp(12);
+            ViewGroup.LayoutParams slp = rowsScroll.getLayoutParams();
+            if (slp != null) {
+                int wantH = estRowsH > maxScrollH ? maxScrollH : ViewGroup.LayoutParams.WRAP_CONTENT;
+                if (slp.height != wantH) {
+                    slp.height = wantH;
+                    rowsScroll.setLayoutParams(slp);
+                }
+            }
+            rowsScroll.scrollTo(0, 0);
+
             ExpressiveGlass.applyAdaptiveContentTheme(box);
             if (firstRow != null) {
                 final View f = firstRow;
-                f.requestFocus();
-                f.post(() -> ExpressiveGlass.invalidateLiquidPanels(box));
+                box.post(() -> {
+                    f.requestFocus();
+                    ExpressiveGlass.invalidateLiquidPanels(box);
+                });
             }
         };
 
@@ -608,6 +663,14 @@ final class LauncherFeatureSettings {
             if (onBlurParent != null) onBlurParent.accept(true);
             Motion.revealModal(keyHost, density, reduce);
         }));
+    }
+
+    private static String formatApkSize(long bytes) {
+        if (bytes <= 0L) return "";
+        if (bytes >= 1024L * 1024L) {
+            return String.format(java.util.Locale.US, "%.1f MB", bytes / (1024f * 1024f));
+        }
+        return String.format(java.util.Locale.US, "%d KB", Math.max(1L, Math.round(bytes / 1024.0)));
     }
 
     private View makeModalRow(LinearLayout parent, String labelText, String rightText, int accentRgb, Runnable onClick) {

@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">חיבור Bluetooth</string>
+    <string name="perm_needed_install">נדרשת הרשאת מכשירים בקרבת מקום: הריצו את install.sh פעם אחת, או אשרו אותה בהגדרות האפליקציה.</string>
+    <string name="perm_needed">נדרשת הרשאת מכשירים בקרבת מקום: אשרו אותה בהגדרות האפליקציה.</string>
+    <string name="bt_off">Bluetooth כבוי. הפעילו אותו בהגדרות הטלוויזיה.</string>
+    <string name="state_working">עובד…</string>
+    <string name="state_connected">מחובר</string>
+    <string name="state_not_connected">לא מחובר</string>
+    <string name="action_disconnect">נתק</string>
+    <string name="action_connect">חבר</string>
+    <string name="status_none">אין רמקולים מותאמים. התאימו רמקול בהגדרות ה-Bluetooth של הטלוויזיה תחילה.</string>
+    <string name="status_hint">OK מחבר או מנתק רמקול.</string>
+    <string name="status_refused">Android סירב. השתמשו בהגדרות ה-Bluetooth של הטלוויזיה: %1$s</string>
 </resources>

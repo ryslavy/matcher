@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">اتصال Bluetooth</string>
+    <string name="perm_needed_install">يتطلب إذن الأجهزة القريبة: شغّل install.sh مرة واحدة، أو اسمح به في إعدادات التطبيق.</string>
+    <string name="perm_needed">يتطلب إذن الأجهزة القريبة: اسمح به في إعدادات التطبيق.</string>
+    <string name="bt_off">البلوتوث متوقف. شغّله من إعدادات التلفزيون.</string>
+    <string name="state_working">جارٍ العمل…</string>
+    <string name="state_connected">متصل</string>
+    <string name="state_not_connected">غير متصل</string>
+    <string name="action_disconnect">قطع الاتصال</string>
+    <string name="action_connect">اتصال</string>
+    <string name="status_none">لا توجد سماعات مقترنة. قم بإقران سماعة في إعدادات Bluetooth الخاصة بالتلفزيون أولاً.</string>
+    <string name="status_hint">OK يوصل سماعة أو يقطع اتصالها.</string>
+    <string name="status_refused">رفض Android الطلب. استخدم إعدادات Bluetooth في التلفزيون: %1$s</string>
 </resources>

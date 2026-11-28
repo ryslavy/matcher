@@ -27,7 +27,7 @@ Because `./cleanyourtv/` is a gitignored clone of upstream `Gathin23/cleanyourtv
    .\gradlew.bat testReleaseUnitTest assembleRelease --no-daemon
    Pop-Location
    ```
-   All 375+ unit tests must pass cleanly without Android device dependencies.
+   All 382 unit tests must pass cleanly without Android device dependencies.
 3. If you modified `GlassKit.java` in one add-on, sync it identically (preserving each package's `package ...;` line 1, UTF-8 without BOM) across every patched add-on under `patches/addons/`:
    - Defaults: `bluetooth-connect`, `brightness`, `capacity-stats`, `headphones`, `quiet-hours`, `sleep-timer`, `weather`, `world-clock` (plus any additional upstream add-ons you matched).
 4. Copy every modified file from `./cleanyourtv/` back to `./patches/` (or `./patches/addons/...`), and regenerate the unified patch:

@@ -119,6 +119,24 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     static final String ACTION_SCREENSAVER = "com.gathin.tvhome.action.SCREENSAVER";
     /** Opens the Apple tvOS style Control Center overlay. */
     static final String ACTION_CONTROL_CENTER = "com.gathin.tvhome.action.CONTROL_CENTER";
+    /** Triggers a graceful zero-force-stop reload (used by Settings, QR web, OTA & update scripts). */
+    static final String ACTION_RELOAD = "com.gathin.tvhome.ACTION_RELOAD";
+    private static final String EXTRA_GRACEFUL_RELOAD = "com.gathin.tvhome.extra.GRACEFUL_RELOAD";
+    private static final String EXTRA_RELOAD_TILES = "com.gathin.tvhome.extra.RELOAD_TILES";
+    private static final String EXTRA_POST_UPDATE_RELOAD = "com.gathin.tvhome.extra.POST_UPDATE_RELOAD";
+    /** One-shot focus & scroll handoff across Tier 2 seamless crossfade rebuilds (expires after 5s). */
+    private static final class PendingReloadState {
+        final String focusKey;
+        final int focusSlot;
+        final long expiresAtMs;
+
+        PendingReloadState(String focusKey, int focusSlot, long expiresAtMs) {
+            this.focusKey = focusKey;
+            this.focusSlot = focusSlot;
+            this.expiresAtMs = expiresAtMs;
+        }
+    }
+    private static volatile PendingReloadState pendingReloadState;
     /** The system input switcher, forwarded here by InputsRequestActivity while handle_view_inputs is on. */
     static final String ACTION_VIEW_INPUTS = "com.android.tv.action.VIEW_INPUTS";
     /** Tiles per row and dock slots (res/values/config.xml, columns). Set in onCreate. */
@@ -133,8 +151,16 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private static final long TIME_VALID_AFTER_MS = 1_735_689_600_000L;
     private String liveTvPkg;
     private boolean homeIgnoreChannelKeys;
+    /** Active parsed Config this Home instance is currently rendering (used for Tier 1 live hot-reload). */
+    private Config activeConfig;
     /** Launcher settings' change count this Home was built with (see onResume). */
     private long settingsRevision;
+    /** FeaturePrefs revision observed by this Home instance. */
+    private int featureRevision;
+    /** True when this instance came from smoothRecreate() (skip cold-start tile entrance & fade in cleanly). */
+    private boolean fromSmoothReload;
+    /** Last uptime timestamp when top-bar pills were invalidated during a smooth ambient color glide. */
+    private long lastSmoothTopPillInvalidationMs;
     /** Idle time on Home before ClockActivity; 0 is off (config.xml, home_idle_clock_minutes). */
     private long idleClockMs;
     /** Back on Home opens ClockActivity (config.xml, back_opens_clock). */
@@ -169,9 +195,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private LinearLayout heroDots;
     /** Cinematic top shelf (config.xml, cinematic_home): the focused dock app's artwork behind a larger shelf. */
     private boolean cinematic;
+    private int rowsBelowDock;
     /** config.xml ambient_glow, overridable by a theme. Off: the glow view is gone and no fade or colour animator
      *  is started for it, so a focus move costs nothing extra on a launcher that runs all day. */
     private boolean ambientGlow;
+    private boolean themeAmbientGlowDefault = true;
     /** config.xml app_glow: the highlight takes the focused app's colour on every tile. */
     private boolean appGlow;
     /** config.xml glow_style: the shape setAmbient paints the glow mask in. */
@@ -513,6 +541,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         density = getResources().getDisplayMetrics().density;
         // config.xml, overlaid by config.json from a pushed theme (see Config and tools/theme.sh).
         Config cfg = Config.load(this);
+        activeConfig = cfg;
         homeAppKeys = RemoteKeys.parseAppKeys(cfg.appKeys);
         clockFormat = cfg.clockFormat;
         ClockFormat.apply(getWindow().getDecorView(), clockFormat);
@@ -523,6 +552,16 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         if (cfg.restoreKeyServices) ServiceRepair.restore(this);
         NightAudioController.restore(this);
         settingsRevision = settingsRevision();
+        featureRevision = FeaturePrefs.revision(this);
+        PendingReloadState handed = pendingReloadState;
+        if (handed != null && SystemClock.uptimeMillis() <= handed.expiresAtMs) {
+            pendingReloadState = null;
+            fromSmoothReload = true;
+            lastFocusedKey = handed.focusKey;
+            lastFocused = handed.focusSlot;
+        } else {
+            pendingReloadState = null;
+        }
         applyViewInputsHandler(cfg.handleViewInputs);
         settingsKeycodes = cfg.settingsKeycodes;
         settingsKeyPanel = cfg.settingsKeyPanel;
@@ -570,6 +609,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
         homeBackdropBlurEnabled = FeaturePrefs.isHomeBackdropBlurEnabled(this);
         ExpressiveGlass.setHomeBackdropBlurEnabled(homeBackdropBlurEnabled);
+        ExpressiveGlass.setNestedMenuBlurEnabled(FeaturePrefs.isNestedMenuBlurEnabled(this));
         // Group Wallpaper + Sky + HeroArt + Ambient + HeroScrim into one hardware-cached layer when settled,
         // collapsing 3 full-screen 1920x1080 alpha-blended passes (6.2M px) into 1 opaque texture blit!
         homeBackdropLayer = wrapHomeBackdropLayer(root);
@@ -584,7 +624,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         // The glow is one bitmap, so its alpha can be applied while drawing it. Otherwise every frame of
         // a fade renders it into a full-screen offscreen buffer first.
         ambient.forceHasOverlappingRendering(false);
-        ambientGlow = cfg.ambientGlow;
+        themeAmbientGlowDefault = cfg.ambientGlow;
+        ambientGlow = FeaturePrefs.isDockAmbientGlowEnabled(this, cfg.ambientGlow);
         glowSnap = cfg.glowSnap;
         appGlow = cfg.appGlow;
         if (!ambientGlow) ambient.setVisibility(View.GONE);
@@ -597,11 +638,13 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         heroDots = findViewById(R.id.heroDots);
         heroArt = findViewById(R.id.heroArt);
         cinematic = cfg.cinematicHome;
+        rowsBelowDock = cfg.rowsBelowDock;
         glowStyle = cfg.glowStyle;
         heroDotsShown = cfg.cinematicDots;
         cinematicWhiteFocus = cfg.cinematicWhiteFocus;
         heroArtAlpha = cfg.cinematicArt / 100f;
         if (cinematic) setUpCinematicShelf(cfg.cinematicScrim);
+        else applyHeroDensityForRows();
         // dock_title false: the name above the dock (and the cinematic lines under it) never shows; the glow
         // still follows the dock.
         if (!cfg.dockTitle) hero.setVisibility(View.GONE);
@@ -751,8 +794,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         });
         if (dockRow) {
             dockBackdrop = cfg.dockGlass;
+            boolean compactDock = rowsBelowDock >= 2 && !cfg.alwaysShowNames;
             dockDecoration = new DockDecoration(COLUMNS, density, cinematic, cfg.alwaysShowNames,
-                    cfg.dockOpacity, cfg.dockGlass, cfg.dockEvenPadding, cfg.dockBand, singleRow, cfg.dockBandAll);
+                    cfg.dockOpacity, cfg.dockGlass, cfg.dockEvenPadding, cfg.dockBand, singleRow, cfg.dockBandAll, compactDock);
             if (cfg.dockGlass) {
                 dockDecoration.setBackdropSources(root, wallpaperPlayer, heroArt, this::pillAmbientColor);
                 dockDecoration.attachBackdropHost(grid);
@@ -771,11 +815,15 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                     ExpressiveGlass.RefractionBackdrop wp = ExpressiveGlass.homeWallpaperRefraction();
                     if (wp != null && !wp.sharp.isRecycled()) {
                         backdropBlurVeil.setImageBitmap(wp.sharp);
+                    } else {
+                        backdropBlurVeil.setImageDrawable(null);
                     }
                     backdropBlurVeil.setRenderEffect(cachedBackdropBlur);
                 } else {
                     root.setRenderEffect(cachedBackdropBlur);
                 }
+            } else if (backdropBlurVeil != null && ExpressiveGlass.homeWallpaperRefraction() == null) {
+                backdropBlurVeil.setImageDrawable(null);
             }
             applyHomeTypography();
             if (dockDecoration != null) dockDecoration.invalidateBackdrop();
@@ -790,10 +838,14 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             }
         });
         if (cfg.fadeRows) TopFade.attach(grid, 48 * density);
-        // Reduced motion: the tiles are simply there, with no entrance (reloadApps skips it there too).
-        if (animations && !reducedMotion) {
+        // Reduced motion or seamless Tier 2 reload: skip cold-boot tile bounce so layout changes glide cleanly.
+        if (animations && !reducedMotion && !fromSmoothReload) {
             grid.setLayoutAnimation(new LayoutAnimationController(
                     AnimationUtils.loadAnimation(this, R.anim.tile_enter), 0.06f));
+        }
+        if (fromSmoothReload && animations && !reducedMotion) {
+            root.setAlpha(0.86f);
+            root.animate().alpha(1f).setDuration(160L).setInterpolator(Motion.easeOutExpo()).start();
         }
         adapter = new AppAdapter(this, this, COLUMNS, cfg);
         dockApps = cfg.dockApps;
@@ -804,22 +856,33 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
         // tvOS layout: push the dock row towards the bottom of the screen, leaving room for
         // rows_below_dock grid rows under it; the rest of the grid stays below until you press Down.
-        int rowsBelowDock = cfg.rowsBelowDock;
-        grid.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
-            int h = b - t;
+        final boolean compactMultiDock = MainActivity.this.dockRow && !singleRow && rowsBelowDock >= 2 && !cfg.alwaysShowNames;
+        Runnable syncGridPadding = () -> {
+            int h = grid.getHeight();
+            int w = grid.getWidth();
+            if (h <= 0 || w <= 0) return;
             // Item height follows the tile size, which follows the columns and the rows that must fit (AppAdapter.tileWidthPx).
-            int inner = (r - l) - grid.getPaddingLeft() - grid.getPaddingRight();
+            int inner = w - grid.getPaddingLeft() - grid.getPaddingRight();
             int tileW = AppAdapter.tileWidthPx(inner, h, COLUMNS, rowsBelowDock, cfg.dockTitle, cfg.dockRow, density);
-            int itemH = AppAdapter.itemHeightPx(AppAdapter.tileHeightPx(tileW), density);
-            int dockRow = itemH + (int) (AppAdapter.DOCK_EXTRA_DP * density);   // item height plus DockDecoration offsets
+            int tileH = AppAdapter.tileHeightPx(tileW);
+            int itemH = AppAdapter.itemHeightPx(tileH, cfg.dockRow, rowsBelowDock, density);
+            // When compact multi-row mode hides dock labels (View.GONE), dock height is card + 8dp pad + 24dp DockDecoration offsets.
+            int dockRowH = compactMultiDock
+                    ? tileH + Math.round((8f + AppAdapter.COMPACT_DOCK_EXTRA_DP) * density)
+                    : itemH + Math.round(AppAdapter.DOCK_EXTRA_DP * density);
             int gridRows = itemH * rowsBelowDock;
-            // Keep the hero below the header when the library is enabled on a short screen,
-            // even when the theme requests an extra visible row below the dock.
-            int shelfClearance = cfg.appLibrary ? hero.getMeasuredHeight() + (int) (40 * density) : 0;
-            int want = Math.max(shelfClearance, h - dockRow - gridRows - (int) (AppAdapter.BOTTOM_ROOM_DP * density));
-            // Where the rows cannot fit even at the smallest tile (3 rows with the title on), the title keeps its
-            // room above the dock and the last rows run off the bottom instead of the title drawing over the clock.
-            if (MainActivity.this.dockRow && cfg.dockTitle && rowsBelowDock > 0) want = Math.max(want, (int) (AppAdapter.TITLE_ROOM_DP * density));
+            int heroGapPx = Math.round(heroGapDp() * density);
+            int shelfClearance = (cfg.dockTitle && MainActivity.this.dockRow)
+                    ? hero.getMeasuredHeight() + heroGapPx : 0;
+            int bottomRoom = Math.round(AppAdapter.bottomRoomDp(cfg.dockRow, rowsBelowDock) * density);
+            int want = Math.max(shelfClearance, h - dockRowH - gridRows - bottomRoom);
+            // Keep the hero clear of the header clock when rows_below_dock > 0.
+            if (MainActivity.this.dockRow && cfg.dockTitle && rowsBelowDock > 0) {
+                int minTitleRoom = rowsBelowDock >= 2
+                        ? shelfClearance
+                        : Math.max(shelfClearance, Math.round(AppAdapter.TITLE_ROOM_DP * density));
+                want = Math.max(want, minTitleRoom);
+            }
             // No dock to push down: the grid starts at the top, with room for the first row's zoom and glass.
             if (!MainActivity.this.dockRow) want = (int) (AppAdapter.TOP_ROOM_DP * density);
             // A single row never shows the names under its tiles (the title above the row names the app), so the
@@ -827,19 +890,15 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             if (singleRow && !cfg.alwaysShowNames) want += (int) (29 * density);
             if (grid.getPaddingTop() != want) {
                 grid.setPadding(grid.getPaddingLeft(), want, grid.getPaddingRight(), grid.getPaddingBottom());
-                // A vertical grid parks the dock on the new padding line by scrolling (onTileFocused); a sideways
-                // row cannot scroll vertically, and the layout request made from inside this layout pass is
-                // dropped, so lay the row out again on the next frame. The glass and the title were placed for the
-                // old position, so fit them again once it has moved.
-                if (singleRow) grid.post(() -> {
+                // setPadding inside an active layout pass drops synchronous requestLayout(); post it so both
+                // single-row AND vertical grids immediately re-park the dock on the new top padding line.
+                grid.post(() -> {
+                    if (isDestroyed()) return;
                     grid.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @Override
                         public void onGlobalLayout() {
                             grid.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            int pos = Math.max(0, Math.min(lastFocused, adapter.appCount() - 1));
-                            RecyclerView.ViewHolder vh = grid.findViewHolderForAdapterPosition(pos);
-                            View card = vh == null ? null : vh.itemView.findViewById(R.id.card);
-                            if (card != null && card.isFocused()) onTileFocused(pos, card);
+                            refitGlass();
                         }
                     });
                     grid.requestLayout();
@@ -848,7 +907,13 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             // Cold start or column count > 4: the first focus can run before the grid has its final width or
             // padding, leaving the glass at the XML design size until a key is pressed.
             grid.post(this::refitGlass);
-        });
+        };
+        grid.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> syncGridPadding.run());
+        if (cfg.dockTitle && MainActivity.this.dockRow) {
+            hero.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+                if ((b - t) != (ob - ot)) syncGridPadding.run();
+            });
+        }
 
         // The wallpaper caption sits on the screen, not in the grid: fade it while the grid is scrolled away from
         // the dock, so its text never lies over the tiles.
@@ -1279,6 +1344,17 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if (intent != null && (intent.getBooleanExtra(EXTRA_GRACEFUL_RELOAD, false)
+                || intent.getBooleanExtra(EXTRA_POST_UPDATE_RELOAD, false))) {
+            boolean reloadTileList = intent.getBooleanExtra(EXTRA_RELOAD_TILES, false);
+            intent.removeExtra(EXTRA_GRACEFUL_RELOAD);
+            intent.removeExtra(EXTRA_RELOAD_TILES);
+            intent.removeExtra(EXTRA_POST_UPDATE_RELOAD);
+            if (!applyConfigChangesIfNeeded() && reloadTileList) {
+                reloadApps(false, true, false);
+            }
+            return;
+        }
         if (openLauncherSettingsIfAsked(intent)) return;
         if (openLibraryIfAsked(intent)) return;
         if (openRecentsIfAsked(intent)) return;
@@ -1321,17 +1397,19 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         super.onResume();
         resumed = true;
         inFront = true;
-        // A festival that started or ended while Home was in the background: rebuild with or without it.
+        // A festival that started or ended while Home was in the background: rebuild seamlessly with or without it.
         if (festive != festival.active(LocalDate.now())) {
-            recreate();
+            smoothRecreate();
             return;
         }
-        // Something changed in Launcher settings: rebuild with it, however the settings were left. Only Back
-        // delivered their RESULT_OK; Home (the remote's button) clears them off this task and the result comes
-        // back cancelled, so a new wallpaper or layout waited for the next process start.
-        if (Config.settingsChanged(settingsRevision, settingsRevision())) {
-            recreate();
+        // Tier 1 live hot-reload for wallpaper, Picsum, "No wallpaper", clock, animations, effects, dock opacity,
+        // remote keys & weather — falls back to Tier 2 seamless crossfade rebuild ONLY for structural layout edits!
+        if (applyConfigChangesIfNeeded()) {
             return;
+        }
+        String justUpdated = FeaturePrefs.consumeJustUpdatedVersion(this);
+        if (justUpdated != null) {
+            Toast.makeText(this, getString(R.string.launcher_updated_toast, justUpdated), Toast.LENGTH_LONG).show();
         }
         restartIdleClock();
         promptsPaused = false;
@@ -1384,6 +1462,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         ExpressiveGlass.setHomeLiquidOpticsEnabled(FeaturePrefs.isHomeLiquidOpticsEnabled(this));
         homeBackdropBlurEnabled = FeaturePrefs.isHomeBackdropBlurEnabled(this);
         ExpressiveGlass.setHomeBackdropBlurEnabled(homeBackdropBlurEnabled);
+        ExpressiveGlass.setNestedMenuBlurEnabled(FeaturePrefs.isNestedMenuBlurEnabled(this));
+        boolean wantGlow = FeaturePrefs.isDockAmbientGlowEnabled(this, themeAmbientGlowDefault);
+        if (wantGlow != ambientGlow) applyDockAmbientGlowLive(wantGlow);
         refreshAutoGlassStyleIfNeeded();
         if (wallpaperPlayer != null) wallpaperPlayer.refreshSharpnessIfNeeded(!homeBackdropBlurEnabled);
         applyHomeTypography();
@@ -1428,7 +1509,145 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             // The old activity must not consume the pending action, or rebuild a second time in onResume.
             settingsRecreationPending = true;
             settingsRevision = settingsRevision();
-            recreate();
+            smoothRecreate();
+        }
+    }
+
+    /**
+     * Checks whether launcher settings or FeaturePrefs changed and applies them with Tier 1 live
+     * hot-reload whenever possible (zero flicker, zero focus loss). Returns {@code true} ONLY if
+     * a Tier 2 {@link #smoothRecreate()} was started and the caller should return immediately.
+     */
+    private boolean applyConfigChangesIfNeeded() {
+        long curSettingsRev = settingsRevision();
+        int curFeatureRev = FeaturePrefs.revision(this);
+        if (!Config.settingsChanged(settingsRevision, curSettingsRev) && curFeatureRev == featureRevision) {
+            return false;
+        }
+        Config.invalidateCache();
+        Config nextCfg = Config.load(this);
+        if (Config.requiresStructuralRebuild(activeConfig, nextCfg)) {
+            settingsRevision = curSettingsRev;
+            featureRevision = curFeatureRev;
+            smoothRecreate();
+            return true;
+        }
+        // Tier 1: Apply all non-structural changes live in-place with zero black flash and zero focus loss!
+        Config prevCfg = activeConfig;
+        activeConfig = nextCfg;
+        settingsRevision = curSettingsRev;
+        featureRevision = curFeatureRev;
+
+        homeAppKeys = RemoteKeys.parseAppKeys(nextCfg.appKeys);
+        homeDoubleAppKeys = RemoteKeys.parseDoubleAppKeys(nextCfg.appKeys);
+        homeHoldAppKeys = RemoteKeys.parseHoldAppKeys(nextCfg.appKeys);
+        HomeKeyService.reloadRemoteKeys();
+
+        if (!java.util.Objects.equals(clockFormat, nextCfg.clockFormat)) {
+            clockFormat = nextCfg.clockFormat;
+            ClockFormat.apply(getWindow().getDecorView(), clockFormat);
+            updateClockVisibility();
+        }
+
+        animations = nextCfg.animations;
+        advancedEffects = nextCfg.animations && nextCfg.advancedEffects;
+        reducedMotion = nextCfg.reducedMotion;
+        focusOvershoot = nextCfg.focusOvershoot;
+        themeAmbientGlowDefault = nextCfg.ambientGlow;
+        ambientGlow = FeaturePrefs.isDockAmbientGlowEnabled(this, nextCfg.ambientGlow);
+        appGlow = nextCfg.appGlow;
+        glowSnap = nextCfg.glowSnap;
+        idleClockMs = nextCfg.homeIdleClockMinutes * MINUTE_MS;
+        backOpensClock = nextCfg.backOpensClock;
+        heroArtAlpha = nextCfg.cinematicArt / 100f;
+        if (glass != null) glass.setLiquidEnabled(animations && !reducedMotion);
+        if (ambient != null) {
+            ambient.setVisibility(ambientGlow ? View.VISIBLE : View.GONE);
+            if (!ambientGlow) {
+                stopAmbientAnimation();
+                ambient.setAlpha(0f);
+            } else if (adapter != null && adapter.getItemCount() > 0) {
+                int pos = (lastFocused >= 0 && lastFocused < adapter.getItemCount()) ? lastFocused : 0;
+                setAmbient(adapter.ambientColorAt(pos), false);
+                ambient.setAlpha(1f);
+            }
+        }
+        if (sky != null) sky.setIntensity(nextCfg.skyIntensity);
+        if (dockDecoration != null) {
+            dockDecoration.setOpacity(nextCfg.dockOpacity);
+            dockDecoration.invalidateBackdrop();
+        }
+        if (wallpaperPlayer != null) {
+            wallpaperPlayer.reloadFromConfig(nextCfg);
+        } else if (root != null) {
+            root.setBackgroundColor(nextCfg.backgroundColor);
+        }
+        applyHomeTypography();
+        invalidateGlassBackdrops();
+        if (prevCfg != null && prevCfg.backgroundColor != nextCfg.backgroundColor
+                && (wallpaperPlayer == null || !wallpaperPlayer.hasActiveWallpaper()) && root != null) {
+            root.setBackgroundColor(nextCfg.backgroundColor);
+        }
+        return false;
+    }
+
+    /**
+     * Tier 2 seamless rebuild: preserves exact focused tile key/slot across {@link #recreate()},
+     * skips cold-start tile bounce, and crossfades smoothly instead of jarring black flicker.
+     */
+    @SuppressWarnings("deprecation")
+    private void smoothRecreate() {
+        pendingReloadState = new PendingReloadState(lastFocusedKey, lastFocused, SystemClock.uptimeMillis() + 5_000L);
+        recreate();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    /**
+     * Graceful reload entry point callable from Settings, Phone QR editor, Picsum fetch callback,
+     * SelfUpdater add-on install, or {@link ReloadReceiver} (zero {@code am force-stop}).
+     */
+    static void requestGracefulReload(Context ctx, boolean reloadTiles) {
+        Context app = ctx.getApplicationContext();
+        Config.invalidateCache();
+        HomeKeyService.reloadRemoteKeys();
+        MainActivity live = currentInstance;
+        if (live != null && !live.isFinishing() && !live.isDestroyed()) {
+            live.runOnUiThread(() -> {
+                if (live.isFinishing() || live.isDestroyed()) return;
+                if (live.resumed) {
+                    if (!live.applyConfigChangesIfNeeded() && reloadTiles) {
+                        live.reloadApps(false, true, false);
+                    }
+                } else {
+                    // Home is currently behind Settings/QR: bump revision so onResume applies cleanly!
+                    SharedPreferences choices = app.getSharedPreferences(Config.SETTINGS_NAME, Context.MODE_PRIVATE);
+                    choices.edit().putLong(Config.SETTINGS_REVISION_KEY,
+                            choices.getLong(Config.SETTINGS_REVISION_KEY, 0L) + 1L).apply();
+                    if (reloadTiles) live.tileRefresh.onHomeAgain();
+                }
+            });
+        } else {
+            Intent i = new Intent(app, MainActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    .putExtra(EXTRA_GRACEFUL_RELOAD, true)
+                    .putExtra(EXTRA_RELOAD_TILES, reloadTiles);
+            try {
+                app.startActivity(i);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    /** Cleanly brings Home back into focus right after an OTA or ADB APK replacement completes. */
+    static void launchPostUpdateReload(Context ctx) {
+        Context app = ctx.getApplicationContext();
+        Intent i = new Intent(app, MainActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                .putExtra(EXTRA_POST_UPDATE_RELOAD, true)
+                .putExtra(EXTRA_RELOAD_TILES, true);
+        try {
+            app.startActivity(i);
+        } catch (Exception ignored) {
         }
     }
 
@@ -1530,7 +1749,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LEANBACK_LAUNCHER), 0);
         cards = moduleCards ? CardFeature.run(() -> Cards.discover(this, hiddenApps,
                 () -> Cards.load(Cards.storeFile(this)), leanback), none) : none;
-        adapter.reload(cards.isEmpty() ? none : CardFeature.run(() -> Cards.shown(cards), none), leanback);
+        Set<String> hiddenCardPkgs = new HashSet<>();
+        for (Cards.Card c : cards) {
+            if (c.state == Cards.State.HIDDEN) hiddenCardPkgs.add(c.pkg);
+        }
+        adapter.reload(cards.isEmpty() ? none : CardFeature.run(() -> Cards.shown(cards), none), leanback, hiddenCardPkgs);
         lastFocusedKey = returnKey;
         lastFocused = returnSlot;
         packageSequence = currentPackageSequence(packageSequence);
@@ -2345,6 +2568,15 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         intent.putExtra(ExpressiveGlass.EXTRA_OVER_HOME, overHome);
         intent.putExtra(ExpressiveGlass.EXTRA_OVER_SHARP_BACKDROP,
                 overHome && !ExpressiveGlass.isHomeBackdropBlurEnabled());
+        intent.putExtra(ExpressiveGlass.EXTRA_NESTED_MENU_BLUR, ExpressiveGlass.isNestedMenuBlurEnabled());
+        intent.putExtra(ExpressiveGlass.EXTRA_LIQUID_OPTICS, ExpressiveGlass.isHomeLiquidOpticsEnabled());
+        MainActivity inst = currentInstance;
+        if (inst != null && !inst.isDestroyed()) {
+            String loc = Config.load(inst).locale;
+            if (loc != null && !loc.trim().isEmpty()) {
+                intent.putExtra(ExpressiveGlass.EXTRA_LOCALE, loc.trim());
+            }
+        }
         intent.putExtra(ExpressiveGlass.EXTRA_GLASS_STYLE, ExpressiveGlass.glassStyle());
         intent.putExtra(ExpressiveGlass.EXTRA_WALLPAPER_SEED, ExpressiveGlass.dynamicSeedRgb());
         byte[] jpeg = ExpressiveGlass.encodeActiveBackdropJpeg(overHome);
@@ -2522,6 +2754,85 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 });
             }
         });
+    }
+
+    /** Live toggle from LauncherSettingsActivity: shows/hides the focused app's ambient glow behind the Dock immediately. */
+    static void applyDockAmbientGlowPreference(boolean enabled) {
+        MainActivity inst = currentInstance;
+        if (inst == null || inst.isDestroyed()) return;
+        inst.runOnUiThread(() -> {
+            if (inst.isDestroyed()) return;
+            inst.applyDockAmbientGlowLive(enabled);
+        });
+    }
+
+    private void applyDockAmbientGlowLive(boolean enabled) {
+        ambientGlow = enabled;
+        if (ambient != null) {
+            stopAmbientAnimation();
+            ambient.animate().cancel();
+            markBackdropLayerAnimating(220L);
+            if (enabled) {
+                ambient.setVisibility(View.VISIBLE);
+                if (adapter != null && adapter.getItemCount() > 0) {
+                    int pos = (lastFocused >= 0 && lastFocused < adapter.getItemCount()) ? lastFocused : 0;
+                    setAmbient(adapter.ambientColorAt(pos), false);
+                }
+                ambient.setAlpha(1f);
+            } else {
+                ambient.setAlpha(0f);
+                ambient.setVisibility(View.GONE);
+            }
+        }
+        invalidateDockTintSmooth(true);
+        if (backdropBlurred && !homeBackdropBlurEnabled && root != null) {
+            root.post(() -> {
+                if (!isDestroyed() && backdropBlurred && !homeBackdropBlurEnabled) {
+                    ExpressiveGlass.captureHomeWindowForRefraction(getWindow(), MainActivity::refreshLiveLiquidPanels);
+                }
+            });
+        }
+    }
+
+    /** Live toggle from LauncherSettingsActivity: updates Dock glass/band opacity immediately. */
+    static void applyDockOpacityPreference(int opacity) {
+        MainActivity inst = currentInstance;
+        if (inst == null || inst.isDestroyed()) return;
+        inst.runOnUiThread(() -> {
+            if (inst.isDestroyed()) return;
+            if (inst.dockDecoration != null) {
+                inst.dockDecoration.setOpacity(opacity);
+                if (inst.grid != null) inst.grid.invalidate();
+            }
+            if (inst.backdropBlurred && !inst.homeBackdropBlurEnabled && inst.root != null) {
+                inst.root.post(() -> {
+                    if (!inst.isDestroyed() && inst.backdropBlurred && !inst.homeBackdropBlurEnabled) {
+                        ExpressiveGlass.captureHomeWindowForRefraction(inst.getWindow(), MainActivity::refreshLiveLiquidPanels);
+                    }
+                });
+            }
+        });
+    }
+
+    /** Returns package names of module cards explicitly hidden by the owner in Module Cards (hidden on Home + Library). */
+    static Set<String> hiddenModuleCardPackages(Context ctx) {
+        Set<String> out = new HashSet<>();
+        MainActivity inst = currentInstance;
+        if (inst != null && !inst.isDestroyed()) {
+            if (!inst.moduleCards) return out;
+            for (Cards.Card c : inst.cards) {
+                if (c.state == Cards.State.HIDDEN) out.add(c.pkg);
+            }
+            return out;
+        }
+        if (!CardFeature.working()) return out;
+        return CardFeature.run(() -> {
+            Map<String, Cards.Record> records = Cards.load(Cards.storeFile(ctx));
+            for (Cards.Record r : records.values()) {
+                if (Cards.DECISION_HIDE.equals(r.decision)) out.add(r.pkg);
+            }
+            return out;
+        }, out);
     }
 
     static boolean isHomeVisible() {
@@ -3186,10 +3497,49 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     // ---- top shelf -------------------------------------------------------------------------------
 
+    private float heroGapDp() {
+        if (rowsBelowDock >= 3) return 14f;
+        if (rowsBelowDock == 2) return 18f;
+        if (rowsBelowDock == 1) return 26f;
+        return 40f;
+    }
+
+    private void applyHeroDensityForRows() {
+        if (heroName == null) return;
+        if (rowsBelowDock <= 0) {
+            heroName.setTextSize(TypedValue.COMPLEX_UNIT_SP, cinematic ? 68f : 48f);
+            return;
+        }
+        if (rowsBelowDock == 1) {
+            heroName.setTextSize(TypedValue.COMPLEX_UNIT_SP, cinematic ? 44f : 36f);
+            if (heroMeta != null && heroMeta.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                ((ViewGroup.MarginLayoutParams) heroMeta.getLayoutParams()).topMargin = Math.round(6 * density);
+            }
+            if (heroDots != null && heroDots.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                ((ViewGroup.MarginLayoutParams) heroDots.getLayoutParams()).topMargin = Math.round(8 * density);
+            }
+        } else if (rowsBelowDock == 2) {
+            heroName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f);
+            if (heroMeta != null) {
+                heroMeta.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f);
+                if (heroMeta.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                    ((ViewGroup.MarginLayoutParams) heroMeta.getLayoutParams()).topMargin = Math.round(3 * density);
+                }
+            }
+            heroDotsShown = false;
+            if (heroDots != null) heroDots.setVisibility(View.GONE);
+        } else {
+            heroName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22f);
+            heroDotsShown = false;
+            if (heroMeta != null) heroMeta.setVisibility(View.GONE);
+            if (heroDots != null) heroDots.setVisibility(View.GONE);
+        }
+    }
+
     private void showHero(int position, float dockTopInRoot) {
         String label = adapter.labelAt(position);
         int color = adapter.ambientColorAt(position);
-        float y = dockTopInRoot - 14 * density - 26 * density - hero.getHeight();
+        float y = dockTopInRoot - heroGapDp() * density - hero.getHeight();
         boolean changed = !label.contentEquals(heroName.getText());
         if (cinematic && heroArtAlpha > 0f) showHeroArt(position);
 
@@ -3265,8 +3615,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private void fillHero(int position, String label) {
         heroName.setText(label);
         if (!cinematic) return;
-        updateHeroMeta(position);
-        updateHeroDots(position);
+        if (rowsBelowDock < 3) updateHeroMeta(position);
+        if (rowsBelowDock < 2) updateHeroDots(position);
     }
 
     // ---- cinematic shelf -------------------------------------------------------------------------
@@ -3278,8 +3628,9 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private void setUpCinematicShelf(int scrimPercent) {
         heroName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 68f);
         heroName.setLetterSpacing(-0.025f);
-        heroMeta.setVisibility(View.INVISIBLE);   // keeps its height, so the name does not jump when it fills in
-        heroDots.setVisibility(heroDotsShown ? View.VISIBLE : View.GONE);
+        heroMeta.setVisibility(rowsBelowDock >= 3 ? View.GONE : View.INVISIBLE);   // keeps its height when visible
+        heroDots.setVisibility(heroDotsShown && rowsBelowDock < 2 ? View.VISIBLE : View.GONE);
+        applyHeroDensityForRows();
         heroArt.setVisibility(heroArtAlpha > 0f ? View.VISIBLE : View.GONE);
         // One stretched bitmap: apply its alpha while drawing instead of through an offscreen buffer.
         heroArt.forceHasOverlappingRendering(false);
@@ -3399,30 +3750,53 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     private void applyHeroArtBitmap(Bitmap next) {
         if (!animations || reducedMotion || heroArt.getAlpha() == 0f) {
             heroArt.setImageBitmap(next);
-            fadeHeroArt(240);
+            fadeHeroArt(300);
             return;
         }
-        markBackdropLayerAnimating(360L);
-        heroArt.animate().alpha(0f).setDuration(95L)
+        markBackdropLayerAnimating(420L);
+        heroArt.animate().alpha(0f).setDuration(110L)
                 .setInterpolator(Motion.easeInExit())
+                .setUpdateListener(va -> invalidateDockTintSmooth(false))
                 .withEndAction(() -> {
                     heroArt.setImageBitmap(next);
                     heroArt.animate().alpha(heroArtAlpha)
-                            .setDuration(220L).setInterpolator(Motion.easeOutExpo())
-                            .withEndAction(this::invalidateGlassBackdrops).start();
+                            .setDuration(280L)
+                            .setInterpolator(new android.view.animation.PathInterpolator(0.25f, 0.10f, 0.25f, 1f))
+                            .setUpdateListener(va -> invalidateDockTintSmooth(false))
+                            .withEndAction(() -> invalidateDockTintSmooth(true)).start();
                 }).start();
     }
 
     private void fadeHeroArt(int ms) {
         if (!animations) {
             heroArt.setAlpha(heroArtAlpha);
-            invalidateGlassBackdrops();
+            invalidateDockTintSmooth(true);
         } else {
             long dur = reducedMotion ? Math.min(ms, Motion.REDUCED_MS) : ms;
             markBackdropLayerAnimating(dur + 60L);
             heroArt.animate().alpha(heroArtAlpha)
                     .setDuration(dur)
-                    .withEndAction(this::invalidateGlassBackdrops).start();
+                    .setInterpolator(new android.view.animation.PathInterpolator(0.25f, 0.10f, 0.25f, 1f))
+                    .setUpdateListener(va -> invalidateDockTintSmooth(false))
+                    .withEndAction(() -> invalidateDockTintSmooth(true)).start();
+        }
+    }
+
+    /**
+     * Ultra-cheap (~0.08 ms) frame-by-frame repaint of the Dock's ambient color & heroArt wash during
+     * folder/app focus glides — never touches DockBackdropView's GPU-cached AGSL rim or RecyclerView!
+     */
+    private void invalidateDockTintSmooth(boolean includeTopPillsNow) {
+        if (dockBackdrop && dockDecoration != null && grid != null
+                && grid.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
+            if (!dockDecoration.invalidateTintOnly()) {
+                grid.invalidate();
+            }
+        }
+        long now = SystemClock.uptimeMillis();
+        if (includeTopPillsNow || now - lastSmoothTopPillInvalidationMs >= 48L) {
+            lastSmoothTopPillInvalidationMs = now;
+            invalidateTopButtons();
         }
     }
 
@@ -3632,7 +4006,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         // The default tint mode, SRC_IN, keeps the mask's alpha and takes the colour from the tint.
         glow.setTint(0xFF000000 | color);
-        if (syncGlass) invalidateGlassBackdrops();
+        if (syncGlass) invalidateDockTintSmooth(true);
     }
 
     private int pillAmbientColor() {
@@ -3652,19 +4026,26 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     }
 
     private void transitionAmbient(int color) {
-        // A rapid focus change continues from the colour actually displayed on screen.
+        // A rapid focus change continues smoothly from the colour actually displayed on screen.
         stopAmbientAnimation();
         ambient.animate().cancel();
-        markBackdropLayerAnimating(320L);
+        markBackdropLayerAnimating(480L);
         if (color == ambientColor) {
-            ambient.animate().alpha(1f).setDuration(180).start();
+            ambient.animate().alpha(1f).setDuration(260L)
+                    .setInterpolator(new android.view.animation.PathInterpolator(0.25f, 0.10f, 0.25f, 1f))
+                    .setUpdateListener(va -> invalidateDockTintSmooth(false))
+                    .withEndAction(() -> invalidateDockTintSmooth(true)).start();
             return;
         }
-        ambient.animate().alpha(1f).setDuration(150L).setInterpolator(Motion.easeOutExpo()).start();
+        ambient.animate().alpha(1f).setDuration(260L)
+                .setInterpolator(new android.view.animation.PathInterpolator(0.25f, 0.10f, 0.25f, 1f)).start();
         ambientAnimator = ValueAnimator.ofObject(ARGB_EVALUATOR, ambientColor, color);
-        ambientAnimator.setDuration(260L);
-        ambientAnimator.setInterpolator(Motion.easeOutExpo());
-        ambientAnimator.addUpdateListener(animation -> setAmbient((int) animation.getAnimatedValue(), false));
+        ambientAnimator.setDuration(420L);
+        ambientAnimator.setInterpolator(new android.view.animation.PathInterpolator(0.25f, 0.10f, 0.25f, 1f));
+        ambientAnimator.addUpdateListener(animation -> {
+            setAmbient((int) animation.getAnimatedValue(), false);
+            if (!backdropBlurred) invalidateDockTintSmooth(false);
+        });
         ambientAnimator.addListener(new android.animation.AnimatorListenerAdapter() {
             private boolean canceled;
             @Override
@@ -3673,7 +4054,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             }
             @Override
             public void onAnimationEnd(android.animation.Animator animation) {
-                if (!canceled && !backdropBlurred) invalidateGlassBackdrops();
+                if (!canceled && !backdropBlurred) invalidateDockTintSmooth(true);
             }
         });
         ambientAnimator.start();
@@ -3707,10 +4088,18 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         boolean hadHeroArt = heroArt.getAlpha() > 0f;
         heroArt.animate().cancel();
-        heroArt.setAlpha(0f);
+        if (hadHeroArt && animations && !reducedMotion) {
+            markBackdropLayerAnimating(280L);
+            heroArt.animate().alpha(0f).setDuration(240L)
+                    .setInterpolator(new android.view.animation.PathInterpolator(0.25f, 0.10f, 0.25f, 1f))
+                    .setUpdateListener(va -> invalidateDockTintSmooth(false))
+                    .withEndAction(() -> invalidateDockTintSmooth(true)).start();
+        } else {
+            heroArt.setAlpha(0f);
+            if (hadHeroArt) invalidateDockTintSmooth(true);
+        }
         heroShown = false;
         lastHeroPosition = -1;
-        if (hadHeroArt) invalidateGlassBackdrops();
         if (!ambientGlow) return;
         if (!animations || reducedMotion) {
             setAmbient(color);

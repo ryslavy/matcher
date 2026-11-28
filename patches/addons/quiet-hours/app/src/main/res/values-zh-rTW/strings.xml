@@ -3,4 +3,29 @@
     <string name="app_name">安靜時段</string>
     <string name="channel_name">音量上限</string>
     <string name="notification_text">正在將音量維持在上限以下。開啟「安靜時段」即可變更設定。</string>
+
+    <string name="row_quiet_hours">安靜時段</string>
+    <string name="row_volume_cap">音量上限</string>
+    <string name="row_volume_cap_detail">安靜時段內電視允許播放的最大音量。</string>
+    <string name="row_volume_cap_step">安靜時段內電視允許播放的最大音量：第 %1$d 級（共 %2$d 級）。</string>
+    <string name="row_starts">開始時間</string>
+    <string name="row_starts_detail">◀ ▶ 每次移動 15 分鐘。</string>
+    <string name="row_ends">結束時間</string>
+    <string name="row_headphones">耳機</string>
+    <string name="row_headphones_detail">耳機不會吵到房內其他人，因此可以調得更大聲。</string>
+    <string name="val_off">關閉</string>
+    <string name="val_always">始終</string>
+    <string name="val_scheduled">排程</string>
+    <string name="mode_detail_scheduled">每天於下列時間段內生效。</string>
+    <string name="mode_detail_always">全天套用音量上限。</string>
+    <string name="mode_detail_off">無音量上限。</string>
+    <string name="val_no_cap">無上限</string>
+    <string name="val_capped_too">同樣限制</string>
+    <string name="status_fixed_volume">此電視的音量為固定輸出（HDMI ARC 或擴大機），因此 Android 無法限制音量。</string>
+    <string name="status_off">音量 %1$d / %2$d。安靜時段已關閉。</string>
+    <string name="status_capped">音量 %1$d / %2$d。上限為 %3$d。</string>
+    <string name="status_capped_until">音量 %1$d / %2$d。上限為 %3$d，至 %4$s 結束。</string>
+    <string name="status_capped_hp">音量 %1$d / %2$d。上限為 %3$d。耳機：無上限。</string>
+    <string name="status_capped_until_hp">音量 %1$d / %2$d。上限為 %3$d，至 %4$s 結束。耳機：無上限。</string>
+    <string name="status_from">音量 %1$d / %2$d。安靜時段將於 %3$s 開始。</string>
 </resources>

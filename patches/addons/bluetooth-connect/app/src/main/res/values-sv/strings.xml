@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth-anslutning</string>
+    <string name="perm_needed_install">Kräver behörigheten Enheter i närheten: kör install.sh en gång eller tillåt det i appens inställningar.</string>
+    <string name="perm_needed">Kräver behörigheten Enheter i närheten: tillåt det i appens inställningar.</string>
+    <string name="bt_off">Bluetooth är av. Slå på det i TV:ns inställningar.</string>
+    <string name="state_working">Arbetar…</string>
+    <string name="state_connected">Ansluten</string>
+    <string name="state_not_connected">Inte ansluten</string>
+    <string name="action_disconnect">Koppla från</string>
+    <string name="action_connect">Anslut</string>
+    <string name="status_none">Inga parkopplade högtalare. Parkoppla en i TV:ns Bluetooth-inställningar först.</string>
+    <string name="status_hint">OK ansluter eller kopplar från en högtalare.</string>
+    <string name="status_refused">Android nekade. Använd TV:ns Bluetooth-inställningar: %1$s</string>
 </resources>

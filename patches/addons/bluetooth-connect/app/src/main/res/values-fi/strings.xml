@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bluetooth-yhteys</string>
+    <string name="perm_needed_install">Tarvitsee Lähellä olevat laitteet -luvan: suorita install.sh kerran tai salli se sovelluksen asetuksista.</string>
+    <string name="perm_needed">Tarvitsee Lähellä olevat laitteet -luvan: salli se sovelluksen asetuksista.</string>
+    <string name="bt_off">Bluetooth on pois päältä. Laita se päälle TV:n asetuksista.</string>
+    <string name="state_working">Työskennellään…</string>
+    <string name="state_connected">Yhdistetty</string>
+    <string name="state_not_connected">Ei yhdistetty</string>
+    <string name="action_disconnect">Katkaise yhteys</string>
+    <string name="action_connect">Yhdistä</string>
+    <string name="status_none">Ei pariliitettyjä kaiuttimia. Pariliitä kaiutin ensin TV:n Bluetooth-asetuksissa.</string>
+    <string name="status_hint">OK yhdistää tai katkaisee kaiuttimen yhteyden.</string>
+    <string name="status_refused">Android esti toiminnon. Käytä TV:n Bluetooth-asetuksia: %1$s</string>
 </resources>

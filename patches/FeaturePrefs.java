@@ -28,6 +28,8 @@ final class FeaturePrefs {
     static final String KEY_LIQUID_CLOCK = "liquid_glass_clock";
     static final String KEY_HOME_LIQUID_OPTICS = "home_liquid_optics";
     static final String KEY_HOME_BACKDROP_BLUR = "home_backdrop_blur";
+    static final String KEY_NESTED_MENU_BLUR = "nested_menu_blur";
+    static final String KEY_DOCK_AMBIENT_GLOW = "dock_ambient_glow";
     static final String KEY_GLASS_MATERIAL = "glass_material";
     static final String KEY_UI_SOUNDS = "ui_click_sounds";
 
@@ -74,6 +76,7 @@ final class FeaturePrefs {
     static final String KEY_WEATHER_CITY = "weather_city_override";
     static final String KEY_WEATHER_LAT = "weather_lat_override";
     static final String KEY_WEATHER_LON = "weather_lon_override";
+    static final String KEY_JUST_UPDATED_VER = "just_updated_version";
     static final String KEY_REVISION = "feature_prefs_rev";
 
     static final String DEFAULT_UPDATER_REPO = "ryslavy/matcher";
@@ -91,6 +94,22 @@ final class FeaturePrefs {
     static void bumpRevision(Context ctx) {
         SharedPreferences p = prefs(ctx);
         p.edit().putInt(KEY_REVISION, p.getInt(KEY_REVISION, 0) + 1).apply();
+    }
+
+    static void setJustUpdatedVersion(Context ctx, @Nullable String version) {
+        if (version == null || version.trim().isEmpty()) {
+            prefs(ctx).edit().remove(KEY_JUST_UPDATED_VER).apply();
+        } else {
+            prefs(ctx).edit().putString(KEY_JUST_UPDATED_VER, version.trim()).apply();
+        }
+    }
+
+    @Nullable
+    static String consumeJustUpdatedVersion(Context ctx) {
+        SharedPreferences p = prefs(ctx);
+        String v = p.getString(KEY_JUST_UPDATED_VER, null);
+        if (v != null) p.edit().remove(KEY_JUST_UPDATED_VER).apply();
+        return v != null && !v.trim().isEmpty() ? v.trim() : null;
     }
 
     // ---- Visual & UX toggles -------------------------------------------------------------------
@@ -119,6 +138,24 @@ final class FeaturePrefs {
 
     static void setHomeBackdropBlurEnabled(Context ctx, boolean on) {
         prefs(ctx).edit().putBoolean(KEY_HOME_BACKDROP_BLUR, on).apply();
+        bumpRevision(ctx);
+    }
+
+    static boolean isNestedMenuBlurEnabled(Context ctx) {
+        return prefs(ctx).getBoolean(KEY_NESTED_MENU_BLUR, true);
+    }
+
+    static void setNestedMenuBlurEnabled(Context ctx, boolean on) {
+        prefs(ctx).edit().putBoolean(KEY_NESTED_MENU_BLUR, on).apply();
+        bumpRevision(ctx);
+    }
+
+    static boolean isDockAmbientGlowEnabled(Context ctx, boolean themeDefault) {
+        return prefs(ctx).getBoolean(KEY_DOCK_AMBIENT_GLOW, themeDefault);
+    }
+
+    static void setDockAmbientGlowEnabled(Context ctx, boolean on) {
+        prefs(ctx).edit().putBoolean(KEY_DOCK_AMBIENT_GLOW, on).apply();
         bumpRevision(ctx);
     }
 

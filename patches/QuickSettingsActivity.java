@@ -204,6 +204,10 @@ public final class QuickSettingsActivity extends Activity {
 
     // Expandable classic settings rows (lazily populated on first expand to skip PackageManager IPCs in onCreate)
     private LinearLayout settingsDrawer;
+    @Nullable
+    private View btnSettingsPill;
+    @Nullable
+    private android.animation.ValueAnimator settingsDrawerAnim;
     private boolean settingsDrawerBuilt;
     private boolean settingsExpanded;
 
@@ -904,6 +908,7 @@ public final class QuickSettingsActivity extends Activity {
 
         LinearLayout btnSaver = makeBottomPill(R.drawable.ic_cc_screensaver, getString(R.string.cc_screensaver));
         LinearLayout btnSettings = makeBottomPill(R.drawable.ic_settings, getString(R.string.cc_settings));
+        btnSettingsPill = btnSettings;
         LinearLayout btnPower = makeBottomPill(R.drawable.ic_cc_power, getString(R.string.cc_sleep_tv));
 
         btnSaver.setOnClickListener(v -> launchScreensaver());
@@ -974,21 +979,53 @@ public final class QuickSettingsActivity extends Activity {
                 () -> startTileReorder(tileOrder.isEmpty() ? "bedtime" : tileOrder.get(0), false));
     }
 
+    private int measureSettingsDrawerTargetHeight() {
+        int availW = settingsDrawer.getWidth();
+        if (availW <= 0 && panel != null) {
+            availW = panel.getWidth() - panel.getPaddingLeft() - panel.getPaddingRight() - dp(12);
+        }
+        if (availW <= 0) availW = dp(348);
+        settingsDrawer.measure(
+                View.MeasureSpec.makeMeasureSpec(availW, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        return Math.max(1, settingsDrawer.getMeasuredHeight());
+    }
+
+    private void cancelSettingsDrawerAnim() {
+        if (settingsDrawerAnim != null) {
+            settingsDrawerAnim.cancel();
+            settingsDrawerAnim = null;
+        }
+        if (settingsDrawer != null) {
+            settingsDrawer.animate().cancel();
+            for (int i = 0; i < settingsDrawer.getChildCount(); i++) {
+                settingsDrawer.getChildAt(i).animate().cancel();
+            }
+        }
+    }
+
     private void toggleSettingsDrawer() {
         settingsExpanded = !settingsExpanded;
-        settingsDrawer.animate().cancel();
         if (settingsExpanded) {
-            ensureSettingsDrawerBuilt();
+            expandSettingsDrawer();
+        } else {
+            collapseSettingsDrawer(false);
+        }
+    }
+
+    private void expandSettingsDrawer() {
+        cancelSettingsDrawerAnim();
+        ensureSettingsDrawerBuilt();
+        int targetH = measureSettingsDrawerTargetHeight();
+        if (reducedMotion || targetH <= 0) {
+            ViewGroup.LayoutParams lp = settingsDrawer.getLayoutParams();
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            settingsDrawer.setLayoutParams(lp);
             settingsDrawer.setVisibility(View.VISIBLE);
+            settingsDrawer.setAlpha(1f);
             settingsDrawer.setTranslationY(0f);
-            if (!reducedMotion) {
-                settingsDrawer.setAlpha(0f);
-                settingsDrawer.animate().alpha(1f)
-                        .setDuration(190L).setInterpolator(Motion.easeOutExpo()).start();
-                Motion.staggerChildren(settingsDrawer, density, false, 6);
-            } else {
-                settingsDrawer.setAlpha(1f);
-            }
+            settingsDrawer.setClipChildren(false);
+            settingsDrawer.setClipToPadding(false);
             if (settingsDrawer.getChildCount() > 0) {
                 settingsDrawer.post(() -> {
                     ExpressiveGlass.invalidateLiquidPanels(panel);
@@ -998,31 +1035,180 @@ public final class QuickSettingsActivity extends Activity {
                     }
                 });
             }
-        } else {
-            collapseSettingsDrawer(false);
+            return;
         }
+
+        final int startH = (settingsDrawer.getVisibility() == View.VISIBLE && settingsDrawer.getHeight() > 0)
+                ? settingsDrawer.getHeight() : 0;
+        final int startScroll = scroll != null ? scroll.getScrollY() : 0;
+        ViewGroup.LayoutParams lp = settingsDrawer.getLayoutParams();
+        lp.height = startH;
+        settingsDrawer.setLayoutParams(lp);
+        settingsDrawer.setVisibility(View.VISIBLE);
+        settingsDrawer.setTranslationY(0f);
+        settingsDrawer.setClipChildren(true);
+        settingsDrawer.setClipToPadding(true);
+        settingsDrawer.setAlpha(startH == 0 ? 0f : settingsDrawer.getAlpha());
+
+        int count = settingsDrawer.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = settingsDrawer.getChildAt(i);
+            child.setAlpha(0f);
+            child.setTranslationY(-dp(8));
+            child.animate().alpha(1f).translationY(0f)
+                    .setStartDelay(i * 22L)
+                    .setDuration(210L)
+                    .setInterpolator(Motion.easeOutExpo())
+                    .start();
+        }
+
+        final int targetScroll = Math.max(startScroll, settingsDrawer.getTop() > 0 ? settingsDrawer.getTop() : targetH);
+        android.animation.ValueAnimator anim = android.animation.ValueAnimator.ofInt(startH, targetH);
+        anim.setDuration(260L);
+        anim.setInterpolator(Motion.easeOutExpo());
+        anim.addUpdateListener(va -> {
+            if (closing || isFinishing() || isDestroyed()) return;
+            int h = (int) va.getAnimatedValue();
+            float frac = va.getAnimatedFraction();
+            ViewGroup.LayoutParams cur = settingsDrawer.getLayoutParams();
+            if (cur.height != h) {
+                cur.height = h;
+                settingsDrawer.setLayoutParams(cur);
+            }
+            settingsDrawer.setAlpha(Math.min(1f, frac * 1.45f));
+            if (scroll != null && targetScroll > startScroll) {
+                scroll.scrollTo(0, Math.round(startScroll + (targetScroll - startScroll) * frac));
+            }
+        });
+        anim.addListener(new android.animation.AnimatorListenerAdapter() {
+            private boolean canceled;
+
+            @Override
+            public void onAnimationCancel(android.animation.Animator animation) {
+                canceled = true;
+            }
+
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
+                if (settingsDrawerAnim == animation) settingsDrawerAnim = null;
+                if (canceled || !settingsExpanded || closing || isFinishing() || isDestroyed()) return;
+                ViewGroup.LayoutParams cur = settingsDrawer.getLayoutParams();
+                cur.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                settingsDrawer.setLayoutParams(cur);
+                settingsDrawer.setAlpha(1f);
+                settingsDrawer.setClipChildren(false);
+                settingsDrawer.setClipToPadding(false);
+                panel.post(() -> {
+                    if (closing || !settingsExpanded) return;
+                    ExpressiveGlass.invalidateLiquidPanels(panel);
+                    if (settingsDrawer.getChildCount() > 0) {
+                        settingsDrawer.getChildAt(0).requestFocus();
+                        if (scroll != null) scroll.smoothScrollTo(0, settingsDrawer.getTop());
+                    }
+                    if (focusRing != null) focusRing.refresh();
+                });
+            }
+        });
+        settingsDrawerAnim = anim;
+        anim.start();
     }
 
     private void collapseSettingsDrawer(boolean refocusBedtime) {
         settingsExpanded = false;
-        settingsDrawer.animate().cancel();
+        cancelSettingsDrawerAnim();
+        View returnTarget = refocusBedtime
+                ? firstTile().root
+                : (btnSettingsPill != null ? btnSettingsPill : firstTile().root);
         if (reducedMotion || settingsDrawer.getVisibility() != View.VISIBLE) {
+            ViewGroup.LayoutParams lp = settingsDrawer.getLayoutParams();
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            settingsDrawer.setLayoutParams(lp);
             settingsDrawer.setVisibility(View.GONE);
+            settingsDrawer.setAlpha(1f);
+            settingsDrawer.setTranslationY(0f);
+            settingsDrawer.setClipChildren(false);
+            settingsDrawer.setClipToPadding(false);
             panel.post(() -> ExpressiveGlass.invalidateLiquidPanels(panel));
-            if (refocusBedtime) firstTile().root.requestFocus();
+            if (returnTarget != null) returnTarget.requestFocus();
             return;
         }
-        settingsDrawer.animate().alpha(0f).translationY(-dp(6))
-                .setDuration(130L).setInterpolator(Motion.easeInExit())
-                .withEndAction(() -> {
-                    if (!settingsExpanded) {
-                        settingsDrawer.setVisibility(View.GONE);
-                        settingsDrawer.setAlpha(1f);
-                        settingsDrawer.setTranslationY(0f);
-                        panel.post(() -> ExpressiveGlass.invalidateLiquidPanels(panel));
-                        if (refocusBedtime) firstTile().root.requestFocus();
-                    }
-                }).start();
+
+        // Move focus smoothly back to the Settings pill (or first tile) BEFORE folding so the focus ring glides up cleanly.
+        if (returnTarget != null && (refocusBedtime || settingsDrawer.hasFocus())) {
+            returnTarget.requestFocus();
+        }
+        final int startH = settingsDrawer.getHeight() > 0 ? settingsDrawer.getHeight() : measureSettingsDrawerTargetHeight();
+        final int startScroll = scroll != null ? scroll.getScrollY() : 0;
+        ViewGroup.LayoutParams lp = settingsDrawer.getLayoutParams();
+        lp.height = startH;
+        settingsDrawer.setLayoutParams(lp);
+        settingsDrawer.setClipChildren(true);
+        settingsDrawer.setClipToPadding(true);
+
+        // Mirror bottom-to-top gentle child fade & upward slide while the drawer height collapses symmetrically.
+        int count = settingsDrawer.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = settingsDrawer.getChildAt(i);
+            long delay = (count - 1 - i) * 14L;
+            child.animate().alpha(0f).translationY(-dp(8))
+                    .setStartDelay(delay)
+                    .setDuration(150L)
+                    .setInterpolator(Motion.easeInExit())
+                    .start();
+        }
+
+        android.animation.ValueAnimator anim = android.animation.ValueAnimator.ofInt(startH, 0);
+        anim.setDuration(240L);
+        anim.setInterpolator(new android.view.animation.PathInterpolator(0.32f, 0f, 0.20f, 1f));
+        anim.addUpdateListener(va -> {
+            if (closing || isFinishing() || isDestroyed()) return;
+            int h = (int) va.getAnimatedValue();
+            float frac = va.getAnimatedFraction();
+            ViewGroup.LayoutParams cur = settingsDrawer.getLayoutParams();
+            if (cur.height != h) {
+                cur.height = h;
+                settingsDrawer.setLayoutParams(cur);
+            }
+            settingsDrawer.setAlpha(Math.max(0f, 1f - frac * 1.2f));
+            if (scroll != null && startScroll > 0) {
+                scroll.scrollTo(0, Math.round(startScroll * (1f - frac)));
+            }
+            if (focusRing != null) focusRing.refresh();
+        });
+        anim.addListener(new android.animation.AnimatorListenerAdapter() {
+            private boolean canceled;
+
+            @Override
+            public void onAnimationCancel(android.animation.Animator animation) {
+                canceled = true;
+            }
+
+            @Override
+            public void onAnimationEnd(android.animation.Animator animation) {
+                if (settingsDrawerAnim == animation) settingsDrawerAnim = null;
+                if (canceled || settingsExpanded || closing || isFinishing() || isDestroyed()) return;
+                settingsDrawer.setVisibility(View.GONE);
+                ViewGroup.LayoutParams cur = settingsDrawer.getLayoutParams();
+                cur.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                settingsDrawer.setLayoutParams(cur);
+                settingsDrawer.setAlpha(1f);
+                settingsDrawer.setTranslationY(0f);
+                settingsDrawer.setClipChildren(false);
+                settingsDrawer.setClipToPadding(false);
+                for (int i = 0; i < settingsDrawer.getChildCount(); i++) {
+                    View child = settingsDrawer.getChildAt(i);
+                    child.setAlpha(1f);
+                    child.setTranslationY(0f);
+                }
+                panel.post(() -> {
+                    if (closing) return;
+                    ExpressiveGlass.invalidateLiquidPanels(panel);
+                    if (focusRing != null) focusRing.refresh();
+                });
+            }
+        });
+        settingsDrawerAnim = anim;
+        anim.start();
     }
 
     private void refreshTileStates() {

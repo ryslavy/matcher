@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: 'Release version tag (e.g. v1.2.0)'
+        description: 'Release version tag (e.g. v1.2.1)'
         required: true
-        default: 'v1.2.0'
+        default: 'v1.2.1'
       publish_release:
         description: 'Publish artifacts to GitHub Release'
         type: boolean
@@ -171,6 +171,7 @@ jobs:
             cp "$SRC_APK" "$DST_APK"
             if [ "${{ steps.sign.outputs.signed }}" = "true" ]; then
               "$APKSIGNER" sign \
+                --v4-signing-enabled false \
                 --ks "$RELEASE_KEYSTORE_PATH" \
                 --ks-pass "env:RELEASE_KEYSTORE_PASSWORD" \
                 --ks-key-alias "$RELEASE_KEY_ALIAS" \
@@ -178,6 +179,7 @@ jobs:
                 "$DST_APK"
             fi
           done
+          rm -f dist/*.idsig
 
       - name: Generate manifest.json and SHA256SUMS.txt
         env:

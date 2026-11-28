@@ -3,4 +3,29 @@
     <string name="app_name">Giờ yên tĩnh</string>
     <string name="channel_name">Giới hạn âm lượng</string>
     <string name="notification_text">Đang giữ âm lượng dưới mức giới hạn. Mở Giờ yên tĩnh để thay đổi.</string>
+
+    <string name="row_quiet_hours">Giờ yên tĩnh</string>
+    <string name="row_volume_cap">Giới hạn âm lượng</string>
+    <string name="row_volume_cap_detail">Mức âm lượng lớn nhất mà TV có thể phát trong giờ yên tĩnh.</string>
+    <string name="row_volume_cap_step">Mức âm lượng lớn nhất mà TV có thể phát trong giờ yên tĩnh: mức %1$d trên %2$d.</string>
+    <string name="row_starts">Bắt đầu</string>
+    <string name="row_starts_detail">◀ ▶ dịch chuyển 15 phút.</string>
+    <string name="row_ends">Kết thúc</string>
+    <string name="row_headphones">Tai nghe</string>
+    <string name="row_headphones_detail">Tai nghe không làm ồn cả phòng nên có thể mở lớn hơn.</string>
+    <string name="val_off">Tắt</string>
+    <string name="val_always">Luôn bật</string>
+    <string name="val_scheduled">Theo lịch</string>
+    <string name="mode_detail_scheduled">Hàng ngày trong khoảng thời gian bên dưới.</string>
+    <string name="mode_detail_always">Áp dụng giới hạn cả ngày.</string>
+    <string name="mode_detail_off">Không giới hạn.</string>
+    <string name="val_no_cap">Không giới hạn</string>
+    <string name="val_capped_too">Cũng giới hạn</string>
+    <string name="status_fixed_volume">Âm lượng của TV này là cố định (HDMI ARC hoặc bộ khuếch đại) nên Android không thể giới hạn.</string>
+    <string name="status_off">Âm lượng %1$d trên %2$d. Giờ yên tĩnh đang tắt.</string>
+    <string name="status_capped">Âm lượng %1$d trên %2$d. Giới hạn ở mức %3$d.</string>
+    <string name="status_capped_until">Âm lượng %1$d trên %2$d. Giới hạn ở mức %3$d đến %4$s.</string>
+    <string name="status_capped_hp">Âm lượng %1$d trên %2$d. Giới hạn ở mức %3$d. Tai nghe: không giới hạn.</string>
+    <string name="status_capped_until_hp">Âm lượng %1$d trên %2$d. Giới hạn ở mức %3$d đến %4$s. Tai nghe: không giới hạn.</string>
+    <string name="status_from">Âm lượng %1$d trên %2$d. Giờ yên tĩnh từ %3$s.</string>
 </resources>

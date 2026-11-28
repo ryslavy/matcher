@@ -126,7 +126,7 @@ if [ "$UPDATED" -gt 0 ]; then
     adb -s "$TV_HOST" shell "sync"
   fi
   sleep 2
-  adb -s "$TV_HOST" shell "am start -n com.gathin.tvhome/.MainActivity" >/dev/null
+  adb -s "$TV_HOST" shell "am broadcast -a com.gathin.tvhome.ACTION_RELOAD -p com.gathin.tvhome --ez tiles true 2>/dev/null; am start -n com.gathin.tvhome/.MainActivity" >/dev/null
   echo ""
   echo "=== Accessibility Check ==="
   adb -s "$TV_HOST" shell "dumpsys accessibility | grep -E 'Bound services|Service\[label=|Crashed services'"

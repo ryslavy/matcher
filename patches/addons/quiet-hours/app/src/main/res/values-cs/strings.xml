@@ -2,5 +2,30 @@
 <resources>
     <string name="app_name">Noční zvuk</string>
     <string name="channel_name">Limit hlasitosti</string>
-    <string name="notification_text">Hlasitost je omezena pod nastaveným limitem. Otevřete Noční zvuk pro změnu.</string>
+    <string name="notification_text">Hlasitost je omezena. Otevřete Noční zvuk pro změnu.</string>
+
+    <string name="row_quiet_hours">Noční zvuk</string>
+    <string name="row_volume_cap">Limit hlasitosti</string>
+    <string name="row_volume_cap_detail">Maximální hlasitost TV během nočních hodin.</string>
+    <string name="row_volume_cap_step">Maximální hlasitost TV během nočních hodin: stupeň %1$d z %2$d.</string>
+    <string name="row_starts">Začátek</string>
+    <string name="row_starts_detail">◀ ▶ posouvá po 15 minutách.</string>
+    <string name="row_ends">Konec</string>
+    <string name="row_headphones">Sluchátka</string>
+    <string name="row_headphones_detail">Sluchátka nikoho nevzbudí, takže mohou hrát hlasitěji.</string>
+    <string name="val_off">Vypnuto</string>
+    <string name="val_always">Vždy</string>
+    <string name="val_scheduled">Podle rozvrhu</string>
+    <string name="mode_detail_scheduled">Každý den v časech níže.</string>
+    <string name="mode_detail_always">Limit platí po celý den.</string>
+    <string name="mode_detail_off">Bez limitu.</string>
+    <string name="val_no_cap">Bez limitu</string>
+    <string name="val_capped_too">Také omezeno</string>
+    <string name="status_fixed_volume">Hlasitost této TV je pevná (HDMI ARC nebo zesilovač), takže ji Android nemůže omezit.</string>
+    <string name="status_off">Hlasitost %1$d z %2$d. Noční zvuk je vypnutý.</string>
+    <string name="status_capped">Hlasitost %1$d z %2$d. Omezeno na %3$d.</string>
+    <string name="status_capped_until">Hlasitost %1$d z %2$d. Omezeno na %3$d do %4$s.</string>
+    <string name="status_capped_hp">Hlasitost %1$d z %2$d. Omezeno na %3$d. Sluchátka: bez limitu.</string>
+    <string name="status_capped_until_hp">Hlasitost %1$d z %2$d. Omezeno na %3$d do %4$s. Sluchátka: bez limitu.</string>
+    <string name="status_from">Hlasitost %1$d z %2$d. Noční zvuk od %3$s.</string>
 </resources>

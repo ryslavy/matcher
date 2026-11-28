@@ -93,6 +93,9 @@ final class GlassKit {
     static final String EXTRA_BACKDROP_JPEG = "com.gathin.tvhome.BACKDROP_JPEG";
     static final String EXTRA_OVER_HOME = "com.gathin.tvhome.OVER_HOME";
     static final String EXTRA_OVER_SHARP_BACKDROP = "com.gathin.tvhome.OVER_SHARP_BACKDROP";
+    static final String EXTRA_NESTED_MENU_BLUR = "com.gathin.tvhome.NESTED_MENU_BLUR";
+    static final String EXTRA_LIQUID_OPTICS = "com.gathin.tvhome.LIQUID_OPTICS";
+    static final String EXTRA_LOCALE = "com.gathin.tvhome.LOCALE";
     static final String EXTRA_GLASS_STYLE = "com.gathin.tvhome.GLASS_STYLE";
     static final String EXTRA_WALLPAPER_SEED = "com.gathin.tvhome.WALLPAPER_SEED";
     static final String EXTRA_INHERIT_BACKDROP = "com.gathin.tvhome.INHERIT_BACKDROP";
@@ -311,6 +314,9 @@ final class GlassKit {
     private static volatile Bitmap activeSharpOnly;
     private static volatile int backdropVersionCounter = 1;
     private static volatile int activeGlassStyle = STYLE_TONAL;
+    private static volatile boolean nestedMenuBlurEnabled = true;
+    private static volatile boolean liquidOpticsEnabled = true;
+    private static volatile String activeLocaleTag = "";
     private static volatile int activeWallpaperSeed;
     private static int backdropEffectCacheStyle = -1;
     private static volatile ExecutorService backdropExec;
@@ -401,6 +407,37 @@ final class GlassKit {
         if (intent.hasExtra(EXTRA_WALLPAPER_SEED)) {
             int seed = intent.getIntExtra(EXTRA_WALLPAPER_SEED, 0) & 0x00FFFFFF;
             if (seed != 0) activeWallpaperSeed = seed;
+        }
+        if (intent.hasExtra(EXTRA_NESTED_MENU_BLUR)) {
+            nestedMenuBlurEnabled = intent.getBooleanExtra(EXTRA_NESTED_MENU_BLUR, true);
+        }
+        if (intent.hasExtra(EXTRA_LIQUID_OPTICS)) {
+            liquidOpticsEnabled = intent.getBooleanExtra(EXTRA_LIQUID_OPTICS, true);
+        }
+        if (intent.hasExtra(EXTRA_LOCALE)) {
+            String tag = intent.getStringExtra(EXTRA_LOCALE);
+            activeLocaleTag = tag == null ? "" : tag.trim();
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private static void applyLocaleOverride(Activity activity, Intent intent) {
+        if (activity == null) return;
+        String tag = (intent != null && intent.hasExtra(EXTRA_LOCALE))
+                ? intent.getStringExtra(EXTRA_LOCALE) : activeLocaleTag;
+        if (tag == null || tag.trim().isEmpty()) return;
+        try {
+            java.util.Locale loc = java.util.Locale.forLanguageTag(tag.trim());
+            if (loc == null || loc.getLanguage().isEmpty()) return;
+            android.content.res.Resources res = activity.getResources();
+            android.content.res.Configuration cfg = res.getConfiguration();
+            if (!loc.equals(cfg.getLocales().get(0))) {
+                java.util.Locale.setDefault(loc);
+                android.content.res.Configuration next = new android.content.res.Configuration(cfg);
+                next.setLocale(loc);
+                res.updateConfiguration(next, res.getDisplayMetrics());
+            }
+        } catch (RuntimeException ignored) {
         }
     }
 
@@ -494,6 +531,11 @@ final class GlassKit {
             }
         }
         to.putExtra(EXTRA_GLASS_STYLE, activeGlassStyle);
+        to.putExtra(EXTRA_NESTED_MENU_BLUR, nestedMenuBlurEnabled);
+        to.putExtra(EXTRA_LIQUID_OPTICS, liquidOpticsEnabled);
+        if (activeLocaleTag != null && !activeLocaleTag.isEmpty()) {
+            to.putExtra(EXTRA_LOCALE, activeLocaleTag);
+        }
         if (activeWallpaperSeed != 0) {
             to.putExtra(EXTRA_WALLPAPER_SEED, activeWallpaperSeed);
         }
@@ -507,6 +549,7 @@ final class GlassKit {
      */
     static boolean installBackdropFromIntent(Activity activity, Intent intent) {
         readGlassStyleFromIntent(intent);
+        applyLocaleOverride(activity, intent);
         final boolean overHome = intent != null && intent.getBooleanExtra(EXTRA_OVER_HOME, false);
         final boolean overSharp = overHome && intent != null && intent.getBooleanExtra(EXTRA_OVER_SHARP_BACKDROP, false);
         byte[] jpeg = intent != null ? intent.getByteArrayExtra(EXTRA_BACKDROP_JPEG) : null;
@@ -557,6 +600,7 @@ final class GlassKit {
     /** Synchronously decodes + blurs a tiny 240x135 backdrop (~3ms) for QuickBars so Frame 0 never snaps unblurred. */
     static boolean installQuickBarBackdropFromIntent(Activity activity, Intent intent) {
         readGlassStyleFromIntent(intent);
+        applyLocaleOverride(activity, intent);
         final boolean overHome = intent != null && intent.getBooleanExtra(EXTRA_OVER_HOME, false);
         byte[] jpeg = intent != null ? intent.getByteArrayExtra(EXTRA_BACKDROP_JPEG) : null;
         if (jpeg != null && jpeg.length > 0) {
@@ -1421,6 +1465,7 @@ final class GlassKit {
         float fraction;
         boolean targetBlurred;
         boolean ringWasVisible;
+        boolean blurSuppressed;
         ExpressiveBlurVeilDrawable veilDrawable;
         ValueAnimator animator;
     }
@@ -1734,7 +1779,7 @@ final class GlassKit {
                 blurPremulRgba(blurPxScratch, blurTmpScratch, rw, rh, softRadius, 214);
                 softChildren.setPixels(blurPxScratch, 0, rw, 0, 0, rw, rh);
             }
-            buildNestedCompositeBackdrop(panel, softChildren, pd, density);
+            buildNestedCompositeBackdrop(panel, softChildren, pd, density, false);
 
             Bitmap swFallback = null;
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -1762,8 +1807,34 @@ final class GlassKit {
         }
     }
 
-    private static void buildNestedCompositeBackdrop(ViewGroup panel, Bitmap softChildren,
-                                                     PanelDrawable pd, float density) {
+    private static void captureNestedSharpBackdropOnly(ViewGroup panel, float density) {
+        int pw = panel.getWidth();
+        int ph = panel.getHeight();
+        if (pw <= 4 || ph <= 4) return;
+        try {
+            float scale = Math.min(0.65f, 720f / Math.max(pw, ph));
+            int sw = Math.max(16, Math.round(pw * scale));
+            int sh = Math.max(16, Math.round(ph * scale));
+            Bitmap sharpChildren = Bitmap.createBitmap(sw, sh, Bitmap.Config.ARGB_8888);
+            Canvas sc = new Canvas(sharpChildren);
+            sc.scale(sw / (float) pw, sh / (float) ph);
+            PanelDrawable pd = (panel.getBackground() instanceof PanelDrawable)
+                    ? (PanelDrawable) panel.getBackground() : null;
+            if (pd != null) pd.suppressDraw = true;
+            try {
+                panel.draw(sc);
+            } finally {
+                if (pd != null) pd.suppressDraw = false;
+            }
+            buildNestedCompositeBackdrop(panel, sharpChildren, pd, density, true);
+            sharpChildren.recycle();
+        } catch (RuntimeException | OutOfMemoryError ignored) {
+        }
+    }
+
+    private static void buildNestedCompositeBackdrop(ViewGroup panel, Bitmap childrenBmp,
+                                                     PanelDrawable pd, float density,
+                                                     boolean sharpParent) {
         try {
             RefractionBackdrop base = activeBackdrop;
             android.util.DisplayMetrics dm = panel.getResources().getDisplayMetrics();
@@ -1772,11 +1843,12 @@ final class GlassKit {
             if (screenW <= 0 || screenH <= 0) return;
 
             final int style = activeGlassStyle;
-            int cw = 480, ch = 270;
+            boolean sharpHomeOutside = pd != null && pd.overSharpBackdrop && base != null && base.overHome;
+            int cw = (sharpHomeOutside || sharpParent) ? 640 : 480;
+            int ch = (sharpHomeOutside || sharpParent) ? 360 : 270;
             Bitmap compSharp = Bitmap.createBitmap(cw, ch, Bitmap.Config.ARGB_8888);
             Canvas c = new Canvas(compSharp);
             Paint fp = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
-            boolean sharpHomeOutside = pd != null && pd.overSharpBackdrop && base != null && base.overHome;
             if (base != null && !base.blur.isRecycled()) {
                 if (sharpHomeOutside && !base.sharp.isRecycled()) {
                     c.drawBitmap(base.sharp, null, new Rect(0, 0, cw, ch), fp);
@@ -1814,12 +1886,14 @@ final class GlassKit {
                     glassCols,
                     new float[]{0f, 0.5f, 1f}, Shader.TileMode.CLAMP));
             c.drawRoundRect(dst, rad, rad, glassFill);
-            c.drawBitmap(softChildren, null, dst, fp);
-            Paint scrimP = new Paint(Paint.ANTI_ALIAS_FLAG);
-            scrimP.setColor(style == STYLE_FROST ? 0x36E8EEF8
-                    : (style == STYLE_OBSIDIAN ? 0x4C020305
-                    : (style == STYLE_CHROMATIC ? ((0x38 << 24) | tonalAccent800(seed)) : 0x3C080C14)));
-            c.drawRoundRect(dst, rad, rad, scrimP);
+            c.drawBitmap(childrenBmp, null, dst, fp);
+            if (!sharpParent) {
+                Paint scrimP = new Paint(Paint.ANTI_ALIAS_FLAG);
+                scrimP.setColor(style == STYLE_FROST ? 0x36E8EEF8
+                        : (style == STYLE_OBSIDIAN ? 0x4C020305
+                        : (style == STYLE_CHROMATIC ? ((0x38 << 24) | tonalAccent800(seed)) : 0x3C080C14)));
+                c.drawRoundRect(dst, rad, rad, scrimP);
+            }
 
             Bitmap compBlur = makeFastBlurred(compSharp, 240, 135);
             if (compBlur != null) {
@@ -1856,7 +1930,7 @@ final class GlassKit {
                                                PanelBlurState state, float f) {
         state.fraction = f;
         boolean hasVeil = state.veilDrawable != null;
-        float childAlpha = hasVeil ? (1f - f) : (1f - 0.28f * f);
+        float childAlpha = state.blurSuppressed ? 1f : (hasVeil ? (1f - f) : (1f - 0.28f * f));
         for (int i = 0, n = panel.getChildCount(); i < n; i++) {
             panel.getChildAt(i).setAlpha(childAlpha);
         }
@@ -1875,6 +1949,7 @@ final class GlassKit {
             state.veilDrawable.release();
             state.veilDrawable = null;
         }
+        state.blurSuppressed = false;
         clearNestedBackdropIfOwned(panel);
     }
 
@@ -1899,12 +1974,25 @@ final class GlassKit {
             state.animator.cancel();
             state.animator = null;
         }
-        if (blurred && state.veilDrawable == null) {
-            ExpressiveBlurVeilDrawable veil = capturePanelChildrenAndBuildVeil(panel, density);
-            if (veil != null) {
-                veil.setBounds(0, 0, panel.getWidth(), panel.getHeight());
-                panel.getOverlay().add(veil);
-                state.veilDrawable = veil;
+        if (blurred) {
+            if (!nestedMenuBlurEnabled) {
+                if (state.veilDrawable != null) {
+                    panel.getOverlay().remove(state.veilDrawable);
+                    state.veilDrawable.release();
+                    state.veilDrawable = null;
+                }
+                state.blurSuppressed = true;
+                captureNestedSharpBackdropOnly(panel, density);
+            } else {
+                state.blurSuppressed = false;
+                if (state.veilDrawable == null) {
+                    ExpressiveBlurVeilDrawable veil = capturePanelChildrenAndBuildVeil(panel, density);
+                    if (veil != null) {
+                        veil.setBounds(0, 0, panel.getWidth(), panel.getHeight());
+                        panel.getOverlay().add(veil);
+                        state.veilDrawable = veil;
+                    }
+                }
             }
         }
         final PanelBlurState st = state;
@@ -2721,15 +2809,21 @@ final class GlassKit {
                     | Math.round(ab + (bb - ab) * t);
         }
 
-        private boolean drawLiquidGlass(Canvas canvas, RectF r, float rad, boolean interiorBlurOnly) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed) return false;
-            View host = hostRef != null ? hostRef.get() : null;
-            if (host == null || !host.isAttachedToWindow()) return false;
+        private RefractionBackdrop resolveBackdrop(View host) {
+            if (host == null || !host.isAttachedToWindow()) return null;
             RefractionBackdrop nested = nestedBackdrop;
             ViewGroup nestedSrc = nestedSourcePanel != null ? nestedSourcePanel.get() : null;
             RefractionBackdrop bg = (nested != null && !nested.sharp.isRecycled() && !nested.blur.isRecycled()
                     && !isSameOrDescendant(host, nestedSrc)) ? nested : activeBackdrop;
-            if (bg == null || bg.sharp.isRecycled() || bg.blur.isRecycled()) return false;
+            if (bg == null || bg.sharp.isRecycled() || bg.blur.isRecycled()) return null;
+            return bg;
+        }
+
+        private boolean drawLiquidGlass(Canvas canvas, RectF r, float rad, boolean interiorBlurOnly) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || liquidShaderFailed) return false;
+            View host = hostRef != null ? hostRef.get() : null;
+            RefractionBackdrop bg = resolveBackdrop(host);
+            if (bg == null) return false;
 
             if (liquidShader == null) {
                 liquidShader = acquireLiquidShader();
@@ -2810,7 +2904,7 @@ final class GlassKit {
             rimPaint.setDither(true);
             float w = r.width();
             float h = r.height();
-            boolean optical = bg.overHome;
+            boolean optical = liquidOpticsEnabled && (bg.overHome || overSharpBackdrop);
             float bezel = Math.min((optical ? 24f : 18f) * density, Math.min(w, h) * 0.24f);
             float refract = Math.min((optical ? 46f : 28f) * density, bezel * 1.95f);
             float chromatic = (optical ? 4.4f : 2.4f) * density;
@@ -2857,16 +2951,21 @@ final class GlassKit {
             rect.set(b);
             float rad = Math.min(cornerRadiusPx, Math.min(rect.width(), rect.height()) * 0.5f);
 
-            // For floating QuickActivity bars over sharp external apps/Home, lay down the silky blurred
-            // backdrop first; if unavailable (DRM video), automatically fall back to rich smoked opacity.
+            // For floating QuickActivity bars over sharp external apps/Home, OR nested sub-dialogs over a sharp
+            // parent modal when nested menu blur is turned off, lay down the silky opaque blurred backdrop strictly
+            // inside the rounded panel first; if unavailable (DRM video), fall back to rich smoked opacity.
+            View host = hostRef != null ? hostRef.get() : null;
+            RefractionBackdrop resolvedBg = resolveBackdrop(host);
+            boolean isNestedOverSharp = resolvedBg != null && resolvedBg == nestedBackdrop && !nestedMenuBlurEnabled;
+            boolean needInteriorBlur = overSharpBackdrop || isNestedOverSharp;
             boolean drewInteriorBlur = false;
-            if (overSharpBackdrop) {
+            if (needInteriorBlur) {
                 drewInteriorBlur = drawLiquidGlass(canvas, rect, rad, true);
             }
 
             // Layer 1: Single-pass Material 3 Expressive translucent glass body (with baked top specular caustic).
-            int fillMode = (smoked || (overSharpBackdrop && !drewInteriorBlur))
-                    ? 2 : (richInteriorTint ? 1 : 0);
+            int fillMode = (smoked || (needInteriorBlur && !drewInteriorBlur))
+                    ? 2 : ((richInteriorTint || isNestedOverSharp) ? 1 : 0);
             ensureShaders(rect, fillMode);
             canvas.drawRoundRect(rect, rad, rad, fillPaint);
 

@@ -150,8 +150,10 @@
     <!-- Configuración de funciones y estilos Liquid Glass -->
     <string name="fs_sec_glass">Liquid Glass &amp; Experiencia</string>
     <string name="fs_liquid_clock">Reloj Liquid Glass (iOS 26)</string>
-    <string name="fs_home_liquid">Liquid Glass óptico en Inicio</string>
+    <string name="fs_home_liquid">Óptica Liquid Glass</string>
     <string name="fs_home_backdrop_blur">Desenfoque del fondo en Inicio</string>
+    <string name="fs_nested_menu_blur">Desenfoque de menús anidados</string>
+    <string name="fs_dock_ambient_glow">Brillo ambiental detrás del dock</string>
     <string name="fs_glass_material">Estilo de vidrio</string>
     <string name="fs_glass_material_title">Elige el estilo Liquid Glass</string>
     <string name="glass_style_tonal">Vidrio tonal esmerilado</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Asignación de botón guardada</string>
     <string name="rm_action_mute">Silenciar audio</string>
     <string name="rm_action_ignore">Ignorar botón (desactivar)</string>
+    <string name="wallpaper_picsum">Foto web aleatoria (Picsum)</string>
+    <string name="wallpaper_picsum_next">Cargar nueva foto web ahora</string>
+    <string name="wallpaper_picsum_loading">Cargando nueva foto web…</string>
+    <string name="wallpaper_picsum_failed">No se pudo cargar la foto web</string>
+    <string name="settings_reload_launcher">Recargar lanzador</string>
+    <string name="launcher_updated_toast">Matcher actualizado a v%1$s</string>
 </resources>

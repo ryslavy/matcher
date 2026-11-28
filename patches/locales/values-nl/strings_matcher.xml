@@ -150,8 +150,10 @@
     <!-- Launcher-functies & Liquid Glass-stijlen -->
     <string name="fs_sec_glass">Liquid Glass &amp; Beleving</string>
     <string name="fs_liquid_clock">Liquid Glass-klok (iOS 26)</string>
-    <string name="fs_home_liquid">Optisch Liquid Glass op Home</string>
+    <string name="fs_home_liquid">Liquid Glass-optiek</string>
     <string name="fs_home_backdrop_blur">Achtergrondvervaging op Home</string>
+    <string name="fs_nested_menu_blur">Vervaging van submenu\'s</string>
+    <string name="fs_dock_ambient_glow">Gekleurde gloed achter het dock</string>
     <string name="fs_glass_material">Glasstijl</string>
     <string name="fs_glass_material_title">Kies Liquid Glass-stijl</string>
     <string name="glass_style_tonal">Mat getint</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Knoptoewijzing opgeslagen</string>
     <string name="rm_action_mute">Geluid dempen</string>
     <string name="rm_action_ignore">Knop negeren (uitschakelen)</string>
+    <string name="wallpaper_picsum">Willekeurige webfoto (Picsum)</string>
+    <string name="wallpaper_picsum_next">Nu nieuwe webfoto laden</string>
+    <string name="wallpaper_picsum_loading">Nieuwe webfoto laden…</string>
+    <string name="wallpaper_picsum_failed">Kan webfoto niet laden</string>
+    <string name="settings_reload_launcher">Launcher opnieuw laden</string>
+    <string name="launcher_updated_toast">Matcher bijgewerkt naar v%1$s</string>
 </resources>

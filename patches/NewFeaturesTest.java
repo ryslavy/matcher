@@ -208,8 +208,22 @@ public class NewFeaturesTest {
     @Test
     public void featurePrefsDefinesDistinctHomeBackdropBlurKey() {
         assertEquals("home_backdrop_blur", FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
+        assertEquals("nested_menu_blur", FeaturePrefs.KEY_NESTED_MENU_BLUR);
+        assertEquals("dock_ambient_glow", FeaturePrefs.KEY_DOCK_AMBIENT_GLOW);
         assertNotEquals(FeaturePrefs.KEY_HOME_LIQUID_OPTICS, FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
         assertNotEquals(FeaturePrefs.KEY_LIQUID_CLOCK, FeaturePrefs.KEY_HOME_BACKDROP_BLUR);
+        assertNotEquals(FeaturePrefs.KEY_HOME_BACKDROP_BLUR, FeaturePrefs.KEY_NESTED_MENU_BLUR);
+        assertNotEquals(FeaturePrefs.KEY_HOME_LIQUID_OPTICS, FeaturePrefs.KEY_NESTED_MENU_BLUR);
+        assertNotEquals(FeaturePrefs.KEY_HOME_BACKDROP_BLUR, FeaturePrefs.KEY_DOCK_AMBIENT_GLOW);
+        assertNotEquals(FeaturePrefs.KEY_NESTED_MENU_BLUR, FeaturePrefs.KEY_DOCK_AMBIENT_GLOW);
+        assertTrue("Nested menu blur defaults to enabled", ExpressiveGlass.isNestedMenuBlurEnabled());
+        try {
+            ExpressiveGlass.setNestedMenuBlurEnabled(false);
+            assertFalse(ExpressiveGlass.isNestedMenuBlurEnabled());
+        } finally {
+            ExpressiveGlass.setNestedMenuBlurEnabled(true);
+        }
+        assertTrue(ExpressiveGlass.isNestedMenuBlurEnabled());
         assertEquals("glass_material", FeaturePrefs.KEY_GLASS_MATERIAL);
         Set<String> styles = new HashSet<>(Arrays.asList(
                 FeaturePrefs.GLASS_TONAL, FeaturePrefs.GLASS_OBSIDIAN, FeaturePrefs.GLASS_FROST,
@@ -298,5 +312,46 @@ public class NewFeaturesTest {
 
         assertEquals("hello", SelfUpdater.truncateNotes("  hello  ", 20));
         assertTrue(SelfUpdater.truncateNotes("0123456789abcdef", 10).endsWith("\u2026"));
+    }
+
+    @Test
+    public void picsumWallpapersUrlRedirectMagicAndIntervalValidation() {
+        assertTrue(PicsumWallpapers.isAllowedHttpsUrl("https://picsum.photos/1920/1080"));
+        assertTrue(PicsumWallpapers.isAllowedHttpsUrl("https://fastly.picsum.photos/id/10/1920/1080.jpg?hmac=abc"));
+        assertFalse(PicsumWallpapers.isAllowedHttpsUrl("http://picsum.photos/1920/1080"));
+        assertFalse(PicsumWallpapers.isAllowedHttpsUrl("file:///etc/passwd"));
+        assertFalse(PicsumWallpapers.isAllowedHttpsUrl(""));
+        assertFalse(PicsumWallpapers.isAllowedHttpsUrl(null));
+
+        assertEquals("https://fastly.picsum.photos/id/42/1920/1080.jpg",
+                PicsumWallpapers.resolveRedirectUrl(
+                        "https://picsum.photos/1920/1080",
+                        "https://fastly.picsum.photos/id/42/1920/1080.jpg"));
+        assertEquals("https://picsum.photos/id/42/1920/1080.jpg",
+                PicsumWallpapers.resolveRedirectUrl(
+                        "https://picsum.photos/1920/1080",
+                        "/id/42/1920/1080.jpg"));
+        assertNull(PicsumWallpapers.resolveRedirectUrl(
+                "https://picsum.photos/1920/1080",
+                "http://insecure.example/photo.jpg"));
+
+        byte[] jpg = new byte[]{(byte) 0xFF, (byte) 0xD8, (byte) 0xFF, (byte) 0xE0, 0, 0, 0, 0, 0, 0, 0, 0};
+        byte[] png = new byte[]{(byte) 0x89, 'P', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A, 0, 0, 0, 0};
+        byte[] webp = new byte[]{'R', 'I', 'F', 'F', 0, 0, 0, 0, 'W', 'E', 'B', 'P'};
+        assertTrue(PicsumWallpapers.isValidImageMagic(jpg));
+        assertTrue(PicsumWallpapers.isValidImageMagic(png));
+        assertTrue(PicsumWallpapers.isValidImageMagic(webp));
+        assertFalse(PicsumWallpapers.isValidImageMagic("<html>error</html>".getBytes()));
+
+        assertEquals(60L * 60_000L, PicsumWallpapers.effectiveIntervalMs(0));
+        assertEquals(60L * 60_000L, PicsumWallpapers.effectiveIntervalMs(-5));
+        assertEquals(15L * 60_000L, PicsumWallpapers.effectiveIntervalMs(15));
+
+        assertTrue(PicsumWallpapers.isChoicePicsum("picsum"));
+        assertTrue(PicsumWallpapers.isChoicePicsum(" PICSUM "));
+        assertFalse(PicsumWallpapers.isChoicePicsum("none"));
+        assertFalse(PicsumWallpapers.isChoicePicsum(null));
+
+        assertTrue(Config.requiresStructuralRebuild(null, null));
     }
 }

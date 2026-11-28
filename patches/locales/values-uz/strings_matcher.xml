@@ -150,8 +150,10 @@
     <!-- Launcher funksiyalari va Liquid Glass tizimi -->
     <string name="fs_sec_glass">Liquid Glass va taassurot</string>
     <string name="fs_liquid_clock">Liquid Glass soati (iOS 26)</string>
-    <string name="fs_home_liquid">Bosh ekranda optik Liquid Glass</string>
+    <string name="fs_home_liquid">Liquid Glass optikasi</string>
     <string name="fs_home_backdrop_blur">Bosh ekran fonini xiralashtirish</string>
+    <string name="fs_nested_menu_blur">Ichki menyularni xiralashtirish</string>
+    <string name="fs_dock_ambient_glow">Dok ortidagi rangli yog\'du</string>
     <string name="fs_glass_material">Shisha uslubi</string>
     <string name="fs_glass_material_title">Liquid Glass uslubini tanlang</string>
     <string name="glass_style_tonal">Xira tonal</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">Tugma tayinlash saqlandi</string>
     <string name="rm_action_mute">Ovozni oʻchirish</string>
     <string name="rm_action_ignore">Tugmani eʼtiborsiz qoldirish (oʻchirish)</string>
+    <string name="wallpaper_picsum">Tasodifiy veb-surat (Picsum)</string>
+    <string name="wallpaper_picsum_next">Yangi veb-suratni hozir yuklash</string>
+    <string name="wallpaper_picsum_loading">Yangi veb-surat yuklanmoqda…</string>
+    <string name="wallpaper_picsum_failed">Veb-suratni yuklab boʻlmadi</string>
+    <string name="settings_reload_launcher">Ishga tushirgichni qayta yuklash</string>
+    <string name="launcher_updated_toast">Matcher v%1$s versiyasiga yangilandi</string>
 </resources>

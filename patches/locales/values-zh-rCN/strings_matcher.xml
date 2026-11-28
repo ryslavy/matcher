@@ -150,8 +150,10 @@
     <!-- 启动器功能设置与玻璃材质系统 -->
     <string name="fs_sec_glass">Liquid Glass 与体验</string>
     <string name="fs_liquid_clock">Liquid Glass 时钟 (iOS 26)</string>
-    <string name="fs_home_liquid">主屏幕光学 Liquid Glass</string>
+    <string name="fs_home_liquid">液态玻璃光学</string>
     <string name="fs_home_backdrop_blur">主屏幕背景模糊</string>
+    <string name="fs_nested_menu_blur">嵌套菜单模糊</string>
+    <string name="fs_dock_ambient_glow">程序坞背景光晕</string>
     <string name="fs_glass_material">玻璃风格</string>
     <string name="fs_glass_material_title">选择 Liquid Glass 风格</string>
     <string name="glass_style_tonal">磨砂色调</string>
@@ -240,4 +242,10 @@
     <string name="rm_saved">按键映射已保存</string>
     <string name="rm_action_mute">静音</string>
     <string name="rm_action_ignore">忽略此按键（禁用）</string>
+    <string name="wallpaper_picsum">随机网络壁纸 (Picsum)</string>
+    <string name="wallpaper_picsum_next">立即加载新网络壁纸</string>
+    <string name="wallpaper_picsum_loading">正在加载新网络壁纸…</string>
+    <string name="wallpaper_picsum_failed">无法加载网络壁纸</string>
+    <string name="settings_reload_launcher">重新加载启动器</string>
+    <string name="launcher_updated_toast">Matcher 已更新至 v%1$s</string>
 </resources>

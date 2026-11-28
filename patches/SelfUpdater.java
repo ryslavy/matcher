@@ -345,10 +345,14 @@ final class SelfUpdater {
                         JSONObject manifest = new JSONObject(mRaw);
                         String mNotes = manifest.optString("notes", "").trim();
                         if (!mNotes.isEmpty()) notes = truncateNotes(mNotes, 420);
+                        String mTag = manifest.optString("tag", "").trim();
+                        if (!mTag.isEmpty()) tag = mTag;
                         JSONObject launcherObj = manifest.optJSONObject("launcher");
                         if (launcherObj != null) {
                             String mVer = launcherObj.optString("version", "").trim();
-                            if (!mVer.isEmpty()) tag = mVer;
+                            if (tag.isEmpty() && !mVer.isEmpty()) {
+                                tag = mVer.startsWith("v") ? mVer : ("v" + mVer);
+                            }
                             remoteCode = launcherObj.optLong("versionCode", -1L);
                             String mUrl = launcherObj.optString("url", "").trim();
                             if (isValidReleaseDownloadUrl(repo, mUrl)) {
@@ -561,13 +565,21 @@ final class SelfUpdater {
         }
     }
 
-    /** Automatically restores HomeKeyService (+ SleepService) right after an in-place OTA upgrade. */
+    /**
+     * Automatically force-rebinds Accessibility services (HomeKeyService + SleepService),
+     * flags the newly installed version for a subtle Home confirmation toast, and relaunches
+     * Home cleanly right after an in-place OTA or ADB upgrade.
+     */
     public static final class UpdateCompletedReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (!Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) return;
-            ServiceRepair.restore(context.getApplicationContext());
-            scheduleWeeklyIfEnabled(context.getApplicationContext());
+            Context app = context.getApplicationContext();
+            Config.invalidateCache();
+            ServiceRepair.forceRebindAfterUpdate(app);
+            scheduleWeeklyIfEnabled(app);
+            FeaturePrefs.setJustUpdatedVersion(app, installedVersionName(app));
+            MainActivity.launchPostUpdateReload(app);
         }
     }
 
@@ -582,7 +594,9 @@ final class SelfUpdater {
                     context.startActivity(confirm);
                 }
             } else if (status == PackageInstaller.STATUS_SUCCESS) {
-                ServiceRepair.restore(context.getApplicationContext());
+                Context app = context.getApplicationContext();
+                ServiceRepair.forceRebindAfterUpdate(app);
+                MainActivity.requestGracefulReload(app, true);
                 Toast.makeText(context, R.string.updater_installed, Toast.LENGTH_LONG).show();
             } else {
                 String msg = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE);
